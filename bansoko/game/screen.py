@@ -15,17 +15,19 @@ class Screen(abc.ABC):
 
 
 class ScreenController:
-    def __init__(self, start_screen: Screen):
+    def __init__(self, start_screen: Screen, exit_callback=None):
         self.screen_stack = [start_screen]
         self.skip_next_draw = False
+        self.exit_callback = exit_callback
 
     def update(self):
-        if not self.screen_stack:
-            # TODO: Handle exit in different way
-            exit()
-        new_screen = self.screen_stack[-1].update()
-        if new_screen is not self.screen_stack[-1]:
-            self.__switch_to_screen(new_screen)
+        if self.screen_stack:
+            new_screen = self.screen_stack[-1].update()
+            if new_screen is not self.screen_stack[-1]:
+                self.__switch_to_screen(new_screen)
+        else:
+            self.exit_callback()
+            self.skip_next_draw = True
 
     def draw(self):
         if not self.skip_next_draw:
