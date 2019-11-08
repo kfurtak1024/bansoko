@@ -1,7 +1,7 @@
 import pyxel
 
 from bansoko.graphics.screen import ScreenController
-from game.game_screens import MainMenuScreen
+from bansoko.game.game_screens import MainMenuScreen
 
 
 class App:
@@ -10,7 +10,6 @@ class App:
 
     def run(self):
         pyxel.init(255, 255, caption="Bansoko", fps=60)
-        pyxel.load("resources/gamedata.pyxel")
         pyxel.run(self.controller.update, self.controller.draw)
 
     @staticmethod
