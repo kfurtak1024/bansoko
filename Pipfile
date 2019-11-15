@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 pyxel = "*"
-docopt = "*"
 
 [requires]
 python_version = "3.8"
