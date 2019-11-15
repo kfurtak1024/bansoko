@@ -245,11 +245,11 @@
         "XXXXX   XX XX+++X",
         "    XXXXX     XXX",
         "        X     X  ",
-        "        XXXXXXX  ",
-              ]
-            },
-            {
-              "data": [
+        "        XXXXXXX  "
+      ]
+    },
+    {
+      "data": [
         "       XXXX      ",
         "    XXXX  X      ",
         "   XX  X  X      ",
@@ -266,7 +266,7 @@
         "X ##  X  X       ",
         "X  X     X       ",
         "XXXXXX   X       ",
-        "     XXXXX       ",
+        "     XXXXX       "
       ]
     },
     {
@@ -285,7 +285,7 @@
         "  X ## X+++++X",
         "  X  XXXXXXXXX",
         "  X  X        ",
-        "  XXXX        ",
+        "  XXXX        "
       ]
     },
     {
@@ -1169,6 +1169,13 @@
       ]
     }
   ],
+  "level_legend": {
+    "cell_void": " ",
+    "cell_wall": "X",
+    "cell_player_start": "@",
+    "cell_crate": "#",
+    "cell_cargo_bay": "+"
+  },
   "level_thumbnail": {
     "image_bank": 2,
     "color_void": "0",
