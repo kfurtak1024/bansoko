@@ -1,14 +1,34 @@
+"""
+Module for game screens management.
+"""
 import abc
 
 
 class Screen(abc.ABC):
+    """
+    Base class for all game screens that suppose to be managed by ScreenController.
+    Screens are updated and drawn once per frame. Screen transitions are triggered by
+    values returned in update method.
+    """
+
     @abc.abstractmethod
     def update(self):
-        pass
+        """
+        Update screen state. Control screen transitions by return value.
+        Called once per frame (only if screen is on top of screen stack)
+
+        Returns:
+            - self (or any instance of type(self)) - no screen transition
+            - instance of Screen class - switch to new screen
+            - None - switch to previous screen (perform pop on screen stack)
+        """
 
     @abc.abstractmethod
     def draw(self):
-        pass
+        """
+        Draw screen.
+        Called once per frame (only if screen is on top of screen stack)
+        """
 
     def __eq__(self, other):
         return isinstance(self, type(other))
@@ -21,6 +41,7 @@ class ScreenController:
         self.exit_callback = exit_callback
 
     def update(self):
+        """Update screen from top of screen stack. Manage screen transitions."""
         if self.screen_stack:
             new_screen = self.screen_stack[-1].update()
             if new_screen is not self.screen_stack[-1]:
@@ -30,6 +51,7 @@ class ScreenController:
             self.skip_next_draw = True
 
     def draw(self):
+        """Draw screen from top of screen stack."""
         if not self.skip_next_draw:
             self.screen_stack[-1].draw()
         self.skip_next_draw = False
