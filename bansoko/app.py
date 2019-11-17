@@ -1,7 +1,7 @@
 import pyxel
 
 from bansoko.graphics.screen import ScreenController
-from bansoko.game.game_screens import MainMenuScreen
+from game.screens import MainMenuScreen
 
 
 class App:
