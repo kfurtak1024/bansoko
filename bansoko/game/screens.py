@@ -1,4 +1,5 @@
 import pyxel
+
 from graphics.menu import Menu, MenuItem
 from graphics.screen import Screen
 
@@ -64,7 +65,7 @@ class LevelCompletedScreen(Screen):
         self.menu = Menu(
             self,
             [
-                MenuItem("Play next level", lambda: GamePausedScreen()),
+                MenuItem("Play next level", lambda: GameScreen()),
                 MenuItem("Back To Main Menu", lambda: MainMenuScreen())
             ])
 

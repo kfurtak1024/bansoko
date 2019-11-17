@@ -1,10 +1,36 @@
 """
 Module for game menus management.
 """
-import pyxel
 from typing import Callable, List, NamedTuple, Optional
 
+import pyxel
+
 from graphics.screen import Screen
+
+BUTTON_HOLD_TIME = 10
+BUTTON_PERIOD_TIME = 5
+
+
+def _is_up_pressed() -> bool:
+    return _is_button_pressed(pyxel.KEY_UP) \
+           or _is_button_pressed(pyxel.GAMEPAD_1_UP)
+
+
+def _is_down_pressed() -> bool:
+    return _is_button_pressed(pyxel.KEY_DOWN) \
+           or _is_button_pressed(pyxel.GAMEPAD_1_DOWN)
+
+
+def _is_select_pressed() -> bool:
+    return pyxel.btnp(pyxel.KEY_ENTER) or pyxel.btnp(pyxel.GAMEPAD_1_A)
+
+
+def _is_back_pressed() -> bool:
+    return pyxel.btnp(pyxel.KEY_ESCAPE) or pyxel.btnp(pyxel.GAMEPAD_1_B)
+
+
+def _is_button_pressed(button: int) -> bool:
+    return pyxel.btnp(button, BUTTON_HOLD_TIME, BUTTON_PERIOD_TIME)
 
 
 class MenuItem(NamedTuple):
@@ -19,13 +45,13 @@ class Menu:
         self.selected = 0
 
     def update(self) -> Optional[Screen]:
-        if pyxel.btnp(pyxel.KEY_DOWN, 10, 5) or pyxel.btnp(pyxel.GAMEPAD_1_DOWN, 10, 5):
+        if _is_down_pressed():
             self.selected = (self.selected + 1) % len(self.menu_items)
-        if pyxel.btnp(pyxel.KEY_UP, 10, 5) or pyxel.btnp(pyxel.GAMEPAD_1_UP, 10, 5):
+        if _is_up_pressed():
             self.selected = (self.selected - 1) % len(self.menu_items)
-        if pyxel.btnp(pyxel.KEY_ENTER) or pyxel.btnp(pyxel.GAMEPAD_1_A):
+        if _is_select_pressed():
             return self.menu_items[self.selected].screen_to_switch_to()
-        if pyxel.btnp(pyxel.KEY_ESCAPE) or pyxel.btnp(pyxel.GAMEPAD_1_B):
+        if _is_back_pressed():
             return None
         return self.parent_screen
 
