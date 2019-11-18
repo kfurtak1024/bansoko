@@ -1,3 +1,5 @@
+import os
+
 import pyxel
 
 from bansoko.graphics.screen import ScreenController
@@ -9,6 +11,7 @@ class App:
         self.controller = ScreenController(MainMenuScreen(), self.__exit_callback)
 
     def run(self):
+        print(os.getcwd())
         pyxel.init(255, 255, caption="Bansoko", fps=60)
         pyxel.run(self.controller.update, self.controller.draw)
 
