@@ -5,7 +5,7 @@ from typing import Callable, List, NamedTuple, Optional
 
 import pyxel
 
-from graphics.screen import Screen
+from gui.screen import Screen
 
 BUTTON_HOLD_TIME = 10
 BUTTON_PERIOD_TIME = 5
@@ -19,6 +19,14 @@ def _is_up_pressed() -> bool:
 def _is_down_pressed() -> bool:
     return _is_button_pressed(pyxel.KEY_DOWN) \
            or _is_button_pressed(pyxel.GAMEPAD_1_DOWN)
+
+
+def _is_home_pressed() -> bool:
+    return _is_button_pressed(pyxel.KEY_HOME)
+
+
+def _is_end_pressed() -> bool:
+    return _is_button_pressed(pyxel.KEY_END)
 
 
 def _is_select_pressed() -> bool:
@@ -45,14 +53,18 @@ class Menu:
         self.selected = 0
 
     def update(self) -> Optional[Screen]:
-        if _is_down_pressed():
-            self.selected = (self.selected + 1) % len(self.menu_items)
-        if _is_up_pressed():
-            self.selected = (self.selected - 1) % len(self.menu_items)
         if _is_select_pressed():
             return self.menu_items[self.selected].screen_to_switch_to()
         if _is_back_pressed():
             return None
+        if _is_down_pressed():
+            self.selected = (self.selected + 1) % len(self.menu_items)
+        if _is_up_pressed():
+            self.selected = (self.selected - 1) % len(self.menu_items)
+        if _is_home_pressed():
+            self.selected = 0
+        if _is_end_pressed():
+            self.selected = len(self.menu_items) - 1
         return self.parent_screen
 
     def draw(self):

@@ -1,8 +1,8 @@
 import pyxel
 
+from gui.menu import Menu, MenuItem
+from gui.screen import Screen
 from . import game
-from graphics.menu import Menu, MenuItem
-from graphics.screen import Screen
 
 
 class ChooseLevelScreen(Screen):
@@ -10,14 +10,14 @@ class ChooseLevelScreen(Screen):
         self.menu = Menu(
             self,
             [
-                MenuItem("Start Level", lambda: game.GameScreen()),
+                MenuItem("Start Level", lambda: game.GameScreen(1)),
                 MenuItem("Back To Main Menu", lambda: None)
             ])
 
-    def update(self):
+    def update(self) -> Screen:
         return self.menu.update()
 
-    def draw(self):
+    def draw(self) -> None:
         pyxel.cls(1)
         pyxel.text(16, 16, "CHOOSE LEVEL", 7)
         self.menu.draw()

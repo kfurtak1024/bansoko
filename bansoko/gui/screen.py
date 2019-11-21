@@ -24,7 +24,7 @@ class Screen(abc.ABC):
         """
 
     @abc.abstractmethod
-    def draw(self):
+    def draw(self) -> None:
         """
         Draw screen.
         Called once per frame (only if screen is on top of screen stack)
@@ -40,7 +40,7 @@ class ScreenController:
         self.skip_next_draw = False
         self.exit_callback = exit_callback
 
-    def update(self):
+    def update(self) -> None:
         """Update screen from top of screen stack. Manage screen transitions."""
         if self.screen_stack:
             new_screen = self.screen_stack[-1].update()
@@ -50,13 +50,13 @@ class ScreenController:
             self.exit_callback()
             self.skip_next_draw = True
 
-    def draw(self):
+    def draw(self) -> None:
         """Draw screen from top of screen stack."""
         if not self.skip_next_draw:
             self.screen_stack[-1].draw()
         self.skip_next_draw = False
 
-    def __switch_to_screen(self, new_screen: Screen):
+    def __switch_to_screen(self, new_screen: Screen) -> None:
         if new_screen is None:
             self.screen_stack.pop()
         else:
@@ -64,7 +64,7 @@ class ScreenController:
             self.screen_stack.append(new_screen)
         self.skip_next_draw = True
 
-    def __unwind_screen_stack(self, screen):
+    def __unwind_screen_stack(self, screen: Screen) -> None:
         try:
             del self.screen_stack[self.screen_stack.index(screen):]
         except ValueError:
