@@ -1,21 +1,20 @@
 import pyxel
 
-from game.level_stats import LevelStats
 from gui.menu import Menu, MenuItem
 from gui.screen import Screen
-from . import game
-from . import main_menu
+from .screen_factory import ScreenFactory
+from ..level import LevelStatistics
 
 
 class LevelCompletedScreen(Screen):
-    def __init__(self, level_stats: LevelStats):
+    def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics):
         self.level_stats = level_stats
         self.menu = Menu(
             self,
             [
-                MenuItem("Continue To Next Level", lambda: game.GameScreen(level_stats.level + 1)),
-                MenuItem("Restart Level", lambda: game.GameScreen(level_stats.level)),
-                MenuItem("Back To Main Menu", lambda: main_menu.MainMenuScreen())
+                MenuItem("Continue To Next Level", lambda: screen_factory.get_game_screen(level_stats.level + 1)),
+                MenuItem("Restart Level", lambda: screen_factory.get_game_screen(level_stats.level)),
+                MenuItem("Back To Main Menu", lambda: screen_factory.get_main_menu())
             ])
 
     def update(self) -> Screen:

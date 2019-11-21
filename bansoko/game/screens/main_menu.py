@@ -2,17 +2,16 @@ import pyxel
 
 from gui.menu import Menu, MenuItem
 from gui.screen import Screen
-from . import choose_level
-from . import game
+from .screen_factory import ScreenFactory
 
 
 class MainMenuScreen(Screen):
-    def __init__(self):
+    def __init__(self, screen_factory: ScreenFactory):
         self.menu = Menu(
             self,
             [
-                MenuItem("Start Game", lambda: game.GameScreen(1)),
-                MenuItem("Choose Level", lambda: choose_level.ChooseLevelScreen()),
+                MenuItem("Start Game", lambda: screen_factory.get_game_screen(1)),
+                MenuItem("Choose Level", lambda: screen_factory.get_choose_level_screen()),
                 MenuItem("Exit", lambda: None)
             ])
 

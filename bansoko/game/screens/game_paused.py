@@ -2,18 +2,17 @@ import pyxel
 
 from gui.menu import Menu, MenuItem
 from gui.screen import Screen
-from . import game
-from . import main_menu
+from .screen_factory import ScreenFactory
 
 
 class GamePausedScreen(Screen):
-    def __init__(self, level: int):
+    def __init__(self, screen_factory: ScreenFactory, level: int):
         self.menu = Menu(
             self,
             [
-                MenuItem("Resume Game", lambda: None),
-                MenuItem("Restart Level", lambda: game.GameScreen(level)),
-                MenuItem("Back To Main Menu", lambda: main_menu.MainMenuScreen())
+                MenuItem("Resume Game", None),
+                MenuItem("Restart Level", lambda: screen_factory.get_game_screen(level)),
+                MenuItem("Back To Main Menu", lambda: screen_factory.get_main_menu())
             ])
 
     def update(self) -> Screen:

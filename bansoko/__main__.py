@@ -6,10 +6,11 @@ Usage:
 """
 import pyxel
 
-from game.screens import MainMenuScreen
+from game.game_context import GameContext
 from gui.screen import ScreenController
 
-CONTROLLER = ScreenController(MainMenuScreen(), pyxel.quit)
+GAME_CONTEXT = GameContext()
+CONTROLLER = ScreenController(GAME_CONTEXT.get_main_menu(), pyxel.quit)
 
 if __name__ == "__main__":
     pyxel.init(255, 255, caption="Bansoko", fps=60)

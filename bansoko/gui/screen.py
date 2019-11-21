@@ -37,8 +37,8 @@ class Screen(abc.ABC):
 class ScreenController:
     def __init__(self, start_screen: Screen, exit_callback=None):
         self.screen_stack = [start_screen]
-        self.skip_next_draw = False
         self.exit_callback = exit_callback
+        self.skip_next_draw = False
 
     def update(self) -> None:
         """Update screen from top of screen stack. Manage screen transitions."""
