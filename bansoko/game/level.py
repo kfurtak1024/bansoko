@@ -1,5 +1,5 @@
 """
-Module containing level-specific classes.
+Module containing level related classes.
 """
 from typing import NamedTuple
 

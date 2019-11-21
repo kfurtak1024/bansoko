@@ -13,10 +13,10 @@ class GameScreen(Screen):
             self,
             [
                 MenuItem(
-                    "[DEV] Pause Menu",
+                    "[DEV] PAUSE MENU",
                     lambda: screen_factory.get_game_paused_screen(level)),
                 MenuItem(
-                    "[DEV] Complete Level",
+                    "[DEV] COMPLETE LEVEL",
                     lambda: screen_factory.get_level_completed_screen(self.level_stats))
             ])
 

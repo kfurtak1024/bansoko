@@ -10,9 +10,9 @@ class GamePausedScreen(Screen):
         self.menu = Menu(
             self,
             [
-                MenuItem("Resume Game", None),
-                MenuItem("Restart Level", lambda: screen_factory.get_game_screen(level)),
-                MenuItem("Back To Main Menu", lambda: screen_factory.get_main_menu())
+                MenuItem("RESUME GAME", lambda: None),
+                MenuItem("RESTART LEVEL", lambda: screen_factory.get_game_screen(level)),
+                MenuItem("BACK TO MAIN MENU", lambda: screen_factory.get_main_menu())
             ])
 
     def update(self) -> Screen:

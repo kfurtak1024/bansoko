@@ -12,9 +12,9 @@ class LevelCompletedScreen(Screen):
         self.menu = Menu(
             self,
             [
-                MenuItem("Continue To Next Level", lambda: screen_factory.get_game_screen(level_stats.level + 1)),
-                MenuItem("Restart Level", lambda: screen_factory.get_game_screen(level_stats.level)),
-                MenuItem("Back To Main Menu", lambda: screen_factory.get_main_menu())
+                MenuItem("PLAY NEXT LEVEL", lambda: screen_factory.get_game_screen(level_stats.level + 1)),
+                MenuItem("RESTART LEVEL", lambda: screen_factory.get_game_screen(level_stats.level)),
+                MenuItem("BACK TO MAIN MENU", lambda: screen_factory.get_main_menu())
             ])
 
     def update(self) -> Screen:

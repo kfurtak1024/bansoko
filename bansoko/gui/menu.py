@@ -5,6 +5,8 @@ from typing import Callable, List, NamedTuple, Optional
 
 import pyxel
 
+from graphics import center_in_rect, Rect
+from graphics.text import draw_text, text_size, TextAttributes
 from gui.screen import Screen
 
 BUTTON_HOLD_TIME = 10
@@ -68,10 +70,13 @@ class Menu:
         return self.parent_screen
 
     def draw(self):
-        i = 0
-        y = 32
-        for menu_item in self.menu_items:
-            prefix = "* " if self.selected == i else "  "
-            pyxel.text(16, y, prefix + str(i + 1) + ") " + menu_item.label, 7)
-            y += 8
-            i = i + 1
+        menu_text = ""
+
+        for i in range(len(self.menu_items)):
+            prefix = "#9* " if self.selected == i else "#7  "
+            menu_text += prefix + self.menu_items[i].label + "\n"
+
+        text_attrib = TextAttributes(shadow=True, vertical_space=3)
+        size = text_size(menu_text, text_attrib)
+        pos = center_in_rect(size, Rect(0, 0, pyxel.width, pyxel.height))
+        draw_text(pos.x, pos.y, menu_text, text_attrib)

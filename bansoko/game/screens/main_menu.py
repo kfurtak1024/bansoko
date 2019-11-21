@@ -10,9 +10,9 @@ class MainMenuScreen(Screen):
         self.menu = Menu(
             self,
             [
-                MenuItem("Start Game", lambda: screen_factory.get_game_screen(1)),
-                MenuItem("Choose Level", lambda: screen_factory.get_choose_level_screen()),
-                MenuItem("Exit", lambda: None)
+                MenuItem("START GAME", lambda: screen_factory.get_game_screen(1)),
+                MenuItem("CHOOSE LEVEL", lambda: screen_factory.get_choose_level_screen()),
+                MenuItem("EXIT", lambda: None)
             ])
 
     def update(self) -> Screen:
