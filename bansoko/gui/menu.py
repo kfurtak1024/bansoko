@@ -7,40 +7,8 @@ import pyxel
 
 from graphics import center_in_rect, Rect
 from graphics.text import draw_text, text_size, TextAttributes
+from gui.input import InputSystem
 from gui.screen import Screen
-
-BUTTON_HOLD_TIME = 10
-BUTTON_PERIOD_TIME = 5
-
-
-def _is_up_pressed() -> bool:
-    return _is_button_pressed(pyxel.KEY_UP) \
-           or _is_button_pressed(pyxel.GAMEPAD_1_UP)
-
-
-def _is_down_pressed() -> bool:
-    return _is_button_pressed(pyxel.KEY_DOWN) \
-           or _is_button_pressed(pyxel.GAMEPAD_1_DOWN)
-
-
-def _is_home_pressed() -> bool:
-    return _is_button_pressed(pyxel.KEY_HOME)
-
-
-def _is_end_pressed() -> bool:
-    return _is_button_pressed(pyxel.KEY_END)
-
-
-def _is_select_pressed() -> bool:
-    return pyxel.btnp(pyxel.KEY_ENTER) or pyxel.btnp(pyxel.GAMEPAD_1_A)
-
-
-def _is_back_pressed() -> bool:
-    return pyxel.btnp(pyxel.KEY_ESCAPE) or pyxel.btnp(pyxel.GAMEPAD_1_B)
-
-
-def _is_button_pressed(button: int) -> bool:
-    return pyxel.btnp(button, BUTTON_HOLD_TIME, BUTTON_PERIOD_TIME)
 
 
 class MenuItem(NamedTuple):
@@ -53,23 +21,25 @@ class Menu:
         self.parent_screen = parent_screen
         self.menu_items = menu_items
         self.selected = 0
+        self.input = InputSystem()
 
     def update(self) -> Optional[Screen]:
-        if _is_select_pressed():
+        self.input.update()
+        if self.input.is_select_pressed():
             return self.menu_items[self.selected].screen_to_switch_to()
-        if _is_back_pressed():
+        if self.input.is_back_pressed():
             return None
-        if _is_down_pressed():
+        if self.input.is_down_pressed():
             self.selected = (self.selected + 1) % len(self.menu_items)
-        if _is_up_pressed():
+        if self.input.is_up_pressed():
             self.selected = (self.selected - 1) % len(self.menu_items)
-        if _is_home_pressed():
+        if self.input.is_home_pressed():
             self.selected = 0
-        if _is_end_pressed():
+        if self.input.is_end_pressed():
             self.selected = len(self.menu_items) - 1
         return self.parent_screen
 
-    def draw(self):
+    def draw(self) -> None:
         menu_text = ""
 
         for i in range(len(self.menu_items)):

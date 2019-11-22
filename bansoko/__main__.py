@@ -13,5 +13,5 @@ GAME_CONTEXT = GameContext()
 CONTROLLER = ScreenController(GAME_CONTEXT.get_main_menu(), pyxel.quit)
 
 if __name__ == "__main__":
-    pyxel.init(255, 255, caption="Bansoko", fps=60)
+    pyxel.init(255, 255, caption="Bansoko", fps=30)
     pyxel.run(CONTROLLER.update, CONTROLLER.draw)

@@ -3,7 +3,7 @@ Module containing level related classes.
 """
 from typing import NamedTuple
 
-NUM_LEVELS = 60
+NUM_LEVELS: int = 60
 
 
 class LevelStatistics(NamedTuple):
