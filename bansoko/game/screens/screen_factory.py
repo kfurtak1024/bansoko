@@ -1,10 +1,19 @@
+"""
+Module providing an abstraction over game screens creation.
+"""
 from abc import ABC, abstractmethod
 
-from game.level import LevelStatistics
-from gui.screen import Screen
+from ..level import LevelStatistics
+from ...gui.screen import Screen
 
 
 class ScreenFactory(ABC):
+    """
+    An abstraction over game screen creation.
+    By having this abstraction we're solving the problem with circular
+    dependencies between screens.
+    """
+
     @abstractmethod
     def get_main_menu(self) -> Screen:
         """Create a new instance of MainMenuScreen"""

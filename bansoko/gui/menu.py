@@ -5,10 +5,10 @@ from typing import Callable, List, NamedTuple, Optional
 
 import pyxel
 
-from graphics import center_in_rect, Rect
-from graphics.text import draw_text, text_size, TextAttributes
 from .input import InputSystem
 from .screen import Screen
+from ..graphics import center_in_rect, Rect
+from ..graphics.text import draw_text, text_size, TextAttributes
 
 
 class MenuItem(NamedTuple):
