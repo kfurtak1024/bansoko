@@ -1,4 +1,3 @@
-from gui.screen import Screen
 from .level import LevelStatistics
 from .screens.choose_level import ChooseLevelScreen
 from .screens.game import GameScreen
@@ -6,6 +5,7 @@ from .screens.game_paused import GamePausedScreen
 from .screens.level_completed import LevelCompletedScreen
 from .screens.main_menu import MainMenuScreen
 from .screens.screen_factory import ScreenFactory
+from ..gui.screen import Screen
 
 
 class GameContext(ScreenFactory):

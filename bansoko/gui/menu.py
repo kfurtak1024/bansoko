@@ -7,8 +7,8 @@ import pyxel
 
 from graphics import center_in_rect, Rect
 from graphics.text import draw_text, text_size, TextAttributes
-from gui.input import InputSystem
-from gui.screen import Screen
+from .input import InputSystem
+from .screen import Screen
 
 
 class MenuItem(NamedTuple):
@@ -16,12 +16,15 @@ class MenuItem(NamedTuple):
     screen_to_switch_to: Callable[[None], Optional[Screen]]
 
 
-class Menu:
-    def __init__(self, parent_screen: Screen, menu_items: List[MenuItem]):
-        self.parent_screen = parent_screen
+class MenuScreen(Screen):
+    def __init__(self, menu_items: List[MenuItem], background_color: Optional[int]):
         self.menu_items = menu_items
         self.selected = 0
+        self.background_color = background_color
         self.input = InputSystem()
+
+    def activate(self) -> None:
+        self.input.reset()
 
     def update(self) -> Optional[Screen]:
         self.input.update()
@@ -37,9 +40,11 @@ class Menu:
             self.selected = 0
         if self.input.is_end_pressed():
             self.selected = len(self.menu_items) - 1
-        return self.parent_screen
+        return self
 
     def draw(self) -> None:
+        if self.background_color:
+            pyxel.cls(self.background_color)
         menu_text = ""
 
         for i in range(len(self.menu_items)):

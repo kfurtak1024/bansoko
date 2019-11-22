@@ -11,6 +11,9 @@ class Screen(abc.ABC):
     values returned in update method.
     """
 
+    def activate(self):
+        pass
+
     @abc.abstractmethod
     def update(self):
         """
@@ -39,6 +42,7 @@ class ScreenController:
         self.screen_stack = [start_screen]
         self.exit_callback = exit_callback
         self.skip_next_draw = False
+        start_screen.activate()
 
     def update(self) -> None:
         """Update screen from top of screen stack. Manage screen transitions."""
@@ -62,6 +66,8 @@ class ScreenController:
         else:
             self.__unwind_screen_stack(new_screen)
             self.screen_stack.append(new_screen)
+        if self.screen_stack:
+            self.screen_stack[-1].activate()
         self.skip_next_draw = True
 
     def __unwind_screen_stack(self, screen: Screen) -> None:
