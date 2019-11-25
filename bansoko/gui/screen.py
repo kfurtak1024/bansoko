@@ -21,8 +21,8 @@ class Screen(abc.ABC):
         Called once per frame (only if screen is on top of screen stack)
 
         Returns:
-            - self (or any instance of type(self)) - no screen transition
-            - instance of Screen class - switch to new screen
+            - self (or any instance of type(self)) - no screen transition *OR*
+            - instance of Screen class - switch to new screen *OR*
             - None - switch to previous screen (perform pop on screen stack)
         """
 

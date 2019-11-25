@@ -1,3 +1,6 @@
+"""
+Module exposing basic system for input handling.
+"""
 from enum import unique, IntFlag
 from typing import Dict, List
 
@@ -6,6 +9,9 @@ import pyxel
 
 @unique
 class VirtualButton(IntFlag):
+    """
+    Virtual button of a virtual game controller.
+    """
     UP = 0x01
     DOWN = 0x02
     LEFT = 0x04
@@ -32,15 +38,60 @@ class InputSystem:
         self.pressed_keys = {}
 
     def is_button_pressed(self, button: VirtualButton) -> bool:
+        """
+        Test if given virtual button is "pressed".
+        Button is "pressed" when:
+            - in previous update frame it was up and now it's down *OR*
+            - it is down for exactly KEY_HOLD_TIME (and was preceded be previous point) *OR*
+            - in every KEY_PERIOD_TIME interval (and was preceded be previous point)
+
+        Note that above is valid only if it was not interrupted by a reset call.
+        Both KEY_HOLD_TIME and KEY_PERIOD_TIME are expressed in number of occurred update frames.
+
+        Arguments:
+            button - virtual button to be tested
+
+        Returns:
+            - true - if button was pressed,
+            - false - otherwise
+        """
+
         return any(self.__is_key_pressed(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_down(self, button: VirtualButton) -> bool:
+        """
+        Test if given virtual button is down at the current update frame.
+
+        Arguments:
+            button - virtual button to be tested
+
+        Returns:
+            - true - if button is down in current update frame,
+            - false - otherwise
+        """
+
         return any(self.__is_key_down(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_up(self, button: VirtualButton) -> bool:
+        """
+        Test if given virtual button is up at the current update frame.
+
+        Arguments:
+            button - virtual button to be tested
+
+        Returns:
+            - true - if button is up in current update frame,
+            - false - otherwise
+        """
+
         return not self.is_button_down(button)
 
     def update(self) -> None:
+        """
+        Update statuses of all watched keys.
+        This needs to be called each frame.
+        """
+
         watched_keys: List[int] = sum(self.BUTTONS_MAP.values(), [])
         for key in watched_keys:
             if pyxel.btn(key):
@@ -51,6 +102,11 @@ class InputSystem:
                 self.__depress_key(key)
 
     def reset(self) -> None:
+        """
+        Reset the statuses of all watched keys.
+        This should be called when focus switches to another screen.
+        """
+
         self.pressed_keys.clear()
 
     def __is_key_pressed(self, key: int) -> bool:
