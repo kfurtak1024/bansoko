@@ -5,7 +5,7 @@ from typing import Callable, List, NamedTuple, Optional
 
 import pyxel
 
-from .input import InputSystem
+from .input import InputSystem, VirtualButton
 from .screen import Screen
 from ..graphics import center_in_rect, Rect
 from ..graphics.text import draw_text, text_size, TextAttributes
@@ -13,7 +13,7 @@ from ..graphics.text import draw_text, text_size, TextAttributes
 
 class MenuItem(NamedTuple):
     label: str
-    screen_to_switch_to: Callable[[None], Optional[Screen]]
+    screen_to_switch_to: Callable[[], Optional[Screen]]
 
 
 class MenuScreen(Screen):
@@ -28,20 +28,16 @@ class MenuScreen(Screen):
 
     def update(self) -> Optional[Screen]:
         self.input.update()
-        if self.input.is_back_pressed():
+        if self.input.is_button_pressed(VirtualButton.BACK):
             return None
         if not self.menu_items:
             return self
-        if self.input.is_select_pressed():
+        if self.input.is_button_pressed(VirtualButton.SELECT):
             return self.menu_items[self.selected].screen_to_switch_to()
-        if self.input.is_down_pressed():
+        if self.input.is_button_pressed(VirtualButton.DOWN):
             self.selected = (self.selected + 1) % len(self.menu_items)
-        if self.input.is_up_pressed():
+        if self.input.is_button_pressed(VirtualButton.UP):
             self.selected = (self.selected - 1) % len(self.menu_items)
-        if self.input.is_home_pressed():
-            self.selected = 0
-        if self.input.is_end_pressed():
-            self.selected = len(self.menu_items) - 1
         return self
 
     def draw(self) -> None:
