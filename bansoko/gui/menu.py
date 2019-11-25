@@ -28,10 +28,12 @@ class MenuScreen(Screen):
 
     def update(self) -> Optional[Screen]:
         self.input.update()
-        if self.input.is_select_pressed():
-            return self.menu_items[self.selected].screen_to_switch_to()
         if self.input.is_back_pressed():
             return None
+        if not self.menu_items:
+            return self
+        if self.input.is_select_pressed():
+            return self.menu_items[self.selected].screen_to_switch_to()
         if self.input.is_down_pressed():
             self.selected = (self.selected + 1) % len(self.menu_items)
         if self.input.is_up_pressed():
@@ -45,6 +47,7 @@ class MenuScreen(Screen):
     def draw(self) -> None:
         if self.background_color:
             pyxel.cls(self.background_color)
+
         menu_text = ""
 
         for i in range(len(self.menu_items)):

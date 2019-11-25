@@ -1,7 +1,6 @@
 """
 Module exposing a main menu screen.
 """
-import pyxel
 
 from .screen_factory import ScreenFactory
 from ...gui.menu import MenuItem, MenuScreen
@@ -23,7 +22,3 @@ class MainMenuScreen(MenuScreen):
             MenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             MenuItem("EXIT", lambda: None)
         ], 1)
-
-    def draw(self) -> None:
-        super().draw()
-        pyxel.text(16, 16, "MAIN MENU", 7)

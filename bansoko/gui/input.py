@@ -61,7 +61,8 @@ class InputSystem:
 
     @staticmethod
     def is_select_pressed() -> bool:
-        return pyxel.btnp(pyxel.KEY_ENTER) or pyxel.btnp(pyxel.GAMEPAD_1_A)
+        return (pyxel.btnp(pyxel.KEY_ENTER) and not pyxel.btn(pyxel.KEY_ALT)) \
+            or pyxel.btnp(pyxel.GAMEPAD_1_A)
 
     @staticmethod
     def is_back_pressed() -> bool:

@@ -11,7 +11,7 @@ class Screen(abc.ABC):
     values returned in update method.
     """
 
-    def activate(self):
+    def activate(self) -> None:
         pass
 
     @abc.abstractmethod
