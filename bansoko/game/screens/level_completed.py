@@ -30,4 +30,4 @@ class LevelCompletedScreen(MenuScreen):
 
     def draw(self) -> None:
         super().draw()
-        pyxel.text(16, 16, "LEVEL " + str(self.level_stats.level) + " COMPLETED", 7)
+        pyxel.text(16, 16, "LEVEL " + str(self.level_stats.level + 1) + " COMPLETED", 7)

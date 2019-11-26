@@ -4,6 +4,8 @@ Module containing level related classes.
 from typing import NamedTuple
 
 NUM_LEVELS: int = 60
+LEVEL_SIZE = 32
+TILE_SIZE = 8
 
 
 class LevelStatistics(NamedTuple):

@@ -18,7 +18,7 @@ class MainMenuScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         super().__init__([
-            MenuItem("START GAME", lambda: screen_factory.get_game_screen(1)),
+            MenuItem("START GAME", lambda: screen_factory.get_game_screen(0)),
             MenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             MenuItem("EXIT", lambda: None)
         ], 1)

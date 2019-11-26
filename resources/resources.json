@@ -1174,6 +1174,7 @@
     "cell_wall": "X",
     "cell_player_start": "@",
     "cell_crate": "#",
+    "cell_crate_placed": "&",
     "cell_cargo_bay": "+"
   },
   "level_thumbnail": {
@@ -1184,5 +1185,13 @@
     "color_player_start": "2",
     "color_crate": "9",
     "color_cargo_bay": "3"
+  },
+  "level_tile_set": {
+    "image_bank": 0,
+    "tile_void": "sprites/void.png",
+    "tile_wall": "sprites/wall.png",
+    "tile_floor": "sprites/floor.png",
+    "tile_crate": "sprites/crate.png",
+    "tile_cargo_bay": "sprites/cargo_bay.png"
   }
 }

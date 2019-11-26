@@ -2,7 +2,7 @@
 Module exposing basic system for input handling.
 """
 from enum import unique, IntFlag
-from typing import Dict, List
+from typing import Dict, List, Set
 
 import pyxel
 
@@ -18,6 +18,7 @@ class VirtualButton(IntFlag):
     RIGHT = 0x08
     SELECT = 0x10
     BACK = 0x20
+    START = 0x40
 
 
 class InputSystem:
@@ -29,8 +30,10 @@ class InputSystem:
         VirtualButton.LEFT: [pyxel.KEY_LEFT, pyxel.GAMEPAD_1_LEFT],
         VirtualButton.RIGHT: [pyxel.KEY_RIGHT, pyxel.GAMEPAD_1_RIGHT],
         VirtualButton.SELECT: [pyxel.KEY_ENTER, pyxel.GAMEPAD_1_A],
-        VirtualButton.BACK: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_B]
+        VirtualButton.BACK: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_B],
+        VirtualButton.START: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_START]
     }
+    WATCHED_KEYS: Set[int] = set(sum(BUTTONS_MAP.values(), []))
 
     pressed_keys: Dict[int, int]
 
@@ -92,8 +95,7 @@ class InputSystem:
         This needs to be called each frame.
         """
 
-        watched_keys: List[int] = sum(self.BUTTONS_MAP.values(), [])
-        for key in watched_keys:
+        for key in self.WATCHED_KEYS:
             if pyxel.btn(key):
                 if key not in self.pressed_keys and not pyxel.btnp(key):
                     return
