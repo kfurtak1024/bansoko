@@ -19,7 +19,7 @@ class LevelCompletedScreen(MenuScreen):
     """
 
     def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics):
-        current_level = level_stats.level
+        current_level = level_stats.level_num
         next_level = current_level + 1
         super().__init__([
             MenuItem("PLAY NEXT LEVEL", lambda: screen_factory.get_game_screen(next_level)),
@@ -30,4 +30,4 @@ class LevelCompletedScreen(MenuScreen):
 
     def draw(self) -> None:
         super().draw()
-        pyxel.text(16, 16, "LEVEL " + str(self.level_stats.level + 1) + " COMPLETED", 7)
+        pyxel.text(16, 16, "LEVEL " + str(self.level_stats.level_num + 1) + " COMPLETED", 7)

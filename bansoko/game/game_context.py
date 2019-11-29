@@ -1,4 +1,4 @@
-from .level import LevelStatistics
+from .level import LevelStatistics, Level
 from .screens.choose_level import ChooseLevelScreen
 from .screens.game import GameScreen
 from .screens.game_paused import GamePausedScreen
@@ -13,7 +13,7 @@ class GameContext(ScreenFactory):
         return MainMenuScreen(self)
 
     def get_game_screen(self, level: int) -> Screen:
-        return GameScreen(self, level)
+        return GameScreen(self, Level(level))
 
     def get_choose_level_screen(self) -> Screen:
         return ChooseLevelScreen(self)
