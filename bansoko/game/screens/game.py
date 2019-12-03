@@ -38,13 +38,13 @@ class GameScreen(Screen):
         if self.level.is_completed():
             return self.screen_factory.get_level_completed_screen(self.level.statistics)
 
-        if self.input.is_button_pressed(VirtualButton.UP):
+        if self.input.is_button_down(VirtualButton.UP):
             self.level.move_player(Direction.UP)
-        elif self.input.is_button_pressed(VirtualButton.DOWN):
+        elif self.input.is_button_down(VirtualButton.DOWN):
             self.level.move_player(Direction.DOWN)
-        elif self.input.is_button_pressed(VirtualButton.LEFT):
+        elif self.input.is_button_down(VirtualButton.LEFT):
             self.level.move_player(Direction.LEFT)
-        elif self.input.is_button_pressed(VirtualButton.RIGHT):
+        elif self.input.is_button_down(VirtualButton.RIGHT):
             self.level.move_player(Direction.RIGHT)
 
         self.level.update()

@@ -12,9 +12,11 @@ def generate_tileset(level_tile_set, base_dir: str):
     image_bank = level_tile_set["image_bank"]
     pyxel.image(image_bank).load(0, 0, Path(base_dir).joinpath(level_tile_set["tile_void"]))
     pyxel.image(image_bank).load(8, 0, Path(base_dir).joinpath(level_tile_set["tile_wall"]))
-    pyxel.image(image_bank).load(16, 0, Path(base_dir).joinpath(level_tile_set["tile_floor"]))
-    pyxel.image(image_bank).load(24, 0, Path(base_dir).joinpath(level_tile_set["tile_crate"]))
-    pyxel.image(image_bank).load(32, 0, Path(base_dir).joinpath(level_tile_set["tile_cargo_bay"]))
+    pyxel.image(image_bank).load(16, 0, Path(base_dir).joinpath(level_tile_set["tile_player_start"]))
+    pyxel.image(image_bank).load(24, 0, Path(base_dir).joinpath(level_tile_set["tile_floor"]))
+    pyxel.image(image_bank).load(32, 0, Path(base_dir).joinpath(level_tile_set["tile_crate"]))
+    pyxel.image(image_bank).load(40, 0, Path(base_dir).joinpath(level_tile_set["tile_crate_placed"]))
+    pyxel.image(image_bank).load(48, 0, Path(base_dir).joinpath(level_tile_set["tile_cargo_bay"]))
 
 
 def generate_levels(levels, level_legend, level_thumbnail):
@@ -26,16 +28,16 @@ def generate_levels(levels, level_legend, level_thumbnail):
         level_legend["cell_wall"]: level_thumbnail["color_wall"],
         level_legend["cell_player_start"]: level_thumbnail["color_player_start"],
         level_legend["cell_crate"]: level_thumbnail["color_crate"],
-        level_legend["cell_crate_placed"]: level_thumbnail["color_crate"],
+        level_legend["cell_crate_placed"]: level_thumbnail["color_crate_placed"],
         level_legend["cell_cargo_bay"]: level_thumbnail["color_cargo_bay"]
     }
     symbols_to_tiles = {
         level_legend["cell_void"]: 0,
         level_legend["cell_wall"]: 1,
-        level_legend["cell_player_start"]: 0,
-        level_legend["cell_crate"]: 3,
-        level_legend["cell_crate_placed"]: 0,
-        level_legend["cell_cargo_bay"]: 4
+        level_legend["cell_player_start"]: 2,
+        level_legend["cell_crate"]: 4,
+        level_legend["cell_crate_placed"]: 5,
+        level_legend["cell_cargo_bay"]: 6
     }
     level_num = 0
 

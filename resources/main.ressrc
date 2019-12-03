@@ -1184,14 +1184,17 @@
     "color_floor": "D",
     "color_player_start": "2",
     "color_crate": "9",
+    "color_crate_placed": "9",
     "color_cargo_bay": "3"
   },
   "level_tile_set": {
     "image_bank": 0,
     "tile_void": "sprites/void.png",
     "tile_wall": "sprites/wall.png",
+    "tile_player_start": "sprites/floor.png",
     "tile_floor": "sprites/floor.png",
-    "tile_crate": "sprites/crate.png",
+    "tile_crate": "sprites/floor.png",
+    "tile_crate_placed": "sprites/floor.png",
     "tile_cargo_bay": "sprites/cargo_bay.png"
   }
 }
