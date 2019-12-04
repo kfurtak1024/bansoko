@@ -2,14 +2,14 @@ from typing import List
 
 import pyxel
 
-from .level import LevelStatistics, Level, LevelTemplate, NUM_LEVELS, LEVEL_SIZE, TILE_SIZE, TilePosition
-from .screens.choose_level import ChooseLevelScreen
-from .screens.game import GameScreen
-from .screens.game_paused import GamePausedScreen
-from .screens.level_completed import LevelCompletedScreen
-from .screens.main_menu import MainMenuScreen
-from .screens.screen_factory import ScreenFactory
-from ..gui.screen import Screen
+from bansoko.game.level import LevelStatistics, Level, LevelTemplate, NUM_LEVELS, LEVEL_SIZE, TILE_SIZE, TilePosition
+from bansoko.game.screens.choose_level import ChooseLevelScreen
+from bansoko.game.screens.game import GameScreen
+from bansoko.game.screens.game_paused import GamePausedScreen
+from bansoko.game.screens.level_completed import LevelCompletedScreen
+from bansoko.game.screens.main_menu import MainMenuScreen
+from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.gui.screen import Screen
 
 
 class GameContext(ScreenFactory):

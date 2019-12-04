@@ -1,8 +1,8 @@
-# pyxel-bansoko
+# Pyxel Bansoko
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Space-themed Sokoban clone created in Python using Pyxel.
+Space-themed Sokoban clone created in Python using [Pyxel](https://github.com/kitao/pyxel).
 
 ## License
 

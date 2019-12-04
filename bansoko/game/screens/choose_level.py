@@ -3,8 +3,8 @@ Module exposing a game screen for choosing a level to be played.
 """
 import pyxel
 
-from .screen_factory import ScreenFactory
-from ...gui.menu import MenuItem, MenuScreen
+from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.gui.menu import MenuItem, MenuScreen
 
 
 class ChooseLevelScreen(MenuScreen):

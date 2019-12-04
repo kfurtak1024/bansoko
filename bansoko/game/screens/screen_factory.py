@@ -3,8 +3,8 @@ Module providing an abstraction over game screens creation.
 """
 from abc import ABC, abstractmethod
 
-from ..level import LevelStatistics
-from ...gui.screen import Screen
+from bansoko.game.level import LevelStatistics
+from bansoko.gui.screen import Screen
 
 
 class ScreenFactory(ABC):

@@ -5,10 +5,10 @@ from typing import Callable, List, NamedTuple, Optional
 
 import pyxel
 
-from .input import InputSystem, VirtualButton
-from .screen import Screen
-from ..graphics import center_in_rect, Rect
-from ..graphics.text import draw_text, text_size, TextAttributes
+from bansoko.graphics import center_in_rect, Rect
+from bansoko.graphics.text import draw_text, text_size, TextAttributes
+from bansoko.gui.input import InputSystem, VirtualButton
+from bansoko.gui.screen import Screen
 
 
 class MenuItem(NamedTuple):

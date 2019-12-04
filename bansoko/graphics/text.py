@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 import pyxel
 
-from . import Size
+from bansoko.graphics import Size
 
 
 class TextAttributes(NamedTuple):

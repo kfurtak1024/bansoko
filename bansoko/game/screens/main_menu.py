@@ -2,8 +2,8 @@
 Module exposing a main menu screen.
 """
 
-from .screen_factory import ScreenFactory
-from ...gui.menu import MenuItem, MenuScreen
+from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.gui.menu import MenuItem, MenuScreen
 
 
 class MainMenuScreen(MenuScreen):

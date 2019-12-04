@@ -3,8 +3,8 @@ Module exposing a game screen which is displayed when game is paused.
 """
 import pyxel
 
-from .screen_factory import ScreenFactory
-from ...gui.menu import MenuItem, MenuScreen
+from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.gui.menu import MenuItem, MenuScreen
 
 
 class GamePausedScreen(MenuScreen):

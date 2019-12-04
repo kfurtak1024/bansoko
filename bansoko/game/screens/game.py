@@ -3,10 +3,10 @@ Module exposing the main game screen.
 """
 import pyxel
 
-from .screen_factory import ScreenFactory
-from ..level import Direction, Level
-from ...gui.input import InputSystem, VirtualButton
-from ...gui.screen import Screen
+from bansoko.game.level import Direction, Level
+from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.gui.input import InputSystem, VirtualButton
+from bansoko.gui.screen import Screen
 
 
 class GameScreen(Screen):

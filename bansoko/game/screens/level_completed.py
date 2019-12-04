@@ -3,9 +3,9 @@ Module exposing a game screen which is displayed when level is completed.
 """
 import pyxel
 
-from .screen_factory import ScreenFactory
-from ..level import LevelStatistics
-from ...gui.menu import MenuItem, MenuScreen
+from bansoko.game.level import LevelStatistics
+from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.gui.menu import MenuItem, MenuScreen
 
 
 class LevelCompletedScreen(MenuScreen):
