@@ -106,8 +106,8 @@ class GameObject:
 class Crate(GameObject):
     in_place: bool = False
 
-    def __init__(self, position: TilePosition):
-        super().__init__(position)
+    #def __init__(self, position: TilePosition):
+        #super().__init__(position)
 
     def draw(self) -> None:
         # TODO: Promote coordinates calculation to GameObject
@@ -131,21 +131,58 @@ class Player(GameObject):
         pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 12)
 
 
-class LevelTemplate(NamedTuple):
+class LevelTemplate:
     level_num: int
     player_pos: TilePosition
     crates_pos: List[TilePosition]
 
+    def __init__(self, level_num: int):
+        self.level_num = level_num
+        self.crates_pos = []
+        tile_map = pyxel.tilemap(0)
+        tile_map_u = self.tile_map_u
+        tile_map_v = self.tile_map_v
+        for u in range(tile_map_u, tile_map_u + LEVEL_SIZE):
+            for v in range(tile_map_v, tile_map_v + LEVEL_SIZE):
+                tile = tile_map.get(u, v)
+                position = TilePosition(u - tile_map_u, v - tile_map_v)
+                if self.__is_crate_tile(tile):
+                    self.crates_pos.append(position)
+                elif self.__is_player_start_tile(tile):
+                    self.player_pos = position
+
+    @property
+    def tile_map_u(self) -> int:
+        return LEVEL_SIZE * (self.level_num % TILE_SIZE)
+
+    @property
+    def tile_map_v(self) -> int:
+        return LEVEL_SIZE * (self.level_num // TILE_SIZE)
+
+    @staticmethod
+    def __is_crate_tile(tile: int):
+        # TODO: Read it from resources file (instead of hard-coded value)
+        return tile in [4, 5]
+
+    @staticmethod
+    def __is_player_start_tile(tile: int):
+        # TODO: Read it from resources file (instead of hard-coded value)
+        return tile == 2
+
 
 class Level:
+    level_template: LevelTemplate
+    statistics: LevelStatistics
+    crates: List[Crate]
+    player: Player
+
     def __init__(self, level_template: LevelTemplate):
+        self.level_template = level_template
         self.statistics = LevelStatistics(level_template.level_num)
-        self.tile_map_u = LEVEL_SIZE * (level_template.level_num % TILE_SIZE)
-        self.tile_map_v = LEVEL_SIZE * (level_template.level_num // TILE_SIZE)
         self.crates = [Crate(position) for position in level_template.crates_pos]
         self.player = Player(level_template.player_pos)
 
-    def is_completed(self):
+    def is_completed(self) -> bool:
         misplaced_crates = [crate for crate in self.crates if not crate.in_place]
         return not misplaced_crates
 
@@ -160,7 +197,8 @@ class Level:
             game_object.update()
 
     def draw(self) -> None:
-        pyxel.bltm(0, 0, 0, self.tile_map_u, self.tile_map_v, LEVEL_SIZE, LEVEL_SIZE)
+        pyxel.bltm(0, 0, 0, self.level_template.tile_map_u, self.level_template.tile_map_v,
+                   LEVEL_SIZE, LEVEL_SIZE)
         for game_object in self._game_objects():
             game_object.draw()
 

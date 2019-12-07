@@ -1,8 +1,12 @@
-"""
-Bansoko - Space-themed Sokoban clone created in Python using Pyxel.
+"""Bansoko - Space-themed Sokoban clone created in Python using Pyxel.
 
 Usage:
-    python -m bansoko
+    pyxel-bansoko [-h] [--version] [--bundle <name>]
+
+Options:
+    -h, --help       Show this screen.
+    --version        Show version.
+    --bundle <name>  Specify resources bundle name [default: main]
 """
 import pyxel
 
@@ -15,6 +19,7 @@ GAME_RESOURCE_FILE = "gamedata/main.pyxres"
 
 
 def main() -> None:
+    """Initializes and starts the game."""
     pyxel.init(256, 256, caption=GAME_TITLE, fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12)
     pyxel.load(GAME_RESOURCE_FILE)
     game_context = GameContext()
