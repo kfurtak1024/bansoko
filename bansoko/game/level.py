@@ -106,9 +106,6 @@ class GameObject:
 class Crate(GameObject):
     in_place: bool = False
 
-    #def __init__(self, position: TilePosition):
-        #super().__init__(position)
-
     def draw(self) -> None:
         # TODO: Promote coordinates calculation to GameObject
         x = self.tile_position.tile_x * TILE_SIZE
@@ -119,9 +116,6 @@ class Crate(GameObject):
 
 
 class Player(GameObject):
-    def __init__(self, position: TilePosition):
-        super().__init__(position)
-
     def draw(self) -> None:
         # TODO: Promote coordinates calculation to GameObject
         x = self.tile_position.tile_x * TILE_SIZE

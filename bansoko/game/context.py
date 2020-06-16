@@ -19,8 +19,8 @@ class GameContext(ScreenFactory):
     def get_main_menu(self) -> Screen:
         return MainMenuScreen(self)
 
-    def get_game_screen(self, level_num: int) -> Screen:
-        return GameScreen(self, Level(self.level_templates[level_num]))
+    def get_game_screen(self, level: int) -> Screen:
+        return GameScreen(self, Level(self.level_templates[level]))
 
     def get_choose_level_screen(self) -> Screen:
         return ChooseLevelScreen(self)
