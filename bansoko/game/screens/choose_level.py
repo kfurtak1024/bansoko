@@ -8,6 +8,13 @@ from bansoko.gui.menu import MenuScreen, TextMenuItem
 from game.level import NUM_LEVELS
 
 
+class LevelMenuItem(TextMenuItem):
+    def __init__(self, level_num: int, screen_factory: ScreenFactory):
+        super().__init__(
+            "LEVEL " + str(level_num + 1),
+            lambda: screen_factory.get_game_screen(level_num))
+
+
 class ChooseLevelScreen(MenuScreen):
     """
     Screen allowing player to choose a level to play.
@@ -21,10 +28,7 @@ class ChooseLevelScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         super().__init__([
-            TextMenuItem(
-                "LEVEL " + str(level_num + 1),
-                lambda: screen_factory.get_game_screen(level_num))
-            for level_num in range(NUM_LEVELS)
+            LevelMenuItem(level_num, screen_factory) for level_num in range(NUM_LEVELS)
         ], columns=5, background_color=0)
 
     def draw(self) -> None:
