@@ -2,8 +2,16 @@ from typing import NamedTuple
 
 
 class Size(NamedTuple):
-    w: int
-    h: int
+    width: int = 0
+    height: int = 0
+
+
+def max_size(size1: Size, size2: Size) -> Size:
+    return Size(max(size1.width, size2.width), max(size1.height, size2.height))
+
+
+def min_size(size1: Size, size2: Size) -> Size:
+    return Size(min(size1.width, size2.width), min(size1.height, size2.height))
 
 
 class Point(NamedTuple):
@@ -24,7 +32,7 @@ class Rect(NamedTuple):
         return Point(self.x, self.y)
 
 
-def center_in_rect(size: Size, target_rect: Rect) -> Point:
-    x = target_rect.x + int((target_rect.w - size.w) / 2)
-    y = target_rect.y + int((target_rect.h - size.h) / 2)
+def center_in_rect(size: Size, target_rect: Rect = Rect(0, 0, 256, 256)) -> Point:
+    x = target_rect.x + int((target_rect.w - size.width) / 2)
+    y = target_rect.y + int((target_rect.h - size.height) / 2)
     return Point(x, y)

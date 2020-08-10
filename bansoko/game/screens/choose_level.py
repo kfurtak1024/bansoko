@@ -4,7 +4,8 @@ Module exposing a game screen for choosing a level to be played.
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuItem, MenuScreen
+from bansoko.gui.menu import MenuScreen, TextMenuItem
+from game.level import NUM_LEVELS
 
 
 class ChooseLevelScreen(MenuScreen):
@@ -20,9 +21,11 @@ class ChooseLevelScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         super().__init__([
-            MenuItem("START LEVEL", lambda: screen_factory.get_game_screen(0)),
-            MenuItem("BACK TO MAIN MENU", lambda: None)
-        ], 1)
+            TextMenuItem(
+                "LEVEL " + str(level_num + 1),
+                lambda: screen_factory.get_game_screen(level_num))
+            for level_num in range(NUM_LEVELS)
+        ], columns=5, background_color=0)
 
     def draw(self) -> None:
         super().draw()

@@ -4,7 +4,7 @@ Module exposing a game screen which is displayed when game is paused.
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuItem, MenuScreen
+from bansoko.gui.menu import MenuScreen, TextMenuItem
 
 
 class GamePausedScreen(MenuScreen):
@@ -19,10 +19,10 @@ class GamePausedScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory, level: int):
         super().__init__([
-            MenuItem("RESUME GAME", lambda: None),
-            MenuItem("RESTART LEVEL", lambda: screen_factory.get_game_screen(level)),
-            MenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
-        ], 1)
+            TextMenuItem("RESUME GAME", lambda: None),
+            TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_game_screen(level)),
+            TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
+        ], background_color=0)
 
     def draw(self) -> None:
         super().draw()

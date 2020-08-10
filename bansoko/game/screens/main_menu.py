@@ -3,7 +3,8 @@ Module exposing a main menu screen.
 """
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuItem, MenuScreen
+from bansoko.gui.menu import MenuScreen, TextMenuItem
+from graphics.text import draw_text, TextStyle
 
 
 class MainMenuScreen(MenuScreen):
@@ -18,7 +19,11 @@ class MainMenuScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         super().__init__([
-            MenuItem("START GAME", lambda: screen_factory.get_game_screen(0)),
-            MenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
-            MenuItem("EXIT", lambda: None)
-        ], 1)
+            TextMenuItem("START GAME", lambda: screen_factory.get_game_screen(0)),
+            TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
+            TextMenuItem("EXIT", lambda: None)
+        ], background_color=0)
+
+    def draw(self) -> None:
+        super().draw()
+        draw_text(80, 240, "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow=True))

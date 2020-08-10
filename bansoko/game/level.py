@@ -89,7 +89,7 @@ class GameObject:
     def move(self, direction: Direction) -> None:
         if not self.is_moving():
             # TODO: Hard-coded value
-            self.movement = Movement(direction, 10)
+            self.movement = Movement(direction, 8)
 
     def update(self) -> None:
         # TODO: Refactor this!

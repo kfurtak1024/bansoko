@@ -1,25 +1,70 @@
 """
 Module for game menus management.
 """
-from typing import Callable, List, NamedTuple, Optional
+from abc import ABC, abstractmethod
+from functools import reduce
+from itertools import islice
+from typing import Callable, List, Optional, Iterable
 
 import pyxel
 
-from bansoko.graphics import center_in_rect, Rect
-from bansoko.graphics.text import draw_text, text_size, TextAttributes
+from bansoko.graphics import Size, Point, max_size, center_in_rect
+from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
 
 
-class MenuItem(NamedTuple):
-    label: str
-    screen_to_switch_to: Callable[[], Optional[Screen]]
+class MenuItem(ABC):
+    @abstractmethod
+    def size(self) -> Size:
+        pass
+
+    @abstractmethod
+    def draw(self, position: Point, selected: bool = False) -> None:
+        pass
+
+    @abstractmethod
+    def perform_action(self) -> Screen:
+        pass
+
+
+class TextMenuItem(MenuItem):
+    def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
+        self.text = text
+        self.text_style = TextStyle(color=7, shadow=True)
+        self.selected_text_style = TextStyle(color=10, shadow=True)
+        self.screen_to_switch_to = screen_to_switch_to
+
+    def size(self) -> Size:
+        return text_size(self.__get_item_text(selected=True), self.text_style)
+
+    def draw(self, position: Point, selected: bool = False) -> None:
+        style = self.selected_text_style if selected else self.text_style
+        draw_text(position.x, position.y, self.__get_item_text(selected), style)
+
+    def perform_action(self) -> Screen:
+        return self.screen_to_switch_to()
+
+    def __get_item_text(self, selected: bool = False) -> str:
+        return ("* " if selected else "  ") + self.text
 
 
 class MenuScreen(Screen):
-    def __init__(self, menu_items: List[MenuItem], background_color: Optional[int]):
-        self.menu_items = menu_items
-        self.selected = 0
+    items: List[MenuItem]
+    item_size: Size
+    columns: int
+    rows: int
+    top_item: int
+    selected_item: int
+
+    def __init__(self, items: List[MenuItem], columns: int = 1, rows: int = None,
+                 background_color: Optional[int] = None):
+        self.items = items
+        self.item_size = reduce(max_size, [item.size() for item in self.items])
+        self.columns = columns
+        self.rows = rows if rows else -(-len(items) // columns)
+        self.top_item = 0
+        self.selected_item = 0
         self.background_color = background_color
         self.input = InputSystem()
 
@@ -30,27 +75,47 @@ class MenuScreen(Screen):
         self.input.update()
         if self.input.is_button_pressed(VirtualButton.BACK):
             return None
-        if not self.menu_items:
+        if not self.items:
             return self
         if self.input.is_button_pressed(VirtualButton.SELECT):
-            return self.menu_items[self.selected].screen_to_switch_to()
-        if self.input.is_button_pressed(VirtualButton.DOWN):
-            self.selected = (self.selected + 1) % len(self.menu_items)
-        if self.input.is_button_pressed(VirtualButton.UP):
-            self.selected = (self.selected - 1) % len(self.menu_items)
+            return self.items[self.selected_item].perform_action()
+
+        selected_row = self.selected_item // self.columns
+
+        move_up_possible = (selected_row > 0)
+        if self.input.is_button_pressed(VirtualButton.UP) and move_up_possible:
+            self.selected_item = self.selected_item - self.columns
+
+        move_down_possible = (selected_row < self.rows - 1) and (
+                self.selected_item + self.columns < len(self.items))
+        if self.input.is_button_pressed(VirtualButton.DOWN) and move_down_possible:
+            self.selected_item = self.selected_item + self.columns
+
+        selected_column = self.selected_item % self.columns
+
+        move_left_possible = (selected_column > 0)
+        if self.input.is_button_pressed(VirtualButton.LEFT) and move_left_possible:
+            self.selected_item = self.selected_item - 1
+
+        move_right_possible = (selected_column < self.columns - 1) and (
+                self.selected_item + 1 < len(self.items))
+        if self.input.is_button_pressed(VirtualButton.RIGHT) and move_right_possible:
+            self.selected_item = self.selected_item + 1
+
         return self
 
     def draw(self) -> None:
-        if self.background_color:
+        if self.background_color is not None:
             pyxel.cls(self.background_color)
 
-        menu_text = ""
+        start_position = center_in_rect(
+            Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
 
-        for i in range(len(self.menu_items)):
-            prefix = "#9* " if self.selected == i else "#7  "
-            menu_text += prefix + self.menu_items[i].label + "\n"
+        for i, item in enumerate(self.__visible_items()):
+            position = Point(start_position.x + (i % self.columns) * self.item_size.width,
+                             start_position.y + (i // self.columns) * self.item_size.height)
+            item.draw(position, i == self.selected_item)
 
-        text_attrib = TextAttributes(shadow=True, vertical_space=3)
-        size = text_size(menu_text, text_attrib)
-        pos = center_in_rect(size, Rect(0, 0, pyxel.width, pyxel.height))
-        draw_text(pos.x, pos.y, menu_text, text_attrib)
+    def __visible_items(self) -> Iterable[MenuItem]:
+        bottom_item = min(self.top_item + self.columns * self.rows, len(self.items))
+        return islice(self.items, self.top_item, bottom_item)
