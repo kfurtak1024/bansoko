@@ -1,3 +1,4 @@
+from collections import namedtuple
 from pathlib import Path
 
 import pyxel
@@ -43,6 +44,8 @@ def generate_levels(levels, level_legend, level_thumbnail):
     for level in levels:
         level_height = len(level["data"])
         y = __level_thumbnail_y(level_num, level_height)
+        start_x = -1
+        start_y = -1
         for data_row in level["data"]:
             level_width = len(data_row)
             x = __level_thumbnail_x(level_num, level_width)
@@ -51,8 +54,14 @@ def generate_levels(levels, level_legend, level_thumbnail):
                     image.set(x, y, symbols_to_colors[symbol])
                 if symbol in symbols_to_tiles:
                     tile_map.set(x, y, symbols_to_tiles[symbol])
+                if symbol == level_legend["cell_player_start"]:
+                    start_x = x
+                    start_y = y
                 x = x + 1
             y = y + 1
+
+        __flood_fill(start_x, start_y, tile_map)
+
         level_num = level_num + 1
 
 
@@ -64,3 +73,29 @@ def __level_thumbnail_x(level_num: int, level_width: int):
 def __level_thumbnail_y(level_num: int, level_height: int):
     return (level_num // (IMAGE_BANK_SIZE / LEVEL_THUMBNAIL_SIZE)) \
            * LEVEL_THUMBNAIL_SIZE + (LEVEL_THUMBNAIL_SIZE - level_height) / 2
+
+
+Position = namedtuple("Position", ["x", "y"])
+
+
+def __flood_fill(start_x: int, start_y: int, tile_map: pyxel.Tilemap) -> None:
+    stack = list()
+    stack.append(Position(int(start_x), int(start_y)))
+
+    visited_map = [[False for i in range(LEVEL_SIZE)] for j in range(LEVEL_SIZE)]
+
+    while len(stack) > 0:
+        pos = stack.pop()
+        local_pos = Position(pos.x % LEVEL_SIZE, pos.y % LEVEL_SIZE)
+        pos_in_level_range = (local_pos.x >= 0) and (local_pos.x < LEVEL_SIZE) and (local_pos.y >= 0) and (local_pos.y < LEVEL_SIZE)
+        wall_at_pos = tile_map.get(pos.x, pos.y) == 1  # TODO: Hard-coded WALL value
+        not_visited_yet = not visited_map[local_pos.x][local_pos.y]
+
+        if not wall_at_pos and pos_in_level_range and not_visited_yet:
+            if tile_map.get(pos.x, pos.y) == 0:  # TODO: Hard-coded VOID value
+                tile_map.set(pos.x, pos.y, 3)  # TODO: Hard-coded FLOOR value
+            stack.append(Position(pos.x - 1, pos.y))
+            stack.append(Position(pos.x + 1, pos.y))
+            stack.append(Position(pos.x, pos.y - 1))
+            stack.append(Position(pos.x, pos.y + 1))
+        visited_map[pos.x % LEVEL_SIZE][pos.y % LEVEL_SIZE] = True

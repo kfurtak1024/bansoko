@@ -112,7 +112,7 @@ class Crate(GameObject):
         y = self.tile_position.tile_y * TILE_SIZE
         dx = 0 if not self.movement else self.movement.delta_x()
         dy = 0 if not self.movement else self.movement.delta_y()
-        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 8)
+        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 10)
 
 
 class Player(GameObject):
@@ -122,7 +122,7 @@ class Player(GameObject):
         y = self.tile_position.tile_y * TILE_SIZE
         dx = 0 if not self.movement else self.movement.delta_x()
         dy = 0 if not self.movement else self.movement.delta_y()
-        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 12)
+        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 11)
 
 
 class LevelTemplate:
