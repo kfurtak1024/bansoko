@@ -60,7 +60,7 @@ def generate_levels(levels, level_legend, level_thumbnail):
                 x = x + 1
             y = y + 1
 
-        __flood_fill(start_x, start_y, tile_map)
+        __flood_fill(start_x, start_y, tile_map, image)
 
         level_num = level_num + 1
 
@@ -78,7 +78,7 @@ def __level_thumbnail_y(level_num: int, level_height: int):
 Position = namedtuple("Position", ["x", "y"])
 
 
-def __flood_fill(start_x: int, start_y: int, tile_map: pyxel.Tilemap) -> None:
+def __flood_fill(start_x: int, start_y: int, tile_map: pyxel.Tilemap, thumbnails_image: pyxel.Image) -> None:
     stack = list()
     stack.append(Position(int(start_x), int(start_y)))
 
@@ -94,6 +94,7 @@ def __flood_fill(start_x: int, start_y: int, tile_map: pyxel.Tilemap) -> None:
         if not wall_at_pos and pos_in_level_range and not_visited_yet:
             if tile_map.get(pos.x, pos.y) == 0:  # TODO: Hard-coded VOID value
                 tile_map.set(pos.x, pos.y, 3)  # TODO: Hard-coded FLOOR value
+                thumbnails_image.set(pos.x, pos.y, 7)  # TODO: Hard-coded FLOOR color
             stack.append(Position(pos.x - 1, pos.y))
             stack.append(Position(pos.x + 1, pos.y))
             stack.append(Position(pos.x, pos.y - 1))

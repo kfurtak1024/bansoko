@@ -1180,12 +1180,12 @@
   "level_thumbnail": {
     "image_bank": 2,
     "color_void": "0",
-    "color_wall": "6",
-    "color_floor": "D",
-    "color_player_start": "2",
-    "color_crate": "9",
-    "color_crate_placed": "9",
-    "color_cargo_bay": "3"
+    "color_wall": "5",
+    "color_floor": "7",
+    "color_player_start": "E",
+    "color_crate": "A",
+    "color_crate_placed": "A",
+    "color_cargo_bay": "B"
   },
   "level_tile_set": {
     "image_bank": 0,
