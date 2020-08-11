@@ -31,10 +31,10 @@ def configure_logger(verbose: bool):
 
 
 class FileNames(NamedTuple):
-    source_file: str
-    source_dir: str
+    input_file: str
+    input_dir: str
     resource_file: str
-    resource_meta_file: str
+    metadata_file: str
 
 
 def generate_file_names(input_file: str, out_dir: str) -> FileNames:
@@ -42,7 +42,7 @@ def generate_file_names(input_file: str, out_dir: str) -> FileNames:
     source_dir = Path(source_file).parent
     base_name = Path(source_file).stem
     resource_file = Path(out_dir).joinpath(base_name + ".pyxres").resolve()
-    resource_meta_file = Path(out_dir).joinpath(base_name + ".res").resolve()
+    resource_meta_file = Path(out_dir).joinpath(base_name + ".meta").resolve()
     return FileNames(source_file, source_dir, resource_file, resource_meta_file)
 
 
@@ -51,11 +51,13 @@ if __name__ == "__main__":
     files = generate_file_names(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
 
-    logging.info(f"Processing file '{files.source_file}'...")
-    with open(files.source_file) as json_file:
+    logging.info(f"Processing file '{files.input_file}'...")
+    with open(files.input_file) as input_file, open(files.metadata_file, "w") as metadata_file:
         pyxel.init(256, 256)
-        data = json.load(json_file)
-        level_themes = generate_level_themes(data["level_themes"], files.source_dir)
+        data = json.load(input_file)
+        level_themes = generate_level_themes(data["level_themes"], files.input_dir)
         generate_levels(data["levels"], data["level_legend"], level_themes)
         logging.info(f"Writing resource file '{files.resource_file}'...")
         pyxel.save(files.resource_file)
+        logging.info(f"Writing meta data file '{files.metadata_file}'...")
+        json.dump([], metadata_file)
