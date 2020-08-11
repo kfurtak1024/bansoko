@@ -19,8 +19,8 @@ class ScreenFactory(ABC):
         """Create a new instance of MainMenuScreen"""
 
     @abstractmethod
-    def get_game_screen(self, level: int) -> Screen:
-        """Create a new instance of GameScreen"""
+    def get_playfield_screen(self, level: int) -> Screen:
+        """Create a new instance of PlayfieldScreen"""
 
     @abstractmethod
     def get_choose_level_screen(self) -> Screen:

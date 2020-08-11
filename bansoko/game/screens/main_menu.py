@@ -19,7 +19,7 @@ class MainMenuScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         super().__init__([
-            TextMenuItem("START GAME", lambda: screen_factory.get_game_screen(0)),
+            TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(0)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             TextMenuItem("EXIT", lambda: None)
         ], background_color=0)

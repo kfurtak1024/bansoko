@@ -12,7 +12,7 @@ class LevelMenuItem(TextMenuItem):
     def __init__(self, level_num: int, screen_factory: ScreenFactory):
         super().__init__(
             "LEVEL " + str(level_num + 1),
-            lambda: screen_factory.get_game_screen(level_num))
+            lambda: screen_factory.get_playfield_screen(level_num))
 
 
 class ChooseLevelScreen(MenuScreen):

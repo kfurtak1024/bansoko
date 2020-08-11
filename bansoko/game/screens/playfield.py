@@ -9,7 +9,7 @@ from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
 
 
-class GameScreen(Screen):
+class PlayfieldScreen(Screen):
     """
     Main game screen.
     Screen allows player to "play" the level. It evaluates end-game conditions
@@ -61,3 +61,6 @@ class GameScreen(Screen):
         pyxel.rectb(0, 0, 256, 15, 3)
         pyxel.text(7, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 7)
         pyxel.text(70, 255 - 24 - 2 * pyxel.FONT_HEIGHT, "<SPACE> COMPLETE LEVEL", 7)
+        pyxel.rectb(0, 241, 256, 15, 3)
+        pyxel.text(7, 256 - 15 + (16 - pyxel.FONT_HEIGHT) // 2, "TIME: ??:??", 7)
+        pyxel.text(100, 256 - 15 + (16 - pyxel.FONT_HEIGHT) // 2, "STEPS: ???", 7)

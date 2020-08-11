@@ -191,6 +191,7 @@ class Level:
             game_object.update()
 
     def draw(self) -> None:
+        # TODO: Add offset to tile_map so it will be ideally centered
         pyxel.bltm(0, 0, 0, self.level_template.tile_map_u, self.level_template.tile_map_v,
                    LEVEL_SIZE, LEVEL_SIZE)
         for game_object in self._game_objects():

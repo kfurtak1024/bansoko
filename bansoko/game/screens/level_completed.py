@@ -22,8 +22,8 @@ class LevelCompletedScreen(MenuScreen):
         current_level = level_stats.level_num
         next_level = current_level + 1
         super().__init__([
-            TextMenuItem("PLAY NEXT LEVEL", lambda: screen_factory.get_game_screen(next_level)),
-            TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_game_screen(current_level)),
+            TextMenuItem("PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(next_level)),
+            TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(current_level)),
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
         ], background_color=0)
         self.level_stats = level_stats

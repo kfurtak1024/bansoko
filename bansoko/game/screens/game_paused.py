@@ -20,7 +20,7 @@ class GamePausedScreen(MenuScreen):
     def __init__(self, screen_factory: ScreenFactory, level: int):
         super().__init__([
             TextMenuItem("RESUME GAME", lambda: None),
-            TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_game_screen(level)),
+            TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level)),
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
         ], background_color=0)
 
