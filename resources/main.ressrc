@@ -1190,11 +1190,11 @@
   "level_tile_set": {
     "image_bank": 0,
     "tile_void": "sprites/void.png",
-    "tile_wall": "sprites/wall.png",
-    "tile_player_start": "sprites/floor.png",
-    "tile_floor": "sprites/floor.png",
-    "tile_crate": "sprites/floor.png",
-    "tile_crate_placed": "sprites/floor.png",
-    "tile_cargo_bay": "sprites/cargo_bay.png"
+    "tile_wall": "sprites/desert/wall.png",
+    "tile_player_start": "sprites/desert/floor.png",
+    "tile_floor": "sprites/desert/floor.png",
+    "tile_crate": "sprites/desert/floor.png",
+    "tile_crate_placed": "sprites/desert/floor.png",
+    "tile_cargo_bay": "sprites/desert/cargo_bay.png"
   }
 }
