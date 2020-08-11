@@ -1,23 +1,15 @@
 """
 Module containing level related classes.
 """
-from enum import Enum, unique
-from itertools import chain
-from typing import NamedTuple, Iterable, Optional, List
+from typing import NamedTuple, List
 
 import pyxel
+
+from game.tiles import Tile, TilePosition
 
 NUM_LEVELS: int = 60
 LEVEL_SIZE = 32
 TILE_SIZE = 8
-
-
-@unique
-class Direction(Enum):
-    UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
 
 
 class LevelStatistics(NamedTuple):
@@ -39,99 +31,29 @@ class LevelStatistics(NamedTuple):
     time: int = 0
 
 
-class TilePosition(NamedTuple):
-    tile_x: int = 0
-    tile_y: int = 0
-
-    def move(self, direction: Direction):
-        destination_x = self.tile_x
-        destination_y = self.tile_y
-        # TODO: Can I move it to Direction enum?
-        if direction is Direction.UP:
-            destination_y -= 1
-        elif direction is Direction.DOWN:
-            destination_y += 1
-        elif direction is Direction.LEFT:
-            destination_x -= 1
-        elif direction is Direction.RIGHT:
-            destination_x += 1
-        return TilePosition(destination_x, destination_y)
-
-
-class Movement:
-    # TODO: Rethink the whole Movement class
-    dx: int = 0
-    dy: int = 0
-
-    def __init__(self, direction: Direction, frames_to_complete: int):
-        self.direction = direction
-        self.frames_to_complete = frames_to_complete
-        self.delta = TilePosition(0, 0).move(direction)
-        self.elapsed_frames = 0
-
-    def delta_x(self) -> int:
-        return int(self.elapsed_frames * self.delta.tile_x / self.frames_to_complete * TILE_SIZE)
-
-    def delta_y(self) -> int:
-        return int(self.elapsed_frames * self.delta.tile_y / self.frames_to_complete * TILE_SIZE)
-
-
-class GameObject:
-    tile_position: TilePosition
-    movement: Optional[Movement] = None
-
-    def __init__(self, tile_position: TilePosition):
-        self.tile_position = tile_position
-
-    def is_moving(self) -> bool:
-        return self.movement is not None
-
-    def move(self, direction: Direction) -> None:
-        if not self.is_moving():
-            # TODO: Hard-coded value
-            self.movement = Movement(direction, 8)
-
-    def update(self) -> None:
-        # TODO: Refactor this!
-        if self.movement:
-            self.movement.elapsed_frames += 1
-            if self.movement.elapsed_frames == self.movement.frames_to_complete:
-                self.tile_position = self.tile_position.move(self.movement.direction)
-                self.movement = None
-
-    def draw(self) -> None:
+class LevelTiles:
+    def __init__(self, level_num: int):
+        # TODO: Not implemented yet!
         pass
 
+    def tile_id(self, tile: Tile) -> int:
+        # TODO: Not implemented yet!
+        return 0
 
-class Crate(GameObject):
-    in_place: bool = False
-
-    def draw(self) -> None:
-        # TODO: Promote coordinates calculation to GameObject
-        x = self.tile_position.tile_x * TILE_SIZE
-        y = self.tile_position.tile_y * TILE_SIZE
-        dx = 0 if not self.movement else self.movement.delta_x()
-        dy = 0 if not self.movement else self.movement.delta_y()
-        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 10)
-
-
-class Player(GameObject):
-    def draw(self) -> None:
-        # TODO: Promote coordinates calculation to GameObject
-        x = self.tile_position.tile_x * TILE_SIZE
-        y = self.tile_position.tile_y * TILE_SIZE
-        dx = 0 if not self.movement else self.movement.delta_x()
-        dy = 0 if not self.movement else self.movement.delta_y()
-        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 11)
+    def tile(self, id: int) -> Tile:
+        # TODO: Not implemented yet!
+        return Tile.WALL
 
 
 class LevelTemplate:
     level_num: int
+    level_tiles: LevelTiles
     player_pos: TilePosition
     crates_pos: List[TilePosition]
 
     def __init__(self, level_num: int):
         self.level_num = level_num
+        self.level_tiles = LevelTiles(level_num)
         self.crates_pos = []
         tile_map = pyxel.tilemap(0)
         tile_map_u = self.tile_map_u
@@ -153,50 +75,14 @@ class LevelTemplate:
     def tile_map_v(self) -> int:
         return LEVEL_SIZE * (self.level_num // TILE_SIZE)
 
-    @staticmethod
-    def __is_crate_tile(tile: int):
+    def __is_crate_tile(self, tile_id: int) -> bool:
+        #tile = self.level_tiles.tile(tile_id)
+        #return tile == Tile.INITIAL_CRATE_POSITION or tile == Tile.CRATE_INITIALLY_PLACED
         # TODO: Read it from resources file (instead of hard-coded values)
-        return tile in [4, 5, 11, 12, 18, 19, 25, 26, 32, 33]
+        return tile_id in [4, 5, 11, 12, 18, 19, 25, 26, 32, 33]
 
-    @staticmethod
-    def __is_player_start_tile(tile: int):
+    def __is_player_start_tile(self, tile_id: int) -> bool:
+        #tile = self.level_tiles.tile(tile_id)
+        #return tile == Tile.PLAYER_START
         # TODO: Read it from resources file (instead of hard-coded values)
-        return tile in [2, 9, 16, 23, 30]
-
-
-# TODO: Refactor it to Game class
-class Level:
-    level_template: LevelTemplate
-    statistics: LevelStatistics
-    crates: List[Crate]
-    player: Player
-
-    def __init__(self, level_template: LevelTemplate):
-        self.level_template = level_template
-        self.statistics = LevelStatistics(level_template.level_num)
-        self.crates = [Crate(position) for position in level_template.crates_pos]
-        self.player = Player(level_template.player_pos)
-
-    def is_completed(self) -> bool:
-        misplaced_crates = [crate for crate in self.crates if not crate.in_place]
-        return not misplaced_crates
-
-    def move_player(self, direction: Direction) -> None:
-        if self.player.is_moving():
-            return
-        # TODO: Add logic for moving crates
-        self.player.move(direction)
-
-    def update(self) -> None:
-        for game_object in self._game_objects():
-            game_object.update()
-
-    def draw(self) -> None:
-        # TODO: Add offset to tile_map so it will be ideally centered
-        pyxel.bltm(0, 0, 0, self.level_template.tile_map_u, self.level_template.tile_map_v,
-                   LEVEL_SIZE, LEVEL_SIZE)
-        for game_object in self._game_objects():
-            game_object.draw()
-
-    def _game_objects(self) -> Iterable[GameObject]:
-        return chain([self.player], self.crates)
+        return tile_id in [2, 9, 16, 23, 30]

@@ -60,4 +60,4 @@ if __name__ == "__main__":
         logging.info(f"Writing resource file '{files.resource_file}'...")
         pyxel.save(files.resource_file)
         logging.info(f"Writing meta data file '{files.metadata_file}'...")
-        json.dump([], metadata_file)
+        json.dump({}, metadata_file)

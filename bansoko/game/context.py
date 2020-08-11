@@ -1,6 +1,6 @@
 from typing import List
 
-from bansoko.game.level import LevelStatistics, Level, LevelTemplate, NUM_LEVELS
+from bansoko.game.level import LevelStatistics, LevelTemplate, NUM_LEVELS
 from bansoko.game.screens.choose_level import ChooseLevelScreen
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
@@ -8,6 +8,7 @@ from bansoko.game.screens.level_completed import LevelCompletedScreen
 from bansoko.game.screens.main_menu import MainMenuScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.screen import Screen
+from game.core import Level
 
 
 class GameContext(ScreenFactory):

@@ -16,6 +16,10 @@ from bansoko.gui.screen import ScreenController
 GAME_TITLE = "Bansoko"
 GAME_FRAME_RATE = 30
 GAME_RESOURCE_FILE = "gamedata/main.pyxres"
+GAME_METADATA_FILE = "gamedata/main.meta"
+
+
+# TODO: Get rid of pyxel-bansoko name (it should be JUST bansoko)
 
 
 def main() -> None:
