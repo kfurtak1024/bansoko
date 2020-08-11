@@ -155,15 +155,16 @@ class LevelTemplate:
 
     @staticmethod
     def __is_crate_tile(tile: int):
-        # TODO: Read it from resources file (instead of hard-coded value)
-        return tile in [4, 5]
+        # TODO: Read it from resources file (instead of hard-coded values)
+        return tile in [4, 5, 11, 12, 18, 19, 25, 26, 32, 33]
 
     @staticmethod
     def __is_player_start_tile(tile: int):
-        # TODO: Read it from resources file (instead of hard-coded value)
-        return tile == 2
+        # TODO: Read it from resources file (instead of hard-coded values)
+        return tile in [2, 9, 16, 23, 30]
 
 
+# TODO: Refactor it to Game class
 class Level:
     level_template: LevelTemplate
     statistics: LevelStatistics

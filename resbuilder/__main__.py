@@ -18,7 +18,7 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from resources_processor import generate_levels, generate_tileset
+from resources_processor import generate_levels, generate_level_themes
 
 
 def configure_logger(verbose: bool):
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     with open(files.source_file) as json_file:
         pyxel.init(256, 256)
         data = json.load(json_file)
-        generate_levels(data["levels"], data["level_legend"], data["level_thumbnail"])
-        generate_tileset(data["level_tile_set"], files.source_dir)
+        level_themes = generate_level_themes(data["level_themes"], files.source_dir)
+        generate_levels(data["levels"], data["level_legend"], level_themes)
         logging.info(f"Writing resource file '{files.resource_file}'...")
         pyxel.save(files.resource_file)

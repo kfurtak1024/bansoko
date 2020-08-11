@@ -28,6 +28,7 @@ class MenuItem(ABC):
         pass
 
 
+# TODO: Add horizontal space
 class TextMenuItem(MenuItem):
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
         self.text = text
