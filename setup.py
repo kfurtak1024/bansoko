@@ -3,9 +3,11 @@ import os
 
 from setuptools import setup, find_packages
 
+from bansoko import VERSION
+
 setup(
-    name="pyxel-bansoko",
-    version="0.0.4",
+    name="bansoko",
+    version=VERSION,
     author="Krzysztof Furtak",
     author_email="contact@krzysztoffurtak.dev",
     description="Space-themed Sokoban clone created in Python using Pyxel.",
@@ -26,7 +28,7 @@ setup(
     install_requires=["setuptools", "pyxel"],
     packages=find_packages(exclude=["resbuilder"]),
     package_data={
-        "bansoko": ["gamedata/main.pyxres"]
+        "bansoko": ["gamedata/main.pyxres", "gamedata/main.meta"]
     },
-    entry_points={"console_scripts": ["pyxel-bansoko = bansoko.__main__:main"]}
+    entry_points={"console_scripts": ["bansoko = bansoko.__main__:main"]}
 )

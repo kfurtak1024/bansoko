@@ -8,24 +8,21 @@ Options:
     --version        Show version.
     --bundle <name>  Specify resources bundle name [default: main]
 """
-import pyxel
 
+import pyxel
+from docopt import docopt
+
+import game
+from bansoko import GAME_TITLE, GAME_FRAME_RATE, VERSION
 from bansoko.game.context import GameContext
 from bansoko.gui.screen import ScreenController
-
-GAME_TITLE = "Bansoko"
-GAME_FRAME_RATE = 30
-GAME_RESOURCE_FILE = "gamedata/main.pyxres"
-GAME_METADATA_FILE = "gamedata/main.meta"
-
-
-# TODO: Get rid of pyxel-bansoko name (it should be JUST bansoko)
 
 
 def main() -> None:
     """Initializes and starts the game."""
+    arguments = docopt(__doc__, version=VERSION)
     pyxel.init(256, 256, caption=GAME_TITLE, fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12)
-    pyxel.load(GAME_RESOURCE_FILE)
+    game.load_bundle(arguments["--bundle"])
     game_context = GameContext()
     controller = ScreenController(game_context.get_main_menu(), pyxel.quit)
     pyxel.run(controller.update, controller.draw)

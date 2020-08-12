@@ -74,7 +74,7 @@ class Player(GameObject):
         pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 11)
 
 
-# TODO: Refactor it to Game class
+# TODO: Level should become Game *and* LevelTemplate should become Level?
 class Level:
     level_template: LevelTemplate
     statistics: LevelStatistics

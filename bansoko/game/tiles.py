@@ -1,22 +1,54 @@
-from enum import Enum, unique
-from typing import NamedTuple
+from enum import Enum, unique, IntEnum
+from typing import NamedTuple, Set, List
 
 
 @unique
-class Tile(Enum):
-    VOID = 0, "tile_void"
-    WALL = 1, "tile_wall"
-    PLAYER_START = 2, "tile_player_start"
-    FLOOR = 3, "tile_floor"
-    INITIAL_CRATE_POSITION = 4, "tile_crate"
-    CRATE_INITIALLY_PLACED = 5, "tile_crate_placed"
-    CARGO_BAY = 6, "tile_cargo_bay"
+class TileType(IntEnum):
+    VOID = "tile_void"
+    WALL = "tile_wall"
+    PLAYER_START = "tile_player_start"
+    FLOOR = "tile_floor"
+    INITIAL_CRATE_POSITION = "tile_initial_crate_position"
+    CRATE_INITIALLY_PLACED = "tile_crate_initially_placed"
+    CARGO_BAY = "tile_cargo_bay"
 
-    def __new__(cls, keycode: int, tile_name: str):
-        obj = object.__new__(cls)
-        obj._value_ = keycode
+    def __new__(cls, tile_name: str):
+        value = len(cls.__members__)
+        obj = int.__new__(cls, value)
+        obj._value_ = value
         obj.tile_name = tile_name
         return obj
+
+
+class TileSet:
+    tiles: List[Set[int]]
+
+    def __init__(self, tiles: List[Set[int]]):
+        self.tiles = tiles
+
+    def is_void(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.VOID]
+
+    def is_wall(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.WALL]
+
+    def is_player_start(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.PLAYER_START]
+
+    def is_floor(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.FLOOR]
+
+    def is_initial_crate_position(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.INITIAL_CRATE_POSITION]
+
+    def is_crate_initially_placed(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.CRATE_INITIALLY_PLACED]
+
+    def is_cargo_bay(self, tile: int) -> bool:
+        return tile in self.tiles[TileType.CARGO_BAY]
+
+    def is_crate(self, tile: int) -> bool:
+        return self.is_crate_initially_placed(tile) or self.is_initial_crate_position(tile)
 
 
 @unique

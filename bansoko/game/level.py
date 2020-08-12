@@ -5,7 +5,7 @@ from typing import NamedTuple, List
 
 import pyxel
 
-from game.tiles import Tile, TilePosition
+from game.tiles import TilePosition, TileSet
 
 NUM_LEVELS: int = 60
 LEVEL_SIZE = 32
@@ -31,29 +31,16 @@ class LevelStatistics(NamedTuple):
     time: int = 0
 
 
-class LevelTiles:
-    def __init__(self, level_num: int):
-        # TODO: Not implemented yet!
-        pass
-
-    def tile_id(self, tile: Tile) -> int:
-        # TODO: Not implemented yet!
-        return 0
-
-    def tile(self, id: int) -> Tile:
-        # TODO: Not implemented yet!
-        return Tile.WALL
-
-
 class LevelTemplate:
     level_num: int
-    level_tiles: LevelTiles
+    tiles: TileSet
     player_pos: TilePosition
     crates_pos: List[TilePosition]
 
     def __init__(self, level_num: int):
         self.level_num = level_num
-        self.level_tiles = LevelTiles(level_num)
+        # TODO: Hard-coded! Should be taken from resources!
+        self.tiles = TileSet([{}, {}, {2, 9, 16, 23, 30}, {}, {4, 11, 18, 25, 32}, {5, 12, 19, 26, 33}, {}])
         self.crates_pos = []
         tile_map = pyxel.tilemap(0)
         tile_map_u = self.tile_map_u
@@ -62,9 +49,9 @@ class LevelTemplate:
             for v in range(tile_map_v, tile_map_v + LEVEL_SIZE):
                 tile = tile_map.get(u, v)
                 position = TilePosition(u - tile_map_u, v - tile_map_v)
-                if self.__is_crate_tile(tile):
+                if self.tiles.is_crate(tile):
                     self.crates_pos.append(position)
-                elif self.__is_player_start_tile(tile):
+                elif self.tiles.is_player_start(tile):
                     self.player_pos = position
 
     @property
@@ -74,15 +61,3 @@ class LevelTemplate:
     @property
     def tile_map_v(self) -> int:
         return LEVEL_SIZE * (self.level_num // TILE_SIZE)
-
-    def __is_crate_tile(self, tile_id: int) -> bool:
-        #tile = self.level_tiles.tile(tile_id)
-        #return tile == Tile.INITIAL_CRATE_POSITION or tile == Tile.CRATE_INITIALLY_PLACED
-        # TODO: Read it from resources file (instead of hard-coded values)
-        return tile_id in [4, 5, 11, 12, 18, 19, 25, 26, 32, 33]
-
-    def __is_player_start_tile(self, tile_id: int) -> bool:
-        #tile = self.level_tiles.tile(tile_id)
-        #return tile == Tile.PLAYER_START
-        # TODO: Read it from resources file (instead of hard-coded values)
-        return tile_id in [2, 9, 16, 23, 30]
