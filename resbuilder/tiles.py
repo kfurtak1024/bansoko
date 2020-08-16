@@ -14,8 +14,8 @@ class Tile(Enum):
     WALL = 1, "tile_wall", "color_wall"
     PLAYER_START = 2, "tile_player_start", "color_player_start"
     FLOOR = 3, "tile_floor", "color_floor"
-    INITIAL_CRATE_POSITION = 4, "tile_crate", "color_crate"
-    CRATE_INITIALLY_PLACED = 5, "tile_crate_placed", "color_crate_placed"
+    INITIAL_CRATE_POSITION = 4, "tile_initial_crate_position", "color_initial_crate_position"
+    CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed", "color_crate_initially_placed"
     CARGO_BAY = 6, "tile_cargo_bay", "color_cargo_bay"
 
     def __new__(cls, keycode: int, theme_tile_name: str, thumbnail_color_name):

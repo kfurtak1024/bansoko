@@ -1,21 +1,24 @@
 from typing import List
 
-from bansoko.game.level import LevelStatistics, LevelTemplate, NUM_LEVELS
+from bansoko.game.level import LevelStatistics, LevelTemplate
 from bansoko.game.screens.choose_level import ChooseLevelScreen
-from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
 from bansoko.game.screens.level_completed import LevelCompletedScreen
 from bansoko.game.screens.main_menu import MainMenuScreen
+from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.screen import Screen
 from game.core import Level
+from game.tiles import TileSet
 
 
 class GameContext(ScreenFactory):
-    level_templates: List[LevelTemplate]
+    level_templates: List[LevelTemplate] = []
 
-    def __init__(self):
-        self.level_templates = [LevelTemplate(level_num) for level_num in range(NUM_LEVELS)]
+    def __init__(self, metadata):
+        # TODO: Level templates should be initialized in a different place
+        for level_num, level in enumerate(metadata["levels"]):
+            self.level_templates.append(LevelTemplate(level_num, TileSet(level["tiles"])))
 
     def get_main_menu(self) -> Screen:
         return MainMenuScreen(self)

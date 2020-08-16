@@ -1,5 +1,5 @@
 from enum import Enum, unique, IntEnum
-from typing import NamedTuple, Set, List
+from typing import NamedTuple, Dict
 
 
 @unique
@@ -21,31 +21,29 @@ class TileType(IntEnum):
 
 
 class TileSet:
-    tiles: List[Set[int]]
-
-    def __init__(self, tiles: List[Set[int]]):
-        self.tiles = tiles
+    def __init__(self, tiles_dict: Dict[str, int]):
+        self.tiles = [tiles_dict[tile.tile_name] for tile in list(TileType)]
 
     def is_void(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.VOID]
+        return tile == self.tiles[TileType.VOID]
 
     def is_wall(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.WALL]
+        return tile == self.tiles[TileType.WALL]
 
     def is_player_start(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.PLAYER_START]
+        return tile == self.tiles[TileType.PLAYER_START]
 
     def is_floor(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.FLOOR]
+        return tile == self.tiles[TileType.FLOOR]
 
     def is_initial_crate_position(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.INITIAL_CRATE_POSITION]
+        return tile == self.tiles[TileType.INITIAL_CRATE_POSITION]
 
     def is_crate_initially_placed(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.CRATE_INITIALLY_PLACED]
+        return tile == self.tiles[TileType.CRATE_INITIALLY_PLACED]
 
     def is_cargo_bay(self, tile: int) -> bool:
-        return tile in self.tiles[TileType.CARGO_BAY]
+        return tile == self.tiles[TileType.CARGO_BAY]
 
     def is_crate(self, tile: int) -> bool:
         return self.is_crate_initially_placed(tile) or self.is_initial_crate_position(tile)

@@ -66,7 +66,7 @@ def process_levels(levels, level_legend, level_themes: List[LevelTheme]):
 def __level_metadata(level_theme: LevelTheme):
     tiles_metadata = {}
     for tile in list(Tile):
-        tiles_metadata[tile.theme_item_name] = [level_theme.tile_id(0, tile)]
+        tiles_metadata[tile.theme_item_name] = level_theme.tile_id(0, tile)
 
     return tiles_metadata
 
@@ -83,7 +83,7 @@ def __level_thumbnail_y(level_num: int, level_height: int):
 
 Position = namedtuple("Position", ["x", "y"])
 
-
+# TODO: It should be done in pre-processing stage
 def __flood_fill(start_x: int, start_y: int, layer: int, thumbnails_image: pyxel.Image, level_theme: LevelTheme) -> None:
     stack = list()
     stack.append(Position(int(start_x), int(start_y)))

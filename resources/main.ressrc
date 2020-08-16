@@ -1188,8 +1188,8 @@
               "tile_wall": "tiles/desert/wall.png",
               "tile_player_start": "tiles/desert/floor.png",
               "tile_floor": "tiles/desert/floor.png",
-              "tile_crate": "tiles/desert/floor.png",
-              "tile_crate_placed": "tiles/desert/floor.png",
+              "tile_initial_crate_position": "tiles/desert/floor.png",
+              "tile_crate_initially_placed": "tiles/desert/floor.png",
               "tile_cargo_bay": "tiles/desert/cargo_bay.png"
             },
             {
@@ -1205,8 +1205,8 @@
           "color_wall": "5",
           "color_floor": "7",
           "color_player_start": "E",
-          "color_crate": "A",
-          "color_crate_placed": "A",
+          "color_initial_crate_position": "A",
+          "color_crate_initially_placed": "A",
           "color_cargo_bay": "B"
         }
       },
@@ -1218,8 +1218,8 @@
               "tile_wall": "tiles/mint/wall.png",
               "tile_player_start": "tiles/mint/floor.png",
               "tile_floor": "tiles/mint/floor.png",
-              "tile_crate": "tiles/mint/floor.png",
-              "tile_crate_placed": "tiles/mint/floor.png",
+              "tile_initial_crate_position": "tiles/mint/floor.png",
+              "tile_crate_initially_placed": "tiles/mint/floor.png",
               "tile_cargo_bay": "tiles/mint/cargo_bay.png"
             },
             {
@@ -1235,8 +1235,8 @@
           "color_wall": "5",
           "color_floor": "7",
           "color_player_start": "E",
-          "color_crate": "A",
-          "color_crate_placed": "A",
+          "color_initial_crate_position": "A",
+          "color_crate_initially_placed": "A",
           "color_cargo_bay": "B"
         }
       },
@@ -1248,8 +1248,8 @@
               "tile_wall": "tiles/ice/wall.png",
               "tile_player_start": "tiles/ice/floor.png",
               "tile_floor": "tiles/ice/floor.png",
-              "tile_crate": "tiles/ice/floor.png",
-              "tile_crate_placed": "tiles/ice/floor.png",
+              "tile_initial_crate_position": "tiles/ice/floor.png",
+              "tile_crate_initially_placed": "tiles/ice/floor.png",
               "tile_cargo_bay": "tiles/ice/cargo_bay.png"
             },
             {
@@ -1265,8 +1265,8 @@
           "color_wall": "5",
           "color_floor": "7",
           "color_player_start": "E",
-          "color_crate": "A",
-          "color_crate_placed": "A",
+          "color_initial_crate_position": "A",
+          "color_crate_initially_placed": "A",
           "color_cargo_bay": "B"
         }
       },
@@ -1278,8 +1278,8 @@
               "tile_wall": "tiles/cherry/wall.png",
               "tile_player_start": "tiles/cherry/floor.png",
               "tile_floor": "tiles/cherry/floor.png",
-              "tile_crate": "tiles/cherry/floor.png",
-              "tile_crate_placed": "tiles/cherry/floor.png",
+              "tile_initial_crate_position": "tiles/cherry/floor.png",
+              "tile_crate_initially_placed": "tiles/cherry/floor.png",
               "tile_cargo_bay": "tiles/cherry/cargo_bay.png"
             },
             {
@@ -1295,8 +1295,8 @@
           "color_wall": "5",
           "color_floor": "7",
           "color_player_start": "E",
-          "color_crate": "A",
-          "color_crate_placed": "A",
+          "color_initial_crate_position": "A",
+          "color_crate_initially_placed": "A",
           "color_cargo_bay": "B"
         }
       },
@@ -1308,8 +1308,8 @@
               "tile_wall": "tiles/moon/wall.png",
               "tile_player_start": "tiles/moon/floor.png",
               "tile_floor": "tiles/moon/floor.png",
-              "tile_crate": "tiles/moon/floor.png",
-              "tile_crate_placed": "tiles/moon/floor.png",
+              "tile_initial_crate_position": "tiles/moon/floor.png",
+              "tile_crate_initially_placed": "tiles/moon/floor.png",
               "tile_cargo_bay": "tiles/moon/cargo_bay.png"
             },
             {
@@ -1325,8 +1325,8 @@
           "color_wall": "5",
           "color_floor": "7",
           "color_player_start": "E",
-          "color_crate": "A",
-          "color_crate_placed": "A",
+          "color_initial_crate_position": "A",
+          "color_crate_initially_placed": "A",
           "color_cargo_bay": "B"
         }
       }
