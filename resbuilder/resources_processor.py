@@ -1,41 +1,19 @@
 from collections import namedtuple
-from typing import List, Dict
+from typing import List
 
 import pyxel
 
-from level import LevelTheme
-from tiles import IMAGE_BANK_SIZE, TileSetPacker, Tile
+from level_theme import LevelTheme
+from tiles import IMAGE_BANK_SIZE, Tile
 
 LEVEL_SIZE = 32
 LEVEL_THUMBNAIL_SIZE = 32
 
 
-def generate_level_themes(data, base_dir: str) -> List[LevelTheme]:
-    packer = TileSetPacker(data["tiles_image_bank"], base_dir)
-    themes: List[LevelTheme] = []
-
-    for level_theme_data in data["themes"]:
-        themes.append(LevelTheme(
-            packer.pack_level_theme(level_theme_data["tiles"]),
-            extract_thumbnail_colors(level_theme_data["thumbnail"])
-        ))
-
-    return themes
-
-
-def extract_thumbnail_colors(data) -> Dict[Tile, int]:
-    thumbnail_colors: Dict[Tile, int] = {}
-
-    for tile in list(Tile):
-        thumbnail_colors[tile] = data[tile.thumbnail_color_name]
-
-    return thumbnail_colors
-
-
-def generate_levels(levels, level_legend, level_themes: List[LevelTheme]):
+def process_levels(levels, level_legend, level_themes: List[LevelTheme]):
     image_bank = 2  # TODO: Hard-coded image bank for thumbnails
     image = pyxel.image(image_bank)
-    tile_map = pyxel.tilemap(0)
+    levels_metadata = []
     level_num = 0
 
     for level in levels:
@@ -48,14 +26,6 @@ def generate_levels(levels, level_legend, level_themes: List[LevelTheme]):
             level_legend["cell_crate_placed"]: theme.thumbnail_color(Tile.CRATE_INITIALLY_PLACED),
             level_legend["cell_cargo_bay"]: theme.thumbnail_color(Tile.CARGO_BAY)
         }
-        symbols_to_tiles = {
-            level_legend["cell_void"]: theme.tile_id(Tile.VOID),
-            level_legend["cell_wall"]: theme.tile_id(Tile.WALL),
-            level_legend["cell_player_start"]: theme.tile_id(Tile.PLAYER_START),
-            level_legend["cell_crate"]: theme.tile_id(Tile.INITIAL_CRATE_POSITION),
-            level_legend["cell_crate_placed"]: theme.tile_id(Tile.CRATE_INITIALLY_PLACED),
-            level_legend["cell_cargo_bay"]: theme.tile_id(Tile.CARGO_BAY)
-        }
         level_height = len(level["data"])
         y = __level_thumbnail_y(level_num, level_height)
         start_x = -1
@@ -66,17 +36,39 @@ def generate_levels(levels, level_legend, level_themes: List[LevelTheme]):
             for symbol in data_row:
                 if symbol in symbols_to_colors:
                     image.set(x, y, symbols_to_colors[symbol])
-                if symbol in symbols_to_tiles:
-                    tile_map.set(x, y, symbols_to_tiles[symbol])
+
+                for layer in range(0, theme.num_layers):
+                    symbols_to_tiles = {
+                        level_legend["cell_void"]: theme.tile_id(layer, Tile.VOID),
+                        level_legend["cell_wall"]: theme.tile_id(layer, Tile.WALL),
+                        level_legend["cell_player_start"]: theme.tile_id(layer, Tile.PLAYER_START),
+                        level_legend["cell_crate"]: theme.tile_id(layer, Tile.INITIAL_CRATE_POSITION),
+                        level_legend["cell_crate_placed"]: theme.tile_id(
+                            layer, Tile.CRATE_INITIALLY_PLACED),
+                        level_legend["cell_cargo_bay"]: theme.tile_id(layer, Tile.CARGO_BAY)
+                    }
+                    pyxel.tilemap(layer).set(x, y, symbols_to_tiles[symbol])
+
                 if symbol == level_legend["cell_player_start"]:
                     start_x = x
                     start_y = y
                 x = x + 1
             y = y + 1
 
-        __flood_fill(start_x, start_y, tile_map, image, theme)
+        __flood_fill(start_x, start_y, 0, image, theme)
 
+        levels_metadata.append({"tiles": __level_metadata(theme)})
         level_num = level_num + 1
+
+    return levels_metadata
+
+
+def __level_metadata(level_theme: LevelTheme):
+    tiles_metadata = {}
+    for tile in list(Tile):
+        tiles_metadata[tile.theme_item_name] = [level_theme.tile_id(0, tile)]
+
+    return tiles_metadata
 
 
 def __level_thumbnail_x(level_num: int, level_width: int):
@@ -92,7 +84,7 @@ def __level_thumbnail_y(level_num: int, level_height: int):
 Position = namedtuple("Position", ["x", "y"])
 
 
-def __flood_fill(start_x: int, start_y: int, tile_map: pyxel.Tilemap, thumbnails_image: pyxel.Image, level_theme: LevelTheme) -> None:
+def __flood_fill(start_x: int, start_y: int, layer: int, thumbnails_image: pyxel.Image, level_theme: LevelTheme) -> None:
     stack = list()
     stack.append(Position(int(start_x), int(start_y)))
 
@@ -102,12 +94,12 @@ def __flood_fill(start_x: int, start_y: int, tile_map: pyxel.Tilemap, thumbnails
         pos = stack.pop()
         local_pos = Position(pos.x % LEVEL_SIZE, pos.y % LEVEL_SIZE)
         pos_in_level_range = (local_pos.x >= 0) and (local_pos.x < LEVEL_SIZE) and (local_pos.y >= 0) and (local_pos.y < LEVEL_SIZE)
-        wall_at_pos = tile_map.get(pos.x, pos.y) == level_theme.tile_id(Tile.WALL)
+        wall_at_pos = pyxel.tilemap(layer).get(pos.x, pos.y) == level_theme.tile_id(0, Tile.WALL)
         not_visited_yet = not visited_map[local_pos.x][local_pos.y]
 
         if not wall_at_pos and pos_in_level_range and not_visited_yet:
-            if tile_map.get(pos.x, pos.y) == level_theme.tile_id(Tile.VOID):
-                tile_map.set(pos.x, pos.y, level_theme.tile_id(Tile.FLOOR))
+            if pyxel.tilemap(layer).get(pos.x, pos.y) == level_theme.tile_id(0, Tile.VOID):
+                pyxel.tilemap(layer).set(pos.x, pos.y, level_theme.tile_id(0, Tile.FLOOR))
                 thumbnails_image.set(pos.x, pos.y, level_theme.thumbnail_color(Tile.FLOOR))
             stack.append(Position(pos.x - 1, pos.y))
             stack.append(Position(pos.x + 1, pos.y))

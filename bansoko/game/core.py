@@ -103,10 +103,15 @@ class Level:
 
     def draw(self) -> None:
         # TODO: Add offset to tile_map so it will be ideally centered
-        pyxel.bltm(0, 0, 0, self.level_template.tile_map_u, self.level_template.tile_map_v,
-                   LEVEL_SIZE, LEVEL_SIZE)
+        self._draw_tilemap(0, 0, 0)
         for game_object in self._game_objects():
             game_object.draw()
+        self._draw_tilemap(-1, -1, 1, 0)
+        self._draw_tilemap(-2, -2, 2, 0)
 
     def _game_objects(self) -> Iterable[GameObject]:
         return chain([self.player], self.crates)
+
+    def _draw_tilemap(self, x: int, y: int, tilemap: int, colkey: int = -1):
+        pyxel.bltm(x, y, tilemap, self.level_template.tile_map_u, self.level_template.tile_map_v,
+                   LEVEL_SIZE, LEVEL_SIZE, colkey)

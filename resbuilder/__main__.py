@@ -18,7 +18,8 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from resources_processor import generate_levels, generate_level_themes
+from level_theme import generate_level_themes
+from resources_processor import process_levels
 
 
 def configure_logger(verbose: bool):
@@ -55,9 +56,10 @@ if __name__ == "__main__":
     with open(files.input_file) as input_file, open(files.metadata_file, "w") as metadata_file:
         pyxel.init(256, 256)
         data = json.load(input_file)
-        level_themes = generate_level_themes(data["level_themes"], files.input_dir)
-        generate_levels(data["levels"], data["level_legend"], level_themes)
+        metadata = {"levels": []}
+        level_themes = generate_level_themes(files.input_dir, data["level_themes"])
+        metadata["levels"] = process_levels(data["levels"], data["level_legend"], level_themes)
         logging.info(f"Writing resource file '{files.resource_file}'...")
         pyxel.save(files.resource_file)
         logging.info(f"Writing meta data file '{files.metadata_file}'...")
-        json.dump({}, metadata_file)
+        json.dump(metadata, metadata_file, indent=2)

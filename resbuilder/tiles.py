@@ -36,11 +36,12 @@ class TileSetPacker:
         tiles_ids: Dict[Tile, int] = {}
 
         for tile in list(Tile):
-            tiles_ids[tile] = self.__pack_tile(theme_data[tile.theme_item_name])
+            if theme_data.get(tile.theme_item_name) is not None:
+                tiles_ids[tile] = self.pack_tile(theme_data[tile.theme_item_name])
 
         return tiles_ids
 
-    def __pack_tile(self, filename: str) -> int:
+    def pack_tile(self, filename: str) -> int:
         tiles_in_row = IMAGE_BANK_SIZE / TILE_SIZE
         x = (self.next_free_tile % tiles_in_row) * TILE_SIZE
         y = (self.next_free_tile // tiles_in_row) * TILE_SIZE

@@ -40,7 +40,7 @@ class LevelTemplate:
     def __init__(self, level_num: int):
         self.level_num = level_num
         # TODO: Hard-coded! Should be taken from resources!
-        self.tiles = TileSet([{}, {}, {2, 9, 16, 23, 30}, {}, {4, 11, 18, 25, 32}, {5, 12, 19, 26, 33}, {}])
+        self.tiles = TileSet([{}, {}, {2, 11, 20, 29, 38}, {}, {4, 13, 22, 31, 40}, {7, 14, 23, 28, 35}, {}])
         self.crates_pos = []
         tile_map = pyxel.tilemap(0)
         tile_map_u = self.tile_map_u
