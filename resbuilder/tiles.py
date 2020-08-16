@@ -18,10 +18,10 @@ class Tile(Enum):
     CRATE_INITIALLY_PLACED = 5, "tile_crate_placed", "color_crate_placed"
     CARGO_BAY = 6, "tile_cargo_bay", "color_cargo_bay"
 
-    def __new__(cls, keycode: int, theme_item_name: str, thumbnail_color_name):
+    def __new__(cls, keycode: int, theme_tile_name: str, thumbnail_color_name):
         obj = object.__new__(cls)
         obj._value_ = keycode
-        obj.theme_item_name = theme_item_name
+        obj.theme_item_name = theme_tile_name
         obj.thumbnail_color_name = thumbnail_color_name
         return obj
 

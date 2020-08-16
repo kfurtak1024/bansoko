@@ -1182,21 +1182,21 @@
     "themes": [
       {
         "tiles": {
-          "tile_void": "sprites/void.png",
+          "tile_void": "tiles/void.png",
           "layers": [
             {
-              "tile_wall": "sprites/desert/wall.png",
-              "tile_player_start": "sprites/desert/floor.png",
-              "tile_floor": "sprites/desert/floor.png",
-              "tile_crate": "sprites/desert/floor.png",
-              "tile_crate_placed": "sprites/desert/floor.png",
-              "tile_cargo_bay": "sprites/desert/cargo_bay.png"
+              "tile_wall": "tiles/desert/wall.png",
+              "tile_player_start": "tiles/desert/floor.png",
+              "tile_floor": "tiles/desert/floor.png",
+              "tile_crate": "tiles/desert/floor.png",
+              "tile_crate_placed": "tiles/desert/floor.png",
+              "tile_cargo_bay": "tiles/desert/cargo_bay.png"
             },
             {
-              "tile_wall": "sprites/desert/wall.png"
+              "tile_wall": "tiles/desert/wall.png"
             },
             {
-              "tile_wall": "sprites/desert/wall_top.png"
+              "tile_wall": "tiles/desert/wall_top.png"
             }
           ]
         },
@@ -1212,21 +1212,21 @@
       },
       {
         "tiles": {
-          "tile_void": "sprites/void.png",
+          "tile_void": "tiles/void.png",
           "layers": [
             {
-              "tile_wall": "sprites/mint/wall.png",
-              "tile_player_start": "sprites/mint/floor.png",
-              "tile_floor": "sprites/mint/floor.png",
-              "tile_crate": "sprites/mint/floor.png",
-              "tile_crate_placed": "sprites/mint/floor.png",
-              "tile_cargo_bay": "sprites/mint/cargo_bay.png"
+              "tile_wall": "tiles/mint/wall.png",
+              "tile_player_start": "tiles/mint/floor.png",
+              "tile_floor": "tiles/mint/floor.png",
+              "tile_crate": "tiles/mint/floor.png",
+              "tile_crate_placed": "tiles/mint/floor.png",
+              "tile_cargo_bay": "tiles/mint/cargo_bay.png"
             },
             {
-              "tile_wall": "sprites/mint/wall.png"
+              "tile_wall": "tiles/mint/wall.png"
             },
             {
-              "tile_wall": "sprites/mint/wall_top.png"
+              "tile_wall": "tiles/mint/wall_top.png"
             }
           ]
         },
@@ -1242,21 +1242,21 @@
       },
       {
         "tiles": {
-          "tile_void": "sprites/void.png",
+          "tile_void": "tiles/void.png",
           "layers": [
             {
-              "tile_wall": "sprites/ice/wall.png",
-              "tile_player_start": "sprites/ice/floor.png",
-              "tile_floor": "sprites/ice/floor.png",
-              "tile_crate": "sprites/ice/floor.png",
-              "tile_crate_placed": "sprites/ice/floor.png",
-              "tile_cargo_bay": "sprites/ice/cargo_bay.png"
+              "tile_wall": "tiles/ice/wall.png",
+              "tile_player_start": "tiles/ice/floor.png",
+              "tile_floor": "tiles/ice/floor.png",
+              "tile_crate": "tiles/ice/floor.png",
+              "tile_crate_placed": "tiles/ice/floor.png",
+              "tile_cargo_bay": "tiles/ice/cargo_bay.png"
             },
             {
-              "tile_wall": "sprites/ice/wall.png"
+              "tile_wall": "tiles/ice/wall.png"
             },
             {
-              "tile_wall": "sprites/ice/wall_top.png"
+              "tile_wall": "tiles/ice/wall_top.png"
             }
           ]
         },
@@ -1272,21 +1272,21 @@
       },
       {
         "tiles": {
-          "tile_void": "sprites/void.png",
+          "tile_void": "tiles/void.png",
           "layers": [
             {
-              "tile_wall": "sprites/cherry/wall.png",
-              "tile_player_start": "sprites/cherry/floor.png",
-              "tile_floor": "sprites/cherry/floor.png",
-              "tile_crate": "sprites/cherry/floor.png",
-              "tile_crate_placed": "sprites/cherry/floor.png",
-              "tile_cargo_bay": "sprites/cherry/cargo_bay.png"
+              "tile_wall": "tiles/cherry/wall.png",
+              "tile_player_start": "tiles/cherry/floor.png",
+              "tile_floor": "tiles/cherry/floor.png",
+              "tile_crate": "tiles/cherry/floor.png",
+              "tile_crate_placed": "tiles/cherry/floor.png",
+              "tile_cargo_bay": "tiles/cherry/cargo_bay.png"
             },
             {
-              "tile_wall": "sprites/cherry/wall.png"
+              "tile_wall": "tiles/cherry/wall.png"
             },
             {
-              "tile_wall": "sprites/cherry/wall_top.png"
+              "tile_wall": "tiles/cherry/wall_top.png"
             }
           ]
         },
@@ -1302,21 +1302,21 @@
       },
       {
         "tiles": {
-          "tile_void": "sprites/void.png",
+          "tile_void": "tiles/void.png",
           "layers": [
             {
-              "tile_wall": "sprites/moon/wall.png",
-              "tile_player_start": "sprites/moon/floor.png",
-              "tile_floor": "sprites/moon/floor.png",
-              "tile_crate": "sprites/moon/floor.png",
-              "tile_crate_placed": "sprites/moon/floor.png",
-              "tile_cargo_bay": "sprites/moon/cargo_bay.png"
+              "tile_wall": "tiles/moon/wall.png",
+              "tile_player_start": "tiles/moon/floor.png",
+              "tile_floor": "tiles/moon/floor.png",
+              "tile_crate": "tiles/moon/floor.png",
+              "tile_crate_placed": "tiles/moon/floor.png",
+              "tile_cargo_bay": "tiles/moon/cargo_bay.png"
             },
             {
-              "tile_wall": "sprites/moon/wall.png"
+              "tile_wall": "tiles/moon/wall.png"
             },
             {
-              "tile_wall": "sprites/moon/wall_top.png"
+              "tile_wall": "tiles/moon/wall_top.png"
             }
           ]
         },
