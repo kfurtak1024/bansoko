@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from tiles import Tile, TileSetPacker
+from processors.tile_processor import Tile, TileSetPacker
 
 
 class LevelTheme:

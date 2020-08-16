@@ -3,8 +3,8 @@ from typing import List
 
 import pyxel
 
-from level_theme import LevelTheme
-from tiles import IMAGE_BANK_SIZE, Tile
+from processors.level_theme_processor import LevelTheme
+from processors.tile_processor import IMAGE_BANK_SIZE, Tile
 
 LEVEL_SIZE = 32
 LEVEL_THUMBNAIL_SIZE = 32

@@ -1,4 +1,18 @@
 {
+  "sprites": {
+    "logo": {
+      "image_bank": 1,
+      "image": "/sprites/logo.png"
+    }
+  },
+  "backgrounds": {
+    "main_menu": [
+      {
+        "sprite": "logo",
+        "position": [20, 20]
+      }
+    ]
+  },
   "levels": [
     {
       "data": [

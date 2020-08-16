@@ -660,5 +660,7 @@
         "tile_cargo_bay": 42
       }
     }
-  ]
+  ],
+  "sprites": {},
+  "backgrounds": {}
 }

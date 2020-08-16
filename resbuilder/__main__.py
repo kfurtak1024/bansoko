@@ -18,8 +18,10 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from level_theme import generate_level_themes
-from resources_processor import process_levels
+from processors.background_processor import process_backgrounds
+from processors.level_theme_processor import generate_level_themes
+from processors.level_processor import process_levels
+from processors.sprite_processor import process_sprites
 
 
 def configure_logger(verbose: bool):
@@ -55,10 +57,15 @@ if __name__ == "__main__":
     logging.info(f"Processing file '{files.input_file}'...")
     with open(files.input_file) as input_file, open(files.metadata_file, "w") as metadata_file:
         pyxel.init(256, 256)
-        data = json.load(input_file)
-        metadata = {"levels": []}
-        level_themes = generate_level_themes(files.input_dir, data["level_themes"])
-        metadata["levels"] = process_levels(data["levels"], data["level_legend"], level_themes)
+        input_data = json.load(input_file)
+        metadata = {}
+        level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
+        logging.info(f"Processing levels...")
+        metadata["levels"] = process_levels(input_data["levels"], input_data["level_legend"], level_themes)
+        logging.info(f"Processing sprites...")
+        metadata["sprites"] = process_sprites(input_data["sprites"])
+        logging.info(f"Processing backgrounds...")
+        metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"])
         logging.info(f"Writing resource file '{files.resource_file}'...")
         pyxel.save(files.resource_file)
         logging.info(f"Writing meta data file '{files.metadata_file}'...")
