@@ -113,5 +113,7 @@ class Level:
         return chain([self.player], self.crates)
 
     def _draw_tilemap(self, x: int, y: int, tilemap: int, colkey: int = -1):
+        pyxel.clip(15, 27, 256 - 15 - 15, 256 - 48 - 27)
         pyxel.bltm(x, y, tilemap, self.level_template.tile_map_u, self.level_template.tile_map_v,
                    LEVEL_SIZE, LEVEL_SIZE, colkey)
+        pyxel.clip()

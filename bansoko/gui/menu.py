@@ -6,12 +6,11 @@ from functools import reduce
 from itertools import islice
 from typing import Callable, List, Optional, Iterable
 
-import pyxel
-
 from bansoko.graphics import Size, Point, max_size, center_in_rect
 from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
+from graphics.background import Background
 
 
 class MenuItem(ABC):
@@ -59,14 +58,15 @@ class MenuScreen(Screen):
     selected_item: int
 
     def __init__(self, items: List[MenuItem], columns: int = 1, rows: int = None,
-                 background_color: Optional[int] = None):
+                 background: Optional[Background] = None):
+        super().__init__(background)
         self.items = items
         self.item_size = reduce(max_size, [item.size() for item in self.items])
         self.columns = columns
         self.rows = rows if rows else -(-len(items) // columns)
         self.top_item = 0
         self.selected_item = 0
-        self.background_color = background_color
+        self.background = background
         self.input = InputSystem()
 
     def activate(self) -> None:
@@ -106,8 +106,7 @@ class MenuScreen(Screen):
         return self
 
     def draw(self) -> None:
-        if self.background_color is not None:
-            pyxel.cls(self.background_color)
+        super().draw()
 
         start_position = center_in_rect(
             Size(self.columns * self.item_size.width, self.rows * self.item_size.height))

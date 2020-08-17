@@ -64,7 +64,7 @@ if __name__ == "__main__":
         logging.info(f"Processing levels...")
         metadata["levels"] = process_levels(input_data["levels"], level_themes)
         logging.info(f"Processing sprites...")
-        metadata["sprites"] = process_sprites(input_data["sprites"])
+        metadata["sprites"] = process_sprites(files.input_dir, input_data["sprites"])
         logging.info(f"Processing backgrounds...")
         metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"])
         logging.info(f"Writing resource file '{files.resource_file}'...")

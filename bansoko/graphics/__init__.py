@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, List
 
 
 class Size(NamedTuple):
@@ -25,9 +25,11 @@ class Rect(NamedTuple):
     w: int
     h: int
 
+    @property
     def size(self) -> Size:
         return Size(self.x, self.y)
 
+    @property
     def position(self) -> Point:
         return Point(self.x, self.y)
 

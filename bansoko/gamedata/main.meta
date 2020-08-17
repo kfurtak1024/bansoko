@@ -238,6 +238,41 @@
       "level_theme": 4
     }
   ],
-  "sprites": {},
-  "backgrounds": {}
+  "sprites": [
+    {
+      "image_bank": 1,
+      "image_rect": [
+        0,
+        0,
+        215,
+        44
+      ]
+    }
+  ],
+  "backgrounds": {
+    "main_menu": {
+      "background_color": "0",
+      "background_elements": [
+        {
+          "sprite": 0,
+          "position": [
+            20,
+            20
+          ]
+        }
+      ]
+    },
+    "choose_level": {
+      "background_color": "0"
+    },
+    "game_paused": {
+      "background_color": "0"
+    },
+    "level_completed": {
+      "background_color": "0"
+    },
+    "playfield": {
+      "background_color": "5"
+    }
+  }
 }

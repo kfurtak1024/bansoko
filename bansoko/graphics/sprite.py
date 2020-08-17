@@ -1,14 +1,14 @@
+from typing import NamedTuple
+
 import pyxel
 
 from graphics import Rect, Point
 
 
-class Sprite:
-    def __init__(self, image_bank: int, rect: Rect):
-        self.image_bank = image_bank
-        self.rect = rect
+class Sprite(NamedTuple):
+    image_bank: int
+    image_rect: Rect
 
     def draw(self, position: Point):
-        # TODO: Not tested yet!
-        pyxel.blt(position.x, position.y, self.image_bank, self.rect.x, self.rect.y, self.rect.w,
-                  self.rect.h)
+        pyxel.blt(position.x, position.y, self.image_bank, self.image_rect.x, self.image_rect.y,
+                  self.image_rect.w, self.image_rect.h)

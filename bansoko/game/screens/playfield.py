@@ -1,6 +1,8 @@
 """
 Module exposing the main game screen.
 """
+from typing import Optional
+
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
@@ -8,6 +10,7 @@ from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
 from game.core import Level
 from game.tiles import Direction
+from graphics.background import Background
 
 
 class PlayfieldScreen(Screen):
@@ -21,9 +24,12 @@ class PlayfieldScreen(Screen):
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
         level - level to play
+        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level: Level):
+    def __init__(self, screen_factory: ScreenFactory, level: Level,
+                 background: Optional[Background]):
+        super().__init__(background)
         self.screen_factory = screen_factory
         self.level = level
         self.input = InputSystem()
@@ -57,11 +63,9 @@ class PlayfieldScreen(Screen):
         return self
 
     def draw(self) -> None:
+        super().draw()
         self.level.draw()
         level = self.level.statistics.level_num
-        pyxel.rectb(0, 0, 256, 15, 3)
         pyxel.text(7, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 7)
         pyxel.text(70, 255 - 24 - 2 * pyxel.FONT_HEIGHT, "<SPACE> COMPLETE LEVEL", 7)
-        pyxel.rectb(0, 241, 256, 15, 3)
-        pyxel.text(7, 256 - 15 + (16 - pyxel.FONT_HEIGHT) // 2, "TIME: ??:??", 7)
-        pyxel.text(100, 256 - 15 + (16 - pyxel.FONT_HEIGHT) // 2, "STEPS: ???", 7)
+        pyxel.text(100, 256 - 20, "TIME: ??:??\nSTEPS: ???", 7)

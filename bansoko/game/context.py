@@ -1,6 +1,4 @@
-from typing import List
-
-from bansoko.game.level import LevelStatistics, LevelTemplate
+from bansoko.game.level import LevelStatistics
 from bansoko.game.screens.choose_level import ChooseLevelScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
 from bansoko.game.screens.level_completed import LevelCompletedScreen
@@ -8,32 +6,27 @@ from bansoko.game.screens.main_menu import MainMenuScreen
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.screen import Screen
+from game.bundle import Bundle
 from game.core import Level
-from game.tiles import TileSet
 
 
 class GameContext(ScreenFactory):
-    level_templates: List[LevelTemplate] = []
-
-    def __init__(self, metadata):
-        # TODO: Level templates should be initialized in a different place
-        level_themes = metadata["level_themes"]
-
-        for level_num, level in enumerate(metadata["levels"]):
-            # TODO: Refactor it!!!
-            self.level_templates.append(LevelTemplate(level_num, TileSet(level_themes[level["level_theme"]]["tiles"])))
+    def __init__(self, bundle: Bundle):
+        self.bundle = bundle
 
     def get_main_menu(self) -> Screen:
-        return MainMenuScreen(self)
+        return MainMenuScreen(self, self.bundle.get_background("main_menu"))
 
     def get_playfield_screen(self, level: int) -> Screen:
-        return PlayfieldScreen(self, Level(self.level_templates[level]))
+        return PlayfieldScreen(self, Level(self.bundle.get_level_template(level)),
+                               self.bundle.get_background("playfield"))
 
     def get_choose_level_screen(self) -> Screen:
-        return ChooseLevelScreen(self)
+        return ChooseLevelScreen(self, self.bundle.get_background("choose_level"))
 
     def get_game_paused_screen(self, level: int) -> Screen:
-        return GamePausedScreen(self, level)
+        return GamePausedScreen(self, level, self.bundle.get_background("game_paused"))
 
     def get_level_completed_screen(self, level_stats: LevelStatistics) -> Screen:
-        return LevelCompletedScreen(self, level_stats)
+        return LevelCompletedScreen(self, level_stats,
+                                    self.bundle.get_background("level_completed"))

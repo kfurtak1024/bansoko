@@ -5,6 +5,7 @@ import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.menu import MenuScreen, TextMenuItem
+from graphics.background import Background
 
 
 class GamePausedScreen(MenuScreen):
@@ -15,14 +16,16 @@ class GamePausedScreen(MenuScreen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
+        level - currently played level
+        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level: int):
+    def __init__(self, screen_factory: ScreenFactory, level: int, background: Background):
         super().__init__([
             TextMenuItem("RESUME GAME", lambda: None),
             TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level)),
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
-        ], background_color=0)
+        ], background=background)
 
     def draw(self) -> None:
         super().draw()

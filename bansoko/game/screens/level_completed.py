@@ -6,6 +6,7 @@ import pyxel
 from bansoko.game.level import LevelStatistics
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.menu import MenuScreen, TextMenuItem
+from graphics.background import Background
 
 
 class LevelCompletedScreen(MenuScreen):
@@ -16,16 +17,19 @@ class LevelCompletedScreen(MenuScreen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
+        level_stats - statistics of level completion
+        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics):
+    def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics,
+                 background: Background):
         current_level = level_stats.level_num
         next_level = current_level + 1
         super().__init__([
             TextMenuItem("PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(next_level)),
             TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(current_level)),
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
-        ], background_color=0)
+        ], background=background)
         self.level_stats = level_stats
 
     def draw(self) -> None:

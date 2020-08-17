@@ -6,6 +6,7 @@ import pyxel
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.menu import MenuScreen, TextMenuItem
 from game.level import NUM_LEVELS
+from graphics.background import Background
 
 
 class LevelMenuItem(TextMenuItem):
@@ -24,12 +25,13 @@ class ChooseLevelScreen(MenuScreen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
+        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory):
+    def __init__(self, screen_factory: ScreenFactory, background: Background):
         super().__init__([
             LevelMenuItem(level_num, screen_factory) for level_num in range(NUM_LEVELS)
-        ], columns=5, background_color=0)
+        ], columns=5, background=background)
 
     def draw(self) -> None:
         super().draw()

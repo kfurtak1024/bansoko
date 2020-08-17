@@ -2,6 +2,9 @@
 Module for game screens management.
 """
 import abc
+from typing import Optional
+
+from graphics.background import Background
 
 
 class Screen(abc.ABC):
@@ -10,6 +13,9 @@ class Screen(abc.ABC):
     Screens are updated and drawn once per frame. Screen transitions are triggered by
     values returned in update method.
     """
+
+    def __init__(self, background: Optional[Background] = None):
+        self.background = background
 
     def activate(self) -> None:
         pass
@@ -32,6 +38,8 @@ class Screen(abc.ABC):
         Draw screen.
         Called once per frame (only if screen is on top of screen stack)
         """
+        if self.background is not None:
+            self.background.draw()
 
     def __eq__(self, other):
         return isinstance(self, type(other))
