@@ -1,11 +1,13 @@
 """
 Module exposing a game screen which is displayed when game is paused.
 """
+from typing import Optional
+
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.graphics.background import Background
 from bansoko.gui.menu import MenuScreen, TextMenuItem
-from graphics.background import Background
 
 
 class GamePausedScreen(MenuScreen):
@@ -20,7 +22,7 @@ class GamePausedScreen(MenuScreen):
         background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level: int, background: Background):
+    def __init__(self, screen_factory: ScreenFactory, level: int, background: Optional[Background]):
         super().__init__([
             TextMenuItem("RESUME GAME", lambda: None),
             TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level)),

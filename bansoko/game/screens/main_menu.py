@@ -1,11 +1,12 @@
 """
 Module exposing a main menu screen.
 """
+from typing import Optional
 
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.graphics.background import Background
+from bansoko.graphics.text import draw_text, TextStyle
 from bansoko.gui.menu import MenuScreen, TextMenuItem
-from graphics.background import Background
-from graphics.text import draw_text, TextStyle
 
 
 class MainMenuScreen(MenuScreen):
@@ -19,7 +20,7 @@ class MainMenuScreen(MenuScreen):
         background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, background: Background):
+    def __init__(self, screen_factory: ScreenFactory, background: Optional[Background]):
         super().__init__([
             TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(0)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),

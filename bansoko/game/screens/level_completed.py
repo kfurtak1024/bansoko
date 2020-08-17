@@ -1,12 +1,14 @@
 """
 Module exposing a game screen which is displayed when level is completed.
 """
+from typing import Optional
+
 import pyxel
 
 from bansoko.game.level import LevelStatistics
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.graphics.background import Background
 from bansoko.gui.menu import MenuScreen, TextMenuItem
-from graphics.background import Background
 
 
 class LevelCompletedScreen(MenuScreen):
@@ -22,7 +24,7 @@ class LevelCompletedScreen(MenuScreen):
     """
 
     def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics,
-                 background: Background):
+                 background: Optional[Background]):
         current_level = level_stats.level_num
         next_level = current_level + 1
         super().__init__([

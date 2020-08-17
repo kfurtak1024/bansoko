@@ -1,11 +1,12 @@
 import json
-from typing import NamedTuple, List, Dict
+from typing import NamedTuple, List, Dict, Optional
 
-from game.level import LevelTemplate
-from game.tiles import TileSet
-from graphics import Rect, Point
-from graphics.background import Background, BackgroundElement
-from graphics.sprite import Sprite
+from bansoko.game.level import LevelTemplate
+from bansoko.game.tiles import TileSet
+from bansoko.graphics import Rect, Point
+from bansoko.graphics.background import Background, BackgroundElement
+from bansoko.graphics.sprite import Sprite
+
 
 # TODO: This is the most messy part so far!
 
@@ -15,18 +16,18 @@ class Bundle(NamedTuple):
     backgrounds: Dict[str, Background]
     level_templates: List[LevelTemplate]
 
-    def get_sprite(self, sprite: int) -> Sprite:
+    def get_sprite(self, sprite: int) -> Optional[Sprite]:
         return self.sprites[sprite] if sprite < len(self.sprites) else None
 
-    def get_background(self, name: str) -> Background:
+    def get_background(self, name: str) -> Optional[Background]:
         return self.backgrounds.get(name, None)
 
-    def get_level_template(self, template: int) -> LevelTemplate:
+    def get_level_template(self, template: int) -> Optional[LevelTemplate]:
         return self.level_templates[template] if template < len(self.level_templates) else None
 
 
-def load_bundle(metadata_file: str) -> Bundle:
-    with open(metadata_file) as metadata_file:
+def load_bundle(metadata_filename: str) -> Bundle:
+    with open(metadata_filename) as metadata_file:
         metadata = json.load(metadata_file)
         sprites = _load_sprites(metadata["sprites"])
         backgrounds = _load_backgrounds(metadata["backgrounds"], sprites)

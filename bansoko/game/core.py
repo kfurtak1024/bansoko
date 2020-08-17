@@ -3,8 +3,8 @@ from typing import List, Iterable, Optional
 
 import pyxel
 
-from game.level import LevelTemplate, LevelStatistics, LEVEL_SIZE, TILE_SIZE
-from game.tiles import Direction, TilePosition
+from bansoko.game.level import LevelTemplate, LevelStatistics, LEVEL_SIZE, TILE_SIZE
+from bansoko.game.tiles import Direction, TilePosition
 
 
 class Movement:

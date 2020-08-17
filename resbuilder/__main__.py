@@ -18,10 +18,10 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from processors.background_processor import process_backgrounds
-from processors.level_processor import process_levels
-from processors.level_theme_processor import generate_level_themes, process_level_themes
-from processors.sprite_processor import process_sprites
+from resbuilder.processors.background_processor import process_backgrounds
+from resbuilder.processors.level_processor import process_levels
+from resbuilder.processors.level_theme_processor import generate_level_themes, process_level_themes
+from resbuilder.processors.sprite_processor import process_sprites
 
 
 def configure_logger(verbose: bool):
@@ -46,7 +46,7 @@ def generate_file_names(input_file: str, out_dir: str) -> FileNames:
     base_name = Path(source_file).stem
     resource_file = Path(out_dir).joinpath(base_name + ".pyxres").resolve()
     resource_meta_file = Path(out_dir).joinpath(base_name + ".meta").resolve()
-    return FileNames(source_file, source_dir, resource_file, resource_meta_file)
+    return FileNames(str(source_file), str(source_dir), str(resource_file), str(resource_meta_file))
 
 
 if __name__ == "__main__":

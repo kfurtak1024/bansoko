@@ -4,7 +4,7 @@ Module for game screens management.
 import abc
 from typing import Optional
 
-from graphics.background import Background
+from bansoko.graphics.background import Background
 
 
 class Screen(abc.ABC):

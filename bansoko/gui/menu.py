@@ -8,9 +8,9 @@ from typing import Callable, List, Optional, Iterable
 
 from bansoko.graphics import Size, Point, max_size, center_in_rect
 from bansoko.graphics.text import draw_text, text_size, TextStyle
+from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
-from graphics.background import Background
 
 
 class MenuItem(ABC):
@@ -23,7 +23,7 @@ class MenuItem(ABC):
         pass
 
     @abstractmethod
-    def perform_action(self) -> Screen:
+    def perform_action(self) -> Optional[Screen]:
         pass
 
 
@@ -42,7 +42,7 @@ class TextMenuItem(MenuItem):
         style = self.selected_text_style if selected else self.text_style
         draw_text(position.x, position.y, self.__get_item_text(selected), style)
 
-    def perform_action(self) -> Screen:
+    def perform_action(self) -> Optional[Screen]:
         return self.screen_to_switch_to()
 
     def __get_item_text(self, selected: bool = False) -> str:

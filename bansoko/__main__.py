@@ -16,9 +16,9 @@ import pyxel
 from docopt import docopt
 
 from bansoko import GAME_TITLE, GAME_FRAME_RATE, VERSION
+from bansoko.game.bundle import load_bundle
 from bansoko.game.context import GameContext
 from bansoko.gui.screen import ScreenController
-from game.bundle import load_bundle
 
 
 class FileNames(NamedTuple):
@@ -31,7 +31,7 @@ def generate_file_names(bundle_name: str) -> FileNames:
     gamedata_path = base_path.joinpath("gamedata")
     resource_file = gamedata_path.joinpath(bundle_name + ".pyxres").resolve()
     metadata_file = gamedata_path.joinpath(bundle_name + ".meta").resolve()
-    return FileNames(resource_file, metadata_file)
+    return FileNames(str(resource_file), str(metadata_file))
 
 
 def main() -> None:

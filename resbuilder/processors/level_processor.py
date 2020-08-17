@@ -4,8 +4,8 @@ from typing import List
 
 import pyxel
 
-from processors.level_theme_processor import LevelTheme
-from processors.tile_processor import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
+from resbuilder.processors.level_theme_processor import LevelTheme
+from resbuilder.processors.tile_processor import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
 
 
 # TODO: Add error handling!

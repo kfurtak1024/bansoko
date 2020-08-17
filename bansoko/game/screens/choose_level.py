@@ -1,12 +1,14 @@
 """
 Module exposing a game screen for choosing a level to be played.
 """
+from typing import Optional
+
 import pyxel
 
+from bansoko.game.level import NUM_LEVELS
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.graphics.background import Background
 from bansoko.gui.menu import MenuScreen, TextMenuItem
-from game.level import NUM_LEVELS
-from graphics.background import Background
 
 
 class LevelMenuItem(TextMenuItem):
@@ -28,7 +30,7 @@ class ChooseLevelScreen(MenuScreen):
         background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, background: Background):
+    def __init__(self, screen_factory: ScreenFactory, background: Optional[Background]):
         super().__init__([
             LevelMenuItem(level_num, screen_factory) for level_num in range(NUM_LEVELS)
         ], columns=5, background=background)

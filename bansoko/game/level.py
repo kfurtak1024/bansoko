@@ -5,7 +5,7 @@ from typing import NamedTuple, List
 
 import pyxel
 
-from game.tiles import TilePosition, TileSet
+from bansoko.game.tiles import TilePosition, TileSet
 
 NUM_LEVELS: int = 60
 LEVEL_SIZE = 32

@@ -2,8 +2,8 @@ from typing import List, Optional, NamedTuple
 
 import pyxel
 
-from graphics import Point
-from graphics.sprite import Sprite
+from bansoko.graphics import Point
+from bansoko.graphics.sprite import Sprite
 
 
 class BackgroundElement(NamedTuple):
@@ -15,7 +15,7 @@ class BackgroundElement(NamedTuple):
 
 
 class Background(NamedTuple):
-    background_elements: List[BackgroundElement] = None
+    background_elements: Optional[List[BackgroundElement]] = None
     background_color: Optional[int] = None
 
     def draw(self):

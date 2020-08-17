@@ -5,12 +5,12 @@ from typing import Optional
 
 import pyxel
 
+from bansoko.game.core import Level
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.game.tiles import Direction
+from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
-from game.core import Level
-from game.tiles import Direction
-from graphics.background import Background
 
 
 class PlayfieldScreen(Screen):

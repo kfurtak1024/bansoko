@@ -1,3 +1,5 @@
+from bansoko.game.bundle import Bundle
+from bansoko.game.core import Level
 from bansoko.game.level import LevelStatistics
 from bansoko.game.screens.choose_level import ChooseLevelScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
@@ -6,8 +8,6 @@ from bansoko.game.screens.main_menu import MainMenuScreen
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.screen import Screen
-from game.bundle import Bundle
-from game.core import Level
 
 
 class GameContext(ScreenFactory):

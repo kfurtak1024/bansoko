@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 import pyxel
 
-from graphics import Rect, Point
+from bansoko.graphics import Rect, Point
 
 
 class Sprite(NamedTuple):
