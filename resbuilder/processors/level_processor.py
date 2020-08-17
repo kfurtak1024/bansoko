@@ -5,25 +5,25 @@ from typing import List
 import pyxel
 
 from processors.level_theme_processor import LevelTheme
-from processors.tile_processor import IMAGE_BANK_SIZE, Tile
+from processors.tile_processor import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
 
-LEVEL_SIZE = 32
 
 # TODO: Add error handling!
 
 
-def process_levels(levels, level_legend, level_themes: List[LevelTheme]):
-    thumbnails_image = pyxel.image(2) # TODO: Hard-coded image bank for thumbnails
+def process_levels(levels, level_themes: List[LevelTheme]):
+    thumbnails_image = pyxel.image(2)  # TODO: Hard-coded image bank for thumbnails
     levels_metadata = []
 
     for level_num, level in enumerate(levels):
         theme = level_themes[level_num % len(level_themes)]
 
-        preprocessed_level = _preprocess_level(level_num, level["data"], level_legend)
+        preprocessed_level = _preprocess_level(level_num, level["data"])
+        tilemap_uv = preprocessed_level.tilemap_uv
 
         for offset, tile in enumerate(preprocessed_level.tile_data):
             local_pos = preprocessed_level.offset_to_pos(offset)
-            tilemap_pos = Position(preprocessed_level.tilemap_uv.x + local_pos.x, preprocessed_level.tilemap_uv.y + local_pos.y)  # TODO: Waaaay to long line
+            tilemap_pos = Position(tilemap_uv.x + local_pos.x, tilemap_uv.y + local_pos.y)
 
             thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, theme.thumbnail_color(tile))
 
@@ -34,6 +34,9 @@ def process_levels(levels, level_legend, level_themes: List[LevelTheme]):
 
     return levels_metadata
 
+
+# TODO: Rename it!
+LEVEL_SIZE = 32
 
 Position = namedtuple("Position", ["x", "y"])
 
@@ -51,7 +54,8 @@ class PreprocessedLevel:
     @property
     def tilemap_uv(self) -> Position:
         u = (self.level_num * LEVEL_SIZE) % IMAGE_BANK_SIZE + (LEVEL_SIZE - self.width) / 2
-        v = (self.level_num // (IMAGE_BANK_SIZE / LEVEL_SIZE)) * LEVEL_SIZE + (LEVEL_SIZE - self.height) / 2
+        v = (self.level_num // (IMAGE_BANK_SIZE / LEVEL_SIZE)) * LEVEL_SIZE + (
+                    LEVEL_SIZE - self.height) / 2
         return Position(u, v)
 
     def get_tile_at(self, pos: Position) -> Tile:
@@ -96,26 +100,20 @@ class PreprocessedLevel:
             visited_map[self.pos_to_offset(pos)] = True
 
 
-def _preprocess_level(level_num: int, level_data, level_legend) -> PreprocessedLevel:
-    # TODO: Refactor this!
-    symbols_to_tiles = {
-        level_legend["cell_void"]: Tile.VOID,
-        level_legend["cell_wall"]: Tile.WALL,
-        level_legend["cell_player_start"]: Tile.PLAYER_START,
-        level_legend["cell_crate"]: Tile.INITIAL_CRATE_POSITION,
-        level_legend["cell_crate_placed"]: Tile.CRATE_INITIALLY_PLACED,
-        level_legend["cell_cargo_bay"]: Tile.CARGO_BAY
-    }
+def _preprocess_level(level_num: int, level_data) -> PreprocessedLevel:
+    # TODO: Add some validation at this point
+    flatten_data = [[SYMBOL_TO_TILE[symbol] for symbol in row_data] for row_data in level_data]
+    level_width = len(flatten_data[0])
+    level_height = len(flatten_data)
+    tile_data = list(itertools.chain.from_iterable(flatten_data))
 
-    data = [[symbols_to_tiles[cell] for cell in row_data] for row_data in level_data]
-
-    preprocessed_level = PreprocessedLevel(level_num, len(data[0]), len(data), list(itertools.chain.from_iterable(data)))
+    preprocessed_level = PreprocessedLevel(level_num, level_width, level_height, tile_data)
     preprocessed_level.flood_fill(preprocessed_level.player_start, Tile.FLOOR)
 
     return preprocessed_level
 
 
-# TODO: Move it to level_theme_processor
+# TODO: Level metadata should only contain reference to LevelTheme (not full LevelTheme)
 def __level_metadata(level_theme: LevelTheme):
     tiles_metadata = {}
     for tile in list(Tile):

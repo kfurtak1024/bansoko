@@ -10,20 +10,23 @@ TILE_SIZE = 8
 
 @unique
 class Tile(Enum):
-    VOID = 0, "tile_void", "color_void"
-    WALL = 1, "tile_wall", "color_wall"
-    PLAYER_START = 2, "tile_player_start", "color_player_start"
-    FLOOR = 3, "tile_floor", "color_floor"
-    INITIAL_CRATE_POSITION = 4, "tile_initial_crate_position", "color_initial_crate_position"
-    CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed", "color_crate_initially_placed"
-    CARGO_BAY = 6, "tile_cargo_bay", "color_cargo_bay"
+    VOID = 0, "tile_void", " "
+    WALL = 1, "tile_wall", "X"
+    PLAYER_START = 2, "tile_player_start", "@"
+    FLOOR = 3, "tile_floor", "."
+    INITIAL_CRATE_POSITION = 4, "tile_initial_crate_position", "#"
+    CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed", "&"
+    CARGO_BAY = 6, "tile_cargo_bay", "+"
 
-    def __new__(cls, keycode: int, theme_tile_name: str, thumbnail_color_name):
+    def __new__(cls, keycode: int, theme_tile_name: str, text_symbol: str):
         obj = object.__new__(cls)
         obj._value_ = keycode
         obj.theme_item_name = theme_tile_name
-        obj.thumbnail_color_name = thumbnail_color_name
+        obj.text_symbol = text_symbol
         return obj
+
+
+SYMBOL_TO_TILE = {tile.text_symbol: tile for tile in list(Tile)}
 
 
 class TileSetPacker:

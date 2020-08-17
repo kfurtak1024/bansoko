@@ -1183,14 +1183,6 @@
       ]
     }
   ],
-  "level_legend": {
-    "cell_void": " ",
-    "cell_wall": "X",
-    "cell_player_start": "@",
-    "cell_crate": "#",
-    "cell_crate_placed": "&",
-    "cell_cargo_bay": "+"
-  },
   "level_themes": {
     "tiles_image_bank": 0,
     "themes": [
@@ -1214,14 +1206,14 @@
             }
           ]
         },
-        "thumbnail": {
-          "color_void": "0",
-          "color_wall": "5",
-          "color_floor": "7",
-          "color_player_start": "E",
-          "color_initial_crate_position": "A",
-          "color_crate_initially_placed": "A",
-          "color_cargo_bay": "B"
+        "thumbnail_colors": {
+          "tile_void": "0",
+          "tile_wall": "5",
+          "tile_floor": "7",
+          "tile_player_start": "E",
+          "tile_initial_crate_position": "A",
+          "tile_crate_initially_placed": "A",
+          "tile_cargo_bay": "B"
         }
       },
       {
@@ -1244,14 +1236,14 @@
             }
           ]
         },
-        "thumbnail": {
-          "color_void": "0",
-          "color_wall": "5",
-          "color_floor": "7",
-          "color_player_start": "E",
-          "color_initial_crate_position": "A",
-          "color_crate_initially_placed": "A",
-          "color_cargo_bay": "B"
+        "thumbnail_colors": {
+          "tile_void": "0",
+          "tile_wall": "5",
+          "tile_floor": "7",
+          "tile_player_start": "E",
+          "tile_initial_crate_position": "A",
+          "tile_crate_initially_placed": "A",
+          "tile_cargo_bay": "B"
         }
       },
       {
@@ -1274,14 +1266,14 @@
             }
           ]
         },
-        "thumbnail": {
-          "color_void": "0",
-          "color_wall": "5",
-          "color_floor": "7",
-          "color_player_start": "E",
-          "color_initial_crate_position": "A",
-          "color_crate_initially_placed": "A",
-          "color_cargo_bay": "B"
+        "thumbnail_colors": {
+          "tile_void": "0",
+          "tile_wall": "5",
+          "tile_floor": "7",
+          "tile_player_start": "E",
+          "tile_initial_crate_position": "A",
+          "tile_crate_initially_placed": "A",
+          "tile_cargo_bay": "B"
         }
       },
       {
@@ -1304,14 +1296,14 @@
             }
           ]
         },
-        "thumbnail": {
-          "color_void": "0",
-          "color_wall": "5",
-          "color_floor": "7",
-          "color_player_start": "E",
-          "color_initial_crate_position": "A",
-          "color_crate_initially_placed": "A",
-          "color_cargo_bay": "B"
+        "thumbnail_colors": {
+          "tile_void": "0",
+          "tile_wall": "5",
+          "tile_floor": "7",
+          "tile_player_start": "E",
+          "tile_initial_crate_position": "A",
+          "tile_crate_initially_placed": "A",
+          "tile_cargo_bay": "B"
         }
       },
       {
@@ -1334,14 +1326,14 @@
             }
           ]
         },
-        "thumbnail": {
-          "color_void": "0",
-          "color_wall": "5",
-          "color_floor": "7",
-          "color_player_start": "E",
-          "color_initial_crate_position": "A",
-          "color_crate_initially_placed": "A",
-          "color_cargo_bay": "B"
+        "thumbnail_colors": {
+          "tile_void": "0",
+          "tile_wall": "5",
+          "tile_floor": "7",
+          "tile_player_start": "E",
+          "tile_initial_crate_position": "A",
+          "tile_crate_initially_placed": "A",
+          "tile_cargo_bay": "B"
         }
       }
     ]

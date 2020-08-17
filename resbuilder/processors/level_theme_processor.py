@@ -37,7 +37,7 @@ def generate_level_themes(base_dir: str, data) -> List[LevelTheme]:
         themes.append(LevelTheme(
             tile_void,
             layers,
-            _extract_thumbnail_colors(level_theme_data["thumbnail"])
+            _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
         ))
 
     return themes
@@ -47,6 +47,6 @@ def _extract_thumbnail_colors(data) -> Dict[Tile, int]:
     thumbnail_colors: Dict[Tile, int] = {}
 
     for tile in list(Tile):
-        thumbnail_colors[tile] = data[tile.thumbnail_color_name]
+        thumbnail_colors[tile] = data[tile.theme_item_name]
 
     return thumbnail_colors
