@@ -1,4 +1,4 @@
-from typing import NamedTuple, List
+from typing import NamedTuple
 
 
 class Size(NamedTuple):

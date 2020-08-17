@@ -1,3 +1,6 @@
+"""
+Module exposing tile-related types.
+"""
 from enum import Enum, unique, IntEnum
 from typing import NamedTuple, Dict
 

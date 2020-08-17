@@ -31,8 +31,8 @@ class MenuItem(ABC):
 class TextMenuItem(MenuItem):
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
         self.text = text
-        self.text_style = TextStyle(color=7, shadow=True)
-        self.selected_text_style = TextStyle(color=10, shadow=True)
+        self.text_style = TextStyle(color=7, shadow_color=1)
+        self.selected_text_style = TextStyle(color=10, shadow_color=1)
         self.screen_to_switch_to = screen_to_switch_to
 
     def size(self) -> Size:
@@ -87,8 +87,8 @@ class MenuScreen(Screen):
         if self.input.is_button_pressed(VirtualButton.UP) and move_up_possible:
             self.selected_item = self.selected_item - self.columns
 
-        move_down_possible = (selected_row < self.rows - 1) and (
-                self.selected_item + self.columns < len(self.items))
+        move_down_possible = (selected_row < self.rows - 1) and \
+                             (self.selected_item + self.columns < len(self.items))
         if self.input.is_button_pressed(VirtualButton.DOWN) and move_down_possible:
             self.selected_item = self.selected_item + self.columns
 
@@ -98,8 +98,8 @@ class MenuScreen(Screen):
         if self.input.is_button_pressed(VirtualButton.LEFT) and move_left_possible:
             self.selected_item = self.selected_item - 1
 
-        move_right_possible = (selected_column < self.columns - 1) and (
-                self.selected_item + 1 < len(self.items))
+        move_right_possible = (selected_column < self.columns - 1) and \
+                              (self.selected_item + 1 < len(self.items))
         if self.input.is_button_pressed(VirtualButton.RIGHT) and move_right_possible:
             self.selected_item = self.selected_item + 1
 

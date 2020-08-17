@@ -1,3 +1,6 @@
+"""
+Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates.
+"""
 import json
 from typing import NamedTuple, List, Dict, Optional
 
@@ -29,17 +32,17 @@ class Bundle(NamedTuple):
 def load_bundle(metadata_filename: str) -> Bundle:
     with open(metadata_filename) as metadata_file:
         metadata = json.load(metadata_file)
-        sprites = _load_sprites(metadata["sprites"])
-        backgrounds = _load_backgrounds(metadata["backgrounds"], sprites)
+        sprites = load_sprites(metadata["sprites"])
+        backgrounds = load_backgrounds(metadata["backgrounds"], sprites)
 
         # TODO: Refactor it!!!
         level_themes = metadata["level_themes"]
-        level_templates = _load_level_templates(metadata["levels"], level_themes)
+        level_templates = load_level_templates(metadata["levels"], level_themes)
 
         return Bundle(sprites, backgrounds, level_templates)
 
 
-def _load_sprites(input_data) -> List[Sprite]:
+def load_sprites(input_data) -> List[Sprite]:
     # TODO: Under construction!
     sprites: List[Sprite] = []
     for sprite_data in input_data:
@@ -49,7 +52,7 @@ def _load_sprites(input_data) -> List[Sprite]:
     return sprites
 
 
-def _load_backgrounds(input_data, sprites: List[Sprite]) -> Dict[str, Background]:
+def load_backgrounds(input_data, sprites: List[Sprite]) -> Dict[str, Background]:
     # TODO: Under construction!
     backgrounds = {}
 
@@ -66,7 +69,7 @@ def _load_backgrounds(input_data, sprites: List[Sprite]) -> Dict[str, Background
     return backgrounds
 
 
-def _load_level_templates(input_data, level_themes) -> List[LevelTemplate]:
+def load_level_templates(input_data, level_themes) -> List[LevelTemplate]:
     # TODO: Under construction!
     level_templates = []
     for level_num, level in enumerate(input_data):

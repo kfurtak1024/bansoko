@@ -1,3 +1,6 @@
+"""
+Module defining game context shared between all game screens.
+"""
 from bansoko.game.bundle import Bundle
 from bansoko.game.core import Level
 from bansoko.game.level import LevelStatistics

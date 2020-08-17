@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 
 import pyxel
 
@@ -7,7 +7,7 @@ from bansoko.graphics import Size
 
 class TextStyle(NamedTuple):
     color: int = 7
-    shadow: bool = False
+    shadow_color: Optional[int] = None
     vertical_space: int = 0
 
 
@@ -57,7 +57,7 @@ def draw_text(x0: int, y0: int, text: str, style: TextStyle) -> None:
             current_color = int(char, 16)
             color_tag = False
         else:
-            if style.shadow:
-                pyxel.text(x + 1, y + 1, char, 0)
+            if style.shadow_color is not None:
+                pyxel.text(x + 1, y + 1, char, style.shadow_color)
             pyxel.text(x, y, char, current_color)
             x += pyxel.FONT_WIDTH

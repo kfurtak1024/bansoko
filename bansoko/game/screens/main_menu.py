@@ -29,4 +29,4 @@ class MainMenuScreen(MenuScreen):
 
     def draw(self) -> None:
         super().draw()
-        draw_text(80, 240, "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow=True))
+        draw_text(80, 240, "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
