@@ -1,3 +1,4 @@
+import itertools
 from collections import namedtuple
 from typing import List
 
@@ -7,102 +8,117 @@ from processors.level_theme_processor import LevelTheme
 from processors.tile_processor import IMAGE_BANK_SIZE, Tile
 
 LEVEL_SIZE = 32
-LEVEL_THUMBNAIL_SIZE = 32
+
+# TODO: Add error handling!
 
 
 def process_levels(levels, level_legend, level_themes: List[LevelTheme]):
-    image_bank = 2  # TODO: Hard-coded image bank for thumbnails
-    image = pyxel.image(image_bank)
+    thumbnails_image = pyxel.image(2) # TODO: Hard-coded image bank for thumbnails
     levels_metadata = []
-    level_num = 0
 
-    for level in levels:
+    for level_num, level in enumerate(levels):
         theme = level_themes[level_num % len(level_themes)]
-        symbols_to_colors = {
-            level_legend["cell_void"]: theme.thumbnail_color(Tile.VOID),
-            level_legend["cell_wall"]: theme.thumbnail_color(Tile.WALL),
-            level_legend["cell_player_start"]: theme.thumbnail_color(Tile.PLAYER_START),
-            level_legend["cell_crate"]: theme.thumbnail_color(Tile.INITIAL_CRATE_POSITION),
-            level_legend["cell_crate_placed"]: theme.thumbnail_color(Tile.CRATE_INITIALLY_PLACED),
-            level_legend["cell_cargo_bay"]: theme.thumbnail_color(Tile.CARGO_BAY)
-        }
-        level_height = len(level["data"])
-        y = __level_thumbnail_y(level_num, level_height)
-        start_x = -1
-        start_y = -1
-        for data_row in level["data"]:
-            level_width = len(data_row)
-            x = __level_thumbnail_x(level_num, level_width)
-            for symbol in data_row:
-                if symbol in symbols_to_colors:
-                    image.set(x, y, symbols_to_colors[symbol])
 
-                for layer in range(0, theme.num_layers):
-                    symbols_to_tiles = {
-                        level_legend["cell_void"]: theme.tile_id(layer, Tile.VOID),
-                        level_legend["cell_wall"]: theme.tile_id(layer, Tile.WALL),
-                        level_legend["cell_player_start"]: theme.tile_id(layer, Tile.PLAYER_START),
-                        level_legend["cell_crate"]: theme.tile_id(layer, Tile.INITIAL_CRATE_POSITION),
-                        level_legend["cell_crate_placed"]: theme.tile_id(
-                            layer, Tile.CRATE_INITIALLY_PLACED),
-                        level_legend["cell_cargo_bay"]: theme.tile_id(layer, Tile.CARGO_BAY)
-                    }
-                    pyxel.tilemap(layer).set(x, y, symbols_to_tiles[symbol])
+        preprocessed_level = _preprocess_level(level_num, level["data"], level_legend)
 
-                if symbol == level_legend["cell_player_start"]:
-                    start_x = x
-                    start_y = y
-                x = x + 1
-            y = y + 1
+        for offset, tile in enumerate(preprocessed_level.tile_data):
+            local_pos = preprocessed_level.offset_to_pos(offset)
+            tilemap_pos = Position(preprocessed_level.tilemap_uv.x + local_pos.x, preprocessed_level.tilemap_uv.y + local_pos.y)  # TODO: Waaaay to long line
 
-        __flood_fill(start_x, start_y, 0, image, theme)
+            thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, theme.thumbnail_color(tile))
+
+            for layer in range(0, theme.num_layers):
+                pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
 
         levels_metadata.append({"tiles": __level_metadata(theme)})
-        level_num = level_num + 1
 
     return levels_metadata
 
 
+Position = namedtuple("Position", ["x", "y"])
+
+
+class PreprocessedLevel:
+    def __init__(self, level_num: int, width: int, height: int, tile_data: List[Tile]):
+        self.level_num = level_num
+        self.tile_data = tile_data
+        self.width = width
+        self.height = height
+        # TODO: Find player start
+        self.player_start = self.offset_to_pos(self.tile_data.index(Tile.PLAYER_START))
+
+    # TODO: Return int!!
+    @property
+    def tilemap_uv(self) -> Position:
+        u = (self.level_num * LEVEL_SIZE) % IMAGE_BANK_SIZE + (LEVEL_SIZE - self.width) / 2
+        v = (self.level_num // (IMAGE_BANK_SIZE / LEVEL_SIZE)) * LEVEL_SIZE + (LEVEL_SIZE - self.height) / 2
+        return Position(u, v)
+
+    def get_tile_at(self, pos: Position) -> Tile:
+        return self.tile_data[self.pos_to_offset(pos)]
+
+    def set_tile_at(self, pos: Position, tile: Tile) -> None:
+        self.tile_data[self.pos_to_offset(pos)] = tile
+
+    def offset_to_pos(self, offset: int) -> Position:
+        return Position(offset % self.width, offset // self.width)
+
+    def pos_to_offset(self, pos: Position) -> int:
+        return pos.y * self.width + pos.x
+
+    def valid_offset(self, offset: int) -> bool:
+        return (offset >= 0) and (offset < self.width * self.height)
+
+    def valid_pos(self, pos: Position) -> bool:
+        return self.valid_offset(self.pos_to_offset(pos))
+
+    def flood_fill(self, start: Position, fill_tile: Tile, impassable_tile: Tile = Tile.WALL,
+                   fillable_tile: Tile = Tile.VOID) -> None:
+        visited_map = [False] * (self.width * self.height)
+        stack = list()
+        stack.append(start)
+
+        while len(stack) > 0:
+            pos = stack.pop()
+            if not self.valid_pos(pos):
+                continue
+
+            passable_tile = not (self.get_tile_at(pos) == impassable_tile)
+            not_visited_yet = not visited_map[self.pos_to_offset(pos)]
+
+            if passable_tile and not_visited_yet:
+                if self.get_tile_at(pos) == fillable_tile:
+                    self.set_tile_at(pos, fill_tile)
+                stack.append(Position(pos.x - 1, pos.y))
+                stack.append(Position(pos.x + 1, pos.y))
+                stack.append(Position(pos.x, pos.y - 1))
+                stack.append(Position(pos.x, pos.y + 1))
+            visited_map[self.pos_to_offset(pos)] = True
+
+
+def _preprocess_level(level_num: int, level_data, level_legend) -> PreprocessedLevel:
+    # TODO: Refactor this!
+    symbols_to_tiles = {
+        level_legend["cell_void"]: Tile.VOID,
+        level_legend["cell_wall"]: Tile.WALL,
+        level_legend["cell_player_start"]: Tile.PLAYER_START,
+        level_legend["cell_crate"]: Tile.INITIAL_CRATE_POSITION,
+        level_legend["cell_crate_placed"]: Tile.CRATE_INITIALLY_PLACED,
+        level_legend["cell_cargo_bay"]: Tile.CARGO_BAY
+    }
+
+    data = [[symbols_to_tiles[cell] for cell in row_data] for row_data in level_data]
+
+    preprocessed_level = PreprocessedLevel(level_num, len(data[0]), len(data), list(itertools.chain.from_iterable(data)))
+    preprocessed_level.flood_fill(preprocessed_level.player_start, Tile.FLOOR)
+
+    return preprocessed_level
+
+
+# TODO: Move it to level_theme_processor
 def __level_metadata(level_theme: LevelTheme):
     tiles_metadata = {}
     for tile in list(Tile):
         tiles_metadata[tile.theme_item_name] = level_theme.tile_id(0, tile)
 
     return tiles_metadata
-
-
-def __level_thumbnail_x(level_num: int, level_width: int):
-    return (level_num * LEVEL_THUMBNAIL_SIZE) % IMAGE_BANK_SIZE \
-           + (LEVEL_THUMBNAIL_SIZE - level_width) / 2
-
-
-def __level_thumbnail_y(level_num: int, level_height: int):
-    return (level_num // (IMAGE_BANK_SIZE / LEVEL_THUMBNAIL_SIZE)) \
-           * LEVEL_THUMBNAIL_SIZE + (LEVEL_THUMBNAIL_SIZE - level_height) / 2
-
-
-Position = namedtuple("Position", ["x", "y"])
-
-# TODO: It should be done in pre-processing stage
-def __flood_fill(start_x: int, start_y: int, layer: int, thumbnails_image: pyxel.Image, level_theme: LevelTheme) -> None:
-    stack = list()
-    stack.append(Position(int(start_x), int(start_y)))
-
-    visited_map = [[False for i in range(LEVEL_SIZE)] for j in range(LEVEL_SIZE)]
-
-    while len(stack) > 0:
-        pos = stack.pop()
-        local_pos = Position(pos.x % LEVEL_SIZE, pos.y % LEVEL_SIZE)
-        pos_in_level_range = (local_pos.x >= 0) and (local_pos.x < LEVEL_SIZE) and (local_pos.y >= 0) and (local_pos.y < LEVEL_SIZE)
-        wall_at_pos = pyxel.tilemap(layer).get(pos.x, pos.y) == level_theme.tile_id(0, Tile.WALL)
-        not_visited_yet = not visited_map[local_pos.x][local_pos.y]
-
-        if not wall_at_pos and pos_in_level_range and not_visited_yet:
-            if pyxel.tilemap(layer).get(pos.x, pos.y) == level_theme.tile_id(0, Tile.VOID):
-                pyxel.tilemap(layer).set(pos.x, pos.y, level_theme.tile_id(0, Tile.FLOOR))
-                thumbnails_image.set(pos.x, pos.y, level_theme.thumbnail_color(Tile.FLOOR))
-            stack.append(Position(pos.x - 1, pos.y))
-            stack.append(Position(pos.x + 1, pos.y))
-            stack.append(Position(pos.x, pos.y - 1))
-            stack.append(Position(pos.x, pos.y + 1))
-        visited_map[pos.x % LEVEL_SIZE][pos.y % LEVEL_SIZE] = True
