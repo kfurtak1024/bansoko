@@ -53,6 +53,8 @@ class LevelTemplate:
                 elif self.tiles.is_player_start(tile):
                     self.player_pos = position
 
+    # TODO: Consider adding fromJson()
+
     @property
     def tile_map_u(self) -> int:
         return LEVEL_SIZE * (self.level_num % TILE_SIZE)

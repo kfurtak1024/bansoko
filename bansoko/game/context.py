@@ -17,8 +17,11 @@ class GameContext(ScreenFactory):
 
     def __init__(self, metadata):
         # TODO: Level templates should be initialized in a different place
+        level_themes = metadata["level_themes"]
+
         for level_num, level in enumerate(metadata["levels"]):
-            self.level_templates.append(LevelTemplate(level_num, TileSet(level["tiles"])))
+            # TODO: Refactor it!!!
+            self.level_templates.append(LevelTemplate(level_num, TileSet(level_themes[level["level_theme"]]["tiles"])))
 
     def get_main_menu(self) -> Screen:
         return MainMenuScreen(self)

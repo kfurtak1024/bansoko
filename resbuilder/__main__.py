@@ -20,7 +20,7 @@ from docopt import docopt
 
 from processors.background_processor import process_backgrounds
 from processors.level_processor import process_levels
-from processors.level_theme_processor import generate_level_themes
+from processors.level_theme_processor import generate_level_themes, process_level_themes
 from processors.sprite_processor import process_sprites
 
 
@@ -60,6 +60,7 @@ if __name__ == "__main__":
         input_data = json.load(input_file)
         metadata = {}
         level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
+        metadata["level_themes"] = process_level_themes(level_themes)
         logging.info(f"Processing levels...")
         metadata["levels"] = process_levels(input_data["levels"], level_themes)
         logging.info(f"Processing sprites...")

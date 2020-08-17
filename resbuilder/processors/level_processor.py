@@ -16,8 +16,8 @@ def process_levels(levels, level_themes: List[LevelTheme]):
     levels_metadata = []
 
     for level_num, level in enumerate(levels):
-        theme = level_themes[level_num % len(level_themes)]
-
+        theme_id = level_num % len(level_themes)
+        theme = level_themes[theme_id]
         preprocessed_level = _preprocess_level(level_num, level["data"])
         tilemap_uv = preprocessed_level.tilemap_uv
 
@@ -30,7 +30,7 @@ def process_levels(levels, level_themes: List[LevelTheme]):
             for layer in range(0, theme.num_layers):
                 pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
 
-        levels_metadata.append({"tiles": __level_metadata(theme)})
+        levels_metadata.append({"level_theme": theme_id})
 
     return levels_metadata
 
@@ -47,15 +47,13 @@ class PreprocessedLevel:
         self.tile_data = tile_data
         self.width = width
         self.height = height
-        # TODO: Find player start
         self.player_start = self.offset_to_pos(self.tile_data.index(Tile.PLAYER_START))
 
-    # TODO: Return int!!
     @property
     def tilemap_uv(self) -> Position:
         u = (self.level_num * LEVEL_SIZE) % IMAGE_BANK_SIZE + (LEVEL_SIZE - self.width) / 2
-        v = (self.level_num // (IMAGE_BANK_SIZE / LEVEL_SIZE)) * LEVEL_SIZE + (
-                    LEVEL_SIZE - self.height) / 2
+        v = (self.level_num // (IMAGE_BANK_SIZE // LEVEL_SIZE)) * LEVEL_SIZE + (
+                    LEVEL_SIZE - self.height) // 2
         return Position(u, v)
 
     def get_tile_at(self, pos: Position) -> Tile:
@@ -111,12 +109,3 @@ def _preprocess_level(level_num: int, level_data) -> PreprocessedLevel:
     preprocessed_level.flood_fill(preprocessed_level.player_start, Tile.FLOOR)
 
     return preprocessed_level
-
-
-# TODO: Level metadata should only contain reference to LevelTheme (not full LevelTheme)
-def __level_metadata(level_theme: LevelTheme):
-    tiles_metadata = {}
-    for tile in list(Tile):
-        tiles_metadata[tile.theme_item_name] = level_theme.tile_id(0, tile)
-
-    return tiles_metadata
