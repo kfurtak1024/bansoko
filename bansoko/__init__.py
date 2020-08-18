@@ -1,4 +1,12 @@
-"""Main Bansoko module that exposes game globals."""
+"""
+ _|_|_|      _|_|    _|      _|    _|_|_|    _|_|    _|    _|    _|_|
+ _|    _|  _|    _|  _|_|    _|  _|        _|    _|  _|  _|    _|    _|
+ _|_|_|    _|_|_|_|  _|  _|  _|    _|_|    _|    _|  _|_|      _|    _|
+ _|    _|  _|    _|  _|    _|_|        _|  _|    _|  _|  _|    _|    _|
+ _|_|_|    _|    _|  _|      _|  _|_|_|      _|_|    _|    _|    _|_|
+
+Main Bansoko module exposing game globals.
+"""
 
 
 GAME_TITLE = "Bansoko"

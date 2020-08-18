@@ -50,7 +50,6 @@ class TextMenuItem(MenuItem):
     Text-based menu item.
     It contains only label, which changes color when item is selected.
     """
-
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
         self.text = text
         self.text_style = TextStyle(color=7, shadow_color=1)

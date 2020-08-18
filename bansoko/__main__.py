@@ -23,32 +23,28 @@ from bansoko.gui.screen import ScreenController
 
 class FileNames(NamedTuple):
     """Container for resource and metadata file names."""
-
     resource_file: str
     metadata_file: str
 
 
-def generate_file_names(bundle_name: str) -> FileNames:
+def generate_file_names(base_name: str) -> FileNames:
     """
     Generate resource and metadata file names based on bundle name.
 
     Arguments:
-        bundle_name - name of bundle resource and metadata file names are based on
+        base_name - name of bundle resource and metadata file names are based on
 
     Returns:
         - instance of FileNames
     """
-
     base_path = Path(os.path.dirname(os.path.realpath(__file__)))
     gamedata_path = base_path.joinpath("gamedata")
-    resource_file = gamedata_path.joinpath(bundle_name + ".pyxres").resolve()
-    metadata_file = gamedata_path.joinpath(bundle_name + ".meta").resolve()
+    resource_file = gamedata_path.joinpath(base_name + ".pyxres").resolve()
+    metadata_file = gamedata_path.joinpath(base_name + ".meta").resolve()
     return FileNames(str(resource_file), str(metadata_file))
 
 
-def main() -> None:
-    """Initializes and starts the game."""
-
+if __name__ == "__main__":
     arguments = docopt(__doc__, version=VERSION)
     bundle_name = arguments["--bundle"]
     file_names = generate_file_names(bundle_name)
@@ -58,7 +54,3 @@ def main() -> None:
     game_context = GameContext(bundle)
     controller = ScreenController(game_context.get_main_menu(), pyxel.quit)
     pyxel.run(controller.update, controller.draw)
-
-
-if __name__ == "__main__":
-    main()

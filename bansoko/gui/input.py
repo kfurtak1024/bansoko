@@ -61,7 +61,6 @@ class InputSystem:
             - true - if button was pressed,
             - false - otherwise
         """
-
         return any(self.__is_key_pressed(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_down(self, button: VirtualButton) -> bool:
@@ -75,7 +74,6 @@ class InputSystem:
             - true - if button is down in current update frame,
             - false - otherwise
         """
-
         return any(self.__is_key_down(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_up(self, button: VirtualButton) -> bool:
@@ -89,7 +87,6 @@ class InputSystem:
             - true - if button is up in current update frame,
             - false - otherwise
         """
-
         return not self.is_button_down(button)
 
     def update(self) -> None:
@@ -97,7 +94,6 @@ class InputSystem:
         Update statuses of all watched keys.
         This needs to be called each frame.
         """
-
         for key in self.WATCHED_KEYS:
             if pyxel.btn(key):
                 if key not in self.pressed_keys and not pyxel.btnp(key):
@@ -111,7 +107,6 @@ class InputSystem:
         Reset the statuses of all watched keys.
         This should be called when focus switches to another screen.
         """
-
         self.pressed_keys.clear()
 
     def __is_key_pressed(self, key: int) -> bool:

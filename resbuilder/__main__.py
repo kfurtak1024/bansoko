@@ -25,6 +25,7 @@ from resbuilder.processors.sprite_processor import process_sprites
 
 
 def configure_logger(verbose: bool):
+    """Sets up a logger for Resource Builder according to value of verbose flag."""
     logging.basicConfig(
         format="%(levelname)s%(message)s",
         level=logging.INFO if verbose else logging.WARN)
@@ -34,6 +35,8 @@ def configure_logger(verbose: bool):
 
 
 class FileNames(NamedTuple):
+    """Container for directories and file names used by Resource Builder."""
+
     input_filename: str
     input_dir: str
     resource_filename: str

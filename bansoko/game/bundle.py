@@ -30,7 +30,6 @@ class Bundle(NamedTuple):
             - instance of Sprite with given id *OR*
             - None if there is no such a sprite in the bundle
         """
-
         return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
 
     def get_background(self, background_name: str) -> Optional[Background]:
@@ -44,7 +43,6 @@ class Bundle(NamedTuple):
             - instance of Background with given name *OR*
             - None if there is no such a background in the bundle
         """
-
         return self.backgrounds.get(background_name, None)
 
     def get_level_template(self, template_id: int) -> Optional[LevelTemplate]:
@@ -58,7 +56,6 @@ class Bundle(NamedTuple):
             - instance of LevelTemplate with given id *OR*
             - None if there is no such a template in the bundle
         """
-
         return self.level_templates[template_id] \
             if template_id < len(self.level_templates) else None
 
