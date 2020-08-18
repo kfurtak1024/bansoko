@@ -1,6 +1,4 @@
-"""
-Module defining game context shared between all game screens.
-"""
+"""Module defining game context shared between all game screens."""
 from bansoko.game.bundle import Bundle
 from bansoko.game.core import Level
 from bansoko.game.level import LevelStatistics
@@ -14,6 +12,8 @@ from bansoko.gui.screen import Screen
 
 
 class GameContext(ScreenFactory):
+    """GameContext is a screen factory that is shared between all game screens."""
+
     def __init__(self, bundle: Bundle):
         self.bundle = bundle
 

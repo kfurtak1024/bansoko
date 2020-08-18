@@ -1,6 +1,4 @@
-"""
-Module providing an abstraction over game screens creation.
-"""
+"""Module providing an abstraction over game screens creation."""
 from abc import ABC, abstractmethod
 
 from bansoko.game.level import LevelStatistics
@@ -16,20 +14,20 @@ class ScreenFactory(ABC):
 
     @abstractmethod
     def get_main_menu(self) -> Screen:
-        """Create a new instance of MainMenuScreen"""
+        """Create a new instance of MainMenu screen"""
 
     @abstractmethod
     def get_playfield_screen(self, level: int) -> Screen:
-        """Create a new instance of PlayfieldScreen"""
+        """Create a new instance of Playfield screen"""
 
     @abstractmethod
     def get_choose_level_screen(self) -> Screen:
-        """Create a new instance of ChooseLevelScreen"""
+        """Create a new instance of ChooseLevel screen"""
 
     @abstractmethod
     def get_game_paused_screen(self, level: int) -> Screen:
-        """Create a new instance of GamePausedScreen"""
+        """Create a new instance of GamePaused screen"""
 
     @abstractmethod
     def get_level_completed_screen(self, level_stats: LevelStatistics) -> Screen:
-        """Create a new instance of LevelCompletedScreen"""
+        """Create a new instance of LevelCompleted screen"""

@@ -37,14 +37,14 @@ def text_size(text: str, style: TextStyle) -> Size:
     return Size(text_width, text_height)
 
 
-def draw_text(x0: int, y0: int, text: str, style: TextStyle) -> None:
-    x = x0
-    y = y0
+def draw_text(start_x: int, start_y: int, text: str, style: TextStyle) -> None:
+    x = start_x
+    y = start_y
     current_color = style.color
     color_tag = False
     for char in text:
         if char == '\n':
-            x = x0
+            x = start_x
             y += pyxel.FONT_HEIGHT + style.vertical_space
             color_tag = False
             continue

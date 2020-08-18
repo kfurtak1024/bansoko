@@ -1,6 +1,4 @@
-"""
-Module exposing a game screen which is displayed when game is paused.
-"""
+"""Module defining a game screen which is displayed when game is paused."""
 from typing import Optional
 
 import pyxel

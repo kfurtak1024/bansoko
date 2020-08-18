@@ -1,6 +1,4 @@
-"""
-Module exposing a game screen for choosing a level to be played.
-"""
+"""Module defining game screen for choosing a level to be played."""
 from typing import Optional
 
 import pyxel

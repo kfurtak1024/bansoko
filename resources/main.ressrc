@@ -2,7 +2,7 @@
   "sprites": [
     {
       "image_bank": 1,
-      "image": "sprites/logo.png",
+      "image": "gui/logo.png",
       "image_rect": [0, 0, 215, 44]
     }
   ],

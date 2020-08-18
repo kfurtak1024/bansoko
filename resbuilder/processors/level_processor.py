@@ -52,8 +52,8 @@ class PreprocessedLevel:
     @property
     def tilemap_uv(self) -> Position:
         u = (self.level_num * LEVEL_SIZE) % IMAGE_BANK_SIZE + (LEVEL_SIZE - self.width) / 2
-        v = (self.level_num // (IMAGE_BANK_SIZE // LEVEL_SIZE)) * LEVEL_SIZE + (
-                    LEVEL_SIZE - self.height) // 2
+        v = (self.level_num // (IMAGE_BANK_SIZE // LEVEL_SIZE)) * LEVEL_SIZE \
+            + (LEVEL_SIZE - self.height) // 2
         return Position(u, v)
 
     def get_tile_at(self, pos: Position) -> Tile:
@@ -69,7 +69,7 @@ class PreprocessedLevel:
         return pos.y * self.width + pos.x
 
     def valid_offset(self, offset: int) -> bool:
-        return (offset >= 0) and (offset < self.width * self.height)
+        return 0 <= offset < (self.width * self.height)
 
     def valid_pos(self, pos: Position) -> bool:
         return self.valid_offset(self.pos_to_offset(pos))
@@ -85,7 +85,7 @@ class PreprocessedLevel:
             if not self.valid_pos(pos):
                 continue
 
-            passable_tile = not (self.get_tile_at(pos) == impassable_tile)
+            passable_tile = not self.get_tile_at(pos) == impassable_tile
             not_visited_yet = not visited_map[self.pos_to_offset(pos)]
 
             if passable_tile and not_visited_yet:

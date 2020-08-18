@@ -1,6 +1,4 @@
-"""
-Module exposing the main game screen.
-"""
+"""Module defining the main game screen."""
 from typing import Optional
 
 import pyxel

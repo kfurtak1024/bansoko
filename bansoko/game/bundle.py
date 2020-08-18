@@ -1,6 +1,4 @@
-"""
-Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates.
-"""
+"""Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
 import json
 from typing import NamedTuple, List, Dict, Optional
 
@@ -11,22 +9,61 @@ from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite
 
 
-# TODO: This is the most messy part so far!
-
-
 class Bundle(NamedTuple):
+    """
+    Bundle is a central repository of game resources (such as: sprites, backgrounds
+    and level templates).
+    """
+
     sprites: List[Sprite]
     backgrounds: Dict[str, Background]
     level_templates: List[LevelTemplate]
 
-    def get_sprite(self, sprite: int) -> Optional[Sprite]:
-        return self.sprites[sprite] if sprite < len(self.sprites) else None
+    def get_sprite(self, sprite_id: int) -> Optional[Sprite]:
+        """
+        Return sprite with given sprite id.
 
-    def get_background(self, name: str) -> Optional[Background]:
-        return self.backgrounds.get(name, None)
+        Arguments:
+            sprite_id - id of sprite to be retrieved
 
-    def get_level_template(self, template: int) -> Optional[LevelTemplate]:
-        return self.level_templates[template] if template < len(self.level_templates) else None
+        Returns:
+            - instance of Sprite with given id *OR*
+            - None if there is no such a sprite in the bundle
+        """
+
+        return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
+
+    def get_background(self, background_name: str) -> Optional[Background]:
+        """
+        Return background with given background name.
+
+        Arguments:
+            background_name - name of background to be retrieved
+
+        Returns:
+            - instance of Background with given name *OR*
+            - None if there is no such a background in the bundle
+        """
+
+        return self.backgrounds.get(background_name, None)
+
+    def get_level_template(self, template_id: int) -> Optional[LevelTemplate]:
+        """
+        Return level template with given template id.
+
+        Arguments:
+            template_id - id of template to be retrieved
+
+        Returns:
+            - instance of LevelTemplate with given id *OR*
+            - None if there is no such a template in the bundle
+        """
+
+        return self.level_templates[template_id] \
+            if template_id < len(self.level_templates) else None
+
+
+# TODO: This is the most messy part so far!
 
 
 def load_bundle(metadata_filename: str) -> Bundle:

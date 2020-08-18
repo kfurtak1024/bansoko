@@ -1,6 +1,4 @@
-"""
-Module exposing a main menu screen.
-"""
+"""Module defining main menu screen."""
 from typing import Optional
 
 from bansoko.game.screens.screen_factory import ScreenFactory

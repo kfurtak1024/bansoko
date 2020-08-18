@@ -1,6 +1,4 @@
-"""
-Module exposing basic system for input handling.
-"""
+"""Module exposing basic system for input handling."""
 from enum import unique, IntFlag
 from typing import Dict, List, Set
 
@@ -9,9 +7,8 @@ import pyxel
 
 @unique
 class VirtualButton(IntFlag):
-    """
-    Virtual button of a virtual game controller.
-    """
+    """Virtual button of a virtual game controller."""
+
     UP = 0x01
     DOWN = 0x02
     LEFT = 0x04
@@ -22,6 +19,12 @@ class VirtualButton(IntFlag):
 
 
 class InputSystem:
+    """
+    InputSystem is a wrapper around Pyxel's input handling.
+    It operates on VirtualButton which is an abstraction over physical buttons.
+    InputSystem needs to be updated by calling update() method in each frame.
+    """
+
     KEY_HOLD_TIME: int = 10
     KEY_PERIOD_TIME: int = 2
     BUTTONS_MAP: Dict[VirtualButton, List[int]] = {

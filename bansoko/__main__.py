@@ -22,11 +22,23 @@ from bansoko.gui.screen import ScreenController
 
 
 class FileNames(NamedTuple):
+    """Container for resource and metadata file names."""
+
     resource_file: str
     metadata_file: str
 
 
 def generate_file_names(bundle_name: str) -> FileNames:
+    """
+    Generate resource and metadata file names based on bundle name.
+
+    Arguments:
+        bundle_name - name of bundle resource and metadata file names are based on
+
+    Returns:
+        - instance of FileNames
+    """
+
     base_path = Path(os.path.dirname(os.path.realpath(__file__)))
     gamedata_path = base_path.joinpath("gamedata")
     resource_file = gamedata_path.joinpath(bundle_name + ".pyxres").resolve()
@@ -36,6 +48,7 @@ def generate_file_names(bundle_name: str) -> FileNames:
 
 def main() -> None:
     """Initializes and starts the game."""
+
     arguments = docopt(__doc__, version=VERSION)
     bundle_name = arguments["--bundle"]
     file_names = generate_file_names(bundle_name)

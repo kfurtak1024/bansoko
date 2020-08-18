@@ -1,11 +1,10 @@
-"""
-Module containing level related classes.
-"""
+"""Module containing level related classes."""
 from typing import NamedTuple, List
 
 import pyxel
 
 from bansoko.game.tiles import TilePosition, TileSet
+from bansoko.graphics.sprite import Sprite
 
 NUM_LEVELS: int = 60
 LEVEL_SIZE = 32
@@ -31,9 +30,15 @@ class LevelStatistics(NamedTuple):
     time: int = 0
 
 
+class LevelSprites(NamedTuple):
+    crate: Sprite
+    crate_placed: Sprite
+
+
 class LevelTemplate:
     level_num: int
     tiles: TileSet
+    # TODO: Add LevelSprites
     player_pos: TilePosition
     crates_pos: List[TilePosition]
 

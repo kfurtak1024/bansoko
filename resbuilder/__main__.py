@@ -34,19 +34,20 @@ def configure_logger(verbose: bool):
 
 
 class FileNames(NamedTuple):
-    input_file: str
+    input_filename: str
     input_dir: str
-    resource_file: str
-    metadata_file: str
+    resource_filename: str
+    metadata_filename: str
 
 
-def generate_file_names(input_file: str, out_dir: str) -> FileNames:
-    source_file = Path(input_file).resolve()
-    source_dir = Path(source_file).parent
-    base_name = Path(source_file).stem
-    resource_file = Path(out_dir).joinpath(base_name + ".pyxres").resolve()
-    resource_meta_file = Path(out_dir).joinpath(base_name + ".meta").resolve()
-    return FileNames(str(source_file), str(source_dir), str(resource_file), str(resource_meta_file))
+def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
+    source_file_path = Path(input_filename).resolve()
+    source_dir = source_file_path.parent
+    base_name = source_file_path.stem
+    resource_file_path = Path(out_dir).joinpath(base_name + ".pyxres").resolve()
+    metadata_file_path = Path(out_dir).joinpath(base_name + ".meta").resolve()
+    return FileNames(str(source_file_path), str(source_dir), str(resource_file_path),
+                     str(metadata_file_path))
 
 
 if __name__ == "__main__":
@@ -54,20 +55,21 @@ if __name__ == "__main__":
     files = generate_file_names(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
 
-    logging.info(f"Processing file '{files.input_file}'...")
-    with open(files.input_file) as input_file, open(files.metadata_file, "w") as metadata_file:
+    logging.info("Processing file '%s'...", files.input_filename)
+    with open(files.input_filename) as input_file,\
+         open(files.metadata_filename, "w") as metadata_file:
         pyxel.init(256, 256)
         input_data = json.load(input_file)
         metadata = {}
         level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
         metadata["level_themes"] = process_level_themes(level_themes)
-        logging.info(f"Processing levels...")
+        logging.info("Processing levels...")
         metadata["levels"] = process_levels(input_data["levels"], level_themes)
-        logging.info(f"Processing sprites...")
+        logging.info("Processing sprites...")
         metadata["sprites"] = process_sprites(files.input_dir, input_data["sprites"])
-        logging.info(f"Processing backgrounds...")
+        logging.info("Processing backgrounds...")
         metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"])
-        logging.info(f"Writing resource file '{files.resource_file}'...")
-        pyxel.save(files.resource_file)
-        logging.info(f"Writing meta data file '{files.metadata_file}'...")
+        logging.info("Writing resource file '%s'...", files.resource_filename)
+        pyxel.save(files.resource_filename)
+        logging.info("Writing metadata file '%s'...", files.metadata_filename)
         json.dump(metadata, metadata_file, indent=2)

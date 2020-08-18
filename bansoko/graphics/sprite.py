@@ -12,3 +12,11 @@ class Sprite(NamedTuple):
     def draw(self, position: Point):
         pyxel.blt(position.x, position.y, self.image_bank, self.image_rect.x, self.image_rect.y,
                   self.image_rect.w, self.image_rect.h)
+
+    @property
+    def width(self):
+        return self.image_rect.w
+
+    @property
+    def height(self):
+        return self.image_rect.h

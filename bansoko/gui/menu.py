@@ -1,40 +1,63 @@
-"""
-Module for game menus management.
-"""
+"""Module for game menus management."""
 from abc import ABC, abstractmethod
 from functools import reduce
 from itertools import islice
 from typing import Callable, List, Optional, Iterable
 
 from bansoko.graphics import Size, Point, max_size, center_in_rect
-from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.graphics.background import Background
+from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
 
 
 class MenuItem(ABC):
+    """An abstract, base class for all menu items controlled by MenuScreen."""
+
+    @property
     @abstractmethod
     def size(self) -> Size:
-        pass
+        """
+        Size (in pixels) of the menu item.
+        This property is used during layout
+        """
 
     @abstractmethod
     def draw(self, position: Point, selected: bool = False) -> None:
-        pass
+        """
+        Draw menu item at given position.
+
+        Arguments:
+            position - position to draw menu item at
+            selected - should the item be drawn as selected
+        """
 
     @abstractmethod
     def perform_action(self) -> Optional[Screen]:
-        pass
+        """
+        Perform action tied up to the menu item.
+        Navigation between game screens is controlled by return value.
+
+        Returns:
+            - instance of Screen class - switch to new screen *OR*
+            - None - switch to previous screen (exit menu screen)
+        """
 
 
 # TODO: Add horizontal space
 class TextMenuItem(MenuItem):
+    """
+    Text-based menu item.
+    It contains only label, which changes color when item is selected.
+    """
+
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
         self.text = text
         self.text_style = TextStyle(color=7, shadow_color=1)
         self.selected_text_style = TextStyle(color=10, shadow_color=1)
         self.screen_to_switch_to = screen_to_switch_to
 
+    @property
     def size(self) -> Size:
         return text_size(self.__get_item_text(selected=True), self.text_style)
 
@@ -61,7 +84,7 @@ class MenuScreen(Screen):
                  background: Optional[Background] = None):
         super().__init__(background)
         self.items = items
-        self.item_size = reduce(max_size, [item.size() for item in self.items])
+        self.item_size = reduce(max_size, [item.size for item in self.items])
         self.columns = columns
         self.rows = rows if rows else -(-len(items) // columns)
         self.top_item = 0

@@ -1,6 +1,4 @@
-"""
-Module exposing a game screen which is displayed when level is completed.
-"""
+"""Module defining game screen which is displayed when level is completed."""
 from typing import Optional
 
 import pyxel

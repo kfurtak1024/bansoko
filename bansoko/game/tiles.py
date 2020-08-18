@@ -1,6 +1,4 @@
-"""
-Module exposing tile-related types.
-"""
+"""Module exposing tile-related types."""
 from enum import Enum, unique, IntEnum
 from typing import NamedTuple, Dict
 
@@ -15,12 +13,17 @@ class TileType(IntEnum):
     CRATE_INITIALLY_PLACED = "tile_crate_initially_placed"
     CARGO_BAY = "tile_cargo_bay"
 
+    # TODO: Clean this mess
     def __new__(cls, tile_name: str):
         value = len(cls.__members__)
         obj = int.__new__(cls, value)
         obj._value_ = value
-        obj.tile_name = tile_name
+        obj.tile_name2 = tile_name
         return obj
+
+    @property
+    def tile_name(self):
+        return self.tile_name2
 
 
 class TileSet:
