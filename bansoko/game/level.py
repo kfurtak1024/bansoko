@@ -7,7 +7,10 @@ from bansoko.game.tiles import TilePosition, TileSet
 from bansoko.graphics.sprite import Sprite
 
 NUM_LEVELS: int = 60
-LEVEL_SIZE = 32
+
+# TODO: Should be taken from bundle
+LEVEL_WIDTH = 32
+LEVEL_HEIGHT = 32
 TILE_SIZE = 8
 
 
@@ -49,8 +52,8 @@ class LevelTemplate:
         tile_map = pyxel.tilemap(0)
         tile_map_u = self.tile_map_u
         tile_map_v = self.tile_map_v
-        for u in range(tile_map_u, tile_map_u + LEVEL_SIZE):
-            for v in range(tile_map_v, tile_map_v + LEVEL_SIZE):
+        for u in range(tile_map_u, tile_map_u + LEVEL_WIDTH):
+            for v in range(tile_map_v, tile_map_v + LEVEL_HEIGHT):
                 tile = tile_map.get(u, v)
                 position = TilePosition(u - tile_map_u, v - tile_map_v)
                 if self.tiles.is_crate(tile):
@@ -62,8 +65,8 @@ class LevelTemplate:
 
     @property
     def tile_map_u(self) -> int:
-        return LEVEL_SIZE * (self.level_num % TILE_SIZE)
+        return LEVEL_WIDTH * (self.level_num % TILE_SIZE)
 
     @property
     def tile_map_v(self) -> int:
-        return LEVEL_SIZE * (self.level_num // TILE_SIZE)
+        return LEVEL_HEIGHT * (self.level_num // TILE_SIZE)

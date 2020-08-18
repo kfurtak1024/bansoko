@@ -3,7 +3,7 @@ from typing import List, Iterable, Optional
 
 import pyxel
 
-from bansoko.game.level import LevelTemplate, LevelStatistics, LEVEL_SIZE, TILE_SIZE
+from bansoko.game.level import LevelTemplate, LevelStatistics, TILE_SIZE, LEVEL_HEIGHT, LEVEL_WIDTH
 from bansoko.game.tiles import Direction, TilePosition
 
 
@@ -61,7 +61,9 @@ class Crate(GameObject):
         y = self.tile_position.tile_y * TILE_SIZE
         dx = 0 if not self.movement else self.movement.delta_x()
         dy = 0 if not self.movement else self.movement.delta_y()
+        # TODO: Add sprite for crates
         pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 10)
+        pyxel.blt(x + dx - 2, y + dy - 2, 1, 0, 44, 10, 10, 0)
 
 
 class Player(GameObject):
@@ -71,6 +73,7 @@ class Player(GameObject):
         y = self.tile_position.tile_y * TILE_SIZE
         dx = 0 if not self.movement else self.movement.delta_x()
         dy = 0 if not self.movement else self.movement.delta_y()
+        # TODO: Add sprite for player
         pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 11)
 
 
@@ -115,5 +118,5 @@ class Level:
     def _draw_tilemap(self, x: int, y: int, tilemap: int, colkey: int = -1):
         pyxel.clip(15, 27, 256 - 15 - 15, 256 - 48 - 27)
         pyxel.bltm(x, y, tilemap, self.level_template.tile_map_u, self.level_template.tile_map_v,
-                   LEVEL_SIZE, LEVEL_SIZE, colkey)
+                   LEVEL_WIDTH, LEVEL_HEIGHT, colkey)
         pyxel.clip()

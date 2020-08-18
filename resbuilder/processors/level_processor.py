@@ -24,7 +24,6 @@ def process_levels(levels, level_themes: List[LevelTheme]):
         for offset, tile in enumerate(preprocessed_level.tile_data):
             local_pos = preprocessed_level.offset_to_pos(offset)
             tilemap_pos = Position(tilemap_uv.x + local_pos.x, tilemap_uv.y + local_pos.y)
-
             thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, theme.thumbnail_color(tile))
 
             for layer in range(0, theme.num_layers):
@@ -35,8 +34,8 @@ def process_levels(levels, level_themes: List[LevelTheme]):
     return levels_metadata
 
 
-# TODO: Rename it!
-LEVEL_SIZE = 32
+LEVEL_WIDTH = 32
+LEVEL_HEIGHT = 32
 
 Position = namedtuple("Position", ["x", "y"])
 
@@ -51,9 +50,11 @@ class PreprocessedLevel:
 
     @property
     def tilemap_uv(self) -> Position:
-        u = (self.level_num * LEVEL_SIZE) % IMAGE_BANK_SIZE + (LEVEL_SIZE - self.width) / 2
-        v = (self.level_num // (IMAGE_BANK_SIZE // LEVEL_SIZE)) * LEVEL_SIZE \
-            + (LEVEL_SIZE - self.height) // 2
+        levels_horizontally = IMAGE_BANK_SIZE // LEVEL_WIDTH
+        u = (self.level_num % levels_horizontally) * LEVEL_WIDTH \
+            + (LEVEL_WIDTH - self.width) // 2
+        v = (self.level_num // levels_horizontally) * LEVEL_HEIGHT \
+            + (LEVEL_HEIGHT - self.height) // 2
         return Position(u, v)
 
     def get_tile_at(self, pos: Position) -> Tile:
