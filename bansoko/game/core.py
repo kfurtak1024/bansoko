@@ -3,7 +3,8 @@ from typing import List, Iterable, Optional
 
 import pyxel
 
-from bansoko.game.level import LevelTemplate, LevelStatistics, TILE_SIZE, LEVEL_HEIGHT, LEVEL_WIDTH
+from bansoko.game.level import LevelTemplate, LevelStatistics, TILE_SIZE, LEVEL_HEIGHT, LEVEL_WIDTH, \
+    LevelLayer
 from bansoko.game.tiles import Direction, TilePosition
 
 
@@ -48,33 +49,32 @@ class GameObject:
                 self.tile_position = self.tile_position.move(self.movement.direction)
                 self.movement = None
 
-    def draw(self) -> None:
+    def draw(self, layer: LevelLayer) -> None:
         pass
 
 
 class Crate(GameObject):
     in_place: bool = False
 
-    def draw(self) -> None:
+    def draw(self, layer: LevelLayer) -> None:
         # TODO: Promote coordinates calculation to GameObject
         x = self.tile_position.tile_x * TILE_SIZE
         y = self.tile_position.tile_y * TILE_SIZE
         dx = 0 if not self.movement else self.movement.delta_x()
         dy = 0 if not self.movement else self.movement.delta_y()
         # TODO: Add sprite for crates
-        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 10)
-        pyxel.blt(x + dx - 2, y + dy - 2, 1, 0, 44, 10, 10, 0)
+        pyxel.rect(x + dx + layer.offset.x, y + dy + layer.offset.y, TILE_SIZE, TILE_SIZE, 10)
 
 
 class Player(GameObject):
-    def draw(self) -> None:
+    def draw(self, layer: LevelLayer) -> None:
         # TODO: Promote coordinates calculation to GameObject
         x = self.tile_position.tile_x * TILE_SIZE
         y = self.tile_position.tile_y * TILE_SIZE
         dx = 0 if not self.movement else self.movement.delta_x()
         dy = 0 if not self.movement else self.movement.delta_y()
         # TODO: Add sprite for player
-        pyxel.rect(x + dx, y + dy, TILE_SIZE, TILE_SIZE, 11)
+        pyxel.rect(x + dx + layer.offset.x, y + dy + layer.offset.x, TILE_SIZE, TILE_SIZE, 11)
 
 
 # TODO: Level should become Game *and* LevelTemplate should become Level?
@@ -101,22 +101,29 @@ class Level:
         self.player.move(direction)
 
     def update(self) -> None:
-        for game_object in self._game_objects():
+        for game_object in self.game_objects:
             game_object.update()
 
     def draw(self) -> None:
         # TODO: Add offset to tile_map so it will be ideally centered
-        self._draw_tilemap(0, 0, 0)
-        for game_object in self._game_objects():
-            game_object.draw()
-        self._draw_tilemap(-1, -1, 1, 0)
-        self._draw_tilemap(-2, -2, 2, 0)
+        for layer in list(LevelLayer):
+            self.__draw_level_layer(layer)
 
-    def _game_objects(self) -> Iterable[GameObject]:
+    @property
+    def game_objects(self) -> Iterable[GameObject]:
         return chain([self.player], self.crates)
 
-    def _draw_tilemap(self, x: int, y: int, tilemap: int, colkey: int = -1):
+    def __draw_level_layer(self, layer: LevelLayer):
+        # TODO: This clip() is temporary
         pyxel.clip(15, 27, 256 - 15 - 15, 256 - 48 - 27)
-        pyxel.bltm(x, y, tilemap, self.level_template.tile_map_u, self.level_template.tile_map_v,
-                   LEVEL_WIDTH, LEVEL_HEIGHT, colkey)
+        pyxel.bltm(layer.offset.x,
+                   layer.offset.y,
+                   layer.layer_index,
+                   self.level_template.tile_map_u,
+                   self.level_template.tile_map_v,
+                   LEVEL_WIDTH,
+                   LEVEL_HEIGHT,
+                   colkey=-1 if layer.is_main else 0)
+        for game_object in self.game_objects:
+            game_object.draw(layer)
         pyxel.clip()

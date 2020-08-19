@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Tuple, Optional
 
 import pyxel
 
@@ -7,24 +7,27 @@ from bansoko.graphics import Rect, Point
 
 class Sprite(NamedTuple):
     image_bank: int
-    image_rect: Rect
+    rect_uv: Rect
+    layer_uv: Optional[Tuple[Point]] = None
 
-    def draw(self, position: Point) -> None:
-        """
-        Draw sprite at given position.
+    def draw(self, position: Point, layer: int = 0) -> None:
+        if self.layer_uv and layer >= len(self.layer_uv):
+            return
 
-        Arguments:
-            position - position to draw sprite at
-        """
-        pyxel.blt(position.x, position.y, self.image_bank, self.image_rect.x, self.image_rect.y,
-                  self.image_rect.w, self.image_rect.h)
+        rect = Rect(self.layer_uv[layer], self.rect_uv.size) if self.layer_uv else self.rect_uv
+        pyxel.blt(position.x, position.y, self.image_bank, rect.x, rect.y, rect.w, rect.h)
 
     @property
     def width(self) -> int:
         """The width of sprite in pixels."""
-        return self.image_rect.w
+        return self.rect_uv.w
 
     @property
     def height(self) -> int:
         """The height of sprite in pixels."""
-        return self.image_rect.h
+        return self.rect_uv.h
+
+    @property
+    def num_layers(self) -> int:
+        """The number of layers this sprite is made of."""
+        return len(self.layer_uv) if self.layer_uv else 1

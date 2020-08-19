@@ -1,29 +1,21 @@
 """Module exposing tile-related types."""
-from enum import Enum, unique, IntEnum
+from enum import Enum, unique
 from typing import NamedTuple, Dict
 
 
 @unique
-class TileType(IntEnum):
-    VOID = "tile_void"
-    WALL = "tile_wall"
-    PLAYER_START = "tile_player_start"
-    FLOOR = "tile_floor"
-    INITIAL_CRATE_POSITION = "tile_initial_crate_position"
-    CRATE_INITIALLY_PLACED = "tile_crate_initially_placed"
-    CARGO_BAY = "tile_cargo_bay"
+class TileType(Enum):
+    VOID = 0, "tile_void"
+    WALL = 1, "tile_wall"
+    PLAYER_START = 2, "tile_player_start"
+    FLOOR = 3, "tile_floor"
+    INITIAL_CRATE_POSITION = 4, "tile_initial_crate_position"
+    CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed"
+    CARGO_BAY = 6, "tile_cargo_bay"
 
-    # TODO: Clean this mess
-    def __new__(cls, tile_name: str):
-        value = len(cls.__members__)
-        obj = int.__new__(cls, value)
-        obj._value_ = value
-        obj.tile_name2 = tile_name
-        return obj
-
-    @property
-    def tile_name(self):
-        return self.tile_name2
+    def __init__(self, tile_index, tile_name):
+        self.tile_index = tile_index
+        self.tile_name = tile_name
 
 
 class TileSet:
@@ -31,25 +23,25 @@ class TileSet:
         self.tiles = [tiles_dict[tile.tile_name] for tile in list(TileType)]
 
     def is_void(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.VOID]
+        return tile == self.tiles[TileType.VOID.tile_index]
 
     def is_wall(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.WALL]
+        return tile == self.tiles[TileType.WALL.tile_index]
 
     def is_player_start(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.PLAYER_START]
+        return tile == self.tiles[TileType.PLAYER_START.tile_index]
 
     def is_floor(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.FLOOR]
+        return tile == self.tiles[TileType.FLOOR.tile_index]
 
     def is_initial_crate_position(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.INITIAL_CRATE_POSITION]
+        return tile == self.tiles[TileType.INITIAL_CRATE_POSITION.tile_index]
 
     def is_crate_initially_placed(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.CRATE_INITIALLY_PLACED]
+        return tile == self.tiles[TileType.CRATE_INITIALLY_PLACED.tile_index]
 
     def is_cargo_bay(self, tile: int) -> bool:
-        return tile == self.tiles[TileType.CARGO_BAY]
+        return tile == self.tiles[TileType.CARGO_BAY.tile_index]
 
     def is_crate(self, tile: int) -> bool:
         return self.is_crate_initially_placed(tile) or self.is_initial_crate_position(tile)

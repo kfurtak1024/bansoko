@@ -1,6 +1,6 @@
 """Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
 import json
-from typing import NamedTuple, List, Dict, Optional
+from typing import NamedTuple, List, Dict, Optional, Tuple
 
 from bansoko.game.level import LevelTemplate
 from bansoko.game.tiles import TileSet
@@ -15,9 +15,9 @@ class Bundle(NamedTuple):
     and level templates).
     """
 
-    sprites: List[Sprite]
+    sprites: Tuple[Sprite, ...]
     backgrounds: Dict[str, Background]
-    level_templates: List[LevelTemplate]
+    level_templates: Tuple[LevelTemplate, ...]
 
     def get_sprite(self, sprite_id: int) -> Optional[Sprite]:
         """
@@ -76,38 +76,32 @@ def load_bundle(metadata_filename: str) -> Bundle:
         return Bundle(sprites, backgrounds, level_templates)
 
 
-def load_sprites(input_data) -> List[Sprite]:
+def load_sprites(input_data) -> Tuple[Sprite, ...]:
     # TODO: Under construction!
-    sprites: List[Sprite] = []
-    for sprite_data in input_data:
-        sprites.append(Sprite(1, Rect(sprite_data["image_rect"][0], sprite_data["image_rect"][1],
-                                      sprite_data["image_rect"][2], sprite_data["image_rect"][3])))
-
-    return sprites
+    return tuple([Sprite(1, Rect.from_list(sprite["image_rect"])) for sprite in input_data])
 
 
-def load_backgrounds(input_data, sprites: List[Sprite]) -> Dict[str, Background]:
+def load_backgrounds(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:
     # TODO: Under construction!
     backgrounds = {}
 
     for (k, v) in input_data.items():
-        background_color = v["background_color"]
-        background_elements: List[BackgroundElement] = []
+        color = v["background_color"]
+        elements: List[BackgroundElement] = []
         if v.get("background_elements") is not None:
             for element in v["background_elements"]:
-                background_elements.append(BackgroundElement(sprites[element["sprite"]],
-                                                             Point(element["position"][0],
-                                                                   element["position"][1])))
-        backgrounds[k] = Background(background_elements, background_color)
+                elements.append(BackgroundElement(sprites[element["sprite"]],
+                                                  Point.from_list(element["position"])))
+        backgrounds[k] = Background(tuple(elements), color)
 
     return backgrounds
 
 
-def load_level_templates(input_data, level_themes) -> List[LevelTemplate]:
+def load_level_templates(input_data, level_themes) -> Tuple[LevelTemplate, ...]:
     # TODO: Under construction!
     level_templates = []
     for level_num, level in enumerate(input_data):
         level_templates.append(
             LevelTemplate(level_num, TileSet(level_themes[level["level_theme"]]["tiles"])))
 
-    return level_templates
+    return tuple(level_templates)

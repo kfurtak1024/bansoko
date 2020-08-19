@@ -1,9 +1,11 @@
 """Module containing level related classes."""
-from typing import NamedTuple, List
+from enum import Enum, unique
+from typing import NamedTuple, Tuple
 
 import pyxel
 
 from bansoko.game.tiles import TilePosition, TileSet
+from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
 
 NUM_LEVELS: int = 60
@@ -38,17 +40,36 @@ class LevelSprites(NamedTuple):
     crate_placed: Sprite
 
 
+@unique
+class LevelLayer(Enum):
+    MAIN_LAYER = 0, Point(0, 0)
+    LAYER_1 = 1, Point(-1, -1)
+    LAYER_2 = 2, Point(-2, -2)
+
+    def __init__(self, layer_index: int, offset: Point):
+        self.layer_index = layer_index
+        self.offset = offset
+
+    @classmethod
+    def num_layers(cls):
+        return len(cls.__members__)
+
+    @property
+    def is_main(self):
+        return self == LevelLayer.MAIN_LAYER
+
+
 class LevelTemplate:
     level_num: int
     tiles: TileSet
     # TODO: Add LevelSprites
     player_pos: TilePosition
-    crates_pos: List[TilePosition]
+    crates_pos: Tuple[TilePosition, ...]
 
     def __init__(self, level_num: int, tiles: TileSet):
         self.level_num = level_num
         self.tiles = tiles
-        self.crates_pos = []
+        crates_pos_list = []
         tile_map = pyxel.tilemap(0)
         tile_map_u = self.tile_map_u
         tile_map_v = self.tile_map_v
@@ -57,9 +78,10 @@ class LevelTemplate:
                 tile = tile_map.get(u, v)
                 position = TilePosition(u - tile_map_u, v - tile_map_v)
                 if self.tiles.is_crate(tile):
-                    self.crates_pos.append(position)
+                    crates_pos_list.append(position)
                 elif self.tiles.is_player_start(tile):
                     self.player_pos = position
+        self.crates_pos = tuple(crates_pos_list)
 
     # TODO: Consider adding fromJson()
 

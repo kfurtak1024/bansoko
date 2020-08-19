@@ -1,4 +1,4 @@
-from typing import List, Optional, NamedTuple
+from typing import Optional, NamedTuple, Tuple
 
 import pyxel
 
@@ -16,12 +16,12 @@ class BackgroundElement(NamedTuple):
 
 
 class Background(NamedTuple):
-    background_elements: Optional[List[BackgroundElement]] = None
+    background_elements: Optional[Tuple[BackgroundElement, ...]] = None
     background_color: Optional[int] = None
 
     def draw(self) -> None:
-        if self.background_color is not None:
+        if self.background_color:
             pyxel.cls(self.background_color)
-        if self.background_elements is not None:
+        if self.background_elements:
             for element in self.background_elements:
                 element.draw()
