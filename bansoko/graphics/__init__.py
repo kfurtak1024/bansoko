@@ -1,9 +1,17 @@
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Any
 
 
 class Size(NamedTuple):
     width: int = 0
     height: int = 0
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Size):
+            return self.width == other.width and self.height == other.height
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.width, self.height))
 
 
 def max_size(size1: Size, size2: Size) -> Size:
@@ -21,6 +29,14 @@ class Point(NamedTuple):
     @classmethod
     def from_list(cls, coords: List[int]) -> "Point":
         return cls(x=coords[0], y=coords[1])
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Point):
+            return self.x == other.x and self.y == other.y
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
 
 
 class Rect(NamedTuple):
@@ -50,6 +66,14 @@ class Rect(NamedTuple):
     @property
     def h(self) -> int:
         return self.size.height
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Rect):
+            return self.position == other.position and self.size == other.size
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.position, self.size))
 
 
 def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 256)) -> Point:

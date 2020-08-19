@@ -40,18 +40,10 @@ class PlayfieldScreen(Screen):
         if self.input.is_button_pressed(VirtualButton.START):
             return self.screen_factory.get_game_paused_screen(self.level.statistics.level_num)
 
-        if self.level.is_completed():
+        if self.level.is_completed:
             return self.screen_factory.get_level_completed_screen(self.level.statistics)
 
-        if self.input.is_button_down(VirtualButton.UP):
-            self.level.move_player(Direction.UP)
-        elif self.input.is_button_down(VirtualButton.DOWN):
-            self.level.move_player(Direction.DOWN)
-        elif self.input.is_button_down(VirtualButton.LEFT):
-            self.level.move_player(Direction.LEFT)
-        elif self.input.is_button_down(VirtualButton.RIGHT):
-            self.level.move_player(Direction.RIGHT)
-
+        self.level.post_player_movement(self.get_player_movement())
         self.level.update()
 
         # TODO: Just for tests!
@@ -67,3 +59,14 @@ class PlayfieldScreen(Screen):
         pyxel.text(7, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 7)
         pyxel.text(70, 255 - 24 - 2 * pyxel.FONT_HEIGHT, "<SPACE> COMPLETE LEVEL", 7)
         pyxel.text(100, 256 - 20, "TIME: ??:??\nSTEPS: ???", 7)
+
+    def get_player_movement(self) -> Optional[Direction]:
+        if self.input.is_button_down(VirtualButton.UP):
+            return Direction.UP
+        elif self.input.is_button_down(VirtualButton.DOWN):
+            return Direction.DOWN
+        elif self.input.is_button_down(VirtualButton.LEFT):
+            return Direction.LEFT
+        elif self.input.is_button_down(VirtualButton.RIGHT):
+            return Direction.RIGHT
+        return None

@@ -26,7 +26,7 @@ class Tile(Enum):
 SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
 
-class TileSetPacker:
+class TilesetPacker:
     def __init__(self, image_bank: int, base_dir: str):
         self.image_bank = image_bank
         self.base_dir = base_dir

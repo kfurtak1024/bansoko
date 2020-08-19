@@ -3,7 +3,7 @@ import json
 from typing import NamedTuple, List, Dict, Optional, Tuple
 
 from bansoko.game.level import LevelTemplate
-from bansoko.game.tiles import TileSet
+from bansoko.game.tiles import Tileset
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite
@@ -108,6 +108,6 @@ def load_level_templates(input_data, level_themes) -> Tuple[LevelTemplate, ...]:
     level_templates = []
     for level_num, level in enumerate(input_data):
         level_templates.append(
-            LevelTemplate(level_num, TileSet(level_themes[level["level_theme"]]["tiles"])))
+            LevelTemplate(level_num, Tileset(level_themes[level["level_theme"]]["tiles"])))
 
     return tuple(level_templates)

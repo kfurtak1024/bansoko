@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from resbuilder.processors.tile_processor import Tile, TileSetPacker
+from resbuilder.processors.tile_processor import Tile, TilesetPacker
 
 
 class LevelTheme:
@@ -25,7 +25,7 @@ class LevelTheme:
 
 
 def generate_level_themes(base_dir: str, data) -> List[LevelTheme]:
-    packer = TileSetPacker(data["tiles_image_bank"], base_dir)
+    packer = TilesetPacker(data["tiles_image_bank"], base_dir)
     themes: List[LevelTheme] = []
 
     for level_theme_data in data["themes"]:

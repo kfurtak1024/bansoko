@@ -1,18 +1,10 @@
 """Module containing level related classes."""
 from enum import Enum, unique
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 
-import pyxel
-
-from bansoko.game.tiles import TilePosition, TileSet
+from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
-
-
-# TODO: Should be taken from bundle
-LEVEL_WIDTH = 32
-LEVEL_HEIGHT = 32
-TILE_SIZE = 8
 
 
 class LevelStatistics(NamedTuple):
@@ -60,34 +52,11 @@ class LevelLayer(Enum):
 
 class LevelTemplate:
     level_num: int
-    tiles: TileSet
-    # TODO: Add LevelSprites
-    player_pos: TilePosition
-    crates_pos: Tuple[TilePosition, ...]
+    tilemap: Tilemap
+    # TODO: Add LevelSprites?
 
-    def __init__(self, level_num: int, tiles: TileSet):
+    def __init__(self, level_num: int, tileset: Tileset):
+        tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
+        tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         self.level_num = level_num
-        self.tiles = tiles
-        crates_pos_list = []
-        tile_map = pyxel.tilemap(0)
-        tile_map_u = self.tile_map_u
-        tile_map_v = self.tile_map_v
-        for u in range(tile_map_u, tile_map_u + LEVEL_WIDTH):
-            for v in range(tile_map_v, tile_map_v + LEVEL_HEIGHT):
-                tile = tile_map.get(u, v)
-                position = TilePosition(u - tile_map_u, v - tile_map_v)
-                if self.tiles.is_crate(tile):
-                    crates_pos_list.append(position)
-                elif self.tiles.is_player_start(tile):
-                    self.player_pos = position
-        self.crates_pos = tuple(crates_pos_list)
-
-    # TODO: Consider adding fromJson()
-
-    @property
-    def tile_map_u(self) -> int:
-        return LEVEL_WIDTH * (self.level_num % TILE_SIZE)
-
-    @property
-    def tile_map_v(self) -> int:
-        return LEVEL_HEIGHT * (self.level_num // TILE_SIZE)
+        self.tilemap = Tilemap(tileset, tilemap_u, tilemap_v)
