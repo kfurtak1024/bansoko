@@ -55,8 +55,8 @@ class LevelTemplate:
     tilemap: Tilemap
     # TODO: Add LevelSprites?
 
-    def __init__(self, level_num: int, tileset: Tileset):
+    def __init__(self, level_num: int, theme_index: int):
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         self.level_num = level_num
-        self.tilemap = Tilemap(tileset, tilemap_u, tilemap_v)
+        self.tilemap = Tilemap(Tileset(theme_index), tilemap_u, tilemap_v)

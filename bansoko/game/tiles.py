@@ -1,6 +1,6 @@
 """Module exposing tile-related types."""
-from enum import Enum, unique
-from typing import NamedTuple, Dict, Any
+from enum import Enum, unique, auto
+from typing import NamedTuple, Any
 
 import pyxel
 
@@ -14,21 +14,21 @@ TILE_SIZE = 8
 
 @unique
 class TileType(Enum):
-    VOID = 0, "tile_void"
-    WALL = 1, "tile_wall"
-    PLAYER_START = 2, "tile_player_start"
-    FLOOR = 3, "tile_floor"
-    INITIAL_CRATE_POSITION = 4, "tile_initial_crate_position"
-    CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed"
-    CARGO_BAY = 6, "tile_cargo_bay"
-
-    def __init__(self, tile_index: int, tile_name: str) -> None:
-        self.tile_index = tile_index
-        self.tile_name = tile_name
+    VOID = auto()
+    WALL = auto()
+    PLAYER_START = auto()
+    FLOOR = auto()
+    INITIAL_CRATE_POSITION = auto()
+    CRATE_INITIALLY_PLACED = auto()
+    CARGO_BAY = auto()
 
     @property
     def is_player_start(self) -> bool:
         return self == TileType.PLAYER_START
+
+    @property
+    def is_crate_initially_placed(self) -> bool:
+        return self == TileType.CRATE_INITIALLY_PLACED
 
     @property
     def is_cargo_bay(self) -> bool:
@@ -76,15 +76,15 @@ class TilePosition(NamedTuple):
 
 
 class Tileset:
-    def __init__(self, tiles_dict: Dict[str, int]) -> None:
-        self.tiles = [tiles_dict[tile.tile_name] for tile in list(TileType)]  # TODO: Not needed anymore
-        self.index_to_tile = {self.tiles[tile.tile_index]: tile for tile in list(TileType)}
+    # TODO: Hard-coded 7
+    def __init__(self, theme_index: int) -> None:
+        self.first_tile_index = theme_index * 7
+        self.tile_indexes = [tile for tile in list(TileType)]
 
     def tile_of(self, tile_index: int) -> TileType:
-        if self.index_to_tile.get(tile_index) is None:
-            # TODO: VOID should be unique per tileset, so we never reach this place
-            return TileType.VOID
-        return self.index_to_tile[tile_index]
+        num_tiles = 7
+        index_in_range = self.first_tile_index <= tile_index < self.first_tile_index + num_tiles
+        return self.tile_indexes[tile_index % num_tiles] if index_in_range else TileType.VOID
 
 
 class Tilemap:

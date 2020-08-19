@@ -1207,9 +1207,9 @@
     "themes": [
       {
         "tiles": {
-          "tile_void": "tiles/void.png",
           "layers": [
             {
+              "tile_void": "tiles/void.png",
               "tile_wall": "tiles/desert/wall.png",
               "tile_player_start": "tiles/desert/floor.png",
               "tile_floor": "tiles/desert/floor.png",
@@ -1237,9 +1237,9 @@
       },
       {
         "tiles": {
-          "tile_void": "tiles/void.png",
           "layers": [
             {
+              "tile_void": "tiles/void.png",
               "tile_wall": "tiles/mint/wall.png",
               "tile_player_start": "tiles/mint/floor.png",
               "tile_floor": "tiles/mint/floor.png",
@@ -1267,9 +1267,9 @@
       },
       {
         "tiles": {
-          "tile_void": "tiles/void.png",
           "layers": [
             {
+              "tile_void": "tiles/void.png",
               "tile_wall": "tiles/ice/wall.png",
               "tile_player_start": "tiles/ice/floor.png",
               "tile_floor": "tiles/ice/floor.png",
@@ -1297,9 +1297,9 @@
       },
       {
         "tiles": {
-          "tile_void": "tiles/void.png",
           "layers": [
             {
+              "tile_void": "tiles/void.png",
               "tile_wall": "tiles/cherry/wall.png",
               "tile_player_start": "tiles/cherry/floor.png",
               "tile_floor": "tiles/cherry/floor.png",
@@ -1327,9 +1327,9 @@
       },
       {
         "tiles": {
-          "tile_void": "tiles/void.png",
           "layers": [
             {
+              "tile_void": "tiles/void.png",
               "tile_wall": "tiles/moon/wall.png",
               "tile_player_start": "tiles/moon/floor.png",
               "tile_floor": "tiles/moon/floor.png",

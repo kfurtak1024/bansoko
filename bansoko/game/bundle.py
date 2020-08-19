@@ -3,7 +3,6 @@ import json
 from typing import NamedTuple, List, Dict, Optional, Tuple
 
 from bansoko.game.level import LevelTemplate
-from bansoko.game.tiles import Tileset
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite
@@ -74,11 +73,7 @@ def load_bundle(metadata_filename: str) -> Bundle:
         metadata = json.load(metadata_file)
         sprites = load_sprites(metadata["sprites"])
         backgrounds = load_backgrounds(metadata["backgrounds"], sprites)
-
-        # TODO: Refactor it!!!
-        level_themes = metadata["level_themes"]
-        level_templates = load_level_templates(metadata["levels"], level_themes)
-
+        level_templates = load_level_templates(metadata["levels"])
         return Bundle(sprites, backgrounds, level_templates)
 
 
@@ -103,11 +98,6 @@ def load_backgrounds(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Backg
     return backgrounds
 
 
-def load_level_templates(input_data, level_themes) -> Tuple[LevelTemplate, ...]:
+def load_level_templates(input_data) -> Tuple[LevelTemplate, ...]:
     # TODO: Under construction!
-    level_templates = []
-    for level_num, level in enumerate(input_data):
-        level_templates.append(
-            LevelTemplate(level_num, Tileset(level_themes[level["level_theme"]]["tiles"])))
-
-    return tuple(level_templates)
+    return tuple([LevelTemplate(level_num, level["level_theme"]) for level_num, level in enumerate(input_data)])

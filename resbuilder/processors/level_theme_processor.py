@@ -4,12 +4,9 @@ from resbuilder.processors.tile_processor import Tile, TilesetPacker
 
 
 class LevelTheme:
-    tile_void_id: int
     tiles_ids: List[Dict[Tile, int]]
 
-    def __init__(self, tile_void_id: int, tiles_ids: List[Dict[Tile, int]],
-                 thumbnail_colors: Dict[Tile, int]):
-        self.tile_void_id = tile_void_id
+    def __init__(self, tiles_ids: List[Dict[Tile, int]], thumbnail_colors: Dict[Tile, int]):
         self.tiles_ids = tiles_ids
         self.thumbnail_colors = thumbnail_colors
 
@@ -18,33 +15,31 @@ class LevelTheme:
         return len(self.tiles_ids)
 
     def tile_id(self, layer: int, tile: Tile) -> int:
-        return self.tiles_ids[layer].get(tile, self.tile_void_id)
+        return self.tiles_ids[layer].get(tile, self.tiles_ids[0][Tile.VOID])
 
     def thumbnail_color(self, tile: Tile) -> int:
         return self.thumbnail_colors[tile]
 
 
 def generate_level_themes(base_dir: str, data) -> List[LevelTheme]:
+    # TODO: Refactor it
     packer = TilesetPacker(data["tiles_image_bank"], base_dir)
     themes: List[LevelTheme] = []
 
+    main_layers: List[Dict[Tile, int]] = []
+
     for level_theme_data in data["themes"]:
-        tile_void = packer.pack_tile(level_theme_data["tiles"]["tile_void"])
-        layers = []
-        for tiles_layers in level_theme_data["tiles"]["layers"]:
-            layers.append(packer.pack_level_theme(tiles_layers))
+        main_layers.append(packer.pack_level_theme(level_theme_data["tiles"]["layers"][0]))
+
+    for i, level_theme_data in enumerate(data["themes"]):
+        layers = [main_layers[i]]
+        for j in range(1, 3):
+            layers.append(packer.pack_level_theme(level_theme_data["tiles"]["layers"][j]))
 
         themes.append(LevelTheme(
-            tile_void,
-            layers,
-            _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
-        ))
+            layers, _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])))
 
     return themes
-
-
-def process_level_themes(level_themes: List[LevelTheme]):
-    return [{"tiles": _extract_tiles(level_theme)} for level_theme in level_themes]
 
 
 def _extract_tiles(level_theme: LevelTheme):

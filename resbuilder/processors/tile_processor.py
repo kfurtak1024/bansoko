@@ -27,19 +27,17 @@ SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
 
 class TilesetPacker:
-    def __init__(self, image_bank: int, base_dir: str):
+    def __init__(self, image_bank: int, base_dir: str) -> None:
         self.image_bank = image_bank
         self.base_dir = base_dir
         self.next_free_tile = 0
 
-    def pack_level_theme(self, theme_data) -> Dict[Tile, int]:
-        tiles_ids: Dict[Tile, int] = {}
-
+    def pack_level_theme(self, theme_data: Dict[str, str]) -> Dict[Tile, int]:
+        level_theme: Dict[Tile, int] = {}
         for tile in list(Tile):
-            if theme_data.get(tile.tile_name) is not None:
-                tiles_ids[tile] = self.pack_tile(theme_data[tile.tile_name])
-
-        return tiles_ids
+            if theme_data.get(tile.tile_name):
+                level_theme[tile] = self.pack_tile(theme_data[tile.tile_name])
+        return level_theme
 
     def pack_tile(self, filename: str) -> int:
         tiles_in_row = IMAGE_BANK_SIZE / TILE_SIZE

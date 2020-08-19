@@ -75,7 +75,8 @@ class Crate(GameObject):
     def update(self) -> None:
         super().update()
         # TODO: Should be set in update() in Level
-        self.in_place = self.tilemap.tile_at(self.tile_position).is_cargo_bay
+        crate_tile = self.tilemap.tile_at(self.tile_position)
+        self.in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
 
     def _do_draw(self, position: Point) -> None:
         # TODO: Add sprite for crates

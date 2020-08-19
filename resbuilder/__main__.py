@@ -20,7 +20,7 @@ from docopt import docopt
 
 from resbuilder.processors.background_processor import process_backgrounds
 from resbuilder.processors.level_processor import process_levels
-from resbuilder.processors.level_theme_processor import generate_level_themes, process_level_themes
+from resbuilder.processors.level_theme_processor import generate_level_themes
 from resbuilder.processors.sprite_processor import process_sprites
 
 
@@ -64,8 +64,8 @@ if __name__ == "__main__":
         pyxel.init(256, 256)
         input_data = json.load(input_file)
         metadata = {}
+        logging.info("Generating level themes...")
         level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
-        metadata["level_themes"] = process_level_themes(level_themes)
         logging.info("Processing levels...")
         metadata["levels"] = process_levels(input_data["levels"], level_themes)
         logging.info("Processing sprites...")
