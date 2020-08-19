@@ -40,7 +40,7 @@ class InputSystem:
 
     pressed_keys: Dict[int, int]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.pressed_keys = {}
 
     def is_button_pressed(self, button: VirtualButton) -> bool:

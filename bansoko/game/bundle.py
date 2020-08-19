@@ -45,7 +45,7 @@ class Bundle(NamedTuple):
         """
         return self.backgrounds.get(background_name, None)
 
-    def get_level_template(self, template_id: int) -> Optional[LevelTemplate]:
+    def get_level_template(self, template_id: int) -> LevelTemplate:
         """
         Return level template with given template id.
 
@@ -53,11 +53,17 @@ class Bundle(NamedTuple):
             template_id - id of template to be retrieved
 
         Returns:
-            - instance of LevelTemplate with given id *OR*
-            - None if there is no such a template in the bundle
+            - instance of LevelTemplate with given id
         """
-        return self.level_templates[template_id] \
-            if template_id < len(self.level_templates) else None
+        return self.level_templates[template_id]
+
+    @property
+    def num_levels(self) -> int:
+        return len(self.level_templates)
+
+    @property
+    def last_level(self) -> int:
+        return self.num_levels - 1
 
 
 # TODO: This is the most messy part so far!

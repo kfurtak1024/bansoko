@@ -19,7 +19,7 @@ class Point(NamedTuple):
     y: int
 
     @classmethod
-    def from_list(cls, coords: List[int]):
+    def from_list(cls, coords: List[int]) -> "Point":
         return cls(x=coords[0], y=coords[1])
 
 
@@ -28,11 +28,11 @@ class Rect(NamedTuple):
     size: Size
 
     @classmethod
-    def from_coords(cls, x: int, y: int, w: int, h: int):
+    def from_coords(cls, x: int, y: int, w: int, h: int) -> "Rect":
         return cls(position=Point(x, y), size=Size(w, h))
 
     @classmethod
-    def from_list(cls, coords: List[int]):
+    def from_list(cls, coords: List[int]) -> "Rect":
         return cls(position=Point(coords[0], coords[1]), size=Size(coords[2], coords[3]))
 
     @property

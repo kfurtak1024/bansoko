@@ -1,6 +1,6 @@
 """Module for game screens management."""
 import abc
-from typing import Optional, Callable
+from typing import Optional, Callable, Any
 
 from bansoko.graphics.background import Background
 
@@ -19,7 +19,7 @@ class Screen(abc.ABC):
         """Called each time Screen is put on top of screen stack by ScreenController."""
 
     @abc.abstractmethod
-    def update(self):
+    def update(self) -> Optional["Screen"]:
         """
         Update screen state. Control screen transitions by return value.
         Called once per frame (only if screen is on top of screen stack)
@@ -39,7 +39,7 @@ class Screen(abc.ABC):
         if self.background is not None:
             self.background.draw()
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         return isinstance(self, type(other))
 
 
@@ -77,7 +77,7 @@ class ScreenController:
             self.screen_stack[-1].draw()
         self.skip_next_draw = False
 
-    def __switch_to_screen(self, new_screen: Screen) -> None:
+    def __switch_to_screen(self, new_screen: Optional[Screen]) -> None:
         if new_screen is None:
             self.screen_stack.pop()
         else:

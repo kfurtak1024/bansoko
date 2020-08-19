@@ -31,3 +31,7 @@ class ScreenFactory(ABC):
     @abstractmethod
     def get_level_completed_screen(self, level_stats: LevelStatistics) -> Screen:
         """Create a new instance of LevelCompleted screen"""
+
+    @abstractmethod
+    def get_victory_screen(self) -> Screen:
+        """Create a new instance of VictoryCompleted screen"""

@@ -262,6 +262,9 @@
         }
       ]
     },
+    "playfield": {
+      "background_color": "5"
+    },
     "choose_level": {
       "background_color": "0"
     },
@@ -271,8 +274,8 @@
     "level_completed": {
       "background_color": "0"
     },
-    "playfield": {
-      "background_color": "5"
+    "victory": {
+      "background_color": "0"
     }
   }
 }

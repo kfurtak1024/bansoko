@@ -10,23 +10,20 @@ TILE_SIZE = 8
 
 @unique
 class Tile(Enum):
-    VOID = 0, "tile_void", " "
-    WALL = 1, "tile_wall", "X"
-    PLAYER_START = 2, "tile_player_start", "@"
-    FLOOR = 3, "tile_floor", "."
-    INITIAL_CRATE_POSITION = 4, "tile_initial_crate_position", "#"
-    CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed", "&"
-    CARGO_BAY = 6, "tile_cargo_bay", "+"
+    VOID = "tile_void", " "
+    WALL = "tile_wall", "X"
+    PLAYER_START = "tile_player_start", "@"
+    FLOOR = "tile_floor", "."
+    INITIAL_CRATE_POSITION = "tile_initial_crate_position", "#"
+    CRATE_INITIALLY_PLACED = "tile_crate_initially_placed", "&"
+    CARGO_BAY = "tile_cargo_bay", "+"
 
-    def __new__(cls, keycode: int, theme_tile_name: str, text_symbol: str):
-        obj = object.__new__(cls)
-        obj._value_ = keycode
-        obj.theme_item_name = theme_tile_name
-        obj.text_symbol = text_symbol
-        return obj
+    def __init__(self, tile_name: str, tile_symbol: str):
+        self.tile_name = tile_name
+        self.tile_symbol = tile_symbol
 
 
-SYMBOL_TO_TILE = {tile.text_symbol: tile for tile in list(Tile)}
+SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
 
 class TileSetPacker:
@@ -39,8 +36,8 @@ class TileSetPacker:
         tiles_ids: Dict[Tile, int] = {}
 
         for tile in list(Tile):
-            if theme_data.get(tile.theme_item_name) is not None:
-                tiles_ids[tile] = self.pack_tile(theme_data[tile.theme_item_name])
+            if theme_data.get(tile.tile_name) is not None:
+                tiles_ids[tile] = self.pack_tile(theme_data[tile.tile_name])
 
         return tiles_ids
 

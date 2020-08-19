@@ -9,6 +9,7 @@ from bansoko.game.screens.main_menu import MainMenuScreen
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.screen import Screen
+from bansoko.game.screens.victory import VictoryScreen
 
 
 class GameContext(ScreenFactory):
@@ -25,11 +26,16 @@ class GameContext(ScreenFactory):
                                self.bundle.get_background("playfield"))
 
     def get_choose_level_screen(self) -> Screen:
-        return ChooseLevelScreen(self, self.bundle.get_background("choose_level"))
+        return ChooseLevelScreen(self, self.bundle.num_levels,
+                                 self.bundle.get_background("choose_level"))
 
     def get_game_paused_screen(self, level: int) -> Screen:
         return GamePausedScreen(self, level, self.bundle.get_background("game_paused"))
 
     def get_level_completed_screen(self, level_stats: LevelStatistics) -> Screen:
         return LevelCompletedScreen(self, level_stats,
+                                    level_stats.level_num == self.bundle.last_level,
                                     self.bundle.get_background("level_completed"))
+
+    def get_victory_screen(self) -> Screen:
+        return VictoryScreen(self, self.bundle.get_background("victory"))

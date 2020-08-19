@@ -14,7 +14,7 @@ class LevelTheme:
         self.thumbnail_colors = thumbnail_colors
 
     @property
-    def num_layers(self):
+    def num_layers(self) -> int:
         return len(self.tiles_ids)
 
     def tile_id(self, layer: int, tile: Tile) -> int:
@@ -49,13 +49,13 @@ def process_level_themes(level_themes: List[LevelTheme]):
 
 def _extract_tiles(level_theme: LevelTheme):
     # TODO: Hard-coded 0
-    return {tile.theme_item_name: level_theme.tile_id(0, tile) for tile in list(Tile)}
+    return {tile.tile_name: level_theme.tile_id(0, tile) for tile in list(Tile)}
 
 
 def _extract_thumbnail_colors(data) -> Dict[Tile, int]:
     thumbnail_colors: Dict[Tile, int] = {}
 
     for tile in list(Tile):
-        thumbnail_colors[tile] = data[tile.theme_item_name]
+        thumbnail_colors[tile] = data[tile.tile_name]
 
     return thumbnail_colors

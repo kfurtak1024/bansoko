@@ -113,7 +113,7 @@ class Level:
     def game_objects(self) -> Iterable[GameObject]:
         return chain([self.player], self.crates)
 
-    def __draw_level_layer(self, layer: LevelLayer):
+    def __draw_level_layer(self, layer: LevelLayer) -> None:
         # TODO: This clip() is temporary
         pyxel.clip(15, 27, 256 - 15 - 15, 256 - 48 - 27)
         pyxel.bltm(layer.offset.x,

@@ -8,7 +8,6 @@ from bansoko.game.tiles import TilePosition, TileSet
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
 
-NUM_LEVELS: int = 60
 
 # TODO: Should be taken from bundle
 LEVEL_WIDTH = 32
@@ -51,11 +50,11 @@ class LevelLayer(Enum):
         self.offset = offset
 
     @classmethod
-    def num_layers(cls):
+    def num_layers(cls) -> int:
         return len(cls.__members__)
 
     @property
-    def is_main(self):
+    def is_main(self) -> bool:
         return self == LevelLayer.MAIN_LAYER
 
 

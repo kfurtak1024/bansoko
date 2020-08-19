@@ -79,16 +79,17 @@ class MenuScreen(Screen):
     top_item: int
     selected_item: int
 
-    def __init__(self, items: List[MenuItem], columns: int = 1, rows: int = None,
-                 background: Optional[Background] = None):
+    def __init__(self, items: List[MenuItem], columns: int = 1, rows: Optional[int] = None,
+                 allow_going_back: bool = False, background: Optional[Background] = None):
         super().__init__(background)
         self.items = items
         self.item_size = reduce(max_size, [item.size for item in self.items])
         self.columns = columns
         self.rows = rows if rows else -(-len(items) // columns)
+        self.allow_going_back = allow_going_back
+        self.background = background
         self.top_item = 0
         self.selected_item = 0
-        self.background = background
         self.input = InputSystem()
 
     def activate(self) -> None:
@@ -96,7 +97,7 @@ class MenuScreen(Screen):
 
     def update(self) -> Optional[Screen]:
         self.input.update()
-        if self.input.is_button_pressed(VirtualButton.BACK):
+        if self.input.is_button_pressed(VirtualButton.BACK) and self.allow_going_back:
             return None
         if not self.items:
             return self

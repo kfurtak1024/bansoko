@@ -13,7 +13,7 @@ class TileType(Enum):
     CRATE_INITIALLY_PLACED = 5, "tile_crate_initially_placed"
     CARGO_BAY = 6, "tile_cargo_bay"
 
-    def __init__(self, tile_index, tile_name):
+    def __init__(self, tile_index: int, tile_name: str) -> None:
         self.tile_index = tile_index
         self.tile_name = tile_name
 
@@ -59,7 +59,7 @@ class TilePosition(NamedTuple):
     tile_x: int = 0
     tile_y: int = 0
 
-    def move(self, direction: Direction):
+    def move(self, direction: Direction) -> "TilePosition":
         destination_x = self.tile_x
         destination_y = self.tile_y
         # TODO: Can I move it to Direction enum?

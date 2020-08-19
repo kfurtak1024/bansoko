@@ -25,7 +25,7 @@ class GamePausedScreen(MenuScreen):
             TextMenuItem("RESUME GAME", lambda: None),
             TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level)),
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
-        ], background=background)
+        ], allow_going_back=True, background=background)
 
     def draw(self) -> None:
         super().draw()
