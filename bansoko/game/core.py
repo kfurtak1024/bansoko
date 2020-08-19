@@ -5,7 +5,7 @@ from typing import Iterable, Optional
 import pyxel
 
 from bansoko.game.level import LevelTemplate, LevelStatistics, LevelLayer
-from bansoko.game.tiles import Direction, TilePosition, Tilemap, TILE_SIZE, LEVEL_WIDTH, \
+from bansoko.game.tiles import Direction, TilePosition, TILE_SIZE, LEVEL_WIDTH, \
     LEVEL_HEIGHT
 from bansoko.graphics import Point
 
@@ -40,6 +40,12 @@ class GameObject(abc.ABC):
     def is_moving(self) -> bool:
         return self.movement is not None
 
+    def position(self, layer: LevelLayer) -> Point:
+        dx = 0 if not self.movement else self.movement.delta_x
+        dy = 0 if not self.movement else self.movement.delta_y
+        position = self.tile_position.to_point()
+        return Point(position.x + dx + layer.offset.x, position.y + dy + layer.offset.y)
+
     def move(self, direction: Direction) -> None:
         if not self.is_moving:
             self.movement = Movement(direction, TILE_SIZE)
@@ -52,31 +58,18 @@ class GameObject(abc.ABC):
                 self.tile_position = self.tile_position.move(self.movement.direction)
                 self.movement = None
 
+    def draw(self, layer: LevelLayer) -> None:
+        self._do_draw(self.position(layer))
+
     @abc.abstractmethod
     def _do_draw(self, position: Point) -> None:
         pass
 
-    def draw(self, layer: LevelLayer) -> None:
-        self._do_draw(self.position(layer))
-
-    def position(self, layer: LevelLayer) -> Point:
-        dx = 0 if not self.movement else self.movement.delta_x
-        dy = 0 if not self.movement else self.movement.delta_y
-        position = self.tile_position.to_point()
-        return Point(position.x + dx + layer.offset.x, position.y + dy + layer.offset.y)
-
 
 class Crate(GameObject):
-    def __init__(self, tile_position: TilePosition, tilemap: Tilemap):
+    def __init__(self, tile_position: TilePosition):
         super().__init__(tile_position)
-        self.tilemap = tilemap  # TODO: Should not be here!
         self.in_place = False
-
-    def update(self) -> None:
-        super().update()
-        # TODO: Should be set in update() in Level
-        crate_tile = self.tilemap.tile_at(self.tile_position)
-        self.in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
 
     def _do_draw(self, position: Point) -> None:
         # TODO: Add sprite for crates
@@ -98,7 +91,7 @@ class Level:
     def __init__(self, level_template: LevelTemplate):
         self.statistics = LevelStatistics(level_template.level_num)
         self.tilemap = level_template.tilemap
-        self.crates = [Crate(position, self.tilemap) for position in self.tilemap.crates]
+        self.crates = [Crate(position) for position in self.tilemap.crates]
         self.player = Player(self.tilemap.player_start)
         self.player_movement: Optional[Direction] = None
 
@@ -124,6 +117,7 @@ class Level:
         self.__clear_player_movement()
         for game_object in self.game_objects:
             game_object.update()
+        self.__evaluate_crates()
 
     def draw(self) -> None:
         # TODO: Add offset to tilemap so it will be ideally centered
@@ -160,6 +154,11 @@ class Level:
 
     def __clear_player_movement(self) -> None:
         self.player_movement = None
+
+    def __evaluate_crates(self) -> None:
+        for crate in self.crates:
+            crate_tile = self.tilemap.tile_at(crate.tile_position)
+            crate.in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
 
     def __draw_level_layer(self, layer: LevelLayer) -> None:
         # TODO: This clip() is temporary
