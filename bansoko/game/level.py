@@ -7,7 +7,7 @@ from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
 
 
-class LevelStatistics(NamedTuple):
+class LevelStatistics:
     """
     Player's score for given level.
 
@@ -17,13 +17,14 @@ class LevelStatistics(NamedTuple):
                  ("move" happens when player pushes a crate)
         steps - number of steps that player made
                 ("step" happens when player moves by one cell in any direction)
-        time - time spent playing the level
+        time_in_ms - time spent playing the level (expressed in milliseconds)
     """
 
-    level_num: int
-    pushes: int = 0
-    steps: int = 0
-    time: int = 0
+    def __init__(self, level_num: int):
+        self.level_num: int = level_num
+        self.pushes: int = 0
+        self.steps: int = 0
+        self.time_in_ms: int = 0
 
 
 class LevelSprites(NamedTuple):

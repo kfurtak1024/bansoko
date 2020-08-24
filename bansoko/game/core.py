@@ -188,6 +188,7 @@ class Level:
     def update(self) -> None:
         self.running_action = self.running_action.update() if self.running_action else None
         self.__evaluate_crates()
+        self.statistics.time_in_ms += 33
 
     def draw(self) -> None:
         # TODO: Add offset to tilemap so it will be ideally centered

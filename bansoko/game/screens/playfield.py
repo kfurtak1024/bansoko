@@ -8,6 +8,7 @@ from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
+from game.level import LevelStatistics
 
 
 class PlayfieldScreen(Screen):
@@ -57,7 +58,20 @@ class PlayfieldScreen(Screen):
         level = self.level.statistics.level_num
         pyxel.text(7, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 7)
         pyxel.text(70, 255 - 70, "<SPACE> COMPLETE LEVEL", 7)
-        pyxel.text(100, 256 - 30, f"TIME: ??:??\nPUSHES: {self.level.statistics.pushes}\nSTEPS: {self.level.statistics.steps}", 7)
+        pyxel.text(100, 256 - 30, self.__format_level_stats(self.level.statistics), 7)
+
+    def __format_level_stats(self, level_stats: LevelStatistics) -> str:
+        seconds = int((level_stats.time_in_ms / 1000) % 60)
+        minutes = int((level_stats.time_in_ms / (1000 * 60)) % 60)
+        if level_stats.time_in_ms >= 60 * 60 * 1000:
+            seconds = 59
+            minutes = 59
+
+        time = "{:02d}:{:02d}".format(minutes, seconds)
+        pushes = self.level.statistics.pushes
+        steps = self.level.statistics.steps
+
+        return "TIME:   {}\nPUSHES: {:03d}\nSTEPS:  {:03d}".format(time, pushes, steps)
 
     def __get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):

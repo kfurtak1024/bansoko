@@ -58,7 +58,7 @@ class TextMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return text_size(self.__get_item_text(selected=True), self.text_style)
+        return text_size(self.__get_item_text(selected=True), self.text_style).enlarge(2)
 
     def draw(self, position: Point, selected: bool = False) -> None:
         style = self.selected_text_style if selected else self.text_style
