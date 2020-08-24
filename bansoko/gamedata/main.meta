@@ -189,7 +189,48 @@
         0,
         215,
         44
-      ]
+      ],
+      "multilayer": false
+    },
+    {
+      "image_bank": 1,
+      "image_rect": [
+        0,
+        44,
+        10,
+        10
+      ],
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image_rect": [
+        0,
+        54,
+        10,
+        10
+      ],
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image_rect": [
+        0,
+        64,
+        10,
+        10
+      ],
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image_rect": [
+        0,
+        74,
+        10,
+        10
+      ],
+      "multilayer": true
     }
   ],
   "backgrounds": {

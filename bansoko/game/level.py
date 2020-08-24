@@ -13,15 +13,15 @@ class LevelStatistics(NamedTuple):
 
     Attributes:
         level_num - level number (value from 0 to NUM_LEVELS-1)
-        moves - number of moves that player made
-                ("move" happens when player pushes a crate)
+        pushes - number of moves that player made
+                 ("move" happens when player pushes a crate)
         steps - number of steps that player made
                 ("step" happens when player moves by one cell in any direction)
         time - time spent playing the level
     """
 
     level_num: int
-    moves: int = 0
+    pushes: int = 0
     steps: int = 0
     time: int = 0
 

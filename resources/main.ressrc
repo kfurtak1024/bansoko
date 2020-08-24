@@ -2,8 +2,27 @@
   "sprites": [
     {
       "image_bank": 1,
-      "image": "gui/logo.png",
-      "image_rect": [0, 0, 215, 44]
+      "image": "gui/logo.png"
+    },
+    {
+      "image_bank": 1,
+      "image": "sprites/desert/crate.png",
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image": "sprites/desert/crate_placed.png",
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image": "sprites/robot_moving.png",
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image": "sprites/robot_pushing.png",
+      "multilayer": true
     }
   ],
   "backgrounds": {

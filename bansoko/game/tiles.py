@@ -56,11 +56,11 @@ class Direction(Enum):
         self.dy = dy
 
     @property
-    def horizontal(self):
+    def horizontal(self) -> bool:
         return self == Direction.LEFT or self == Direction.RIGHT
 
     @property
-    def vertical(self):
+    def vertical(self) -> bool:
         return self == Direction.UP or self == Direction.DOWN
 
 

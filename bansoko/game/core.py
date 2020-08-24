@@ -8,7 +8,8 @@ import pyxel
 from bansoko.game.level import LevelTemplate, LevelStatistics, LevelLayer
 from bansoko.game.tiles import Direction, TilePosition, TILE_SIZE, LEVEL_WIDTH, \
     LEVEL_HEIGHT
-from bansoko.graphics import Point
+from bansoko.graphics import Point, Rect
+from graphics.sprite import Sprite
 
 
 class InputAction(Enum):
@@ -21,8 +22,9 @@ class InputAction(Enum):
     def __init__(self, direction: Direction):
         self.direction = direction
 
-    def is_movement(self):
-        return self.direction
+    @property
+    def is_movement(self) -> bool:
+        return self.direction is not None
 
 
 class ObjectPosition:
@@ -55,10 +57,10 @@ class GameObject(abc.ABC):
         return self.position.to_point().offset(layer.offset.x, layer.offset.y)
 
     def draw(self, layer: LevelLayer) -> None:
-        self._do_draw(self.position_on_layer(layer))
+        self._do_draw(self.position_on_layer(layer), layer)
 
     @abc.abstractmethod
-    def _do_draw(self, position: Point) -> None:
+    def _do_draw(self, position: Point, layer: LevelLayer) -> None:
         pass
 
 
@@ -67,19 +69,30 @@ class Crate(GameObject):
         super().__init__(tile_position)
         self.in_place = False
 
-    def _do_draw(self, position: Point) -> None:
-        # TODO: Add sprite for crates
-        pyxel.rect(position.x, position.y, TILE_SIZE, TILE_SIZE, 3 if self.in_place else 8)
+        # TODO: Hard-coded sprites!
+        self.crate_sprite = Sprite(1, Rect.from_coords(0, 44, 10, 10), multilayer=True)
+        self.crate_placed_sprite = Sprite(1, Rect.from_coords(0, 54, 10, 10), multilayer=True)
+
+    def _do_draw(self, position: Point, layer: LevelLayer) -> None:
+        sprite = self.crate_placed_sprite if self.in_place else self.crate_sprite
+        sprite.draw(position, layer.layer_index)
 
 
+# TODO: Rename player to robot
+# TODO: Robot must face its movement direction
+# TODO: Add animations
 class Player(GameObject):
     def __init__(self, tile_position: TilePosition):
         super().__init__(tile_position)
         self.is_pushing = False
 
-    def _do_draw(self, position: Point) -> None:
-        # TODO: Add sprite for player
-        pyxel.rect(position.x, position.y, TILE_SIZE, TILE_SIZE, 12 if self.is_pushing else 1)
+        # TODO: Hard-coded sprites!
+        self.robot_moving_sprite = Sprite(1, Rect.from_coords(0, 64, 10, 10), multilayer=True)
+        self.robot_pushing_sprite = Sprite(1, Rect.from_coords(0, 74, 10, 10), multilayer=True)
+
+    def _do_draw(self, position: Point, layer: LevelLayer) -> None:
+        sprite = self.robot_pushing_sprite if self.is_pushing else self.robot_moving_sprite
+        sprite.draw(position, layer.layer_index)
 
 
 class MoveAction(abc.ABC):
@@ -157,7 +170,7 @@ class Level:
         if input_action == InputAction.UNDO:
             # TODO: Not implemented yet!
             self.running_action = self.history.pop() if self.history else None
-        elif input_action.is_movement():
+        elif input_action.is_movement:
             player_dest = self.player.tile_position.move(input_action.direction)
             if self.tilemap.tile_at(player_dest).is_walkable:
                 crate = self.crate_at_pos(player_dest)
