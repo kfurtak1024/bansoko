@@ -61,13 +61,15 @@ class PlayfieldScreen(Screen):
         pyxel.text(100, 256 - 30, self.__format_level_stats(self.level.statistics), 7)
 
     def __format_level_stats(self, level_stats: LevelStatistics) -> str:
-        seconds = int((level_stats.time_in_ms / 1000) % 60)
+        hours = int((level_stats.time_in_ms / (1000 * 60 * 60)) % 60)
         minutes = int((level_stats.time_in_ms / (1000 * 60)) % 60)
-        if level_stats.time_in_ms >= 60 * 60 * 1000:
+        seconds = int((level_stats.time_in_ms / 1000) % 60)
+        if level_stats.time_in_ms >= 10 * 60 * 60 * 1000:
+            hours = 9
             seconds = 59
             minutes = 59
 
-        time = "{:02d}:{:02d}".format(minutes, seconds)
+        time = "{:d}:{:02d}:{:02d}".format(hours, minutes, seconds)
         pushes = self.level.statistics.pushes
         steps = self.level.statistics.steps
 

@@ -102,16 +102,20 @@ class MoveAction(abc.ABC):
         self.frames_to_complete = frames_to_complete
         self.elapsed_frames = 0
 
-    def update(self) -> Optional["MoveAction"]:
+    def update(self, level_stats: LevelStatistics) -> Optional["MoveAction"]:
         self.elapsed_frames += 1
         if self.elapsed_frames == self.frames_to_complete:
             self.game_object.position.move(self.direction)
+            self._on_stop(level_stats)
             return None
 
         delta = self.elapsed_frames / self.frames_to_complete * TILE_SIZE
         self.game_object.position.offset = Point(
             int(delta * self.direction.dx), int(delta * self.direction.dy))
         return self
+
+    def _on_stop(self, level_stats: LevelStatistics):
+        level_stats.steps += 1
 
 
 class MovePlayer(MoveAction):
@@ -124,9 +128,12 @@ class PushCrate(MoveAction):
         super().__init__(crate, direction, TILE_SIZE)
         self.player_action = MovePlayer(player, direction)
 
-    def update(self) -> Optional[MoveAction]:
-        self.player_action.update()
-        return super().update()
+    def update(self, level_stats: LevelStatistics) -> Optional[MoveAction]:
+        self.player_action.update(level_stats)
+        return super().update(level_stats)
+
+    def _on_stop(self, level_stats: LevelStatistics):
+        level_stats.pushes += 1
 
 
 # TODO: Move it to level module again?
@@ -186,9 +193,9 @@ class Level:
                     self.history.append(self.running_action)
 
     def update(self) -> None:
-        self.running_action = self.running_action.update() if self.running_action else None
+        self.running_action = self.running_action.update(self.statistics) if self.running_action else None
         self.__evaluate_crates()
-        self.statistics.time_in_ms += 33
+        self.statistics.time_in_ms += 33  # TODO: Hard-coded value!
 
     def draw(self) -> None:
         # TODO: Add offset to tilemap so it will be ideally centered
