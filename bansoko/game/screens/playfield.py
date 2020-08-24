@@ -3,9 +3,8 @@ from typing import Optional
 
 import pyxel
 
-from bansoko.game.core import Level
+from bansoko.game.core import Level, InputAction
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.game.tiles import Direction
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
@@ -43,7 +42,7 @@ class PlayfieldScreen(Screen):
         if self.level.is_completed:
             return self.screen_factory.get_level_completed_screen(self.level.statistics)
 
-        self.level.post_player_movement(self.get_player_movement())
+        self.level.process_input(self.__get_input_action())
         self.level.update()
 
         # TODO: Just for tests!
@@ -60,13 +59,15 @@ class PlayfieldScreen(Screen):
         pyxel.text(70, 255 - 24 - 2 * pyxel.FONT_HEIGHT, "<SPACE> COMPLETE LEVEL", 7)
         pyxel.text(100, 256 - 20, "TIME: ??:??\nSTEPS: ???", 7)
 
-    def get_player_movement(self) -> Optional[Direction]:
+    def __get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):
-            return Direction.UP
+            return InputAction.MOVE_UP
         elif self.input.is_button_down(VirtualButton.DOWN):
-            return Direction.DOWN
+            return InputAction.MOVE_DOWN
         elif self.input.is_button_down(VirtualButton.LEFT):
-            return Direction.LEFT
+            return InputAction.MOVE_LEFT
         elif self.input.is_button_down(VirtualButton.RIGHT):
-            return Direction.RIGHT
+            return InputAction.MOVE_RIGHT
+        elif self.input.is_button_down(VirtualButton.ACTION):
+            return InputAction.UNDO
         return None

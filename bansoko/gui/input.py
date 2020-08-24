@@ -16,6 +16,7 @@ class VirtualButton(IntFlag):
     SELECT = 0x10
     BACK = 0x20
     START = 0x40
+    ACTION = 0x80
 
 
 class InputSystem:
@@ -34,7 +35,8 @@ class InputSystem:
         VirtualButton.RIGHT: [pyxel.KEY_RIGHT, pyxel.GAMEPAD_1_RIGHT],
         VirtualButton.SELECT: [pyxel.KEY_ENTER, pyxel.GAMEPAD_1_A],
         VirtualButton.BACK: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_B],
-        VirtualButton.START: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_START]
+        VirtualButton.START: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_START],
+        VirtualButton.ACTION: [pyxel.KEY_Z, pyxel.GAMEPAD_1_B]
     }
     WATCHED_KEYS: Set[int] = set(sum(BUTTONS_MAP.values(), []))
 

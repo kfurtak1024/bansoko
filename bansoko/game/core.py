@@ -1,4 +1,5 @@
 import abc
+from enum import Enum
 from itertools import chain
 from typing import Iterable, Optional
 
@@ -10,56 +11,51 @@ from bansoko.game.tiles import Direction, TilePosition, TILE_SIZE, LEVEL_WIDTH, 
 from bansoko.graphics import Point
 
 
-class Movement:
-    # TODO: Rethink the whole Movement class
-    # TODO: Those should be floats!
-    def __init__(self, direction: Direction, frames_to_complete: int):
+class InputAction(Enum):
+    MOVE_LEFT = Direction.LEFT
+    MOVE_RIGHT = Direction.RIGHT
+    MOVE_UP = Direction.UP
+    MOVE_DOWN = Direction.DOWN
+    UNDO = None
+
+    def __init__(self, direction: Direction):
         self.direction = direction
-        self.frames_to_complete = frames_to_complete
-        self.delta = TilePosition(0, 0).move(direction)
-        self.elapsed_frames = 0
 
-    @property
-    def delta_x(self) -> int:
-        return int(self.elapsed_frames * self.delta.tile_x / self.frames_to_complete * TILE_SIZE)
-
-    @property
-    def delta_y(self) -> int:
-        return int(self.elapsed_frames * self.delta.tile_y / self.frames_to_complete * TILE_SIZE)
+    def is_movement(self):
+        return self.direction
 
 
-class GameObject(abc.ABC):
+class ObjectPosition:
     tile_position: TilePosition
-    movement: Optional[Movement]
+    offset: Point
 
     def __init__(self, tile_position: TilePosition):
         self.tile_position = tile_position
-        self.movement = None
-
-    @property
-    def is_moving(self) -> bool:
-        return self.movement is not None
-
-    def position(self, layer: LevelLayer) -> Point:
-        dx = 0 if not self.movement else self.movement.delta_x
-        dy = 0 if not self.movement else self.movement.delta_y
-        position = self.tile_position.to_point()
-        return Point(position.x + dx + layer.offset.x, position.y + dy + layer.offset.y)
+        self.offset = Point(0, 0)
 
     def move(self, direction: Direction) -> None:
-        if not self.is_moving:
-            self.movement = Movement(direction, TILE_SIZE)
+        self.tile_position = self.tile_position.move(direction)
+        self.offset = Point(0, 0)
 
-    def update(self) -> None:
-        # TODO: Refactor this!
-        if self.movement:
-            self.movement.elapsed_frames += 1
-            if self.movement.elapsed_frames == self.movement.frames_to_complete:
-                self.tile_position = self.tile_position.move(self.movement.direction)
-                self.movement = None
+    def to_point(self) -> Point:
+        return self.tile_position.to_point().offset(self.offset.x, self.offset.y)
+
+
+class GameObject(abc.ABC):
+    position: ObjectPosition
+
+    def __init__(self, tile_position: TilePosition):
+        self.position = ObjectPosition(tile_position)
+
+    @property
+    def tile_position(self) -> TilePosition:
+        return self.position.tile_position
+
+    def position_on_layer(self, layer: LevelLayer) -> Point:
+        return self.position.to_point().offset(layer.offset.x, layer.offset.y)
 
     def draw(self, layer: LevelLayer) -> None:
-        self._do_draw(self.position(layer))
+        self._do_draw(self.position_on_layer(layer))
 
     @abc.abstractmethod
     def _do_draw(self, position: Point) -> None:
@@ -86,14 +82,53 @@ class Player(GameObject):
         pyxel.rect(position.x, position.y, TILE_SIZE, TILE_SIZE, 12 if self.is_pushing else 1)
 
 
+class MoveAction(abc.ABC):
+    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int):
+        self.game_object = game_object
+        self.direction = direction
+        self.frames_to_complete = frames_to_complete
+        self.elapsed_frames = 0
+
+        # TODO: Get rid of that
+        self.delta = TilePosition(0, 0).move(direction)
+
+    def update(self) -> Optional["MoveAction"]:
+        # TODO: Refactor this!
+        self.elapsed_frames += 1
+        if self.elapsed_frames == self.frames_to_complete:
+            self.game_object.position.move(self.direction)
+            return None
+
+        delta = self.elapsed_frames / self.frames_to_complete * TILE_SIZE
+        self.game_object.position.offset = Point(
+            int(delta * self.delta.tile_x),
+            int(delta * self.delta.tile_y))
+        return self
+
+
+class MovePlayer(MoveAction):
+    def __init__(self, player: Player, direction: Direction):
+        super().__init__(player, direction, TILE_SIZE)
+
+
+class PushCrate(MoveAction):
+    def __init__(self, player: Player, crate: Crate, direction: Direction):
+        super().__init__(crate, direction, TILE_SIZE)
+        self.player_action = MovePlayer(player, direction)
+
+    def update(self) -> Optional[MoveAction]:
+        self.player_action.update()
+        return super().update()
+
+
 # TODO: Move it to level module again?
 class Level:
     def __init__(self, level_template: LevelTemplate):
         self.statistics = LevelStatistics(level_template.level_num)
         self.tilemap = level_template.tilemap
-        self.crates = [Crate(position) for position in self.tilemap.crates]
         self.player = Player(self.tilemap.player_start)
-        self.player_movement: Optional[Direction] = None
+        self.crates = [Crate(position) for position in self.tilemap.crates]
+        self.running_action: Optional[MoveAction] = None
 
     @property
     def is_completed(self) -> bool:
@@ -103,29 +138,14 @@ class Level:
     def game_objects(self) -> Iterable[GameObject]:
         return chain([self.player], self.crates)
 
-    def post_player_movement(self, direction: Optional[Direction]) -> None:
-        self.player_movement = direction
-
     def crate_at_pos(self, position: TilePosition) -> Optional[Crate]:
         return next((crate for crate in self.crates if crate.tile_position == position), None)
 
     def can_move_crate_to(self, position: TilePosition) -> bool:
         return self.tilemap.tile_at(position).is_walkable and not self.crate_at_pos(position)
 
-    def update(self) -> None:
-        self.__move_player()
-        self.__clear_player_movement()
-        for game_object in self.game_objects:
-            game_object.update()
-        self.__evaluate_crates()
-
-    def draw(self) -> None:
-        # TODO: Add offset to tilemap so it will be ideally centered
-        for layer in list(LevelLayer):
-            self.__draw_level_layer(layer)
-
-    def __move_player(self) -> None:
-        if self.player.is_moving:
+    def process_input(self, input_action: Optional[InputAction]) -> None:
+        if self.running_action:
             return
 
         # TODO: Add movement cancellation when movement with opposite direction was triggered
@@ -136,24 +156,38 @@ class Level:
 
         self.player.is_pushing = False
 
-        if not self.player_movement:
+        if not input_action:
             return
 
-        player_dest = self.player.tile_position.move(self.player_movement)
-        if self.tilemap.tile_at(player_dest).is_walkable:
-            # TODO: Add logic for moving crates
-            crate = self.crate_at_pos(player_dest)
-            if crate:
-                crate_dest = crate.tile_position.move(self.player_movement)
-                if self.can_move_crate_to(crate_dest):
-                    crate.move(self.player_movement)
-                    self.player.move(self.player_movement)
-                    self.player.is_pushing = True
-            else:
-                self.player.move(self.player_movement)
+        if input_action == InputAction.UNDO:
+            # TODO: Not implemented yet!
+            pass
+        elif input_action.is_movement():
+            player_dest = self.player.tile_position.move(input_action.direction)
+            if self.tilemap.tile_at(player_dest).is_walkable:
+                crate = self.crate_at_pos(player_dest)
+                if crate:
+                    crate_dest = crate.tile_position.move(input_action.direction)
+                    if self.can_move_crate_to(crate_dest):
+                        self.__add_action(PushCrate(self.player, crate, input_action.direction))
+                        self.player.is_pushing = True
+                else:
+                    self.__add_action(MovePlayer(self.player, input_action.direction))
 
-    def __clear_player_movement(self) -> None:
-        self.player_movement = None
+    def update(self) -> None:
+        self.running_action = self.running_action.update() if self.running_action else None
+        self.__evaluate_crates()
+
+    def draw(self) -> None:
+        # TODO: Add offset to tilemap so it will be ideally centered
+        for layer in list(LevelLayer):
+            self.__draw_level_layer(layer)
+
+    def __add_action(self, action: MoveAction, put_in_history: bool = True) -> None:
+        self.running_action = action
+        if put_in_history:
+            # TODO: Not implemented yet!
+            pass
 
     def __evaluate_crates(self) -> None:
         for crate in self.crates:

@@ -30,6 +30,9 @@ class Point(NamedTuple):
     def from_list(cls, coords: List[int]) -> "Point":
         return cls(x=coords[0], y=coords[1])
 
+    def offset(self, dx: int, dy: int) -> "Point":
+        return Point(self.x + dx, self.y + dy)
+
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Point):
             return self.x == other.x and self.y == other.y

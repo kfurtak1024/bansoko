@@ -55,6 +55,14 @@ class Direction(Enum):
         self.dx = dx
         self.dy = dy
 
+    @property
+    def horizontal(self):
+        return self == Direction.LEFT or self == Direction.RIGHT
+
+    @property
+    def vertical(self):
+        return self == Direction.UP or self == Direction.DOWN
+
 
 class TilePosition(NamedTuple):
     tile_x: int = 0

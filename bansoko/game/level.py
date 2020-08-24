@@ -41,10 +41,6 @@ class LevelLayer(Enum):
         self.layer_index = layer_index
         self.offset = offset
 
-    @classmethod
-    def num_layers(cls) -> int:
-        return len(cls.__members__)
-
     @property
     def is_main(self) -> bool:
         return self == LevelLayer.MAIN_LAYER
