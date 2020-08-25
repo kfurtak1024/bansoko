@@ -3,12 +3,11 @@ from typing import Optional
 
 import pyxel
 
-from bansoko.game.core import Level, InputAction
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
-from bansoko.game.level import LevelStatistics
+from bansoko.game.level import LevelStatistics, InputAction, Level
 
 
 class PlayfieldScreen(Screen):
