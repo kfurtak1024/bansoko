@@ -46,7 +46,7 @@ class PreprocessedLevel:
         self.tile_data = tile_data
         self.width = width
         self.height = height
-        self.player_start = self.offset_to_pos(self.tile_data.index(Tile.PLAYER_START))
+        self.start = self.offset_to_pos(self.tile_data.index(Tile.START))
 
     @property
     def tilemap_uv(self) -> Position:
@@ -107,6 +107,6 @@ def _preprocess_level(level_num: int, level_data) -> PreprocessedLevel:
     tile_data = list(itertools.chain.from_iterable(flatten_data))
 
     preprocessed_level = PreprocessedLevel(level_num, level_width, level_height, tile_data)
-    preprocessed_level.flood_fill(preprocessed_level.player_start, Tile.FLOOR)
+    preprocessed_level.flood_fill(preprocessed_level.start, Tile.FLOOR)
 
     return preprocessed_level

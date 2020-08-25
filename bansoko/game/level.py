@@ -47,6 +47,7 @@ class LevelLayer(Enum):
         return self == LevelLayer.MAIN_LAYER
 
 
+# TODO: Is it needed in this form?
 class LevelTemplate:
     level_num: int
     tilemap: Tilemap

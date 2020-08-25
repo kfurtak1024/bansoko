@@ -12,7 +12,7 @@ TILE_SIZE = 8
 class Tile(Enum):
     VOID = "tile_void", " "
     WALL = "tile_wall", "X"
-    PLAYER_START = "tile_player_start", "@"
+    START = "tile_start", "@"
     FLOOR = "tile_floor", "."
     INITIAL_CRATE_POSITION = "tile_initial_crate_position", "#"
     CRATE_INITIALLY_PLACED = "tile_crate_initially_placed", "&"

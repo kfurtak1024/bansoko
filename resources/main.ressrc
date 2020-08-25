@@ -1230,7 +1230,7 @@
             {
               "tile_void": "tiles/void.png",
               "tile_wall": "tiles/desert/wall.png",
-              "tile_player_start": "tiles/desert/floor.png",
+              "tile_start": "tiles/desert/floor.png",
               "tile_floor": "tiles/desert/floor.png",
               "tile_initial_crate_position": "tiles/desert/floor.png",
               "tile_crate_initially_placed": "tiles/desert/floor.png",
@@ -1248,7 +1248,7 @@
           "tile_void": "0",
           "tile_wall": "5",
           "tile_floor": "7",
-          "tile_player_start": "E",
+          "tile_start": "E",
           "tile_initial_crate_position": "A",
           "tile_crate_initially_placed": "A",
           "tile_cargo_bay": "B"
@@ -1260,7 +1260,7 @@
             {
               "tile_void": "tiles/void.png",
               "tile_wall": "tiles/mint/wall.png",
-              "tile_player_start": "tiles/mint/floor.png",
+              "tile_start": "tiles/mint/floor.png",
               "tile_floor": "tiles/mint/floor.png",
               "tile_initial_crate_position": "tiles/mint/floor.png",
               "tile_crate_initially_placed": "tiles/mint/floor.png",
@@ -1278,7 +1278,7 @@
           "tile_void": "0",
           "tile_wall": "5",
           "tile_floor": "7",
-          "tile_player_start": "E",
+          "tile_start": "E",
           "tile_initial_crate_position": "A",
           "tile_crate_initially_placed": "A",
           "tile_cargo_bay": "B"
@@ -1290,7 +1290,7 @@
             {
               "tile_void": "tiles/void.png",
               "tile_wall": "tiles/ice/wall.png",
-              "tile_player_start": "tiles/ice/floor.png",
+              "tile_start": "tiles/ice/floor.png",
               "tile_floor": "tiles/ice/floor.png",
               "tile_initial_crate_position": "tiles/ice/floor.png",
               "tile_crate_initially_placed": "tiles/ice/floor.png",
@@ -1308,7 +1308,7 @@
           "tile_void": "0",
           "tile_wall": "5",
           "tile_floor": "7",
-          "tile_player_start": "E",
+          "tile_start": "E",
           "tile_initial_crate_position": "A",
           "tile_crate_initially_placed": "A",
           "tile_cargo_bay": "B"
@@ -1320,7 +1320,7 @@
             {
               "tile_void": "tiles/void.png",
               "tile_wall": "tiles/cherry/wall.png",
-              "tile_player_start": "tiles/cherry/floor.png",
+              "tile_start": "tiles/cherry/floor.png",
               "tile_floor": "tiles/cherry/floor.png",
               "tile_initial_crate_position": "tiles/cherry/floor.png",
               "tile_crate_initially_placed": "tiles/cherry/floor.png",
@@ -1338,7 +1338,7 @@
           "tile_void": "0",
           "tile_wall": "5",
           "tile_floor": "7",
-          "tile_player_start": "E",
+          "tile_start": "E",
           "tile_initial_crate_position": "A",
           "tile_crate_initially_placed": "A",
           "tile_cargo_bay": "B"
@@ -1350,7 +1350,7 @@
             {
               "tile_void": "tiles/void.png",
               "tile_wall": "tiles/moon/wall.png",
-              "tile_player_start": "tiles/moon/floor.png",
+              "tile_start": "tiles/moon/floor.png",
               "tile_floor": "tiles/moon/floor.png",
               "tile_initial_crate_position": "tiles/moon/floor.png",
               "tile_crate_initially_placed": "tiles/moon/floor.png",
@@ -1368,7 +1368,7 @@
           "tile_void": "0",
           "tile_wall": "5",
           "tile_floor": "7",
-          "tile_player_start": "E",
+          "tile_start": "E",
           "tile_initial_crate_position": "A",
           "tile_crate_initially_placed": "A",
           "tile_cargo_bay": "B"

@@ -78,10 +78,9 @@ class Crate(GameObject):
         sprite.draw(position, layer.layer_index)
 
 
-# TODO: Rename player to robot
 # TODO: Robot must face its movement direction
 # TODO: Add animations
-class Player(GameObject):
+class Robot(GameObject):
     def __init__(self, tile_position: TilePosition):
         super().__init__(tile_position)
         self.is_pushing = False
@@ -118,18 +117,18 @@ class MoveAction(abc.ABC):
         level_stats.steps += 1
 
 
-class MovePlayer(MoveAction):
-    def __init__(self, player: Player, direction: Direction):
-        super().__init__(player, direction, TILE_SIZE)
+class MoveRobot(MoveAction):
+    def __init__(self, robot: Robot, direction: Direction):
+        super().__init__(robot, direction, TILE_SIZE)
 
 
 class PushCrate(MoveAction):
-    def __init__(self, player: Player, crate: Crate, direction: Direction):
+    def __init__(self, robot: Robot, crate: Crate, direction: Direction):
         super().__init__(crate, direction, TILE_SIZE)
-        self.player_action = MovePlayer(player, direction)
+        self.robot_action = MoveRobot(robot, direction)
 
     def update(self, level_stats: LevelStatistics) -> Optional[MoveAction]:
-        self.player_action.update(level_stats)
+        self.robot_action.update(level_stats)
         return super().update(level_stats)
 
     def _on_stop(self, level_stats: LevelStatistics) -> None:
@@ -141,7 +140,7 @@ class Level:
     def __init__(self, level_template: LevelTemplate):
         self.statistics = LevelStatistics(level_template.level_num)
         self.tilemap = level_template.tilemap
-        self.player = Player(self.tilemap.player_start)
+        self.robot = Robot(self.tilemap.start)
         self.crates = [Crate(position) for position in self.tilemap.crates]
         self.running_action: Optional[MoveAction] = None
         self.history: List[MoveAction] = []
@@ -152,7 +151,7 @@ class Level:
 
     @property
     def game_objects(self) -> Iterable[GameObject]:
-        return chain([self.player], self.crates)
+        return chain([self.robot], self.crates)
 
     def crate_at_pos(self, position: TilePosition) -> Optional[Crate]:
         return next((crate for crate in self.crates if crate.tile_position == position), None)
@@ -163,13 +162,13 @@ class Level:
     def process_input(self, input_action: Optional[InputAction]) -> None:
         if self.running_action:
             # TODO: Add movement cancellation when movement with opposite direction was triggered
-            #       (only when player is not pushing a crate)
+            #       (only when robot is not pushing a crate)
             return
 
         # TODO: If player is pressing more then one directional button, prefer the one which
         #       does not lead to collision
 
-        self.player.is_pushing = False
+        self.robot.is_pushing = False
 
         if not input_action:
             return
@@ -178,16 +177,16 @@ class Level:
             # TODO: Not implemented yet!
             self.running_action = self.history.pop() if self.history else None
         elif input_action.is_movement:
-            player_dest = self.player.tile_position.move(input_action.direction)
-            if self.tilemap.tile_at(player_dest).is_walkable:
-                crate = self.crate_at_pos(player_dest)
+            robot_dest = self.robot.tile_position.move(input_action.direction)
+            if self.tilemap.tile_at(robot_dest).is_walkable:
+                crate = self.crate_at_pos(robot_dest)
                 if crate:
                     crate_dest = crate.tile_position.move(input_action.direction)
                     if self.can_move_crate_to(crate_dest):
-                        self.running_action = PushCrate(self.player, crate, input_action.direction)
-                        self.player.is_pushing = True
+                        self.running_action = PushCrate(self.robot, crate, input_action.direction)
+                        self.robot.is_pushing = True
                 else:
-                    self.running_action = MovePlayer(self.player, input_action.direction)
+                    self.running_action = MoveRobot(self.robot, input_action.direction)
 
                 if self.running_action:
                     self.history.append(self.running_action)

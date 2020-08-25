@@ -16,15 +16,15 @@ TILE_SIZE = 8
 class TileType(Enum):
     VOID = auto()
     WALL = auto()
-    PLAYER_START = auto()
+    START = auto()
     FLOOR = auto()
     INITIAL_CRATE_POSITION = auto()
     CRATE_INITIALLY_PLACED = auto()
     CARGO_BAY = auto()
 
     @property
-    def is_player_start(self) -> bool:
-        return self == TileType.PLAYER_START
+    def is_start(self) -> bool:
+        return self == TileType.START
 
     @property
     def is_crate_initially_placed(self) -> bool:
@@ -40,7 +40,7 @@ class TileType(Enum):
 
     @property
     def is_walkable(self) -> bool:
-        return self in (TileType.PLAYER_START, TileType.FLOOR, TileType.INITIAL_CRATE_POSITION,
+        return self in (TileType.START, TileType.FLOOR, TileType.INITIAL_CRATE_POSITION,
                         TileType.CRATE_INITIALLY_PLACED, TileType.CARGO_BAY)
 
 
@@ -110,8 +110,8 @@ class Tilemap:
                 tile = self.tile_at(tile_pos)
                 if tile.is_crate_spawn_point:
                     crates_list.append(tile_pos)
-                elif tile.is_player_start:
-                    self.player_start = tile_pos
+                elif tile.is_start:
+                    self.start = tile_pos
 
         self.crates = tuple(crates_list)
 
