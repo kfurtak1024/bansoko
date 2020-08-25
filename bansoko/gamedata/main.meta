@@ -217,7 +217,7 @@
       "image_rect": [
         0,
         64,
-        10,
+        40,
         10
       ],
       "multilayer": true
@@ -227,7 +227,17 @@
       "image_rect": [
         0,
         74,
-        10,
+        40,
+        10
+      ],
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
+      "image_rect": [
+        0,
+        84,
+        40,
         10
       ],
       "multilayer": true

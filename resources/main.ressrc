@@ -16,6 +16,11 @@
     },
     {
       "image_bank": 1,
+      "image": "sprites/robot_standing.png",
+      "multilayer": true
+    },
+    {
+      "image_bank": 1,
       "image": "sprites/robot_moving.png",
       "multilayer": true
     },

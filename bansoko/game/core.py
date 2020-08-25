@@ -1,26 +1,10 @@
 # TODO: Rename this modele (core?!?!?!?!)
 import abc
-from enum import IntEnum, unique, Enum
+from enum import IntEnum, unique
 
-from bansoko.game.tiles import Direction, TilePosition
-from bansoko.graphics import Point, Rect
+from bansoko.game.tiles import TilePosition
+from bansoko.graphics import Point, Rect, Direction, Layer
 from bansoko.graphics.sprite import Sprite
-
-
-# TODO: Rename it?
-@unique
-class LevelLayer(Enum):
-    MAIN_LAYER = 0, Point(0, 0)
-    LAYER_1 = 1, Point(-1, -1)
-    LAYER_2 = 2, Point(-2, -2)
-
-    def __init__(self, layer_index: int, offset: Point):
-        self.layer_index = layer_index
-        self.offset = offset
-
-    @property
-    def is_main(self) -> bool:
-        return self == LevelLayer.MAIN_LAYER
 
 
 class ObjectPosition:
@@ -49,14 +33,8 @@ class GameObject(abc.ABC):
     def tile_position(self) -> TilePosition:
         return self.position.tile_position
 
-    def position_on_layer(self, layer: LevelLayer) -> Point:
-        return self.position.to_point().offset(layer.offset.x, layer.offset.y)
-
-    def draw(self, layer: LevelLayer) -> None:
-        self._do_draw(self.position_on_layer(layer), layer)
-
     @abc.abstractmethod
-    def _do_draw(self, position: Point, layer: LevelLayer) -> None:
+    def draw(self, layer: Layer) -> None:
         pass
 
 
@@ -90,9 +68,9 @@ class Crate(GameObject):
     def in_place(self) -> bool:
         return self.state == CrateState.PLACED
 
-    def _do_draw(self, position: Point, layer: LevelLayer) -> None:
+    def draw(self, layer: Layer) -> None:
         sprite = self.crate_skin.get_sprite(self.state)
-        sprite.draw(position, layer.layer_index)
+        sprite.draw(self.position.to_point(), layer)
 
 
 @unique
@@ -106,13 +84,16 @@ class RobotState(IntEnum):
 class RobotSkin:
     def __init__(self) -> None:
         # TODO: Hard-coded sprites!
-        self.robot_moving_sprite = Sprite(1, Rect.from_coords(0, 64, 10, 10), multilayer=True)
-        self.robot_pushing_sprite = Sprite(1, Rect.from_coords(0, 74, 10, 10), multilayer=True)
+        self.robot_standing_sprite = Sprite(1, Rect.from_coords(0, 64, 40, 10), multilayer=True, directional=True)
+        self.robot_moving_sprite = Sprite(1, Rect.from_coords(0, 74, 40, 10), multilayer=True, directional=True)
+        self.robot_pushing_sprite = Sprite(1, Rect.from_coords(0, 84, 40, 10), multilayer=True, directional=True)
 
-    def get_sprite(self, state: RobotState, direction: Direction) -> Sprite:
+    def get_sprite(self, state: RobotState) -> Sprite:
         # TODO: Under construction!
         if state == RobotState.PUSHING:
             return self.robot_pushing_sprite
+        elif state == RobotState.MOVING:
+            return self.robot_moving_sprite
 
         return self.robot_moving_sprite
 
@@ -126,6 +107,6 @@ class Robot(GameObject):
         self.robot_skin = robot_skin
         self.state = RobotState.STANDING
 
-    def _do_draw(self, position: Point, layer: LevelLayer) -> None:
-        sprite = self.robot_skin.get_sprite(self.state, self.face_direction)
-        sprite.draw(position, layer.layer_index)
+    def draw(self, layer: Layer) -> None:
+        sprite = self.robot_skin.get_sprite(self.state)
+        sprite.draw(self.position.to_point(), layer, self.face_direction)

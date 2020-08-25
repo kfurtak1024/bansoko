@@ -4,7 +4,7 @@ from typing import NamedTuple, Any
 
 import pyxel
 
-from bansoko.graphics import Point
+from bansoko.graphics import Point, Direction
 
 # TODO: Should be taken from bundle
 LEVEL_WIDTH = 32
@@ -42,26 +42,6 @@ class TileType(Enum):
     def is_walkable(self) -> bool:
         return self in (TileType.START, TileType.FLOOR, TileType.INITIAL_CRATE_POSITION,
                         TileType.CRATE_INITIALLY_PLACED, TileType.CARGO_BAY)
-
-
-@unique
-class Direction(Enum):
-    UP = (0, -1)
-    DOWN = (0, 1)
-    LEFT = (-1, 0)
-    RIGHT = (1, 0)
-
-    def __init__(self, dx: int, dy: int) -> None:
-        self.dx = dx
-        self.dy = dy
-
-    @property
-    def horizontal(self) -> bool:
-        return self == Direction.LEFT or self == Direction.RIGHT
-
-    @property
-    def vertical(self) -> bool:
-        return self == Direction.UP or self == Direction.DOWN
 
 
 class TilePosition(NamedTuple):

@@ -7,10 +7,9 @@ from typing import Optional, List, Iterable
 import pyxel
 
 from bansoko.game.core import GameObject, Robot, Crate, RobotSkin, CrateSkin, RobotState, \
-    CrateState, LevelLayer
-from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, Direction, \
-    TilePosition
-from bansoko.graphics import Point
+    CrateState
+from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, TilePosition
+from bansoko.graphics import Point, Direction, Layer
 
 
 class LevelStatistics:
@@ -185,7 +184,7 @@ class Level:
 
     def draw(self) -> None:
         # TODO: Add offset to tilemap so it will be ideally centered
-        for layer in list(LevelLayer):
+        for layer in list(Layer):
             self.__draw_level_layer(layer)
 
     @staticmethod
@@ -199,7 +198,7 @@ class Level:
             crate_in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
             crate.state = CrateState.PLACED if crate_in_place else CrateState.MISPLACED
 
-    def __draw_level_layer(self, layer: LevelLayer) -> None:
+    def __draw_level_layer(self, layer: Layer) -> None:
         # TODO: This clip() is temporary
         pyxel.clip(15, 27, 256 - 15 - 15, 256 - 48 - 27)
         pyxel.bltm(layer.offset.x, layer.offset.y, layer.layer_index,
