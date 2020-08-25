@@ -5,7 +5,7 @@ class Size(NamedTuple):
     width: int = 0
     height: int = 0
 
-    def enlarge(self, dx: int, dy: Optional[int] = None):
+    def enlarge(self, dx: int, dy: Optional[int] = None) -> "Size":
         return Size(self.width + dx, self.height + (dy if dy else dx))
 
     def __eq__(self, other: Any) -> bool:

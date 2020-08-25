@@ -24,7 +24,7 @@ from resbuilder.processors.level_theme_processor import generate_level_themes
 from resbuilder.processors.sprite_processor import process_sprites
 
 
-def configure_logger(verbose: bool):
+def configure_logger(verbose: bool) -> None:
     """Sets up a logger for Resource Builder according to value of verbose flag."""
     logging.basicConfig(
         format="%(levelname)s%(message)s",

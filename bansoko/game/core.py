@@ -9,7 +9,7 @@ from bansoko.game.level import LevelTemplate, LevelStatistics, LevelLayer
 from bansoko.game.tiles import Direction, TilePosition, TILE_SIZE, LEVEL_WIDTH, \
     LEVEL_HEIGHT
 from bansoko.graphics import Point, Rect
-from graphics.sprite import Sprite
+from bansoko.graphics.sprite import Sprite
 
 
 class InputAction(Enum):
@@ -114,7 +114,7 @@ class MoveAction(abc.ABC):
             int(delta * self.direction.dx), int(delta * self.direction.dy))
         return self
 
-    def _on_stop(self, level_stats: LevelStatistics):
+    def _on_stop(self, level_stats: LevelStatistics) -> None:
         level_stats.steps += 1
 
 
@@ -132,7 +132,7 @@ class PushCrate(MoveAction):
         self.player_action.update(level_stats)
         return super().update(level_stats)
 
-    def _on_stop(self, level_stats: LevelStatistics):
+    def _on_stop(self, level_stats: LevelStatistics) -> None:
         level_stats.pushes += 1
 
 
@@ -193,7 +193,8 @@ class Level:
                     self.history.append(self.running_action)
 
     def update(self) -> None:
-        self.running_action = self.running_action.update(self.statistics) if self.running_action else None
+        if self.running_action:
+            self.running_action = self.running_action.update(self.statistics)
         self.__evaluate_crates()
         self.statistics.time_in_ms += 33  # TODO: Hard-coded value!
 

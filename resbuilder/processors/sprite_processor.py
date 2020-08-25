@@ -23,7 +23,7 @@ def process_sprites(base_dir: str, sprites_data):
 
 # TODO: Temporary implementation
 class SpriteSheetPacker:
-    def __init__(self, image_bank: int, base_dir: str):
+    def __init__(self, image_bank: int, base_dir: str) -> None:
         self.image_bank = image_bank
         self.base_dir = base_dir
         # TODO: Reimplement!

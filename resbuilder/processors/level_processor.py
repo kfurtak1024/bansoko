@@ -41,7 +41,7 @@ Position = namedtuple("Position", ["x", "y"])
 
 
 class PreprocessedLevel:
-    def __init__(self, level_num: int, width: int, height: int, tile_data: List[Tile]):
+    def __init__(self, level_num: int, width: int, height: int, tile_data: List[Tile]) -> None:
         self.level_num = level_num
         self.tile_data = tile_data
         self.width = width

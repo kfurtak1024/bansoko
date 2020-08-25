@@ -8,7 +8,7 @@ from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
-from game.level import LevelStatistics
+from bansoko.game.level import LevelStatistics
 
 
 class PlayfieldScreen(Screen):
