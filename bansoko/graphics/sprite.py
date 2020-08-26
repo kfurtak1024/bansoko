@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, List
 
 import pyxel
 
@@ -57,3 +57,10 @@ class Sprite(NamedTuple):
             height -= top_layer
 
         return height
+
+
+class SkinPack(NamedTuple):
+    skin_sprites: List[Sprite]
+
+    def get_sprite(self, sprite_index: int) -> Sprite:
+        return self.skin_sprites[sprite_index]

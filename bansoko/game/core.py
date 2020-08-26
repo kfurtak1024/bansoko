@@ -1,11 +1,10 @@
 # TODO: Rename this modele (core?!?!?!?!)
 import abc
 from enum import IntEnum, unique
-from typing import List, NamedTuple
 
 from bansoko.game.tiles import TilePosition
-from bansoko.graphics import Point, Rect, Direction, Layer
-from bansoko.graphics.sprite import Sprite
+from bansoko.graphics import Point, Direction, Layer
+from bansoko.graphics.sprite import SkinPack
 
 
 class ObjectPosition:
@@ -45,16 +44,8 @@ class CrateState(IntEnum):
     PLACED = 1
 
 
-# TODO: RobotSkin and CrateSkin are way to similar :) Generalize it
-class CrateSkin(NamedTuple):
-    sprites: List[Sprite]
-
-    def get_sprite(self, state: CrateState) -> Sprite:
-        return self.sprites[state]
-
-
 class Crate(GameObject):
-    def __init__(self, tile_position: TilePosition, is_placed: bool, crate_skin: CrateSkin) -> None:
+    def __init__(self, tile_position: TilePosition, is_placed: bool, crate_skin: SkinPack) -> None:
         super().__init__(tile_position)
         self.crate_skin = crate_skin
         self.state = CrateState.PLACED if is_placed else CrateState.MISPLACED
@@ -64,7 +55,7 @@ class Crate(GameObject):
         return self.state == CrateState.PLACED
 
     def draw(self, layer: Layer) -> None:
-        sprite = self.crate_skin.get_sprite(self.state)
+        sprite = self.crate_skin.skin_sprites[self.state]
         sprite.draw(self.position.to_point(), layer)
 
 
@@ -75,17 +66,10 @@ class RobotState(IntEnum):
     PUSHING = 2
 
 
-class RobotSkin(NamedTuple):
-    sprites: List[Sprite]
-
-    def get_sprite(self, state: RobotState) -> Sprite:
-        return self.sprites[state]
-
-
 # TODO: Add animations
 class Robot(GameObject):
     def __init__(self, tile_position: TilePosition, face_direction: Direction,
-                 robot_skin: RobotSkin):
+                 robot_skin: SkinPack):
         super().__init__(tile_position)
         self.face_direction = face_direction
         self.robot_skin = robot_skin

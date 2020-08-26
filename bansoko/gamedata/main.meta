@@ -283,5 +283,16 @@
     "victory": {
       "background_color": "0"
     }
+  },
+  "skin_packs": {
+    "robot": [
+      3,
+      4,
+      5
+    ],
+    "crate": [
+      1,
+      2
+    ]
   }
 }

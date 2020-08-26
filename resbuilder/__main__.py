@@ -18,6 +18,7 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
+from processors.skin_pack_processor import process_skins
 from resbuilder.processors.background_processor import process_backgrounds
 from resbuilder.processors.level_processor import process_levels
 from resbuilder.processors.level_theme_processor import generate_level_themes
@@ -72,6 +73,8 @@ if __name__ == "__main__":
         metadata["sprites"] = process_sprites(files.input_dir, input_data["sprites"])
         logging.info("Processing backgrounds...")
         metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"])
+        logging.info("Processing skins...")
+        metadata["skin_packs"] = process_skins(input_data["skin_packs"])
         logging.info("Writing resource file '%s'...", files.resource_filename)
         pyxel.save(files.resource_filename)
         logging.info("Writing metadata file '%s'...", files.metadata_filename)

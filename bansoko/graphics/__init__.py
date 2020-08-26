@@ -23,7 +23,7 @@ class Direction(Enum):
         return self == Direction.UP or self == Direction.DOWN
 
     @classmethod
-    def num_directions(cls):
+    def num_directions(cls) -> int:
         return len(cls.__members__)
 
 

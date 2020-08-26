@@ -5,8 +5,7 @@ from typing import NamedTuple, List, Dict, Optional, Tuple
 from bansoko.game.level import LevelTemplate
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
-from bansoko.graphics.sprite import Sprite
-from game.core import RobotSkin, CrateSkin
+from bansoko.graphics.sprite import Sprite, SkinPack
 
 
 class Bundle(NamedTuple):
@@ -16,6 +15,7 @@ class Bundle(NamedTuple):
     """
 
     sprites: Tuple[Sprite, ...]
+    skin_packs: Dict[str, SkinPack]
     backgrounds: Dict[str, Background]
     level_templates: Tuple[LevelTemplate, ...]
 
@@ -31,6 +31,9 @@ class Bundle(NamedTuple):
             - None if there is no such a sprite in the bundle
         """
         return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
+
+    def get_skin_pack(self, skin_pack_name: str) -> SkinPack:
+        return self.skin_packs[skin_pack_name]
 
     def get_background(self, background_name: str) -> Optional[Background]:
         """
@@ -57,16 +60,6 @@ class Bundle(NamedTuple):
         """
         return self.level_templates[template_id]
 
-    # TODO: Rethink that
-    def get_robot_skin(self):
-        # TODO: Hard-coded ids!
-        return RobotSkin([self.get_sprite(3), self.get_sprite(4), self.get_sprite(5)])
-
-    # TODO: Rethink that
-    def get_crate_skin(self):
-        # TODO: Hard-coded ids!
-        return CrateSkin([self.get_sprite(1), self.get_sprite(2)])
-
     @property
     def num_levels(self) -> int:
         return len(self.level_templates)
@@ -83,9 +76,10 @@ def load_bundle(metadata_filename: str) -> Bundle:
     with open(metadata_filename) as metadata_file:
         metadata = json.load(metadata_file)
         sprites = load_sprites(metadata["sprites"])
+        skin_packs = load_skin_packs(metadata["skin_packs"], sprites)
         backgrounds = load_backgrounds(metadata["backgrounds"], sprites)
         level_templates = load_level_templates(metadata["levels"])
-        return Bundle(sprites, backgrounds, level_templates)
+        return Bundle(sprites, skin_packs, backgrounds, level_templates)
 
 
 def load_sprites(input_data) -> Tuple[Sprite, ...]:
@@ -100,6 +94,15 @@ def load_sprites(input_data) -> Tuple[Sprite, ...]:
             sprite_data["num_frames"]))
 
     return tuple(sprites)
+
+
+def load_skin_packs(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, SkinPack]:
+    skin_packs = {}
+
+    for (skin_pack_name, skin_sprites) in input_data.items():
+        skin_packs[skin_pack_name] = SkinPack([sprites[sprite_id] for sprite_id in skin_sprites])
+
+    return skin_packs
 
 
 def load_backgrounds(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:

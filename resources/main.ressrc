@@ -33,6 +33,17 @@
       "directional": true
     }
   ],
+  "skin_packs": {
+    "robot": [
+      3,
+      4,
+      5
+    ],
+    "crate": [
+      1,
+      2
+    ]
+  },
   "backgrounds": {
     "main_menu": {
       "background_color": "0",

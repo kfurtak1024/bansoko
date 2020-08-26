@@ -6,10 +6,10 @@ from typing import Optional, List, Iterable
 
 import pyxel
 
-from bansoko.game.core import GameObject, Robot, Crate, CrateSkin, RobotState, \
-    CrateState, RobotSkin
+from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
 from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, TilePosition
 from bansoko.graphics import Point, Direction, Layer
+from bansoko.graphics.sprite import SkinPack
 
 
 class LevelStatistics:
@@ -101,7 +101,7 @@ class PushCrate(MoveAction):
 
 
 class Level:
-    def __init__(self, level_template: LevelTemplate, robot_skin: RobotSkin, crate_skin: CrateSkin):
+    def __init__(self, level_template: LevelTemplate, robot_skin: SkinPack, crate_skin: SkinPack):
         tilemap = level_template.tilemap
 
         self.statistics = LevelStatistics(level_template.level_num)
@@ -181,7 +181,7 @@ class Level:
             self.__draw_level_layer(layer)
 
     @staticmethod
-    def __new_crate(position: TilePosition, tilemap: Tilemap, crate_skin: CrateSkin) -> Crate:
+    def __new_crate(position: TilePosition, tilemap: Tilemap, crate_skin: SkinPack) -> Crate:
         is_initially_placed = tilemap.tile_at(position).is_crate_initially_placed
         return Crate(position, is_initially_placed, crate_skin)
 
