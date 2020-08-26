@@ -129,5 +129,5 @@ class Layer(Enum):
         return self == Layer.LAYER_0
 
     @property
-    def top_layer(self) -> "Layer":
-        return Layer.LAYER_2
+    def top_layer(self) -> int:
+        return Layer.LAYER_2.layer_index

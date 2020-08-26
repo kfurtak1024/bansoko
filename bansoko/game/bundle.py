@@ -6,6 +6,7 @@ from bansoko.game.level import LevelTemplate
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite
+from game.core import RobotSkin, CrateSkin
 
 
 class Bundle(NamedTuple):
@@ -56,6 +57,16 @@ class Bundle(NamedTuple):
         """
         return self.level_templates[template_id]
 
+    # TODO: Rethink that
+    def get_robot_skin(self):
+        # TODO: Hard-coded ids!
+        return RobotSkin([self.get_sprite(3), self.get_sprite(4), self.get_sprite(5)])
+
+    # TODO: Rethink that
+    def get_crate_skin(self):
+        # TODO: Hard-coded ids!
+        return CrateSkin([self.get_sprite(1), self.get_sprite(2)])
+
     @property
     def num_levels(self) -> int:
         return len(self.level_templates)
@@ -79,7 +90,16 @@ def load_bundle(metadata_filename: str) -> Bundle:
 
 def load_sprites(input_data) -> Tuple[Sprite, ...]:
     # TODO: Under construction!
-    return tuple([Sprite(1, Rect.from_list(sprite["image_rect"])) for sprite in input_data])
+    sprites = []
+    for sprite_data in input_data:
+        sprites.append(Sprite(
+            sprite_data["image_bank"],
+            Rect.from_list(sprite_data["rect_uv"]),
+            sprite_data["multilayer"],
+            sprite_data["directional"],
+            sprite_data["num_frames"]))
+
+    return tuple(sprites)
 
 
 def load_backgrounds(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:

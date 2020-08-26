@@ -184,63 +184,75 @@
   "sprites": [
     {
       "image_bank": 1,
-      "image_rect": [
+      "rect_uv": [
         0,
         0,
         215,
         44
       ],
-      "multilayer": false
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1
     },
     {
       "image_bank": 1,
-      "image_rect": [
+      "rect_uv": [
         0,
         44,
         10,
         10
       ],
-      "multilayer": true
+      "multilayer": true,
+      "directional": false,
+      "num_frames": 1
     },
     {
       "image_bank": 1,
-      "image_rect": [
+      "rect_uv": [
         0,
         54,
         10,
         10
       ],
-      "multilayer": true
+      "multilayer": true,
+      "directional": false,
+      "num_frames": 1
     },
     {
       "image_bank": 1,
-      "image_rect": [
+      "rect_uv": [
         0,
         64,
         40,
         10
       ],
-      "multilayer": true
+      "multilayer": true,
+      "directional": true,
+      "num_frames": 1
     },
     {
       "image_bank": 1,
-      "image_rect": [
+      "rect_uv": [
         0,
         74,
         40,
         10
       ],
-      "multilayer": true
+      "multilayer": true,
+      "directional": true,
+      "num_frames": 1
     },
     {
       "image_bank": 1,
-      "image_rect": [
+      "rect_uv": [
         0,
         84,
         40,
         10
       ],
-      "multilayer": true
+      "multilayer": true,
+      "directional": true,
+      "num_frames": 1
     }
   ],
   "backgrounds": {

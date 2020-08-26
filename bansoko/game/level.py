@@ -6,8 +6,8 @@ from typing import Optional, List, Iterable
 
 import pyxel
 
-from bansoko.game.core import GameObject, Robot, Crate, RobotSkin, CrateSkin, RobotState, \
-    CrateState
+from bansoko.game.core import GameObject, Robot, Crate, CrateSkin, RobotState, \
+    CrateState, RobotSkin
 from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, TilePosition
 from bansoko.graphics import Point, Direction, Layer
 
@@ -36,17 +36,12 @@ class LevelStatistics:
 class LevelTemplate:
     level_num: int
     tilemap: Tilemap
-    robot_skin: RobotSkin
-    crate_skin: CrateSkin
 
     def __init__(self, level_num: int, theme_index: int):
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         self.level_num = level_num
         self.tilemap = Tilemap(Tileset(theme_index), tilemap_u, tilemap_v)
-        # TODO: Where RobotSkin and CrateSkin should be taken from?
-        self.robot_skin = RobotSkin()
-        self.crate_skin = CrateSkin()
 
 
 class InputAction(Enum):
@@ -106,10 +101,8 @@ class PushCrate(MoveAction):
 
 
 class Level:
-    def __init__(self, level_template: LevelTemplate):
+    def __init__(self, level_template: LevelTemplate, robot_skin: RobotSkin, crate_skin: CrateSkin):
         tilemap = level_template.tilemap
-        robot_skin = level_template.robot_skin
-        crate_skin = level_template.crate_skin
 
         self.statistics = LevelStatistics(level_template.level_num)
         self.tilemap = tilemap

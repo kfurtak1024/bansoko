@@ -21,8 +21,9 @@ class GameContext(ScreenFactory):
         return MainMenuScreen(self, self.bundle.get_background("main_menu"))
 
     def get_playfield_screen(self, level: int) -> Screen:
-        return PlayfieldScreen(self, Level(self.bundle.get_level_template(level)),
-                               self.bundle.get_background("playfield"))
+        level = Level(self.bundle.get_level_template(level), self.bundle.get_robot_skin(),
+                      self.bundle.get_crate_skin())
+        return PlayfieldScreen(self, level, self.bundle.get_background("playfield"))
 
     def get_choose_level_screen(self) -> Screen:
         return ChooseLevelScreen(self, self.bundle.num_levels,

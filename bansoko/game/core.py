@@ -1,6 +1,7 @@
 # TODO: Rename this modele (core?!?!?!?!)
 import abc
 from enum import IntEnum, unique
+from typing import List, NamedTuple
 
 from bansoko.game.tiles import TilePosition
 from bansoko.graphics import Point, Rect, Direction, Layer
@@ -44,18 +45,12 @@ class CrateState(IntEnum):
     PLACED = 1
 
 
-# TODO: Should become NamedTuple
-class CrateSkin:
-    def __init__(self) -> None:
-        # TODO: Hard-coded sprites!
-        self.crate_misplaced_sprite = Sprite(1, Rect.from_coords(0, 44, 10, 10), multilayer=True)
-        self.crate_placed_sprite = Sprite(1, Rect.from_coords(0, 54, 10, 10), multilayer=True)
+# TODO: RobotSkin and CrateSkin are way to similar :) Generalize it
+class CrateSkin(NamedTuple):
+    sprites: List[Sprite]
 
     def get_sprite(self, state: CrateState) -> Sprite:
-        # TODO: Under construction!
-        if state == CrateState.PLACED:
-            return self.crate_placed_sprite
-        return self.crate_misplaced_sprite
+        return self.sprites[state]
 
 
 class Crate(GameObject):
@@ -80,22 +75,11 @@ class RobotState(IntEnum):
     PUSHING = 2
 
 
-# TODO: Should become NamedTuple
-class RobotSkin:
-    def __init__(self) -> None:
-        # TODO: Hard-coded sprites!
-        self.robot_standing_sprite = Sprite(1, Rect.from_coords(0, 64, 40, 10), multilayer=True, directional=True)
-        self.robot_moving_sprite = Sprite(1, Rect.from_coords(0, 74, 40, 10), multilayer=True, directional=True)
-        self.robot_pushing_sprite = Sprite(1, Rect.from_coords(0, 84, 40, 10), multilayer=True, directional=True)
+class RobotSkin(NamedTuple):
+    sprites: List[Sprite]
 
     def get_sprite(self, state: RobotState) -> Sprite:
-        # TODO: Under construction!
-        if state == RobotState.PUSHING:
-            return self.robot_pushing_sprite
-        elif state == RobotState.MOVING:
-            return self.robot_moving_sprite
-
-        return self.robot_moving_sprite
+        return self.sprites[state]
 
 
 # TODO: Add animations

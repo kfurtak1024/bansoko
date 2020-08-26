@@ -17,17 +17,20 @@
     {
       "image_bank": 1,
       "image": "sprites/robot_standing.png",
-      "multilayer": true
+      "multilayer": true,
+      "directional": true
     },
     {
       "image_bank": 1,
       "image": "sprites/robot_moving.png",
-      "multilayer": true
+      "multilayer": true,
+      "directional": true
     },
     {
       "image_bank": 1,
       "image": "sprites/robot_pushing.png",
-      "multilayer": true
+      "multilayer": true,
+      "directional": true
     }
   ],
   "backgrounds": {

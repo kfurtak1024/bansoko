@@ -14,8 +14,10 @@ def process_sprites(base_dir: str, sprites_data):
         rect = packer.pack_sprite(sprite_data["image"])
         sprites.append({
             "image_bank": 1,
-            "image_rect": [rect.x, rect.y, rect.w, rect.h],
-            "multilayer": sprite_data.get("multilayer", False)
+            "rect_uv": [rect.x, rect.y, rect.w, rect.h],
+            "multilayer": sprite_data.get("multilayer", False),
+            "directional": sprite_data.get("directional", False),
+            "num_frames": sprite_data.get("num_frames", 1)
         })
 
     return tuple(sprites)
