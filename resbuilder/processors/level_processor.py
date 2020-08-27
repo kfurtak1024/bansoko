@@ -1,4 +1,5 @@
 import itertools
+import logging
 from collections import namedtuple
 from typing import List
 
@@ -30,7 +31,10 @@ def process_levels(levels, level_themes: List[LevelTheme]):
                 pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
 
         levels_metadata.append({"level_theme": theme_id})
+        logging.info("Level %d (%dx%d theme:%d) added", level_num, preprocessed_level.width,
+                     preprocessed_level.height, theme_id)
 
+    logging.info("Total levels: %d", len(levels))
     return levels_metadata
 
 

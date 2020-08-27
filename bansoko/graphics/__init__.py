@@ -84,6 +84,10 @@ class Rect(NamedTuple):
         return cls(position=Point(coords[0], coords[1]), size=Size(coords[2], coords[3]))
 
     @property
+    def as_list(self) -> List[int]:
+        return [self.position.x, self.position.y, self.size.width, self.size.height]
+
+    @property
     def x(self) -> int:
         return self.position.x
 

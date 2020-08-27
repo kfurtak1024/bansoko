@@ -33,6 +33,15 @@ class Bundle(NamedTuple):
         return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
 
     def get_skin_pack(self, skin_pack_name: str) -> SkinPack:
+        """
+        Return skin pack with given skin pack name.
+
+        Arguments:
+            skin_pack_name - name of skin pack to be retrieved
+
+        Returns:
+            - instance of SkinPack with given name
+        """
         return self.skin_packs[skin_pack_name]
 
     def get_background(self, background_name: str) -> Optional[Background]:
@@ -83,7 +92,6 @@ def load_bundle(metadata_filename: str) -> Bundle:
 
 
 def load_sprites(input_data) -> Tuple[Sprite, ...]:
-    # TODO: Under construction!
     sprites = []
     for sprite_data in input_data:
         sprites.append(Sprite(
@@ -109,14 +117,14 @@ def load_backgrounds(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Backg
     # TODO: Under construction!
     backgrounds = {}
 
-    for (k, v) in input_data.items():
-        color = v["background_color"]
+    for (background_name, background_item) in input_data.items():
+        color = background_item["background_color"]
         elements: List[BackgroundElement] = []
-        if v.get("background_elements") is not None:
-            for element in v["background_elements"]:
+        if background_item.get("background_elements") is not None:
+            for element in background_item["background_elements"]:
                 elements.append(BackgroundElement(sprites[element["sprite"]],
                                                   Point.from_list(element["position"])))
-        backgrounds[k] = Background(tuple(elements), color)
+        backgrounds[background_name] = Background(tuple(elements), color)
 
     return backgrounds
 

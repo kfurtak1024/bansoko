@@ -18,7 +18,7 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from processors.skin_pack_processor import process_skins
+from resbuilder.processors.skin_pack_processor import process_skin_packs
 from resbuilder.processors.background_processor import process_backgrounds
 from resbuilder.processors.level_processor import process_levels
 from resbuilder.processors.level_theme_processor import generate_level_themes
@@ -60,22 +60,25 @@ if __name__ == "__main__":
     configure_logger(arguments["--verbose"])
 
     logging.info("Processing file '%s'...", files.input_filename)
-    with open(files.input_filename) as input_file,\
-         open(files.metadata_filename, "w") as metadata_file:
-        pyxel.init(256, 256)
-        input_data = json.load(input_file)
-        metadata = {}
-        logging.info("Generating level themes...")
-        level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
-        logging.info("Processing levels...")
-        metadata["levels"] = process_levels(input_data["levels"], level_themes)
-        logging.info("Processing sprites...")
-        metadata["sprites"] = process_sprites(files.input_dir, input_data["sprites"])
-        logging.info("Processing backgrounds...")
-        metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"])
-        logging.info("Processing skins...")
-        metadata["skin_packs"] = process_skins(input_data["skin_packs"])
-        logging.info("Writing resource file '%s'...", files.resource_filename)
-        pyxel.save(files.resource_filename)
-        logging.info("Writing metadata file '%s'...", files.metadata_filename)
-        json.dump(metadata, metadata_file, indent=2)
+    try:
+        with open(files.input_filename) as input_file,\
+             open(files.metadata_filename, "w") as metadata_file:
+            pyxel.init(256, 256)
+            input_data = json.load(input_file)
+            metadata = {}
+            logging.info("Generating level themes...")
+            level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
+            logging.info("Processing levels...")
+            metadata["levels"] = process_levels(input_data["levels"], level_themes)
+            logging.info("Processing sprites...")
+            metadata["sprites"] = process_sprites(files.input_dir, input_data["sprites"])
+            logging.info("Processing backgrounds...")
+            metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"])
+            logging.info("Processing skins...")
+            metadata["skin_packs"] = process_skin_packs(input_data["skin_packs"])
+            logging.info("Writing resource file '%s'...", files.resource_filename)
+            pyxel.save(files.resource_filename)
+            logging.info("Writing metadata file '%s'...", files.metadata_filename)
+            json.dump(metadata, metadata_file, indent=2)
+    except Exception as error:
+        logging.exception(error)
