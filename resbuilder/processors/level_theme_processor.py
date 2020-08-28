@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Dict, List
 
 from resbuilder.processors.tile_processor import Tile, TilesetPacker
@@ -21,7 +22,7 @@ class LevelTheme:
         return self.thumbnail_colors[tile]
 
 
-def generate_level_themes(base_dir: str, data) -> List[LevelTheme]:
+def generate_level_themes(base_dir: Path, data) -> List[LevelTheme]:
     # TODO: Refactor it
     packer = TilesetPacker(data["tiles_image_bank"], base_dir)
     themes: List[LevelTheme] = []

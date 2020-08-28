@@ -27,7 +27,7 @@ SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
 
 class TilesetPacker:
-    def __init__(self, image_bank: int, base_dir: str) -> None:
+    def __init__(self, image_bank: int, base_dir: Path) -> None:
         self.image_bank = image_bank
         self.base_dir = base_dir
         self.next_free_tile = 0

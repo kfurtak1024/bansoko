@@ -39,7 +39,7 @@ class FileNames(NamedTuple):
     """Container for directories and file names used by Resource Builder."""
 
     input_filename: str
-    input_dir: str
+    input_dir: Path
     resource_filename: str
     metadata_filename: str
 
@@ -50,7 +50,7 @@ def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
     base_name = source_file_path.stem
     resource_file_path = Path(out_dir).joinpath(base_name + ".pyxres").resolve()
     metadata_file_path = Path(out_dir).joinpath(base_name + ".meta").resolve()
-    return FileNames(str(source_file_path), str(source_dir), str(resource_file_path),
+    return FileNames(str(source_file_path), source_dir, str(resource_file_path),
                      str(metadata_file_path))
 
 

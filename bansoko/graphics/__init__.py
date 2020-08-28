@@ -1,4 +1,5 @@
 from enum import unique, Enum
+from functools import total_ordering
 from typing import NamedTuple, List, Any, Optional, Tuple
 
 
@@ -47,12 +48,23 @@ class Point(NamedTuple):
         return hash((self.x, self.y))
 
 
+@total_ordering
 class Size(NamedTuple):
     width: int = 0
     height: int = 0
 
     def enlarge(self, dx: int, dy: Optional[int] = None) -> "Size":
         return Size(self.width + dx, self.height + (dy if dy else dx))
+
+    @property
+    def max_dimension(self) -> int:
+        return max(self.width, self.height)
+
+    def can_fit(self, size: "Size") -> bool:
+        return self.width >= size.width and self.height >= size.height
+
+    def __lt__(self, other: Tuple[int, ...]) -> bool:
+        return (self.width, self.height) < (other[0], other[1])
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Size):
@@ -83,6 +95,10 @@ class Rect(NamedTuple):
     def from_list(cls, coords: List[int]) -> "Rect":
         return cls(position=Point(coords[0], coords[1]), size=Size(coords[2], coords[3]))
 
+    @classmethod
+    def from_size(cls, size: Size) -> "Rect":
+        return cls(position=Point(0, 0), size=size)
+
     @property
     def as_list(self) -> List[int]:
         return [self.position.x, self.position.y, self.size.width, self.size.height]
@@ -102,6 +118,22 @@ class Rect(NamedTuple):
     @property
     def h(self) -> int:
         return self.size.height
+
+    @property
+    def left(self) -> int:
+        return self.x
+
+    @property
+    def right(self) -> int:
+        return self.x + self.w
+
+    @property
+    def top(self) -> int:
+        return self.y
+
+    @property
+    def bottom(self) -> int:
+        return self.y + self.h
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Rect):

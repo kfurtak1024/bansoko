@@ -96,7 +96,7 @@ def load_sprites(input_data) -> Tuple[Sprite, ...]:
     for sprite_data in input_data:
         sprites.append(Sprite(
             sprite_data["image_bank"],
-            Rect.from_list(sprite_data["rect_uv"]),
+            Rect.from_list(sprite_data["uv_rect"]),
             sprite_data["multilayer"],
             sprite_data["directional"],
             sprite_data["num_frames"]))
