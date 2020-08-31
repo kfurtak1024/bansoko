@@ -60,44 +60,65 @@ class InputAction(Enum):
 
 
 class MoveAction(abc.ABC):
-    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int):
+    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int,
+                 backward: bool = False):
         self.game_object = game_object
         self.direction = direction
         self.frames_to_complete = frames_to_complete
         self.elapsed_frames = 0
+        self.backward = backward
 
     def update(self, level_stats: LevelStatistics) -> Optional["MoveAction"]:
         self.elapsed_frames += 1
+        move_direction = self.direction.opposite if self.backward else self.direction
         if self.elapsed_frames == self.frames_to_complete:
-            self.game_object.position.move(self.direction)
+            self.game_object.position.move(move_direction)
             self._on_stop(level_stats)
             return None
 
         delta = self.elapsed_frames / self.frames_to_complete * TILE_SIZE
         self.game_object.position.offset = Point(
-            int(delta * self.direction.dx), int(delta * self.direction.dy))
+            int(delta * move_direction.dx), int(delta * move_direction.dy))
         return self
 
+    def reset(self, backward: bool = False):
+        self.elapsed_frames = 0
+        self.backward = backward
+
     def _on_stop(self, level_stats: LevelStatistics) -> None:
-        level_stats.steps += 1
+        level_stats.steps += 1 if not self.backward else -1
 
 
 class MoveRobot(MoveAction):
     def __init__(self, robot: Robot, direction: Direction):
         super().__init__(robot, direction, TILE_SIZE)
+        self.robot = robot
+
+    def reset(self, backward: bool = False):
+        super().reset(backward)
+        self.robot.face_direction = self.direction
+        self.robot.state = RobotState.MOVING
 
 
 class PushCrate(MoveAction):
     def __init__(self, robot: Robot, crate: Crate, direction: Direction):
         super().__init__(crate, direction, TILE_SIZE)
+        self.robot = robot
         self.robot_action = MoveRobot(robot, direction)
 
     def update(self, level_stats: LevelStatistics) -> Optional[MoveAction]:
         self.robot_action.update(level_stats)
         return super().update(level_stats)
 
+    def reset(self, backward: bool = False):
+        super().reset(backward)
+        self.robot_action.reset(backward)
+
+        # TODO: Refactor robot's state change
+        self.robot.state = RobotState.PUSHING
+
     def _on_stop(self, level_stats: LevelStatistics) -> None:
-        level_stats.pushes += 1
+        level_stats.pushes += 1 if not self.backward else -1
 
 
 class Level:
@@ -146,13 +167,10 @@ class Level:
         if not input_action:
             return
 
-        # TODO: Where should I put change of Robot's state (hmmm, maybe in move action?)?
-
-        if input_action == InputAction.UNDO:
-            # TODO: Not implemented yet!
-            #self.running_action = self.history.pop() if self.history else None
-            pass
-        elif input_action.is_movement:
+        if input_action == InputAction.UNDO and self.history:
+            self.running_action = self.history.pop()
+            self.running_action.reset(backward=True)
+        if input_action.is_movement:
             self.robot.face_direction = input_action.direction
             robot_dest = self.robot.tile_position.move(input_action.direction)
             if self.tilemap.tile_at(robot_dest).is_walkable:
@@ -161,12 +179,11 @@ class Level:
                     crate_dest = crate.tile_position.move(input_action.direction)
                     if self.can_move_crate_to(crate_dest):
                         self.running_action = PushCrate(self.robot, crate, input_action.direction)
-                        self.robot.state = RobotState.PUSHING
                 else:
                     self.running_action = MoveRobot(self.robot, input_action.direction)
-                    self.robot.state = RobotState.MOVING
 
                 if self.running_action:
+                    self.running_action.reset()
                     self.history.append(self.running_action)
 
     def update(self) -> None:

@@ -17,15 +17,26 @@ class Direction(Enum):
 
     @property
     def horizontal(self) -> bool:
-        return self == Direction.LEFT or self == Direction.RIGHT
+        return self in (Direction.LEFT, Direction.RIGHT)
 
     @property
     def vertical(self) -> bool:
-        return self == Direction.UP or self == Direction.DOWN
+        return self in (Direction.UP, Direction.DOWN)
 
     @classmethod
     def num_directions(cls) -> int:
         return len(cls.__members__)
+
+    @property
+    def opposite(self) -> "Direction":
+        if self == Direction.UP:
+            return Direction.DOWN
+        if self == Direction.DOWN:
+            return Direction.UP
+        if self == Direction.LEFT:
+            return Direction.RIGHT
+        if self == Direction.RIGHT:
+            return Direction.LEFT
 
 
 class Point(NamedTuple):
