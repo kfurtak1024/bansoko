@@ -15,7 +15,7 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from bansoko import GAME_TITLE, GAME_FRAME_RATE, VERSION
+from bansoko import GAME_TITLE, GAME_FRAME_RATE, __version__
 from bansoko.game.bundle import load_bundle
 from bansoko.game.context import GameContext
 from bansoko.gui.screen import ScreenController
@@ -45,7 +45,7 @@ def generate_file_names(base_name: str) -> FileNames:
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__, version=VERSION)
+    arguments = docopt(__doc__, version=__version__)
     bundle_name = arguments["--bundle"]
     file_names = generate_file_names(bundle_name)
     pyxel.init(256, 256, caption=GAME_TITLE, fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12)

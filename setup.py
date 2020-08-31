@@ -3,11 +3,12 @@ import os
 
 from setuptools import setup, find_packages
 
-from bansoko import VERSION
+import bansoko
+
 
 setup(
     name="bansoko",
-    version=VERSION,
+    version=bansoko.__version__,
     author="Krzysztof Furtak",
     author_email="contact@krzysztoffurtak.dev",
     description="Space-themed Sokoban clone created in Python using Pyxel.",

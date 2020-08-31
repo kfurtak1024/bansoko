@@ -7,7 +7,7 @@ from bansoko.graphics import Rect, Point, Direction, Layer
 
 class Sprite(NamedTuple):
     image_bank: int
-    rect_uv: Rect
+    uv_rect: Rect
     multilayer: bool = False
     directional: bool = False
     num_frames: int = 1
@@ -19,11 +19,11 @@ class Sprite(NamedTuple):
 
         clamped_frame = min(frame, self.num_frames - 1)
 
-        x = self.rect_uv.x + clamped_frame * self.rect_uv.w // self.num_frames
-        y = self.rect_uv.y
+        x = self.uv_rect.x + clamped_frame * self.uv_rect.w // self.num_frames
+        y = self.uv_rect.y
 
         if self.directional:
-            x += self.rect_uv.w // Direction.num_directions() * direction.direction_index
+            x += self.uv_rect.w // Direction.num_directions() * direction.direction_index
 
         if self.multilayer:
             top_layer = Layer.LAYER_2.layer_index
@@ -36,7 +36,7 @@ class Sprite(NamedTuple):
     @property
     def width(self) -> int:
         """The width of sprite in pixels."""
-        width = self.rect_uv.w // self.num_frames
+        width = self.uv_rect.w // self.num_frames
 
         if self.directional:
             width //= Direction.num_directions()
@@ -50,7 +50,7 @@ class Sprite(NamedTuple):
     @property
     def height(self) -> int:
         """The height of sprite in pixels."""
-        height = self.rect_uv.h
+        height = self.uv_rect.h
 
         if self.multilayer:
             top_layer = Layer.LAYER_2.layer_index

@@ -67,11 +67,11 @@ class BoxPacker:
         self.boxes.append(box)
         return box.id
 
-    def pack(self, size: Size) -> List[Optional[Rect]]:
+    def pack(self, size: Size) -> List[Rect]:
         if not self.boxes:
             return []
 
-        boxes_rect_uv: List[Optional[Rect]] = [None] * len(self.boxes)
+        uv_rects: List[Rect] = [Rect.from_coords(0, 0, 0, 0)] * len(self.boxes)
         sorted_boxes = sorted(self.boxes, key=lambda b: b.size.max_dimension, reverse=True)
         root_node = BoxPackerNode(Rect.from_size(size))
 
@@ -80,11 +80,11 @@ class BoxPacker:
             if node:
                 node.split(box.size.width, box.size.height)
                 node.box_id = box.id
-                boxes_rect_uv[box.id] = node.rect
+                uv_rects[box.id] = node.rect
             else:
                 raise Exception(f"Unable to fit box with size ({box.size.width}x{box.size.height})")
 
-        return boxes_rect_uv
+        return uv_rects
 
 
 class SpriteSheetPacker:
@@ -98,10 +98,9 @@ class SpriteSheetPacker:
         return self.box_packer.add_box(sprite_size)
 
     def pack(self, image_bank: int, size: Size) -> List[Rect]:
-        uv_rects: List[Rect] = []
-        for i, rect in enumerate(self.box_packer.pack(size)):
+        uv_rects = self.box_packer.pack(size)
+        for i, rect in enumerate(uv_rects):
             pyxel.image(image_bank).load(rect.x, rect.y, str(self.sprite_paths[i]))
-            uv_rects.append(rect)
 
         return uv_rects
 
