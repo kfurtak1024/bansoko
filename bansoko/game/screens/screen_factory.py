@@ -1,7 +1,9 @@
 """Module providing an abstraction over game screens creation."""
 from abc import ABC, abstractmethod
 
+from bansoko.game.bundle import Bundle
 from bansoko.game.level import LevelStatistics
+from bansoko.game.profile import PlayerProfile
 from bansoko.gui.screen import Screen
 
 
@@ -11,6 +13,14 @@ class ScreenFactory(ABC):
     By having this abstraction we're solving the problem with circular
     dependencies between screens.
     """
+
+    @abstractmethod
+    def get_bundle(self) -> Bundle:
+        """..."""
+
+    @abstractmethod
+    def get_player_profile(self) -> PlayerProfile:
+        """..."""
 
     @abstractmethod
     def get_main_menu(self) -> Screen:

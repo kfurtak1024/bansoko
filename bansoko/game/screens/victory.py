@@ -1,10 +1,8 @@
 """Module defining game screen which is displayed after finishing the last level."""
-from typing import Optional
 
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics.background import Background
 from bansoko.gui.menu import MenuScreen, TextMenuItem
 
 
@@ -15,13 +13,13 @@ class VictoryScreen(MenuScreen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
-        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, background: Optional[Background]):
+    def __init__(self, screen_factory: ScreenFactory):
+        bundle = screen_factory.get_bundle()
         super().__init__([
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
-        ], background=background)
+        ], background=bundle.get_background("victory"))
 
     def draw(self) -> None:
         super().draw()

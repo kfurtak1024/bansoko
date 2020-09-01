@@ -72,13 +72,6 @@ class TextMenuItem(MenuItem):
 
 
 class MenuScreen(Screen):
-    items: List[MenuItem]
-    item_size: Size
-    columns: int
-    rows: int
-    top_item: int
-    selected_item: int
-
     def __init__(self, items: List[MenuItem], columns: int = 1, rows: Optional[int] = None,
                  allow_going_back: bool = False, background: Optional[Background] = None):
         super().__init__(background)
@@ -86,10 +79,10 @@ class MenuScreen(Screen):
         self.item_size = reduce(max_size, [item.size for item in self.items])
         self.columns = columns
         self.rows = rows if rows else -(-len(items) // columns)
-        self.allow_going_back = allow_going_back
-        self.background = background
         self.top_item = 0
         self.selected_item = 0
+        self.allow_going_back = allow_going_back
+        self.background = background
         self.input = InputSystem()
 
     def activate(self) -> None:

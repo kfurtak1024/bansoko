@@ -31,6 +31,23 @@ class LevelStatistics:
         self.steps: int = 0
         self.time_in_ms: int = 0
 
+    @property
+    def debug_description(self) -> str:
+        # TODO: Just for debug purposes
+        hours = int((self.time_in_ms / (1000 * 60 * 60)) % 60)
+        minutes = int((self.time_in_ms / (1000 * 60)) % 60)
+        seconds = int((self.time_in_ms / 1000) % 60)
+        if self.time_in_ms >= 10 * 60 * 60 * 1000:
+            hours = 9
+            seconds = 59
+            minutes = 59
+
+        time = "{:d}:{:02d}:{:02d}".format(hours, minutes, seconds)
+        pushes = self.pushes
+        steps = self.steps
+
+        return "TIME:   {}\nPUSHES: {:03d}\nSTEPS:  {:03d}".format(time, pushes, steps)
+
 
 # TODO: Is it needed in this form?
 class LevelTemplate:
@@ -81,7 +98,7 @@ class MoveAction(abc.ABC):
             int(delta * move_direction.dx), int(delta * move_direction.dy))
         return self
 
-    def reset(self, backward: bool = False):
+    def reset(self, backward: bool = False) -> None:
         self.elapsed_frames = 0
         self.backward = backward
 
@@ -94,14 +111,14 @@ class MoveRobot(MoveAction):
         super().__init__(robot, direction, TILE_SIZE)
         self.robot = robot
 
-    def reset(self, backward: bool = False):
+    def reset(self, backward: bool = False) -> None:
         super().reset(backward)
         self.robot.face_direction = self.direction
         self.robot.state = RobotState.MOVING
 
 
 class PushCrate(MoveAction):
-    def __init__(self, robot: Robot, crate: Crate, direction: Direction):
+    def __init__(self, robot: Robot, crate: Crate, direction: Direction) -> None:
         super().__init__(crate, direction, TILE_SIZE)
         self.robot = robot
         self.robot_action = MoveRobot(robot, direction)
@@ -110,7 +127,7 @@ class PushCrate(MoveAction):
         self.robot_action.update(level_stats)
         return super().update(level_stats)
 
-    def reset(self, backward: bool = False):
+    def reset(self, backward: bool = False) -> None:
         super().reset(backward)
         self.robot_action.reset(backward)
 

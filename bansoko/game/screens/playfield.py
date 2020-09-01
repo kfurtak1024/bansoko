@@ -3,11 +3,11 @@ from typing import Optional
 
 import pyxel
 
+from bansoko.game.level import InputAction, Level
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
-from bansoko.game.level import LevelStatistics, InputAction, Level
 
 
 class PlayfieldScreen(Screen):
@@ -20,15 +20,16 @@ class PlayfieldScreen(Screen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
-        level - level to play
-        background - background to be drawn for this screen
+        level_num - level to play
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level: Level,
-                 background: Optional[Background]):
-        super().__init__(background)
+    def __init__(self, screen_factory: ScreenFactory, level_num: int):
+        bundle = screen_factory.get_bundle()
+        super().__init__(bundle.get_background("playfield"))
         self.screen_factory = screen_factory
-        self.level = level
+        self.level = Level(
+            bundle.get_level_template(level_num), bundle.get_skin_pack("robot"),
+            bundle.get_skin_pack("crate"))
         self.input = InputSystem()
 
     def activate(self) -> None:
@@ -57,22 +58,7 @@ class PlayfieldScreen(Screen):
         level = self.level.statistics.level_num
         pyxel.text(7, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 7)
         pyxel.text(70, 255 - 70, "<SPACE> COMPLETE LEVEL", 7)
-        pyxel.text(100, 256 - 30, self.__format_level_stats(self.level.statistics), 7)
-
-    def __format_level_stats(self, level_stats: LevelStatistics) -> str:
-        hours = int((level_stats.time_in_ms / (1000 * 60 * 60)) % 60)
-        minutes = int((level_stats.time_in_ms / (1000 * 60)) % 60)
-        seconds = int((level_stats.time_in_ms / 1000) % 60)
-        if level_stats.time_in_ms >= 10 * 60 * 60 * 1000:
-            hours = 9
-            seconds = 59
-            minutes = 59
-
-        time = "{:d}:{:02d}:{:02d}".format(hours, minutes, seconds)
-        pushes = self.level.statistics.pushes
-        steps = self.level.statistics.steps
-
-        return "TIME:   {}\nPUSHES: {:03d}\nSTEPS:  {:03d}".format(time, pushes, steps)
+        pyxel.text(100, 256 - 30, self.level.statistics.debug_description, 7)
 
     def __get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):

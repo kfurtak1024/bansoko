@@ -1,11 +1,10 @@
 """Module defining game screen which is displayed when level is completed."""
-from typing import Optional, List
+from typing import List
 
 import pyxel
 
 from bansoko.game.level import LevelStatistics
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics.background import Background
 from bansoko.gui.menu import MenuScreen, TextMenuItem, MenuItem
 
 
@@ -18,14 +17,14 @@ class LevelCompletedScreen(MenuScreen):
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
         level_stats - statistics of level completion
-        last_level_completed - is completed level the last one
-        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics,
-                 last_level_completed: bool, background: Optional[Background]):
+    def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics):
+        bundle = screen_factory.get_bundle()
+
         current_level_num = level_stats.level_num
         next_level_num = current_level_num + 1
+        last_level_completed = current_level_num == bundle.last_level
 
         next_level = TextMenuItem(
             "PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(next_level_num))
@@ -40,9 +39,13 @@ class LevelCompletedScreen(MenuScreen):
         last_level_finished_menu: List[MenuItem] = [finish_game, restart_level]
         menu = last_level_finished_menu if last_level_completed else more_levels_to_play_menu
 
-        super().__init__(menu, background=background)
+        super().__init__(menu, background=bundle.get_background("level_completed"))
         self.level_stats = level_stats
+        self.player_profile = screen_factory.get_player_profile()
+        self.player_profile.complete_level(level_stats)
 
     def draw(self) -> None:
         super().draw()
         pyxel.text(16, 16, "LEVEL " + str(self.level_stats.level_num + 1) + " COMPLETED", 7)
+        pyxel.text(100, 256 - 30, self.level_stats.debug_description, 7)
+

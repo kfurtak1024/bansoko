@@ -3,16 +3,40 @@ from typing import Optional
 
 import pyxel
 
+from bansoko.game.profile import PlayerProfile
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics.background import Background
+from bansoko.graphics import Point
 from bansoko.gui.menu import MenuScreen, TextMenuItem
+from bansoko.gui.screen import Screen
 
 
 class LevelMenuItem(TextMenuItem):
-    def __init__(self, level_num: int, screen_factory: ScreenFactory):
+    def __init__(self, level_num: int, player_profile: PlayerProfile,
+                 screen_factory: ScreenFactory):
         super().__init__(
             "LEVEL " + str(level_num + 1),
             lambda: screen_factory.get_playfield_screen(level_num))
+        self.level_num = level_num
+        self.player_profile = player_profile
+
+    def draw(self, position: Point, selected: bool = False) -> None:
+        super().draw(position, selected)
+        if selected:
+            text = ""
+            if not self.player_profile.is_level_unlocked(self.level_num):
+                text = "LOCKED"
+            elif not self.player_profile.is_level_completed(self.level_num):
+                text = "NOT COMPLETED"
+            else:
+                level_stats = self.player_profile.level_stats[self.level_num]
+                if level_stats:
+                    text = level_stats.debug_description
+
+            pyxel.text(8, 220, f"LEVEL STATS:\n============\n{text}", 10)
+
+    def perform_action(self) -> Optional[Screen]:
+        # TODO: Disallow playing locked levels!
+        return super().perform_action()
 
 
 class ChooseLevelScreen(MenuScreen):
@@ -24,15 +48,14 @@ class ChooseLevelScreen(MenuScreen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
-        num_levels - total number of available levels
-        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, num_levels: int,
-                 background: Optional[Background]):
+    def __init__(self, screen_factory: ScreenFactory):
+        bundle = screen_factory.get_bundle()
+        player_profile = screen_factory.get_player_profile()
         super().__init__([
-            LevelMenuItem(level_num, screen_factory) for level_num in range(num_levels)
-        ], columns=5, allow_going_back=True, background=background)
+            LevelMenuItem(level_num, player_profile, screen_factory) for level_num in range(bundle.num_levels)
+        ], columns=5, allow_going_back=True, background=bundle.get_background("choose_level"))
 
     def draw(self) -> None:
         super().draw()

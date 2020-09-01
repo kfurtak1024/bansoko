@@ -18,6 +18,7 @@ from docopt import docopt
 from bansoko import GAME_TITLE, GAME_FRAME_RATE, __version__
 from bansoko.game.bundle import load_bundle
 from bansoko.game.context import GameContext
+from bansoko.game.profile import create_or_load_profile
 from bansoko.gui.screen import ScreenController
 
 
@@ -51,6 +52,7 @@ if __name__ == "__main__":
     pyxel.init(256, 256, caption=GAME_TITLE, fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12)
     pyxel.load(file_names.resource_file)
     bundle = load_bundle(file_names.metadata_file)
-    game_context = GameContext(bundle)
+    player_profile = create_or_load_profile(bundle)
+    game_context = GameContext(bundle, player_profile)
     controller = ScreenController(game_context.get_main_menu(), pyxel.quit)
     pyxel.run(controller.update, controller.draw)

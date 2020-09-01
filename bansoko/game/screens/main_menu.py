@@ -15,15 +15,14 @@ class MainMenuScreen(MenuScreen):
 
     Arguments:
         screen_factory - used for creation of screens this screen will navigate to
-        background - background to be drawn for this screen
     """
 
-    def __init__(self, screen_factory: ScreenFactory, background: Optional[Background]):
+    def __init__(self, screen_factory: ScreenFactory):
         super().__init__([
             TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(0)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             TextMenuItem("EXIT", lambda: None)
-        ], background=background)
+        ], background=screen_factory.get_bundle().get_background("main_menu"))
 
     def draw(self) -> None:
         super().draw()
