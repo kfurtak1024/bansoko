@@ -20,8 +20,8 @@ class VirtualButton(IntFlag):
 
 
 class InputSystem:
-    """
-    InputSystem is a wrapper around Pyxel's input handling.
+    """InputSystem is a wrapper around Pyxel's input handling.
+
     It operates on VirtualButton which is an abstraction over physical buttons.
     InputSystem needs to be updated by calling update() method in each frame.
     """
@@ -46,8 +46,8 @@ class InputSystem:
         self.pressed_keys = {}
 
     def is_button_pressed(self, button: VirtualButton) -> bool:
-        """
-        Test if given virtual button is "pressed".
+        """Test if given virtual button is "pressed".
+
         Button is "pressed" when:
             - in previous update frame it was up and now it's down *OR*
             - it is down for exactly KEY_HOLD_TIME (and was preceded be previous point) *OR*
@@ -56,44 +56,30 @@ class InputSystem:
         Note that above is valid only if it was not interrupted by a reset call.
         Both KEY_HOLD_TIME and KEY_PERIOD_TIME are expressed in number of occurred update frames.
 
-        Arguments:
-            button - virtual button to be tested
-
-        Returns:
-            - true - if button was pressed,
-            - false - otherwise
+        :param button: virtual button to be tested
+        :return: true - if button was pressed *OR* false - otherwise
         """
         return any(self.__is_key_pressed(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_down(self, button: VirtualButton) -> bool:
-        """
-        Test if given virtual button is down at the current update frame.
+        """Test if given virtual button is down at the current update frame.
 
-        Arguments:
-            button - virtual button to be tested
-
-        Returns:
-            - true - if button is down in current update frame,
-            - false - otherwise
+        :param button: virtual button to be tested
+        :return: true - if button is down in current update frame *OR* false - otherwise
         """
         return any(self.__is_key_down(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_up(self, button: VirtualButton) -> bool:
-        """
-        Test if given virtual button is up at the current update frame.
+        """Test if given virtual button is up at the current update frame.
 
-        Arguments:
-            button - virtual button to be tested
-
-        Returns:
-            - true - if button is up in current update frame,
-            - false - otherwise
+        :param button: virtual button to be tested
+        :return: true - if button is up in current update frame *OR* false - otherwise
         """
         return not self.is_button_down(button)
 
     def update(self) -> None:
-        """
-        Update statuses of all watched keys.
+        """Update statuses of all watched keys.
+
         This needs to be called each frame.
         """
         for key in self.WATCHED_KEYS:
@@ -105,8 +91,8 @@ class InputSystem:
                 self.__depress_key(key)
 
     def reset(self) -> None:
-        """
-        Reset the statuses of all watched keys.
+        """Reset the statuses of all watched keys.
+
         This should be called when focus switches to another screen.
         """
         self.pressed_keys.clear()

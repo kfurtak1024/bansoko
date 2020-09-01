@@ -1,3 +1,4 @@
+"""Module exposing graphic related classes and routines."""
 from enum import unique, Enum
 from functools import total_ordering
 from typing import NamedTuple, List, Any, Optional, Tuple
@@ -5,6 +6,11 @@ from typing import NamedTuple, List, Any, Optional, Tuple
 
 @unique
 class Direction(Enum):
+    """Enumeration representing direction in 2D space.
+
+    In addition to int value identifying direction (direction_index) it also stores the
+    movement vector (dx, dy)
+    """
     UP = 0, (0, -1)
     DOWN = 1, (0, 1)
     LEFT = 2, (-1, 0)
@@ -17,18 +23,22 @@ class Direction(Enum):
 
     @property
     def horizontal(self) -> bool:
+        """Value indicating whether the direction is horizontal or not."""
         return self in (Direction.LEFT, Direction.RIGHT)
 
     @property
     def vertical(self) -> bool:
+        """Value indicating whether the direction is vertical or not."""
         return self in (Direction.UP, Direction.DOWN)
 
     @classmethod
     def num_directions(cls) -> int:
+        """Number of all defined directions."""
         return len(cls.__members__)
 
     @property
     def opposite(self) -> "Direction":
+        """The opposite direction to given direction."""
         if self == Direction.UP:
             return Direction.DOWN
         if self == Direction.DOWN:
@@ -38,16 +48,21 @@ class Direction(Enum):
         if self == Direction.RIGHT:
             return Direction.LEFT
 
+        raise Exception(f"Direction {str(self)} is not supported")
+
 
 class Point(NamedTuple):
+    """A point representing a location in (x, y) screen space."""
     x: int
     y: int
 
     @classmethod
     def from_list(cls, coords: List[int]) -> "Point":
+        """Create a Point from the list of coordinates."""
         return cls(x=coords[0], y=coords[1])
 
     def offset(self, dx: int, dy: int) -> "Point":
+        """Create a new Point which is the result of moving this Point by (dx, dy)."""
         return Point(self.x + dx, self.y + dy)
 
     def __eq__(self, other: Any) -> bool:
@@ -61,17 +76,23 @@ class Point(NamedTuple):
 
 @total_ordering
 class Size(NamedTuple):
+    """Size describes width and height dimensions in pixels."""
     width: int = 0
     height: int = 0
 
     def enlarge(self, dx: int, dy: Optional[int] = None) -> "Size":
+        """Create a new Size enlarged by (dx, dy)"""
         return Size(self.width + dx, self.height + (dy if dy else dx))
 
     @property
     def max_dimension(self) -> int:
+        """Maximum dimension (which is either width or height)"""
         return max(self.width, self.height)
 
     def can_fit(self, size: "Size") -> bool:
+        """Test if given size will fit in this size. Size "fits" in another size only if both width
+        and height are less or equal to the size the test is performed against to.
+        """
         return self.width >= size.width and self.height >= size.height
 
     def __lt__(self, other: Tuple[int, ...]) -> bool:
@@ -87,63 +108,82 @@ class Size(NamedTuple):
 
 
 def max_size(size1: Size, size2: Size) -> Size:
+    """Create size with maximum width and height of two given sizes."""
     return Size(max(size1.width, size2.width), max(size1.height, size2.height))
 
 
 def min_size(size1: Size, size2: Size) -> Size:
+    """Create size with minimum width and height of two given sizes."""
     return Size(min(size1.width, size2.width), min(size1.height, size2.height))
 
 
 class Rect(NamedTuple):
+    """A rectangle represented by position and size.
+
+    Position and size can be accessed directly. Use left, right, top, bottom the get the
+    coordinates of rectangle 4 edges.
+    """
     position: Point
     size: Size
 
     @classmethod
     def from_coords(cls, x: int, y: int, w: int, h: int) -> "Rect":
+        """Create a new Rect with given position (x, y) and size (w, h)"""
         return cls(position=Point(x, y), size=Size(w, h))
 
     @classmethod
     def from_list(cls, coords: List[int]) -> "Rect":
+        """Create a new Rect from the list containing coordinates and size."""
         return cls(position=Point(coords[0], coords[1]), size=Size(coords[2], coords[3]))
 
     @classmethod
     def from_size(cls, size: Size) -> "Rect":
+        """Create a new Rect with given size and positioned at (0, 0)."""
         return cls(position=Point(0, 0), size=size)
 
     @property
     def as_list(self) -> List[int]:
+        """Rect represented as a list containing [x, y, w, h]."""
         return [self.position.x, self.position.y, self.size.width, self.size.height]
 
     @property
     def x(self) -> int:
+        """The x coordinate of the rect."""
         return self.position.x
 
     @property
     def y(self) -> int:
+        """The y coordinate of the rect."""
         return self.position.y
 
     @property
     def w(self) -> int:
+        """The width of the rect."""
         return self.size.width
 
     @property
     def h(self) -> int:
+        """The height of the rect."""
         return self.size.height
 
     @property
     def left(self) -> int:
+        """The position of left edge of the rect."""
         return self.x
 
     @property
     def right(self) -> int:
+        """The position of right edge of the rect."""
         return self.x + self.w
 
     @property
     def top(self) -> int:
+        """The position of top edge of the rect."""
         return self.y
 
     @property
     def bottom(self) -> int:
+        """The position of bottom edge of the rect."""
         return self.y + self.h
 
     def __eq__(self, other: Any) -> bool:
@@ -156,6 +196,7 @@ class Rect(NamedTuple):
 
 
 def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 256)) -> Point:
+    """Return the position of the rect with given size centered in target rectangle."""
     x = target_rect.x + int((target_rect.w - size.width) / 2)
     y = target_rect.y + int((target_rect.h - size.height) / 2)
     return Point(x, y)
@@ -163,6 +204,12 @@ def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 2
 
 @unique
 class Layer(Enum):
+    """Layer enumeration defines 3 layers the game is drawn on.
+
+    LAYER_0 is the very bottom one (main) and it's drawn first, then LAYER_1 and finally LAYER_2
+    (which is the layer on top).
+    Each layer contains an offset information that is used during drawing to shift the layer to
+    achieve pseudo 3D effect."""
     LAYER_0 = 0, Point(0, 0)
     LAYER_1 = 1, Point(-1, -1)
     LAYER_2 = 2, Point(-2, -2)
@@ -173,8 +220,5 @@ class Layer(Enum):
 
     @property
     def is_main(self) -> bool:
+        """Check whether this layer is a main layer (the one used for game logic)"""
         return self == Layer.LAYER_0
-
-    @property
-    def top_layer(self) -> int:
-        return Layer.LAYER_2.layer_index

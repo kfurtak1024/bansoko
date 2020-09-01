@@ -9,14 +9,10 @@ from bansoko.gui.menu import MenuScreen, TextMenuItem, MenuItem
 
 
 class LevelCompletedScreen(MenuScreen):
-    """
-    Screen displayed when player completes the level.
+    """Screen displayed when player completes the level.
+
     Player can navigate to the next level, replay the current level
     (to get better score) or get back to Main Menu.
-
-    Arguments:
-        screen_factory - used for creation of screens this screen will navigate to
-        level_stats - statistics of level completion
     """
 
     def __init__(self, screen_factory: ScreenFactory, level_stats: LevelStatistics):
@@ -48,4 +44,3 @@ class LevelCompletedScreen(MenuScreen):
         super().draw()
         pyxel.text(16, 16, "LEVEL " + str(self.level_stats.level_num + 1) + " COMPLETED", 7)
         pyxel.text(100, 256 - 30, self.level_stats.debug_description, 7)
-

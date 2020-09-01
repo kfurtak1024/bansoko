@@ -5,22 +5,17 @@ import pyxel
 
 from bansoko.game.level import InputAction, Level
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem, VirtualButton
 from bansoko.gui.screen import Screen
 
 
 class PlayfieldScreen(Screen):
-    """
-    Main game screen.
+    """Main game screen.
+
     Screen allows player to "play" the level. It evaluates end-game conditions
     and switches to Level Completed screen when those are met.
     It is also possible to pause the game by pressing either 'Escape' or 'Start'
     (on a gamepad). That switches to Game Paused screen.
-
-    Arguments:
-        screen_factory - used for creation of screens this screen will navigate to
-        level_num - level to play
     """
 
     def __init__(self, screen_factory: ScreenFactory, level_num: int):
@@ -63,12 +58,12 @@ class PlayfieldScreen(Screen):
     def __get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):
             return InputAction.MOVE_UP
-        elif self.input.is_button_down(VirtualButton.DOWN):
+        if self.input.is_button_down(VirtualButton.DOWN):
             return InputAction.MOVE_DOWN
-        elif self.input.is_button_down(VirtualButton.LEFT):
+        if self.input.is_button_down(VirtualButton.LEFT):
             return InputAction.MOVE_LEFT
-        elif self.input.is_button_down(VirtualButton.RIGHT):
+        if self.input.is_button_down(VirtualButton.RIGHT):
             return InputAction.MOVE_RIGHT
-        elif self.input.is_button_down(VirtualButton.ACTION):
+        if self.input.is_button_down(VirtualButton.ACTION):
             return InputAction.UNDO
         return None

@@ -76,5 +76,5 @@ class Robot(GameObject):
         self.state = RobotState.STANDING
 
     def draw(self, layer: Layer) -> None:
-        sprite = self.robot_skin.get_sprite(self.state)
+        sprite = self.robot_skin.skin_sprites[self.state]
         sprite.draw(self.position.to_point(), layer, self.face_direction)

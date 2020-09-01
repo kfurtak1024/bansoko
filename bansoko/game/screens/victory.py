@@ -7,12 +7,9 @@ from bansoko.gui.menu import MenuScreen, TextMenuItem
 
 
 class VictoryScreen(MenuScreen):
-    """
-    Screen displayed when player completes the last level (finished the game).
-    Player can only go back to main menu screen from here.
+    """Screen displayed when player completes the last level (finished the game).
 
-    Arguments:
-        screen_factory - used for creation of screens this screen will navigate to
+    Player can only go back to main menu screen from here.
     """
 
     def __init__(self, screen_factory: ScreenFactory):

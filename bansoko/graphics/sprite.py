@@ -1,4 +1,5 @@
-from typing import NamedTuple, List
+"""Module exposing Sprite type."""
+from typing import NamedTuple, Tuple
 
 import pyxel
 
@@ -6,6 +7,18 @@ from bansoko.graphics import Rect, Point, Direction, Layer
 
 
 class Sprite(NamedTuple):
+    """Sprite is a part of an Image that can be drawn on screen at given position.
+
+    The exact fragment of the image is defined by image_bank and uv_rect (which is a rectangle in
+    image space)
+    Additionally, sprite can be:
+    - multilayer - it contains variants for all 3 layers,
+    - directional - it contains variants for all 4 directions,
+    - multiframe - it contains multiple frames (for example for animation purposes)
+
+    Please note that those features can be combined, so we can have sprite which is multilayer,
+    directional and multiframe at the same time.
+    """
     image_bank: int
     uv_rect: Rect
     multilayer: bool = False
@@ -14,6 +27,15 @@ class Sprite(NamedTuple):
 
     def draw(self, position: Point, layer: Layer = Layer.LAYER_0,
              direction: Direction = Direction.UP, frame: int = 0) -> None:
+        """Draw the sprite at given position using specified layer, direction and frame.
+
+        If sprite is single-layered then it will be drawn _only on main_ layer.
+
+        :param position: position of sprite to be drawn at
+        :param layer: layer of sprite to be drawn at
+        :param direction: direction-specific variant of sprite to be drawn
+        :param frame: frame of sprite to be drawn
+        """
         if not self.multilayer and not layer.is_main:
             return
 
@@ -60,7 +82,5 @@ class Sprite(NamedTuple):
 
 
 class SkinPack(NamedTuple):
-    skin_sprites: List[Sprite]
-
-    def get_sprite(self, sprite_index: int) -> Sprite:
-        return self.skin_sprites[sprite_index]
+    """SkinPack is a collection of sprites, grouped together for organizational purposes."""
+    skin_sprites: Tuple[Sprite, ...]

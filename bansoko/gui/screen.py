@@ -6,8 +6,8 @@ from bansoko.graphics.background import Background
 
 
 class Screen(abc.ABC):
-    """
-    Base class for all game screens that suppose to be managed by ScreenController.
+    """Base class for all game screens that suppose to be managed by ScreenController.
+
     Screens are updated and drawn once per frame. Screen transitions are triggered by
     values returned in update method.
     """
@@ -20,20 +20,19 @@ class Screen(abc.ABC):
 
     @abc.abstractmethod
     def update(self) -> Optional["Screen"]:
-        """
-        Update screen state. Control screen transitions by return value.
+        """Update screen state. Control screen transitions by return value.
+
         Called once per frame (only if screen is on top of screen stack)
 
-        Returns:
-            - self (or any instance of type(self)) - no screen transition *OR*
-            - instance of Screen class - switch to new screen *OR*
-            - None - switch to previous screen (perform pop on screen stack)
+        :return: self (or any instance of type(self)) - no screen transition *OR*
+        instance of Screen class - switch to new screen *OR* None - switch to previous screen
+        (perform pop on screen stack)
         """
 
     @abc.abstractmethod
     def draw(self) -> None:
-        """
-        Draw screen.
+        """Draw screen.
+
         Called once per frame (only if screen is on top of screen stack)
         """
         if self.background is not None:
@@ -44,8 +43,8 @@ class Screen(abc.ABC):
 
 
 class ScreenController:
-    """
-    ScreenController manages game screens.
+    """ScreenController manages game screens.
+
     Game screens are organized in a stack. Screen from the top is called an active Screen.
     Active screen receives update and draw calls once per frame.
     Active screen can trigger:

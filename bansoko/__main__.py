@@ -29,14 +29,10 @@ class FileNames(NamedTuple):
 
 
 def generate_file_names(base_name: str) -> FileNames:
-    """
-    Generate resource and metadata file names based on bundle name.
+    """Generate resource and metadata file names based on bundle name.
 
-    Arguments:
-        base_name - name of bundle resource and metadata file names are based on
-
-    Returns:
-        - instance of FileNames
+    :param base_name: name of bundle resource and metadata file names are based on
+    :return: instance of FileNames
     """
     base_path = Path(os.path.dirname(os.path.realpath(__file__)))
     gamedata_path = base_path.joinpath("gamedata")

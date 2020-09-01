@@ -17,37 +17,34 @@ class MenuItem(ABC):
     @property
     @abstractmethod
     def size(self) -> Size:
-        """
-        Size (in pixels) of the menu item.
+        """Size (in pixels) of the menu item.
+
         This property is used during layout
         """
 
     @abstractmethod
     def draw(self, position: Point, selected: bool = False) -> None:
-        """
-        Draw menu item at given position.
+        """Draw menu item at given position.
 
-        Arguments:
-            position - position to draw menu item at
-            selected - should the item be drawn as selected
+        :param position: position to draw menu item at
+        :param selected: should the item be drawn as selected
         """
 
     @abstractmethod
     def perform_action(self) -> Optional[Screen]:
-        """
-        Perform action tied up to the menu item.
+        """Perform action tied up to the menu item.
+
         Navigation between game screens is controlled by return value.
 
-        Returns:
-            - instance of Screen class - switch to new screen *OR*
-            - None - switch to previous screen (exit menu screen)
+        :return: instance of Screen class - switch to new screen *OR* None - switch to previous
+        screen (exit menu screen)
         """
 
 
 # TODO: Add horizontal space
 class TextMenuItem(MenuItem):
-    """
-    Text-based menu item.
+    """Text-based menu item.
+
     It contains only label, which changes color when item is selected.
     """
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
@@ -62,7 +59,7 @@ class TextMenuItem(MenuItem):
 
     def draw(self, position: Point, selected: bool = False) -> None:
         style = self.selected_text_style if selected else self.text_style
-        draw_text(position.x, position.y, self.__get_item_text(selected), style)
+        draw_text(position, self.__get_item_text(selected), style)
 
     def perform_action(self) -> Optional[Screen]:
         return self.screen_to_switch_to()

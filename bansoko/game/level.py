@@ -13,8 +13,7 @@ from bansoko.graphics.sprite import SkinPack
 
 
 class LevelStatistics:
-    """
-    Player's score for given level.
+    """Player's score for given level.
 
     Attributes:
         level_num - level number (value from 0 to NUM_LEVELS-1)

@@ -12,8 +12,7 @@ from bansoko.graphics.sprite import Sprite, SkinPack
 
 
 class Bundle(NamedTuple):
-    """
-    Bundle is a central repository of game resources (such as: sprites, backgrounds
+    """Bundle is a central repository of game resources (such as: sprites, backgrounds
     and level templates).
     """
 
@@ -23,72 +22,52 @@ class Bundle(NamedTuple):
     level_templates: Tuple[LevelTemplate, ...]
 
     def get_sprite(self, sprite_id: int) -> Optional[Sprite]:
-        """
-        Return sprite with given sprite id.
+        """ Return sprite with given sprite id.
 
-        Arguments:
-            sprite_id - id of sprite to be retrieved
-
-        Returns:
-            - instance of Sprite with given id *OR*
-            - None if there is no such a sprite in the bundle
+        :param sprite_id: id of sprite to be retrieved
+        :return: instance of Sprite with given id *OR* None if there is no such a sprite in the
+        bundle
         """
         return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
 
     def get_skin_pack(self, skin_pack_name: str) -> SkinPack:
-        """
-        Return skin pack with given skin pack name.
+        """Return skin pack with given skin pack name.
 
-        Arguments:
-            skin_pack_name - name of skin pack to be retrieved
-
-        Returns:
-            - instance of SkinPack with given name
+        :param skin_pack_name: name of skin pack to be retrieved
+        :return: instance of SkinPack with given name
         """
         return self.skin_packs[skin_pack_name]
 
     def get_background(self, background_name: str) -> Optional[Background]:
-        """
-        Return background with given background name.
+        """Return background with given background name.
 
-        Arguments:
-            background_name - name of background to be retrieved
-
-        Returns:
-            - instance of Background with given name *OR*
-            - None if there is no such a background in the bundle
+        :param background_name: name of background to be retrieved
+        :return: instance of Background with given name *OR* None if there is no such a background
+        in the bundle
         """
         return self.backgrounds.get(background_name, None)
 
     def get_level_template(self, template_id: int) -> LevelTemplate:
-        """
-        Return level template with given template id.
+        """Return level template with given template id.
 
-        Arguments:
-            template_id - id of template to be retrieved
-
-        Returns:
-            - instance of LevelTemplate with given id
+        :param template_id: id of template to be retrieved
+        :return: instance of LevelTemplate with given id
         """
         return self.level_templates[template_id]
 
     @property
     def num_levels(self) -> int:
-        """
-        Return total number of levels in bundle.
+        """Total number of levels in bundle.
 
-        Returns:
-            - total number of levels bundle contains
+        :return: total number of levels bundle contains
         """
         return len(self.level_templates)
 
     @property
     def last_level(self) -> int:
-        """
-        Return index of the last level in bundle.
+        """Index of the last level in bundle.
 
-        Returns:
-            - index of the last level bundle contains
+        :return: index of the last level bundle contains
         """
         return self.num_levels - 1
 
@@ -124,7 +103,7 @@ def load_skin_packs(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, SkinPac
 
 
 def __skin_pack_from_json(skin_pack_json, sprites: Tuple[Sprite, ...]) -> SkinPack:
-    return SkinPack([sprites[sprite_id] for sprite_id in skin_pack_json])
+    return SkinPack(tuple([sprites[sprite_id] for sprite_id in skin_pack_json]))
 
 
 def load_backgrounds(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:

@@ -34,7 +34,7 @@ class BoxPackerNode:
     def find_node_for_box(root_node: "BoxPackerNode", box_size: Size) -> Optional["BoxPackerNode"]:
         node_deque = deque([root_node])
 
-        while len(node_deque):
+        while node_deque:
             node = node_deque.popleft()
             if node.has_box and node.is_split:
                 node_deque.appendleft(node.bottom_child)

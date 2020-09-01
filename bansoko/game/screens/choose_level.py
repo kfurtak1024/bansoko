@@ -38,14 +38,11 @@ class LevelMenuItem(TextMenuItem):
 
 
 class ChooseLevelScreen(MenuScreen):
-    """
-    Screen allowing player to choose a level to play.
+    """Screen allowing player to choose a level to play.
+
     Player can choose a level from all unlocked levels (Level is "unlocked"
     when its predecessor level is completed)
     From this screen it is also possible to navigate back to Main Menu.
-
-    Arguments:
-        screen_factory - used for creation of screens this screen will navigate to
     """
 
     def __init__(self, screen_factory: ScreenFactory):

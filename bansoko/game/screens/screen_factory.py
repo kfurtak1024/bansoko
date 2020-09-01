@@ -8,8 +8,8 @@ from bansoko.gui.screen import Screen
 
 
 class ScreenFactory(ABC):
-    """
-    An abstraction over game screen creation.
+    """An abstraction over game screen creation.
+
     By having this abstraction we're solving the problem with circular
     dependencies between screens.
     """

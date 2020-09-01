@@ -40,10 +40,10 @@ def create_or_load_profile(bundle: Bundle) -> PlayerProfile:
     profile_dir = Path.home().joinpath(GAME_PROFILE_LOCATION)
     os.makedirs(profile_dir, exist_ok=True)
     profile_file_path = profile_dir.joinpath(GAME_PROFILE_FILE_NAME)
-    if os.path.isfile(profile_file_path):
-        return __load_profile_file(profile_file_path, bundle)
-    else:
+    if not os.path.isfile(profile_file_path):
         return __create_profile_file(profile_file_path, bundle)
+
+    return __load_profile_file(profile_file_path, bundle)
 
 
 FILE_HEADER = bytes.fromhex("42 41 4E 53 01 00")

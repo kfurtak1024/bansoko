@@ -7,14 +7,10 @@ from bansoko.gui.menu import MenuScreen, TextMenuItem
 
 
 class GamePausedScreen(MenuScreen):
-    """
-    This screen is displayed when player pauses the game.
+    """This screen is displayed when player pauses the game.
+
     From this screen player can resume the game, restart the current level
     (restoring level to its initial state) or return back to the Main Menu.
-
-    Arguments:
-        screen_factory - used for creation of screens this screen will navigate to
-        level_num- currently played level
     """
 
     def __init__(self, screen_factory: ScreenFactory, level_num: int):

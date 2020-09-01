@@ -1,20 +1,16 @@
 """Module defining main menu screen."""
-from typing import Optional
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics.background import Background
 from bansoko.graphics.text import draw_text, TextStyle
 from bansoko.gui.menu import MenuScreen, TextMenuItem
+from bansoko.graphics import Point
 
 
 class MainMenuScreen(MenuScreen):
-    """
-    Main Menu for the game (entry point for the game).
+    """Main Menu for the game (entry point for the game).
+
     Screen allows player to start a new game, choose a level from a list of
     all unlocked levels or exit the game.
-
-    Arguments:
-        screen_factory - used for creation of screens this screen will navigate to
     """
 
     def __init__(self, screen_factory: ScreenFactory):
@@ -26,4 +22,4 @@ class MainMenuScreen(MenuScreen):
 
     def draw(self) -> None:
         super().draw()
-        draw_text(80, 240, "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
+        draw_text(Point(80, 240), "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
