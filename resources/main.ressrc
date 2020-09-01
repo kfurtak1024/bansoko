@@ -46,8 +46,8 @@
   },
   "backgrounds": {
     "main_menu": {
-      "background_color": "0",
-      "background_elements": [
+      "color": "0",
+      "elements": [
         {
           "sprite": 0,
           "position": [20, 20]
@@ -55,19 +55,19 @@
       ]
     },
     "playfield": {
-      "background_color": "5"
+      "color": "5"
     },
     "choose_level": {
-      "background_color": "0"
+      "color": "0"
     },
     "game_paused": {
-      "background_color": "0"
+      "color": "0"
     },
     "level_completed": {
-      "background_color": "0"
+      "color": "0"
     },
     "victory": {
-      "background_color": "0"
+      "color": "0"
     }
   },
   "levels": [

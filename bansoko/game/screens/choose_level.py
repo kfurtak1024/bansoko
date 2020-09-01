@@ -3,7 +3,6 @@ from typing import Optional
 
 import pyxel
 
-from bansoko.game.profile import PlayerProfile
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.gui.menu import MenuScreen, TextMenuItem
@@ -11,13 +10,12 @@ from bansoko.gui.screen import Screen
 
 
 class LevelMenuItem(TextMenuItem):
-    def __init__(self, level_num: int, player_profile: PlayerProfile,
-                 screen_factory: ScreenFactory):
+    def __init__(self, level_num: int, screen_factory: ScreenFactory):
         super().__init__(
             "LEVEL " + str(level_num + 1),
             lambda: screen_factory.get_playfield_screen(level_num))
         self.level_num = level_num
-        self.player_profile = player_profile
+        self.player_profile = screen_factory.get_player_profile()
 
     def draw(self, position: Point, selected: bool = False) -> None:
         super().draw(position, selected)
@@ -52,9 +50,8 @@ class ChooseLevelScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
-        player_profile = screen_factory.get_player_profile()
         super().__init__([
-            LevelMenuItem(level_num, player_profile, screen_factory) for level_num in range(bundle.num_levels)
+            LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
         ], columns=5, allow_going_back=True, background=bundle.get_background("choose_level"))
 
     def draw(self) -> None:

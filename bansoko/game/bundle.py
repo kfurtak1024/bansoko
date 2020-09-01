@@ -1,11 +1,14 @@
 """Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
 import json
-from typing import NamedTuple, List, Dict, Optional, Tuple
+from typing import NamedTuple, Dict, Optional, Tuple
 
 from bansoko.game.level import LevelTemplate
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite, SkinPack
+
+
+# TODO: Consider renaming "bundle" (maybe game_pack?)
 
 
 class Bundle(NamedTuple):
@@ -71,10 +74,22 @@ class Bundle(NamedTuple):
 
     @property
     def num_levels(self) -> int:
+        """
+        Return total number of levels in bundle.
+
+        Returns:
+            - total number of levels bundle contains
+        """
         return len(self.level_templates)
 
     @property
     def last_level(self) -> int:
+        """
+        Return index of the last level in bundle.
+
+        Returns:
+            - index of the last level bundle contains
+        """
         return self.num_levels - 1
 
 
@@ -91,44 +106,46 @@ def load_bundle(metadata_filename: str) -> Bundle:
         return Bundle(sprites, skin_packs, backgrounds, level_templates)
 
 
-def load_sprites(input_data) -> Tuple[Sprite, ...]:
-    sprites = []
-    for sprite_data in input_data:
-        sprites.append(Sprite(
-            sprite_data["image_bank"],
-            Rect.from_list(sprite_data["uv_rect"]),
-            sprite_data["multilayer"],
-            sprite_data["directional"],
-            sprite_data["num_frames"]))
-
-    return tuple(sprites)
+def load_sprites(json_data) -> Tuple[Sprite, ...]:
+    return tuple([__sprite_from_json(data) for data in json_data])
 
 
-def load_skin_packs(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, SkinPack]:
-    skin_packs = {}
-
-    for (skin_pack_name, skin_sprites) in input_data.items():
-        skin_packs[skin_pack_name] = SkinPack([sprites[sprite_id] for sprite_id in skin_sprites])
-
-    return skin_packs
-
-
-def load_backgrounds(input_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:
-    # TODO: Under construction!
-    backgrounds = {}
-
-    for (background_name, background_item) in input_data.items():
-        color = background_item["background_color"]
-        elements: List[BackgroundElement] = []
-        if background_item.get("background_elements") is not None:
-            for element in background_item["background_elements"]:
-                elements.append(BackgroundElement(sprites[element["sprite"]],
-                                                  Point.from_list(element["position"])))
-        backgrounds[background_name] = Background(tuple(elements), color)
-
-    return backgrounds
+def __sprite_from_json(sprite_json) -> Sprite:
+    return Sprite(
+        sprite_json["image_bank"],
+        Rect.from_list(sprite_json["uv_rect"]),
+        sprite_json["multilayer"],
+        sprite_json["directional"],
+        sprite_json["num_frames"])
 
 
-def load_level_templates(input_data) -> Tuple[LevelTemplate, ...]:
-    # TODO: Under construction!
-    return tuple([LevelTemplate(level_num, level["level_theme"]) for level_num, level in enumerate(input_data)])
+def load_skin_packs(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, SkinPack]:
+    return {name: __skin_pack_from_json(data, sprites) for (name, data) in json_data.items()}
+
+
+def __skin_pack_from_json(skin_pack_json, sprites: Tuple[Sprite, ...]) -> SkinPack:
+    return SkinPack([sprites[sprite_id] for sprite_id in skin_pack_json])
+
+
+def load_backgrounds(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:
+    return {name: __background_from_json(data, sprites) for (name, data) in json_data.items()}
+
+
+def __background_from_json(json_data, sprites: Tuple[Sprite, ...]) -> Background:
+    color = json_data["color"]
+    if json_data.get("elements") is None:
+        return Background(tuple(), color)
+
+    return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), color)
+
+
+def __background_element_from_json(json_data, sprites: Tuple[Sprite, ...]) -> BackgroundElement:
+    return BackgroundElement(sprites[json_data["sprite"]], Point.from_list(json_data["position"]))
+
+
+def load_level_templates(json_data) -> Tuple[LevelTemplate, ...]:
+    return tuple([__level_template_from_json(level, level_num) for level_num, level in enumerate(json_data)])
+
+
+def __level_template_from_json(json_data, level_num: int) -> LevelTemplate:
+    return LevelTemplate(level_num, json_data["theme"])

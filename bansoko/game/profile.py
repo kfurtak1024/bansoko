@@ -25,6 +25,7 @@ class PlayerProfile:
         return self.level_stats[level_num] is not None
 
     def complete_level(self, level_stats: LevelStatistics) -> None:
+        # TODO: Overwrite only statistics which break high score
         self.level_stats[level_stats.level_num] = level_stats
         self.last_unlocked_level = min(self.last_unlocked_level + 1, len(self.level_stats) - 1)
 
