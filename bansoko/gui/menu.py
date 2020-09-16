@@ -16,6 +16,11 @@ class MenuItem(ABC):
 
     @property
     @abstractmethod
+    def disabled(self) -> bool:
+        pass
+
+    @property
+    @abstractmethod
     def size(self) -> Size:
         """Size (in pixels) of the menu item.
 
@@ -47,18 +52,29 @@ class TextMenuItem(MenuItem):
 
     It contains only label, which changes color when item is selected.
     """
+
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
         self.text = text
         self.text_style = TextStyle(color=7, shadow_color=1)
         self.selected_text_style = TextStyle(color=10, shadow_color=1)
+        self.disabled_text_style = TextStyle(color=12, shadow_color=1)
         self.screen_to_switch_to = screen_to_switch_to
+
+    @property
+    def disabled(self) -> bool:
+        return False
 
     @property
     def size(self) -> Size:
         return text_size(self._get_item_text(selected=True), self.text_style).enlarge(2)
 
     def draw(self, position: Point, selected: bool = False) -> None:
-        style = self.selected_text_style if selected else self.text_style
+        if self.disabled:
+            style = self.disabled_text_style
+        elif selected:
+            style = self.selected_text_style
+        else:
+            style = self.text_style
         draw_text(position, self._get_item_text(selected), style)
 
     def perform_action(self) -> Optional[Screen]:
@@ -91,7 +107,8 @@ class MenuScreen(Screen):
             return None
         if not self.items:
             return self
-        if self.input.is_button_pressed(VirtualButton.SELECT):
+        selected_item_disabled = self.items[self.selected_item].disabled
+        if self.input.is_button_pressed(VirtualButton.SELECT) and not selected_item_disabled:
             return self.items[self.selected_item].perform_action()
 
         selected_row = self.selected_item // self.columns
