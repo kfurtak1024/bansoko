@@ -7,6 +7,7 @@ from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.gui.menu import MenuScreen, TextMenuItem
 from bansoko.gui.screen import Screen
+from graphics.text import draw_text, TextStyle
 
 
 class LevelMenuItem(TextMenuItem):
@@ -18,7 +19,13 @@ class LevelMenuItem(TextMenuItem):
         self.player_profile = screen_factory.get_player_profile()
 
     def draw(self, position: Point, selected: bool = False) -> None:
-        super().draw(position, selected)
+        # TODO: Refactor this!
+        if self.level_num > self.player_profile.last_unlocked_level:
+            draw_text(position, self._get_item_text(selected), TextStyle(color=12, shadow_color=1))
+        elif self.player_profile.is_level_completed(self.level_num):
+            draw_text(position, self._get_item_text(selected), TextStyle(color=3, shadow_color=1))
+        else:
+            super().draw(position, selected)
         if selected:
             text = ""
             if not self.player_profile.is_level_unlocked(self.level_num):

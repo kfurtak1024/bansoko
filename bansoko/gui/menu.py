@@ -55,16 +55,16 @@ class TextMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return text_size(self.__get_item_text(selected=True), self.text_style).enlarge(2)
+        return text_size(self._get_item_text(selected=True), self.text_style).enlarge(2)
 
     def draw(self, position: Point, selected: bool = False) -> None:
         style = self.selected_text_style if selected else self.text_style
-        draw_text(position, self.__get_item_text(selected), style)
+        draw_text(position, self._get_item_text(selected), style)
 
     def perform_action(self) -> Optional[Screen]:
         return self.screen_to_switch_to()
 
-    def __get_item_text(self, selected: bool = False) -> str:
+    def _get_item_text(self, selected: bool = False) -> str:
         return ("* " if selected else "  ") + self.text
 
 

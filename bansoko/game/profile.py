@@ -25,11 +25,14 @@ class PlayerProfile:
         return self.level_stats[level_num] is not None
 
     def complete_level(self, level_stats: LevelStatistics) -> None:
+        if not self.is_level_completed(level_stats.level_num):
+            self.last_unlocked_level = min(self.last_unlocked_level + 1, len(self.level_stats) - 1)
         # TODO: Overwrite only statistics which break high score
         self.level_stats[level_stats.level_num] = level_stats
-        self.last_unlocked_level = min(self.last_unlocked_level + 1, len(self.level_stats) - 1)
 
         with open(self.profile_file_path, "r+b") as profile_file:
+            profile_file.seek(len(FILE_HEADER))
+            _write_int(profile_file, self.last_unlocked_level)
             profile_file.seek(self.file_offset + level_stats.level_num * 3 * 4)
             _write_int(profile_file, level_stats.steps)
             _write_int(profile_file, level_stats.pushes)
