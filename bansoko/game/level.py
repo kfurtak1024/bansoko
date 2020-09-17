@@ -97,6 +97,7 @@ class InputAction(Enum):
 
     @property
     def is_movement(self) -> bool:
+        """Is this action a movement action."""
         return self.direction is not None
 
 
@@ -177,24 +178,45 @@ class Level:
 
     @property
     def is_completed(self) -> bool:
+        """Test if level objectives are completed.
+
+        Level is completed when all crates are in cargo bays.
+        """
         return not next((crate for crate in self.crates if not crate.in_place), None)
 
     @property
     def initial_robot_direction(self) -> Direction:
+        """The initial direction robot is facing to."""
         # TODO: Deduct initial robot direction from level layout
         return Direction.UP
 
     @property
     def game_objects(self) -> Iterable[GameObject]:
+        """Collection of all game objects."""
         return chain([self.robot], self.crates)
 
     def crate_at_pos(self, position: TilePosition) -> Optional[Crate]:
+        """Test if there is a crate at given position.
+
+        :param position: position to test the presence of crate at
+        :return: true - if there is a crate in given position *OR* false - otherwise
+        """
         return next((crate for crate in self.crates if crate.tile_position == position), None)
 
     def can_move_crate_to(self, position: TilePosition) -> bool:
+        """Test whether a crate can be moved to given position.
+
+        Crate can be moved to a position only when there are no obstacles there (crates, walls).
+
+        :param position: position to test whether the crate can be moved to
+        :return: true - if crate can be moved to given location *OR* false - otherwise
+        """
         return self.tilemap.tile_at(position).is_walkable and not self.crate_at_pos(position)
 
     def process_input(self, input_action: Optional[InputAction]) -> None:
+        """Transform given input action to game action and queue it (so it can be run later,
+        during update call)."""
+
         if self.running_action:
             # TODO: Add movement cancellation when movement with opposite direction was triggered
             #       (only when robot is not pushing a crate)
@@ -228,12 +250,14 @@ class Level:
                     self.history.append(self.running_action)
 
     def update(self) -> None:
+        """Perform an update on the level's game logic."""
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self.__evaluate_crates()
         self.statistics.time_in_ms += 33  # TODO: Hard-coded value!
 
     def draw(self) -> None:
+        """Draw all layers of level in order (from bottom to top)."""
         # TODO: Add offset to tilemap so it will be ideally centered
         for layer in list(Layer):
             self.__draw_level_layer(layer)
