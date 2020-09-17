@@ -55,7 +55,7 @@ class LevelStatistics:
         if self == level_stats:
             return
         if self.level_num != level_stats.level_num:
-            raise Exception(f"Cannot merge statistics from different levels")
+            raise Exception("Cannot merge statistics from different levels")
 
         if self.completed:
             self.pushes = min(self.pushes, level_stats.pushes)

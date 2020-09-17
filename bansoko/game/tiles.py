@@ -67,7 +67,7 @@ class Tileset:
     # TODO: Hard-coded 7
     def __init__(self, theme_index: int) -> None:
         self.first_tile_index = theme_index * 7
-        self.tile_indexes = [tile for tile in list(TileType)]
+        self.tile_indexes = list(TileType)
 
     def tile_of(self, tile_index: int) -> TileType:
         num_tiles = 7

@@ -25,11 +25,11 @@ class LevelCompletedScreen(MenuScreen):
         next_level = TextMenuItem(
             "PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(next_level_num))
         finish_game = TextMenuItem(
-            "FINISH GAME", lambda: screen_factory.get_victory_screen())
+            "FINISH GAME", screen_factory.get_victory_screen)
         restart_level = TextMenuItem(
             "RESTART LEVEL", lambda: screen_factory.get_playfield_screen(current_level_num))
         go_back = TextMenuItem(
-            "BACK TO MAIN MENU", lambda: screen_factory.get_main_menu())
+            "BACK TO MAIN MENU", screen_factory.get_main_menu)
 
         more_levels_to_play_menu: List[MenuItem] = [next_level, restart_level, go_back]
         last_level_finished_menu: List[MenuItem] = [finish_game, restart_level]

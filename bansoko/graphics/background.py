@@ -20,6 +20,7 @@ class BackgroundElement(NamedTuple):
 
 
 class Background(NamedTuple):
+    """Background is a composition of background elements that can be drawn on a screen."""
     background_elements: Tuple[BackgroundElement, ...] = ()
     background_color: Optional[int] = None
 
