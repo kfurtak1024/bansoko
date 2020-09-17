@@ -2,7 +2,7 @@
 import abc
 from enum import Enum
 from itertools import chain
-from typing import Optional, List, Iterable
+from typing import Optional, List, Iterable, Any
 
 import pyxel
 
@@ -24,7 +24,7 @@ class LevelStatistics:
         time_in_ms - time spent playing the level (expressed in milliseconds)
     """
 
-    def __init__(self, level_num: int):
+    def __init__(self, level_num: int) -> None:
         self.level_num: int = level_num
         self.pushes: int = 0
         self.steps: int = 0
@@ -46,6 +46,31 @@ class LevelStatistics:
         steps = self.steps
 
         return "TIME:   {}\nPUSHES: {:03d}\nSTEPS:  {:03d}".format(time, pushes, steps)
+
+    @property
+    def completed(self) -> bool:
+        return self.time_in_ms > 0
+
+    def merge_with(self, level_stats: "LevelStatistics") -> None:
+        if self == level_stats:
+            return
+        if self.level_num != level_stats.level_num:
+            raise Exception(f"Cannot merge statistics from different levels")
+
+        if self.completed:
+            self.pushes = min(self.pushes, level_stats.pushes)
+            self.steps = min(self.steps, level_stats.steps)
+            self.time_in_ms = min(self.time_in_ms, level_stats.time_in_ms)
+        else:
+            self.pushes = level_stats.pushes
+            self.steps = level_stats.steps
+            self.time_in_ms = level_stats.time_in_ms
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, LevelStatistics):
+            return self.level_num == other.level_num and self.pushes == other.pushes \
+                   and self.steps == other.steps and self.time_in_ms == other.time_in_ms
+        return NotImplemented
 
 
 # TODO: Is it needed in this form?

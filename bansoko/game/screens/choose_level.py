@@ -5,7 +5,7 @@ import pyxel
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.gui.menu import MenuScreen, TextMenuItem
-from graphics.text import draw_text, TextStyle
+from bansoko.graphics.text import draw_text, TextStyle
 
 
 class LevelMenuItem(TextMenuItem):
@@ -17,7 +17,7 @@ class LevelMenuItem(TextMenuItem):
         self.player_profile = screen_factory.get_player_profile()
 
     @property
-    def disabled(self):
+    def disabled(self) -> bool:
         return self.level_num > self.player_profile.last_unlocked_level
 
     def draw(self, position: Point, selected: bool = False) -> None:
@@ -33,7 +33,7 @@ class LevelMenuItem(TextMenuItem):
             elif not self.player_profile.is_level_completed(self.level_num):
                 text = "NOT COMPLETED"
             else:
-                level_stats = self.player_profile.level_stats[self.level_num]
+                level_stats = self.player_profile.levels_stats[self.level_num]
                 if level_stats:
                     text = level_stats.debug_description
 
