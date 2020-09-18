@@ -22,9 +22,7 @@ class PlayfieldScreen(Screen):
         bundle = screen_factory.get_bundle()
         super().__init__(bundle.get_background("playfield"))
         self.screen_factory = screen_factory
-        self.level = Level(
-            bundle.get_level_template(level_num), bundle.get_skin_pack("robot"),
-            bundle.get_skin_pack("crate"))
+        self.level = Level(bundle.get_level_template(level_num))
         self.input = InputSystem()
 
     def activate(self) -> None:

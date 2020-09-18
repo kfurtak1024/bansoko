@@ -65,8 +65,8 @@ class TilePosition(NamedTuple):
 
 class Tileset:
     # TODO: Hard-coded 7
-    def __init__(self, theme_index: int) -> None:
-        self.first_tile_index = theme_index * 7
+    def __init__(self, tileset_index: int) -> None:
+        self.first_tile_index = tileset_index * 7
         self.tile_indexes = list(TileType)
 
     def tile_of(self, tile_index: int) -> TileType:

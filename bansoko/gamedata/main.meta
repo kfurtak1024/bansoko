@@ -1,186 +1,4 @@
 {
-  "levels": [
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    },
-    {
-      "theme": 0
-    },
-    {
-      "theme": 1
-    },
-    {
-      "theme": 2
-    },
-    {
-      "theme": 3
-    },
-    {
-      "theme": 4
-    }
-  ],
   "sprites": [
     {
       "image_bank": 1,
@@ -399,15 +217,317 @@
       "color": "0"
     }
   },
-  "skin_packs": {
-    "robot": [
+  "skin_packs": [
+    [
       3,
       4,
       5
     ],
-    "crate": [
+    [
       1,
       2
     ]
-  }
+  ],
+  "levels": [
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 0,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 1,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 2,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 3,
+      "robot_skin": 0,
+      "crate_skin": 1
+    },
+    {
+      "tileset": 4,
+      "robot_skin": 0,
+      "crate_skin": 1
+    }
+  ]
 }

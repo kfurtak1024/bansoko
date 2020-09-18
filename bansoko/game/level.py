@@ -77,12 +77,17 @@ class LevelStatistics:
 class LevelTemplate:
     level_num: int
     tilemap: Tilemap
+    robot_skin: SkinPack
+    crate_skin: SkinPack
 
-    def __init__(self, level_num: int, theme_index: int):
+    def __init__(self, level_num: int, tileset_index: int, robot_skin: SkinPack,
+                 crate_skin: SkinPack) -> None:
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         self.level_num = level_num
-        self.tilemap = Tilemap(Tileset(theme_index), tilemap_u, tilemap_v)
+        self.tilemap = Tilemap(Tileset(tileset_index), tilemap_u, tilemap_v)
+        self.robot_skin = robot_skin
+        self.crate_skin = crate_skin
 
 
 class InputAction(Enum):
@@ -164,14 +169,14 @@ class PushCrate(MoveAction):
 
 
 class Level:
-    def __init__(self, level_template: LevelTemplate, robot_skin: SkinPack, crate_skin: SkinPack):
-        tilemap = level_template.tilemap
+    def __init__(self, template: LevelTemplate) -> None:
+        tilemap = template.tilemap
 
-        self.statistics = LevelStatistics(level_template.level_num)
+        self.statistics = LevelStatistics(template.level_num)
         self.tilemap = tilemap
-        self.robot = Robot(self.tilemap.start, self.initial_robot_direction, robot_skin)
+        self.robot = Robot(self.tilemap.start, self.initial_robot_direction, template.robot_skin)
         self.crates = [
-            Level.__new_crate(position, tilemap, crate_skin) for position in self.tilemap.crates
+            Level.__new_crate(position, tilemap, template.crate_skin) for position in tilemap.crates
         ]
         self.running_action: Optional[MoveAction] = None
         self.history: List[MoveAction] = []

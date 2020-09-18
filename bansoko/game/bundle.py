@@ -17,7 +17,7 @@ class Bundle(NamedTuple):
     """
 
     sprites: Tuple[Sprite, ...]
-    skin_packs: Dict[str, SkinPack]
+    skin_packs: Tuple[SkinPack, ...]
     backgrounds: Dict[str, Background]
     level_templates: Tuple[LevelTemplate, ...]
 
@@ -30,13 +30,13 @@ class Bundle(NamedTuple):
         """
         return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
 
-    def get_skin_pack(self, skin_pack_name: str) -> SkinPack:
+    def get_skin_pack(self, skin_pack_id: int) -> SkinPack:
         """Return skin pack with given skin pack name.
 
-        :param skin_pack_name: name of skin pack to be retrieved
+        :param skin_pack_id: id of skin pack to be retrieved
         :return: instance of SkinPack with given name
         """
-        return self.skin_packs[skin_pack_name]
+        return self.skin_packs[skin_pack_id]
 
     def get_background(self, background_name: str) -> Optional[Background]:
         """Return background with given background name.
@@ -81,7 +81,7 @@ def load_bundle(metadata_filename: str) -> Bundle:
         sprites = load_sprites(metadata["sprites"])
         skin_packs = load_skin_packs(metadata["skin_packs"], sprites)
         backgrounds = load_backgrounds(metadata["backgrounds"], sprites)
-        level_templates = load_level_templates(metadata["levels"])
+        level_templates = load_level_templates(metadata["levels"], skin_packs)
         return Bundle(sprites, skin_packs, backgrounds, level_templates)
 
 
@@ -98,8 +98,8 @@ def __sprite_from_json(sprite_json) -> Sprite:
         sprite_json["num_frames"])
 
 
-def load_skin_packs(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, SkinPack]:
-    return {name: __skin_pack_from_json(data, sprites) for (name, data) in json_data.items()}
+def load_skin_packs(json_data, sprites: Tuple[Sprite, ...]) -> Tuple[SkinPack, ...]:
+    return tuple([__skin_pack_from_json(data, sprites) for data in json_data])
 
 
 def __skin_pack_from_json(skin_pack_json, sprites: Tuple[Sprite, ...]) -> SkinPack:
@@ -122,9 +122,11 @@ def __background_element_from_json(json_data, sprites: Tuple[Sprite, ...]) -> Ba
     return BackgroundElement(sprites[json_data["sprite"]], Point.from_list(json_data["position"]))
 
 
-def load_level_templates(json_data) -> Tuple[LevelTemplate, ...]:
-    return tuple([__level_template_from_json(level, level_num) for level_num, level in enumerate(json_data)])
+def load_level_templates(json_data, skin_packs: Tuple[SkinPack, ...]) -> Tuple[LevelTemplate, ...]:
+    return tuple([__level_template_from_json(level, level_num, skin_packs) for level_num, level in enumerate(json_data)])
 
 
-def __level_template_from_json(json_data, level_num: int) -> LevelTemplate:
-    return LevelTemplate(level_num, json_data["theme"])
+def __level_template_from_json(json_data, level_num: int,
+                               skin_packs: Tuple[SkinPack, ...]) -> LevelTemplate:
+    return LevelTemplate(level_num, json_data["tileset"], skin_packs[json_data["robot_skin"]],
+                         skin_packs[json_data["crate_skin"]])
