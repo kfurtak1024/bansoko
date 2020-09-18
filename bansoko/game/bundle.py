@@ -111,7 +111,7 @@ def load_backgrounds(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Backgr
 
 
 def __background_from_json(json_data, sprites: Tuple[Sprite, ...]) -> Background:
-    color = json_data["color"]
+    color = json_data.get("color")
     if json_data.get("elements") is None:
         return Background(tuple(), color)
 

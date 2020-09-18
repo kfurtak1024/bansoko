@@ -31,6 +31,30 @@
       "image": "sprites/robot_pushing.png",
       "multilayer": true,
       "directional": true
+    },
+    {
+      "image_bank": 1,
+      "image": "gui/cockpit_top.png"
+    },
+    {
+      "image_bank": 1,
+      "image": "gui/cockpit_right1.png"
+    },
+    {
+      "image_bank": 1,
+      "image": "gui/cockpit_right2.png"
+    },
+    {
+      "image_bank": 1,
+      "image": "gui/cockpit_bottom.png"
+    },
+    {
+      "image_bank": 1,
+      "image": "gui/cockpit_left1.png"
+    },
+    {
+      "image_bank": 1,
+      "image": "gui/cockpit_left2.png"
     }
   ],
   "skin_packs": {
@@ -55,7 +79,32 @@
       ]
     },
     "playfield": {
-      "color": "5"
+      "elements": [
+        {
+          "sprite": 6,
+          "position": [0, 0]
+        },
+        {
+          "sprite": 7,
+          "position": [239, 24]
+        },
+        {
+          "sprite": 8,
+          "position": [239, 116]
+        },
+        {
+          "sprite": 9,
+          "position": [0, 208]
+        },
+        {
+          "sprite": 10,
+          "position": [0, 24]
+        },
+        {
+          "sprite": 11,
+          "position": [0, 116]
+        }
+      ]
     },
     "choose_level": {
       "color": "0"

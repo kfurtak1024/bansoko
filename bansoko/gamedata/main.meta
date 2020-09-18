@@ -189,7 +189,7 @@
       "num_frames": 1,
       "uv_rect": [
         0,
-        0,
+        72,
         215,
         44
       ]
@@ -201,7 +201,7 @@
       "num_frames": 1,
       "uv_rect": [
         215,
-        30,
+        102,
         10,
         10
       ]
@@ -213,7 +213,7 @@
       "num_frames": 1,
       "uv_rect": [
         225,
-        30,
+        102,
         10,
         10
       ]
@@ -225,33 +225,105 @@
       "num_frames": 1,
       "uv_rect": [
         215,
+        72,
+        40,
+        10
+      ]
+    },
+    {
+      "image_bank": 1,
+      "multilayer": true,
+      "directional": true,
+      "num_frames": 1,
+      "uv_rect": [
+        215,
+        82,
+        40,
+        10
+      ]
+    },
+    {
+      "image_bank": 1,
+      "multilayer": true,
+      "directional": true,
+      "num_frames": 1,
+      "uv_rect": [
+        215,
+        92,
+        40,
+        10
+      ]
+    },
+    {
+      "image_bank": 1,
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1,
+      "uv_rect": [
         0,
-        40,
-        10
+        0,
+        256,
+        24
       ]
     },
     {
       "image_bank": 1,
-      "multilayer": true,
-      "directional": true,
+      "multilayer": false,
+      "directional": false,
       "num_frames": 1,
       "uv_rect": [
-        215,
-        10,
-        40,
-        10
+        0,
+        116,
+        17,
+        92
       ]
     },
     {
       "image_bank": 1,
-      "multilayer": true,
-      "directional": true,
+      "multilayer": false,
+      "directional": false,
       "num_frames": 1,
       "uv_rect": [
-        215,
-        20,
-        40,
-        10
+        17,
+        116,
+        17,
+        92
+      ]
+    },
+    {
+      "image_bank": 1,
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1,
+      "uv_rect": [
+        0,
+        24,
+        256,
+        48
+      ]
+    },
+    {
+      "image_bank": 1,
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1,
+      "uv_rect": [
+        34,
+        116,
+        17,
+        92
+      ]
+    },
+    {
+      "image_bank": 1,
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1,
+      "uv_rect": [
+        51,
+        116,
+        17,
+        92
       ]
     }
   ],
@@ -269,7 +341,50 @@
       ]
     },
     "playfield": {
-      "color": "5"
+      "elements": [
+        {
+          "sprite": 6,
+          "position": [
+            0,
+            0
+          ]
+        },
+        {
+          "sprite": 7,
+          "position": [
+            239,
+            24
+          ]
+        },
+        {
+          "sprite": 8,
+          "position": [
+            239,
+            116
+          ]
+        },
+        {
+          "sprite": 9,
+          "position": [
+            0,
+            208
+          ]
+        },
+        {
+          "sprite": 10,
+          "position": [
+            0,
+            24
+          ]
+        },
+        {
+          "sprite": 11,
+          "position": [
+            0,
+            116
+          ]
+        }
+      ]
     },
     "choose_level": {
       "color": "0"

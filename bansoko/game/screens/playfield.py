@@ -48,12 +48,12 @@ class PlayfieldScreen(Screen):
         return self
 
     def draw(self) -> None:
-        super().draw()
         self.level.draw()
+        super().draw()
         level = self.level.statistics.level_num
-        pyxel.text(7, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 7)
-        pyxel.text(70, 255 - 70, "<SPACE> COMPLETE LEVEL", 7)
-        pyxel.text(100, 256 - 30, self.level.statistics.debug_description, 7)
+        pyxel.text(124, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 10)
+        pyxel.text(70, 255 - 70, "<SPACE> COMPLETE LEVEL", 10)
+        pyxel.text(24, 256 - 30, self.level.statistics.debug_description, 10)
 
     def __get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):

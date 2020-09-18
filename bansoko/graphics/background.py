@@ -7,6 +7,9 @@ from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
 
 
+# TODO: Rename it to Canvas!
+
+
 class BackgroundElement(NamedTuple):
     """BackgroundElement is a drawable part of Background.
 

@@ -274,11 +274,8 @@ class Level:
             crate.state = CrateState.PLACED if crate_in_place else CrateState.MISPLACED
 
     def __draw_level_layer(self, layer: Layer) -> None:
-        # TODO: This clip() is temporary
-        pyxel.clip(15, 27, 256 - 15 - 15, 256 - 48 - 27)
         pyxel.bltm(layer.offset.x, layer.offset.y, layer.layer_index,
                    self.tilemap.u, self.tilemap.v, LEVEL_WIDTH, LEVEL_HEIGHT,
                    colkey=-1 if layer.is_main else 0)
         for game_object in self.game_objects:
             game_object.draw(layer)
-        pyxel.clip()
