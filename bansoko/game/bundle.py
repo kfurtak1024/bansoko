@@ -16,36 +16,37 @@ class Bundle(NamedTuple):
     and level templates).
     """
 
-    sprites: Tuple[Sprite, ...]
-    skin_packs: Tuple[SkinPack, ...]
+    sprites: Dict[str, Sprite]
+    skin_packs: Dict[str, SkinPack]
     backgrounds: Dict[str, Background]
     level_templates: Tuple[LevelTemplate, ...]
 
-    def get_sprite(self, sprite_id: int) -> Optional[Sprite]:
-        """ Return sprite with given sprite id.
+    def get_sprite(self, sprite_name: str) -> Optional[Sprite]:
+        """ Return sprite with given sprite name.
 
-        :param sprite_id: id of sprite to be retrieved
-        :return: instance of Sprite with given id *OR* None if there is no such a sprite in the
-        bundle
+        :param sprite_name: name of sprite to be retrieved
+        :return: instance of Sprite with given name *OR* None if there is no such a sprite in the
+                 bundle
         """
-        return self.sprites[sprite_id] if sprite_id < len(self.sprites) else None
+        return self.sprites.get(sprite_name)
 
-    def get_skin_pack(self, skin_pack_id: int) -> SkinPack:
+    def get_skin_pack(self, skin_pack_name: str) -> Optional[SkinPack]:
         """Return skin pack with given skin pack name.
 
-        :param skin_pack_id: id of skin pack to be retrieved
-        :return: instance of SkinPack with given name
+        :param skin_pack_name: name of skin pack to be retrieved
+        :return: instance of SkinPack with given name *OR* None if there is no such a skin pack in
+                 the bundle
         """
-        return self.skin_packs[skin_pack_id]
+        return self.skin_packs.get(skin_pack_name)
 
     def get_background(self, background_name: str) -> Optional[Background]:
         """Return background with given background name.
 
         :param background_name: name of background to be retrieved
         :return: instance of Background with given name *OR* None if there is no such a background
-        in the bundle
+                 in the bundle
         """
-        return self.backgrounds.get(background_name, None)
+        return self.backgrounds.get(background_name)
 
     def get_level_template(self, template_id: int) -> LevelTemplate:
         """Return level template with given template id.
@@ -85,8 +86,8 @@ def load_bundle(metadata_filename: str) -> Bundle:
         return Bundle(sprites, skin_packs, backgrounds, level_templates)
 
 
-def load_sprites(json_data) -> Tuple[Sprite, ...]:
-    return tuple([__sprite_from_json(data) for data in json_data])
+def load_sprites(json_data) -> Dict[str, Sprite]:
+    return {name: __sprite_from_json(data) for name, data in json_data.items()}
 
 
 def __sprite_from_json(sprite_json) -> Sprite:
@@ -98,19 +99,19 @@ def __sprite_from_json(sprite_json) -> Sprite:
         sprite_json["num_frames"])
 
 
-def load_skin_packs(json_data, sprites: Tuple[Sprite, ...]) -> Tuple[SkinPack, ...]:
-    return tuple([__skin_pack_from_json(data, sprites) for data in json_data])
+def load_skin_packs(json_data, sprites: Dict[str, Sprite]) -> Dict[str, SkinPack]:
+    return {name: __skin_pack_from_json(data, sprites) for (name, data) in json_data.items()}
 
 
-def __skin_pack_from_json(skin_pack_json, sprites: Tuple[Sprite, ...]) -> SkinPack:
-    return SkinPack(tuple([sprites[sprite_id] for sprite_id in skin_pack_json]))
+def __skin_pack_from_json(skin_pack_json, sprites: Dict[str, Sprite]) -> SkinPack:
+    return SkinPack(tuple([sprites[sprite_name] for sprite_name in skin_pack_json]))
 
 
-def load_backgrounds(json_data, sprites: Tuple[Sprite, ...]) -> Dict[str, Background]:
+def load_backgrounds(json_data, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
     return {name: __background_from_json(data, sprites) for (name, data) in json_data.items()}
 
 
-def __background_from_json(json_data, sprites: Tuple[Sprite, ...]) -> Background:
+def __background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
     color = json_data.get("color")
     if json_data.get("elements") is None:
         return Background(tuple(), color)
@@ -118,15 +119,15 @@ def __background_from_json(json_data, sprites: Tuple[Sprite, ...]) -> Background
     return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), color)
 
 
-def __background_element_from_json(json_data, sprites: Tuple[Sprite, ...]) -> BackgroundElement:
+def __background_element_from_json(json_data, sprites: Dict[str, Sprite]) -> BackgroundElement:
     return BackgroundElement(sprites[json_data["sprite"]], Point.from_list(json_data["position"]))
 
 
-def load_level_templates(json_data, skin_packs: Tuple[SkinPack, ...]) -> Tuple[LevelTemplate, ...]:
+def load_level_templates(json_data, skin_packs: Dict[str, SkinPack]) -> Tuple[LevelTemplate, ...]:
     return tuple([__level_template_from_json(level, level_num, skin_packs) for level_num, level in enumerate(json_data)])
 
 
 def __level_template_from_json(json_data, level_num: int,
-                               skin_packs: Tuple[SkinPack, ...]) -> LevelTemplate:
+                               skin_packs: Dict[str, SkinPack]) -> LevelTemplate:
     return LevelTemplate(level_num, json_data["tileset"], skin_packs[json_data["robot_skin"]],
                          skin_packs[json_data["crate_skin"]])

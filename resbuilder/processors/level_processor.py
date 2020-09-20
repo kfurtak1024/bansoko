@@ -31,7 +31,7 @@ def process_levels(levels, level_themes: List[LevelTheme]):
                 pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
 
         # TODO: Hard-coded robot_skin and crate_skin!!!!
-        levels_metadata.append({"tileset": theme_id, "robot_skin": 0, "crate_skin": 1})
+        levels_metadata.append({"tileset": theme_id, "robot_skin": "robot_skin", "crate_skin": "desert_crate_skin"})
         logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.width,
                      preprocessed_level.height, theme_id)
 

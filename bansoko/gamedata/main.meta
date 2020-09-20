@@ -1,6 +1,6 @@
 {
-  "sprites": [
-    {
+  "sprites": {
+    "logo": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -12,7 +12,7 @@
         44
       ]
     },
-    {
+    "desert_crate": {
       "image_bank": 1,
       "multilayer": true,
       "directional": false,
@@ -24,7 +24,7 @@
         10
       ]
     },
-    {
+    "desert_crate_placed": {
       "image_bank": 1,
       "multilayer": true,
       "directional": false,
@@ -36,7 +36,7 @@
         10
       ]
     },
-    {
+    "robot_standing": {
       "image_bank": 1,
       "multilayer": true,
       "directional": true,
@@ -48,7 +48,7 @@
         10
       ]
     },
-    {
+    "robot_moving": {
       "image_bank": 1,
       "multilayer": true,
       "directional": true,
@@ -60,7 +60,7 @@
         10
       ]
     },
-    {
+    "robot_pushing": {
       "image_bank": 1,
       "multilayer": true,
       "directional": true,
@@ -72,7 +72,7 @@
         10
       ]
     },
-    {
+    "cockpit_top": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -84,7 +84,7 @@
         24
       ]
     },
-    {
+    "cockpit_right1": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -96,7 +96,7 @@
         92
       ]
     },
-    {
+    "cockpit_right2": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -108,7 +108,7 @@
         92
       ]
     },
-    {
+    "cockpit_bottom": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -120,7 +120,7 @@
         48
       ]
     },
-    {
+    "cockpit_left1": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -132,7 +132,7 @@
         92
       ]
     },
-    {
+    "cockpit_left2": {
       "image_bank": 1,
       "multilayer": false,
       "directional": false,
@@ -144,13 +144,13 @@
         92
       ]
     }
-  ],
+  },
   "backgrounds": {
     "main_menu": {
       "color": "0",
       "elements": [
         {
-          "sprite": 0,
+          "sprite": "logo",
           "position": [
             20,
             20
@@ -161,42 +161,42 @@
     "playfield": {
       "elements": [
         {
-          "sprite": 6,
+          "sprite": "cockpit_top",
           "position": [
             0,
             0
           ]
         },
         {
-          "sprite": 7,
+          "sprite": "cockpit_right1",
           "position": [
             239,
             24
           ]
         },
         {
-          "sprite": 8,
+          "sprite": "cockpit_right2",
           "position": [
             239,
             116
           ]
         },
         {
-          "sprite": 9,
+          "sprite": "cockpit_bottom",
           "position": [
             0,
             208
           ]
         },
         {
-          "sprite": 10,
+          "sprite": "cockpit_left1",
           "position": [
             0,
             24
           ]
         },
         {
-          "sprite": 11,
+          "sprite": "cockpit_left2",
           "position": [
             0,
             116
@@ -217,317 +217,317 @@
       "color": "0"
     }
   },
-  "skin_packs": [
-    [
-      3,
-      4,
-      5
+  "skin_packs": {
+    "robot_skin": [
+      "robot_standing",
+      "robot_moving",
+      "robot_pushing"
     ],
-    [
-      1,
-      2
+    "desert_crate_skin": [
+      "desert_crate",
+      "desert_crate_placed"
     ]
-  ],
+  },
   "levels": [
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 0,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 2,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 3,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
-      "robot_skin": 0,
-      "crate_skin": 1
+      "robot_skin": "robot_skin",
+      "crate_skin": "desert_crate_skin"
     }
   ]
 }

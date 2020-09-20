@@ -120,32 +120,32 @@ class SpriteSheetPacker:
             return Size(width, height)
 
 
-def process_sprites(base_dir: Path, sprite_list_data):
+def process_sprites(base_dir: Path, sprites_data):
     packer = SpriteSheetPacker()
     image_bank = 1  # TODO: Hard-coded image bank
 
-    sprite_paths = []
-    sprites = []
+    sprites = {}
+    sprites_ids = {}
 
-    for sprite_data in sprite_list_data:
+    for sprite_name, sprite_data in sprites_data.items():
         sprite_path = Path(base_dir).joinpath(sprite_data["image"])
-        sprite_paths.append(sprite_path)
-        packer.add_sprite(sprite_path)
-        sprites.append({
+        sprites_ids[sprite_name] = packer.add_sprite(sprite_path)
+
+        sprites[sprite_name] = {
             "image_bank": image_bank,
             "multilayer": sprite_data.get("multilayer", False),
             "directional": sprite_data.get("directional", False),
             "num_frames": sprite_data.get("num_frames", 1)
-        })
+        }
 
     sprite_uv_rects = packer.pack(image_bank, Size(256, 256))
 
-    for i, sprite in enumerate(sprites):
-        uv_rect = sprite_uv_rects[i]
+    for sprite_name, sprite in sprites.items():
+        uv_rect = sprite_uv_rects[sprites_ids[sprite_name]]
         sprite["uv_rect"] = uv_rect.as_list
-        logging.info("Sprite '%s' (%dx%d) added to image bank %d", sprite_paths[i],
+        logging.info("Sprite '%s' (%dx%d) added to image bank %d", sprite_name,
                      uv_rect.w, uv_rect.h, image_bank)
 
     logging.info("Total sprites: %d", len(sprites))
 
-    return tuple(sprites)
+    return sprites
