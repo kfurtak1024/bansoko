@@ -19,6 +19,7 @@ def process_backgrounds(input_data, sprites):
                     raise Exception(
                         f"Background '{background_name}' refers to unknown sprite '{sprite_name}'")
                 position = element["position"]
+                # TODO: Validate position
                 elements.append({"sprite": sprite_name, "position": position})
 
             if elements:

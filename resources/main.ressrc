@@ -14,6 +14,36 @@
       "image": "sprites/desert/crate_placed.png",
       "multilayer": true
     },
+    "mint_crate" : {
+      "image_bank": 1,
+      "image": "sprites/mint/crate.png",
+      "multilayer": true
+    },
+    "mint_crate_placed" : {
+      "image_bank": 1,
+      "image": "sprites/mint/crate_placed.png",
+      "multilayer": true
+    },
+    "ice_crate" : {
+      "image_bank": 1,
+      "image": "sprites/ice/crate.png",
+      "multilayer": true
+    },
+    "ice_crate_placed" : {
+      "image_bank": 1,
+      "image": "sprites/ice/crate_placed.png",
+      "multilayer": true
+    },
+    "moon_crate" : {
+      "image_bank": 1,
+      "image": "sprites/moon/crate.png",
+      "multilayer": true
+    },
+    "moon_crate_placed" : {
+      "image_bank": 1,
+      "image": "sprites/moon/crate_placed.png",
+      "multilayer": true
+    },
     "robot_standing" : {
       "image_bank": 1,
       "image": "sprites/robot_standing.png",
@@ -66,6 +96,18 @@
     "desert_crate_skin": [
       "desert_crate",
       "desert_crate_placed"
+    ],
+    "mint_crate_skin": [
+      "mint_crate",
+      "mint_crate_placed"
+    ],
+    "ice_crate_skin": [
+      "ice_crate",
+      "ice_crate_placed"
+    ],
+    "moon_crate_skin": [
+      "moon_crate",
+      "moon_crate_placed"
     ]
   },
   "backgrounds": {
@@ -1312,6 +1354,10 @@
             }
           ]
         },
+        "skins": {
+          "robot": "robot_skin",
+          "crate": "desert_crate_skin"
+        },
         "thumbnail_colors": {
           "tile_void": "0",
           "tile_wall": "5",
@@ -1341,6 +1387,10 @@
               "tile_wall": "tiles/mint/wall_top.png"
             }
           ]
+        },
+        "skins": {
+          "robot": "robot_skin",
+          "crate": "mint_crate_skin"
         },
         "thumbnail_colors": {
           "tile_void": "0",
@@ -1372,6 +1422,10 @@
             }
           ]
         },
+        "skins": {
+          "robot": "robot_skin",
+          "crate": "ice_crate_skin"
+        },
         "thumbnail_colors": {
           "tile_void": "0",
           "tile_wall": "5",
@@ -1402,6 +1456,10 @@
             }
           ]
         },
+        "skins": {
+          "robot": "robot_skin",
+          "crate": "desert_crate_skin"
+        },
         "thumbnail_colors": {
           "tile_void": "0",
           "tile_wall": "5",
@@ -1431,6 +1489,10 @@
               "tile_wall": "tiles/moon/wall_top.png"
             }
           ]
+        },
+        "skins": {
+          "robot": "robot_skin",
+          "crate": "moon_crate_skin"
         },
         "thumbnail_colors": {
           "tile_void": "0",

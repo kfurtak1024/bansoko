@@ -66,15 +66,17 @@ if __name__ == "__main__":
             pyxel.init(256, 256)
             input_data = json.load(input_file)
             metadata = {}
-            logging.info("Generating level themes...")
-            level_themes = generate_level_themes(files.input_dir, input_data["level_themes"])
             logging.info("Processing sprites...")
             sprites = process_sprites(files.input_dir, input_data["sprites"])
             metadata["sprites"] = sprites
+            logging.info("Processing skins...")
+            skin_packs = process_skin_packs(input_data["skin_packs"], sprites)
+            metadata["skin_packs"] = skin_packs
             logging.info("Processing backgrounds...")
             metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"], sprites)
-            logging.info("Processing skins...")
-            metadata["skin_packs"] = process_skin_packs(input_data["skin_packs"], sprites)
+            logging.info("Generating level themes...")
+            level_themes = generate_level_themes(files.input_dir, input_data["level_themes"],
+                                                 skin_packs)
             logging.info("Processing levels...")
             metadata["levels"] = process_levels(input_data["levels"], level_themes)
             logging.info("Writing resource file '%s'...", files.resource_filename)

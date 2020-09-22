@@ -17,7 +17,7 @@ def process_levels(levels, level_themes: List[LevelTheme]):
     levels_metadata = []
 
     for level_num, level in enumerate(levels):
-        theme_id = level_num % len(level_themes)  # TODO: It should be taken from input file
+        theme_id = level_num % len(level_themes)
         theme = level_themes[theme_id]
         preprocessed_level = _preprocess_level(level_num, level["data"])
         tilemap_uv = preprocessed_level.tilemap_uv
@@ -30,8 +30,11 @@ def process_levels(levels, level_themes: List[LevelTheme]):
             for layer in range(0, theme.num_layers):
                 pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
 
-        # TODO: Hard-coded robot_skin and crate_skin!!!!
-        levels_metadata.append({"tileset": theme_id, "robot_skin": "robot_skin", "crate_skin": "desert_crate_skin"})
+        levels_metadata.append({
+            "tileset": theme_id,
+            "robot_skin": theme.robot_skin,
+            "crate_skin": theme.crate_skin
+        })
         logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.width,
                      preprocessed_level.height, theme_id)
 

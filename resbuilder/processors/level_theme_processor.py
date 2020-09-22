@@ -1,15 +1,14 @@
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, NamedTuple
 
 from resbuilder.processors.tile_processor import Tile, TilesetPacker
 
 
-class LevelTheme:
+class LevelTheme(NamedTuple):
     tiles_ids: List[Dict[Tile, int]]
-
-    def __init__(self, tiles_ids: List[Dict[Tile, int]], thumbnail_colors: Dict[Tile, int]):
-        self.tiles_ids = tiles_ids
-        self.thumbnail_colors = thumbnail_colors
+    thumbnail_colors: Dict[Tile, int]
+    robot_skin: str
+    crate_skin: str
 
     @property
     def num_layers(self) -> int:
@@ -22,7 +21,7 @@ class LevelTheme:
         return self.thumbnail_colors[tile]
 
 
-def generate_level_themes(base_dir: Path, data) -> List[LevelTheme]:
+def generate_level_themes(base_dir: Path, data, skin_packs) -> List[LevelTheme]:
     # TODO: Refactor it
     packer = TilesetPacker(data["tiles_image_bank"], base_dir)
     themes: List[LevelTheme] = []
@@ -37,8 +36,17 @@ def generate_level_themes(base_dir: Path, data) -> List[LevelTheme]:
         for j in range(1, 3):
             layers.append(packer.pack_level_theme(level_theme_data["tiles"]["layers"][j]))
 
-        themes.append(LevelTheme(
-            layers, _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])))
+        thumbnail_colors = _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
+        robot_skin = level_theme_data["skins"]["robot"]
+        if skin_packs.get(robot_skin) is None:
+            raise Exception(
+                f"Robot skin '{robot_skin}' is undefined'")
+        crate_skin = level_theme_data["skins"]["crate"]
+        if skin_packs.get(crate_skin) is None:
+            raise Exception(
+                f"Robot skin '{crate_skin}' is undefined'")
+
+        themes.append(LevelTheme(layers, thumbnail_colors, robot_skin, crate_skin))
 
     return themes
 
