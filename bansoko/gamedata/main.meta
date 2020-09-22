@@ -12,6 +12,30 @@
         44
       ]
     },
+    "check_icon": {
+      "image_bank": 1,
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1,
+      "uv_rect": [
+        215,
+        112,
+        4,
+        4
+      ]
+    },
+    "locked_icon": {
+      "image_bank": 1,
+      "multilayer": false,
+      "directional": false,
+      "num_frames": 1,
+      "uv_rect": [
+        68,
+        116,
+        32,
+        32
+      ]
+    },
     "desert_crate": {
       "image_bank": 1,
       "multilayer": true,
@@ -66,7 +90,7 @@
       "directional": false,
       "num_frames": 1,
       "uv_rect": [
-        68,
+        100,
         116,
         10,
         10
@@ -78,7 +102,7 @@
       "directional": false,
       "num_frames": 1,
       "uv_rect": [
-        78,
+        110,
         116,
         10,
         10
@@ -90,7 +114,7 @@
       "directional": false,
       "num_frames": 1,
       "uv_rect": [
-        88,
+        120,
         116,
         10,
         10
@@ -102,7 +126,7 @@
       "directional": false,
       "num_frames": 1,
       "uv_rect": [
-        98,
+        130,
         116,
         10,
         10

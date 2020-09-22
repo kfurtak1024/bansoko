@@ -92,10 +92,9 @@ class MenuScreen(Screen):
         self.item_size = reduce(max_size, [item.size for item in self.items])
         self.columns = columns
         self.rows = rows if rows else -(-len(items) // columns)
-        self.top_item = 0
+        self.top_row = 0
         self.selected_item = 0
         self.allow_going_back = allow_going_back
-        self.background = background
         self.input = InputSystem()
 
     def activate(self) -> None:
@@ -116,11 +115,13 @@ class MenuScreen(Screen):
         move_up_possible = (selected_row > 0)
         if self.input.is_button_pressed(VirtualButton.UP) and move_up_possible:
             self.selected_item = self.selected_item - self.columns
+            self.top_row = min(self.top_row, selected_row - 1)
 
-        move_down_possible = (selected_row < self.rows - 1) and \
-                             (self.selected_item + self.columns < len(self.items))
+        move_down_possible = (selected_row < (len(self.items) - 1) // self.columns)
         if self.input.is_button_pressed(VirtualButton.DOWN) and move_down_possible:
-            self.selected_item = self.selected_item + self.columns
+            self.selected_item = min(self.selected_item + self.columns, len(self.items) - 1)
+            if selected_row + 1 >= self.top_row + self.rows:
+                self.top_row += 1
 
         selected_column = self.selected_item % self.columns
 
@@ -141,11 +142,13 @@ class MenuScreen(Screen):
         start_position = center_in_rect(
             Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
 
-        for i, item in enumerate(self.__visible_items()):
+        for i, item in enumerate(self.visible_items):
             position = Point(start_position.x + (i % self.columns) * self.item_size.width,
                              start_position.y + (i // self.columns) * self.item_size.height)
-            item.draw(position, i == self.selected_item)
+            item.draw(position, (self.top_row * self.columns) + i == self.selected_item)
 
-    def __visible_items(self) -> Iterable[MenuItem]:
-        bottom_item = min(self.top_item + self.columns * self.rows, len(self.items))
-        return islice(self.items, self.top_item, bottom_item)
+    @property
+    def visible_items(self) -> Iterable[MenuItem]:
+        top_left_item = self.top_row * self.columns
+        bottom_left_item = min((self.top_row + self.rows) * self.columns, len(self.items))
+        return islice(self.items, top_left_item, bottom_left_item)

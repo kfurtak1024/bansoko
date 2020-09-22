@@ -4,6 +4,14 @@
       "image_bank": 1,
       "image": "gui/logo.png"
     },
+    "check_icon" : {
+      "image_bank": 1,
+      "image": "gui/check_icon.png"
+    },
+    "locked_icon" : {
+      "image_bank": 1,
+      "image": "gui/locked_icon.png"
+    },
     "desert_crate" : {
       "image_bank": 1,
       "image": "sprites/desert/crate.png",
