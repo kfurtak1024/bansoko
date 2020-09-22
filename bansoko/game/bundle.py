@@ -1,6 +1,6 @@
 """Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
 import json
-from typing import NamedTuple, Dict, Optional, Tuple
+from typing import NamedTuple, Dict, Tuple
 
 from bansoko.game.level import LevelTemplate
 from bansoko.graphics import Rect, Point
@@ -21,32 +21,29 @@ class Bundle(NamedTuple):
     backgrounds: Dict[str, Background]
     level_templates: Tuple[LevelTemplate, ...]
 
-    def get_sprite(self, sprite_name: str) -> Optional[Sprite]:
+    def get_sprite(self, sprite_name: str) -> Sprite:
         """ Return sprite with given sprite name.
 
         :param sprite_name: name of sprite to be retrieved
-        :return: instance of Sprite with given name *OR* None if there is no such a sprite in the
-                 bundle
+        :return: instance of Sprite with given name
         """
-        return self.sprites.get(sprite_name)
+        return self.sprites[sprite_name]
 
-    def get_skin_pack(self, skin_pack_name: str) -> Optional[SkinPack]:
+    def get_skin_pack(self, skin_pack_name: str) -> SkinPack:
         """Return skin pack with given skin pack name.
 
         :param skin_pack_name: name of skin pack to be retrieved
-        :return: instance of SkinPack with given name *OR* None if there is no such a skin pack in
-                 the bundle
+        :return: instance of SkinPack with given name
         """
-        return self.skin_packs.get(skin_pack_name)
+        return self.skin_packs[skin_pack_name]
 
-    def get_background(self, background_name: str) -> Optional[Background]:
+    def get_background(self, background_name: str) -> Background:
         """Return background with given background name.
 
         :param background_name: name of background to be retrieved
-        :return: instance of Background with given name *OR* None if there is no such a background
-                 in the bundle
+        :return: instance of Background with given name
         """
-        return self.backgrounds.get(background_name)
+        return self.backgrounds[background_name]
 
     def get_level_template(self, template_id: int) -> LevelTemplate:
         """Return level template with given template id.

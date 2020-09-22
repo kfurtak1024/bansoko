@@ -1,11 +1,11 @@
 """Module for game screens management."""
-import abc
 from typing import Optional, Callable, Any
 
 from bansoko.graphics.background import Background
+from bansoko.gui.input import InputSystem
 
 
-class Screen(abc.ABC):
+class Screen:
     """Base class for all game screens that suppose to be managed by ScreenController.
 
     Screens are updated and drawn once per frame. Screen transitions are triggered by
@@ -14,11 +14,12 @@ class Screen(abc.ABC):
 
     def __init__(self, background: Optional[Background] = None):
         self.background = background
+        self.input = InputSystem()
 
     def activate(self) -> None:
         """Called each time Screen is put on top of screen stack by ScreenController."""
+        self.input.reset()
 
-    @abc.abstractmethod
     def update(self) -> Optional["Screen"]:
         """Update screen state. Control screen transitions by return value.
 
@@ -28,8 +29,9 @@ class Screen(abc.ABC):
         instance of Screen class - switch to new screen *OR* None - switch to previous screen
         (perform pop on screen stack)
         """
+        self.input.update()
+        return self
 
-    @abc.abstractmethod
     def draw(self) -> None:
         """Draw screen.
 

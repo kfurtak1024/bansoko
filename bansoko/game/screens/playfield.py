@@ -5,7 +5,7 @@ import pyxel
 
 from bansoko.game.level import InputAction, Level
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.input import InputSystem, VirtualButton
+from bansoko.gui.input import VirtualButton
 from bansoko.gui.screen import Screen
 
 
@@ -23,13 +23,10 @@ class PlayfieldScreen(Screen):
         super().__init__(bundle.get_background("playfield"))
         self.screen_factory = screen_factory
         self.level = Level(bundle.get_level_template(level_num))
-        self.input = InputSystem()
-
-    def activate(self) -> None:
-        self.input.reset()
 
     def update(self) -> Screen:
-        self.input.update()
+        super().update()
+
         if self.input.is_button_pressed(VirtualButton.START):
             return self.screen_factory.get_game_paused_screen(self.level.statistics.level_num)
 

@@ -1,19 +1,17 @@
 """Module defining game screen for choosing a level to be played."""
-from typing import Optional
 
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
 from bansoko.gui.menu import MenuScreen, MenuItem
-from gui.screen import Screen
 
 
 class LevelMenuItem(MenuItem):
     def __init__(self, level_num: int, screen_factory: ScreenFactory):
+        super().__init__(lambda: screen_factory.get_playfield_screen(level_num))
         self.level_num = level_num
         self.player_profile = screen_factory.get_player_profile()
-        self.screen_to_switch_to = lambda: screen_factory.get_playfield_screen(level_num)
         self.check_icon = screen_factory.get_bundle().get_sprite("check_icon")
         self.locked_icon = screen_factory.get_bundle().get_sprite("locked_icon")
 
@@ -61,9 +59,6 @@ class LevelMenuItem(MenuItem):
                     text = level_stats.debug_description
 
             pyxel.text(8, 220, f"LEVEL STATS ({self.level_num}):\n============\n{text}", 10)
-
-    def perform_action(self) -> Optional[Screen]:
-        return self.screen_to_switch_to()
 
 
 class ChooseLevelScreen(MenuScreen):
