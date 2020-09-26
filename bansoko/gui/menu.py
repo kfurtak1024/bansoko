@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from functools import reduce
 from itertools import islice
-from typing import Callable, List, Optional, Iterable
+from typing import Callable, Optional, Iterable, Tuple, NamedTuple
 
 from bansoko.graphics import Size, Point, max_size, center_in_rect
 from bansoko.graphics.background import Background
@@ -20,7 +20,10 @@ class MenuItem(ABC):
     @property
     @abstractmethod
     def disabled(self) -> bool:
-        pass
+        """Is menu item disabled
+
+        It is not possible to perform action on disabled menu items.
+        """
 
     @property
     @abstractmethod
@@ -83,22 +86,66 @@ class TextMenuItem(MenuItem):
         return ("* " if selected else "  ") + self.text
 
 
+class MenuConfig(NamedTuple):
+    columns: int = 1
+    rows: Optional[int] = None
+    allow_going_back: bool = False
+    background: Optional[Background] = None
+
+
 class MenuScreen(Screen):
-    def __init__(self, items: List[MenuItem], columns: int = 1, rows: Optional[int] = None,
-                 allow_going_back: bool = False, background: Optional[Background] = None):
-        super().__init__(background)
+    def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig):
+        super().__init__(config.background)
         self.items = items
         self.item_size = reduce(max_size, [item.size for item in self.items])
-        self.columns = columns
-        self.rows = rows if rows else -(-len(items) // columns)
+        self.config = config
         self.top_row = 0
         self.selected_item = 0
-        self.allow_going_back = allow_going_back
+
+    @property
+    def columns(self) -> int:
+        """The number of visible columns in a single row of the menu."""
+        return self.config.columns
+
+    @property
+    def rows(self) -> int:
+        """The number of visible rows in the menu."""
+        return self.config.rows if self.config.rows else self.total_rows
+
+    @property
+    def total_rows(self) -> int:
+        """Total number of rows in the menu."""
+        return -(-len(self.items) // self.columns)
+
+    @property
+    def scrollbar_size(self) -> float:
+        """Size of the scroll bar relative to total number of menu rows.
+
+        :return: Value from 0.0 to 1.0 describing the relation of the number of visible rows to
+                 the number of all rows in the menu
+        """
+        return self.rows / self.total_rows
+
+    @property
+    def scrollbar_position(self) -> float:
+        """Position of the scroll bar relative to total number of menu rows.
+
+        :return: Value from 0.0 to 1.0 describing the relation of first visible row (top row) to
+                 the number of all rows in the menu
+        """
+        return self.top_row / self.total_rows
+
+    @property
+    def visible_items(self) -> Iterable[MenuItem]:
+        """Collection of all visible menu items with respect to scroll bar position."""
+        top_left_item = self.top_row * self.columns
+        bottom_left_item = min((self.top_row + self.rows) * self.columns, len(self.items))
+        return islice(self.items, top_left_item, bottom_left_item)
 
     def update(self) -> Optional[Screen]:
         super().update()
 
-        if self.input.is_button_pressed(VirtualButton.BACK) and self.allow_going_back:
+        if self.input.is_button_pressed(VirtualButton.BACK) and self.config.allow_going_back:
             return None
 
         if not self.items:
@@ -129,12 +176,6 @@ class MenuScreen(Screen):
             position = Point(start_position.x + (i % self.columns) * self.item_size.width,
                              start_position.y + (i // self.columns) * self.item_size.height)
             item.draw(position, (self.top_row * self.columns) + i == self.selected_item)
-
-    @property
-    def visible_items(self) -> Iterable[MenuItem]:
-        top_left_item = self.top_row * self.columns
-        bottom_left_item = min((self.top_row + self.rows) * self.columns, len(self.items))
-        return islice(self.items, top_left_item, bottom_left_item)
 
     def __move_selection_up(self) -> None:
         selected_row = self.selected_item // self.columns

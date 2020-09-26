@@ -4,9 +4,10 @@ import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
-from bansoko.gui.menu import MenuScreen, MenuItem
+from bansoko.gui.menu import MenuScreen, MenuItem, MenuConfig
 
 
+# TODO: Add horizontal and vertical space
 class LevelMenuItem(MenuItem):
     def __init__(self, level_num: int, screen_factory: ScreenFactory):
         super().__init__(lambda: screen_factory.get_playfield_screen(level_num))
@@ -71,10 +72,18 @@ class ChooseLevelScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
-        super().__init__([
-            LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
-        ], columns=6, rows=5, allow_going_back=True, background=bundle.get_background("choose_level"))
+        super().__init__(
+            tuple([
+                LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
+            ]),
+            MenuConfig(columns=6, rows=5, allow_going_back=True,
+                       background=bundle.get_background("choose_level")))
 
     def draw(self) -> None:
         super().draw()
+        # TODO: Hard-coded scroll bar (for now!)
+        scrollbar_size_in_pixels = int(super().scrollbar_size * 186)
+        scrollbar_position_in_pixels = int(super().scrollbar_position * 186)
+        pyxel.rectb(244, 30, 8, 186 + 2, 7)
+        pyxel.rect(245, 31 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels, 8)
         pyxel.text(8, 8, "CHOOSE LEVEL", 7)

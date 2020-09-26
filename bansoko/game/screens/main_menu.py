@@ -2,7 +2,7 @@
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics.text import draw_text, TextStyle
-from bansoko.gui.menu import MenuScreen, TextMenuItem
+from bansoko.gui.menu import MenuScreen, TextMenuItem, MenuConfig
 from bansoko.graphics import Point
 
 
@@ -14,11 +14,11 @@ class MainMenuScreen(MenuScreen):
     """
 
     def __init__(self, screen_factory: ScreenFactory):
-        super().__init__([
+        super().__init__((
             TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(0)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             TextMenuItem("EXIT", lambda: None)
-        ], background=screen_factory.get_bundle().get_background("main_menu"))
+        ), MenuConfig(background=screen_factory.get_bundle().get_background("main_menu")))
 
     def draw(self) -> None:
         super().draw()
