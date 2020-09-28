@@ -1,34 +1,41 @@
 import itertools
 import logging
 from collections import namedtuple
-from typing import List
+from typing import List, Dict
 
 import pyxel
 
-from resbuilder.processors.level_theme_processor import LevelTheme
-from resbuilder.processors.tile_processor import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
+from resbuilder.processors.level_themes import LevelTheme
+from resbuilder.processors.tilemap_generators import TilemapGenerator
+from resbuilder.processors.tiles import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
+
+
+LEVEL_WIDTH = 32
+LEVEL_HEIGHT = 32
 
 
 # TODO: Add error handling!
-
-
-def process_levels(levels, level_themes: List[LevelTheme]):
+def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: Dict[str, TilemapGenerator]):
     thumbnails_image = pyxel.image(2)  # TODO: Hard-coded image bank for thumbnails
     levels_metadata = []
 
     for level_num, level in enumerate(levels):
         theme_id = level_num % len(level_themes)
         theme = level_themes[theme_id]
+        tile_generator = tilemap_generators[theme.background_generator]
         preprocessed_level = _preprocess_level(level_num, level["data"])
         tilemap_uv = preprocessed_level.tilemap_uv
+
+        _generate_background(level_num, tile_generator)
 
         for offset, tile in enumerate(preprocessed_level.tile_data):
             local_pos = preprocessed_level.offset_to_pos(offset)
             tilemap_pos = Position(tilemap_uv.x + local_pos.x, tilemap_uv.y + local_pos.y)
             thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, theme.thumbnail_color(tile))
 
-            for layer in range(0, theme.num_layers):
-                pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
+            if tile is not Tile.VOID:
+                for layer in range(0, theme.num_layers):
+                    pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, theme.tile_id(layer, tile))
 
         levels_metadata.append({
             "tileset": theme_id,
@@ -42,8 +49,15 @@ def process_levels(levels, level_themes: List[LevelTheme]):
     return levels_metadata
 
 
-LEVEL_WIDTH = 32
-LEVEL_HEIGHT = 32
+def _generate_background(level_num: int, tile_generator: TilemapGenerator) -> None:
+    # TODO: Refactor this!
+    levels_horizontally = IMAGE_BANK_SIZE // LEVEL_WIDTH
+    for y in range(LEVEL_WIDTH):
+        for x in range(LEVEL_HEIGHT):
+            pyxel.tilemap(0).set(x + (level_num % levels_horizontally) * LEVEL_WIDTH,
+                                 y + (level_num // levels_horizontally) * LEVEL_HEIGHT,
+                                 tile_generator.next_tile())
+
 
 Position = namedtuple("Position", ["x", "y"])
 
@@ -58,6 +72,7 @@ class PreprocessedLevel:
 
     @property
     def tilemap_uv(self) -> Position:
+        # TODO: This should take playfield area into account
         levels_horizontally = IMAGE_BANK_SIZE // LEVEL_WIDTH
         u = (self.level_num % levels_horizontally) * LEVEL_WIDTH \
             + (LEVEL_WIDTH - self.width) // 2

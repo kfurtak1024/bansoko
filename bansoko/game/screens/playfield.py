@@ -43,7 +43,11 @@ class PlayfieldScreen(Screen):
         return self
 
     def draw(self) -> None:
+        # TODO: Should be taken from resources metadata!
+        pyxel.cls(0)
+        pyxel.clip(10, 20, 238, 188)
         self.level.draw()
+        pyxel.clip()
         super().draw()
         level = self.level.statistics.level_num
         pyxel.text(124, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 10)

@@ -1339,10 +1339,16 @@
       ]
     }
   ],
+  "tilemap_generators": {
+    "space_background": {
+      "tiles/void.png": 10,
+      "tiles/backgrounds/stars/star.png": 1
+    }
+  },
   "level_themes": {
-    "tiles_image_bank": 0,
     "themes": [
       {
+        "background_generator": "space_background",
         "tiles": {
           "layers": [
             {
@@ -1377,6 +1383,7 @@
         }
       },
       {
+        "background_generator": "space_background",
         "tiles": {
           "layers": [
             {
@@ -1411,6 +1418,7 @@
         }
       },
       {
+        "background_generator": "space_background",
         "tiles": {
           "layers": [
             {
@@ -1445,6 +1453,7 @@
         }
       },
       {
+        "background_generator": "space_background",
         "tiles": {
           "layers": [
             {
@@ -1479,6 +1488,7 @@
         }
       },
       {
+        "background_generator": "space_background",
         "tiles": {
           "layers": [
             {

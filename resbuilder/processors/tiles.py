@@ -10,13 +10,13 @@ TILE_SIZE = 8
 
 @unique
 class Tile(Enum):
-    VOID = "tile_void", " "
-    WALL = "tile_wall", "X"
-    START = "tile_start", "@"
-    FLOOR = "tile_floor", "."
-    INITIAL_CRATE_POSITION = "tile_initial_crate_position", "#"
-    CRATE_INITIALLY_PLACED = "tile_crate_initially_placed", "&"
-    CARGO_BAY = "tile_cargo_bay", "+"
+    VOID = ("tile_void", " ")
+    WALL = ("tile_wall", "X")
+    START = ("tile_start", "@")
+    FLOOR = ("tile_floor", ".")
+    INITIAL_CRATE_POSITION = ("tile_initial_crate_position", "#")
+    CRATE_INITIALLY_PLACED = ("tile_crate_initially_placed", "&")
+    CARGO_BAY = ("tile_cargo_bay", "+")
 
     def __init__(self, tile_name: str, tile_symbol: str):
         self.tile_name = tile_name
@@ -26,7 +26,7 @@ class Tile(Enum):
 SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
 
-class TilesetPacker:
+class TilePacker:
     def __init__(self, image_bank: int, base_dir: Path) -> None:
         self.image_bank = image_bank
         self.base_dir = base_dir

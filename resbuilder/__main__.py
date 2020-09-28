@@ -18,11 +18,13 @@ from typing import NamedTuple
 import pyxel
 from docopt import docopt
 
-from resbuilder.processors.skin_pack_processor import process_skin_packs
-from resbuilder.processors.background_processor import process_backgrounds
-from resbuilder.processors.level_processor import process_levels
-from resbuilder.processors.level_theme_processor import generate_level_themes
-from resbuilder.processors.sprite_processor import process_sprites
+from resbuilder.processors.backgrounds import process_backgrounds
+from resbuilder.processors.levels import process_levels
+from resbuilder.processors.level_themes import generate_level_themes
+from resbuilder.processors.skin_packs import process_skin_packs
+from resbuilder.processors.sprites import process_sprites
+from resbuilder.processors.tiles import TilePacker
+from resbuilder.processors.tilemap_generators import process_tilemap_generators
 
 
 def configure_logger(verbose: bool) -> None:
@@ -74,11 +76,15 @@ if __name__ == "__main__":
             metadata["skin_packs"] = skin_packs
             logging.info("Processing backgrounds...")
             metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"], sprites)
+            tile_packer = TilePacker(0, files.input_dir)
             logging.info("Generating level themes...")
-            level_themes = generate_level_themes(files.input_dir, input_data["level_themes"],
+            level_themes = generate_level_themes(input_data["level_themes"], tile_packer,
                                                  skin_packs)
+            logging.info("Processing tilemap generators...")
+            tilemap_generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
             logging.info("Processing levels...")
-            metadata["levels"] = process_levels(input_data["levels"], level_themes)
+            metadata["levels"] = process_levels(input_data["levels"], level_themes, tilemap_generators)
+
             logging.info("Writing resource file '%s'...", files.resource_filename)
             pyxel.save(files.resource_filename)
             logging.info("Writing metadata file '%s'...", files.metadata_filename)

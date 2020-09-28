@@ -20,7 +20,7 @@ class MenuItem(ABC):
     @property
     @abstractmethod
     def disabled(self) -> bool:
-        """Is menu item disabled
+        """Is menu item disabled.
 
         It is not possible to perform action on disabled menu items.
         """
