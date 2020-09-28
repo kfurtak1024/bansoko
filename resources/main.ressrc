@@ -1341,7 +1341,7 @@
   ],
   "tilemap_generators": {
     "space_background": {
-      "tiles/void.png": 10,
+      "tiles/void.png": 100,
       "tiles/backgrounds/stars/star.png": 1
     }
   },

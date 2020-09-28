@@ -1,6 +1,6 @@
 import logging
 import random
-from typing import Dict, NamedTuple
+from typing import Dict, NamedTuple, Optional
 
 from resbuilder.processors.tiles import TilePacker
 
@@ -8,7 +8,9 @@ from resbuilder.processors.tiles import TilePacker
 class TilemapGenerator(NamedTuple):
     tiles_probs: Dict[int, int]
 
-    def next_tile(self) -> int:
+    def next_tile(self) -> Optional[int]:
+        if not self.tiles_probs:
+            return None
         return random.choices(list(self.tiles_probs.keys()), list(self.tiles_probs.values())).pop()
 
 

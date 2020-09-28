@@ -339,301 +339,541 @@
   "levels": [
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     },
     {
       "tileset": 0,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 1,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "mint_crate_skin"
     },
     {
       "tileset": 2,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "ice_crate_skin"
     },
     {
       "tileset": 3,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "desert_crate_skin"
     },
     {
       "tileset": 4,
+      "tilemap_offset": [
+        0,
+        0
+      ],
       "robot_skin": "robot_skin",
       "crate_skin": "moon_crate_skin"
     }

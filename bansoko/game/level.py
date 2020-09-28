@@ -259,7 +259,7 @@ class Level:
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self.__evaluate_crates()
-        self.statistics.time_in_ms += 33  # TODO: Hard-coded value!
+        self.statistics.time_in_ms += 33  # TODO: Hard-coded value! Not accurate!
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""

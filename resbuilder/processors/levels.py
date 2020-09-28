@@ -1,5 +1,6 @@
 import itertools
 import logging
+import random
 from collections import namedtuple
 from typing import List, Dict
 
@@ -39,6 +40,7 @@ def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: D
 
         levels_metadata.append({
             "tileset": theme_id,
+            "tilemap_offset": [0, 0],
             "robot_skin": theme.robot_skin,
             "crate_skin": theme.crate_skin
         })
@@ -51,12 +53,16 @@ def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: D
 
 def _generate_background(level_num: int, tile_generator: TilemapGenerator) -> None:
     # TODO: Refactor this!
+    random.seed(level_num)
     levels_horizontally = IMAGE_BANK_SIZE // LEVEL_WIDTH
+    offset = Position(
+        (level_num % levels_horizontally) * LEVEL_WIDTH,
+        (level_num // levels_horizontally) * LEVEL_HEIGHT)
     for y in range(LEVEL_WIDTH):
         for x in range(LEVEL_HEIGHT):
-            pyxel.tilemap(0).set(x + (level_num % levels_horizontally) * LEVEL_WIDTH,
-                                 y + (level_num // levels_horizontally) * LEVEL_HEIGHT,
-                                 tile_generator.next_tile())
+            tile = tile_generator.next_tile()
+            if tile:
+                pyxel.tilemap(0).set(offset.x + x, offset.y + y, tile)
 
 
 Position = namedtuple("Position", ["x", "y"])
