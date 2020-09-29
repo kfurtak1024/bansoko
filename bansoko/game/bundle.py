@@ -126,5 +126,7 @@ def load_level_templates(json_data, skin_packs: Dict[str, SkinPack]) -> Tuple[Le
 
 def __level_template_from_json(json_data, level_num: int,
                                skin_packs: Dict[str, SkinPack]) -> LevelTemplate:
-    return LevelTemplate(level_num, json_data["tileset"], Point.from_list(json_data["draw_offset"]),
-                         skin_packs[json_data["robot_skin"]], skin_packs[json_data["crate_skin"]])
+    return LevelTemplate.from_level_num(level_num, json_data["tileset"],
+                                        Point.from_list(json_data["draw_offset"]),
+                                        skin_packs[json_data["robot_skin"]],
+                                        skin_packs[json_data["crate_skin"]])

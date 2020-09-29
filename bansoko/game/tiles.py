@@ -1,10 +1,10 @@
 """Module exposing tile-related types."""
 from enum import Enum, unique, auto
-from typing import NamedTuple, Any
+from typing import NamedTuple, Any, Generator
 
 import pyxel
 
-from bansoko.graphics import Point, Direction
+from bansoko.graphics import Point, Direction, Rect, Layer
 
 # TODO: Should be taken from bundle
 LEVEL_WIDTH = 32
@@ -64,37 +64,42 @@ class TilePosition(NamedTuple):
 
 
 class Tileset:
-    # TODO: Hard-coded 7
     def __init__(self, tileset_index: int) -> None:
-        self.first_tile_index = tileset_index * 7
+        self.first_tile_index = tileset_index * len(TileType)
         self.tile_indexes = list(TileType)
 
     def tile_of(self, tile_index: int) -> TileType:
-        num_tiles = 7
+        num_tiles = len(TileType)
         index_in_range = self.first_tile_index <= tile_index < self.first_tile_index + num_tiles
         return self.tile_indexes[tile_index % num_tiles] if index_in_range else TileType.VOID
 
 
-class Tilemap:
-    def __init__(self, tileset: Tileset, u: int, v: int) -> None:
-        self.tilemap = pyxel.tilemap(0)
-        self.tileset = tileset
-        self.u = u
-        self.v = v
+class Tilemap(NamedTuple):
+    tilemap_id: int
+    rect_uv: Rect
+    num_layers: int = 1
 
-        crates_list = []
+    @property
+    def width(self) -> int:
+        return self.rect_uv.w
 
-        for y in range(LEVEL_HEIGHT):
-            for x in range(LEVEL_WIDTH):
-                tile_pos = TilePosition(x, y)
-                tile = self.tile_at(tile_pos)
-                if tile.is_crate_spawn_point:
-                    crates_list.append(tile_pos)
-                elif tile.is_start:
-                    self.start = tile_pos
+    @property
+    def height(self) -> int:
+        return self.rect_uv.h
 
-        self.crates = tuple(crates_list)
+    def tile_index_at(self, position: TilePosition) -> int:
+        tile_index: int = pyxel.tilemap(self.tilemap_id).get(
+            self.rect_uv.x + position.tile_x, self.rect_uv.y + position.tile_y)
+        return tile_index
 
-    def tile_at(self, position: TilePosition) -> TileType:
-        tile_index = self.tilemap.get(self.u + position.tile_x, self.v + position.tile_y)
-        return self.tileset.tile_of(tile_index)
+    def draw(self, layer: Layer) -> None:
+        if layer and layer.layer_index >= self.num_layers:
+            return
+
+        pyxel.bltm(layer.offset.x, layer.offset.y, self.tilemap_id + layer.layer_index,
+                   self.rect_uv.x, self.rect_uv.y, self.rect_uv.w, self.rect_uv.h,
+                   colkey=-1 if layer.layer_index == 0 else 0)  # TODO: Layer should have information about transparent color!
+
+    def tiles_positions(self) -> Generator[TilePosition, None, None]:
+        for i in range(self.width * self.height):
+            yield TilePosition(i % self.width, i // self.width)

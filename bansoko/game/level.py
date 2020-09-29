@@ -2,13 +2,12 @@
 import abc
 from enum import Enum
 from itertools import chain
-from typing import Optional, List, Iterable, Any
-
-import pyxel
+from typing import Optional, List, Iterable, Any, Tuple, NamedTuple
 
 from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
-from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, TilePosition
-from bansoko.graphics import Point, Direction, Layer
+from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, TilePosition, \
+    TileType
+from bansoko.graphics import Point, Direction, Layer, Rect
 from bansoko.graphics.sprite import SkinPack
 
 
@@ -71,25 +70,6 @@ class LevelStatistics:
             return self.level_num == other.level_num and self.pushes == other.pushes \
                    and self.steps == other.steps and self.time_in_ms == other.time_in_ms
         return NotImplemented
-
-
-# TODO: Is it needed in this form?
-class LevelTemplate:
-    level_num: int
-    tilemap: Tilemap
-    draw_offset: Point
-    robot_skin: SkinPack
-    crate_skin: SkinPack
-
-    def __init__(self, level_num: int, tileset_index: int, draw_offset: Point, robot_skin: SkinPack,
-                 crate_skin: SkinPack) -> None:
-        tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
-        tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
-        self.level_num = level_num
-        self.tilemap = Tilemap(Tileset(tileset_index), tilemap_u, tilemap_v)
-        self.draw_offset = draw_offset
-        self.robot_skin = robot_skin
-        self.crate_skin = crate_skin
 
 
 class InputAction(Enum):
@@ -170,17 +150,63 @@ class PushCrate(MoveAction):
         level_stats.pushes += 1 if not self.backward else -1
 
 
+class LevelTemplate(NamedTuple):
+    level_num: int
+    tilemap: Tilemap
+    tileset: Tileset
+    draw_offset: Point
+    robot_skin: SkinPack
+    crate_skin: SkinPack
+
+    @classmethod
+    def from_level_num(cls, level_num: int, tileset_index: int, draw_offset: Point,
+                       robot_skin: SkinPack, crate_skin: SkinPack) -> "LevelTemplate":
+        tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
+        tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
+        tilemap = Tilemap(0, Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT), 3)
+        tileset = Tileset(tileset_index)
+        return cls(level_num=level_num, tilemap=tilemap, tileset=tileset, draw_offset=draw_offset,
+                   robot_skin=robot_skin, crate_skin=crate_skin)
+
+    def tile_at(self, position: TilePosition) -> TileType:
+        return self.tileset.tile_of(self.tilemap.tile_index_at(position))
+
+    def create_layers(self) -> Tuple[Layer, ...]:
+        return tuple([Layer(i, self.draw_offset) for i in range(3)]) # TODO: Hard-coded 3!
+
+    def create_crates(self) -> Tuple[Crate, ...]:
+        crates_positions = []
+        for tile_position in self.tilemap.tiles_positions():
+            if self.tile_at(tile_position).is_crate_spawn_point:
+                crates_positions.append(tile_position)
+
+        crates = []
+        for crate_position in crates_positions:
+            is_initially_placed = self.tile_at(crate_position).is_crate_initially_placed
+            crates.append(Crate(crate_position, is_initially_placed, self.crate_skin))
+        if not crates:
+            raise Exception(f"Level {self.level_num} does not have any crates")
+
+        return tuple(crates)
+
+    def create_robot(self, face_direction: Direction) -> Robot:
+        start = None
+        for tile_position in self.tilemap.tiles_positions():
+            if self.tile_at(tile_position).is_start:
+                start = tile_position
+        if not start:
+            raise Exception(f"Level {self.level_num} does not have player start tile")
+
+        return Robot(start, face_direction, self.robot_skin)
+
+
 class Level:
     def __init__(self, template: LevelTemplate) -> None:
-        tilemap = template.tilemap
-
         self.statistics = LevelStatistics(template.level_num)
-        self.tilemap = tilemap
-        self.layers = [Layer(i, template.draw_offset) for i in range(3)]  # TODO: Hard-coded 3!
-        self.robot = Robot(self.tilemap.start, self.initial_robot_direction, template.robot_skin)
-        self.crates = [
-            Level.__new_crate(position, tilemap, template.crate_skin) for position in tilemap.crates
-        ]
+        self.template = template
+        self.layers = template.create_layers()
+        self.robot = template.create_robot(self.initial_robot_direction)
+        self.crates = template.create_crates()
         self.running_action: Optional[MoveAction] = None
         self.history: List[MoveAction] = []
 
@@ -219,7 +245,7 @@ class Level:
         :param position: position to test whether the crate can be moved to
         :return: true - if crate can be moved to given location *OR* false - otherwise
         """
-        return self.tilemap.tile_at(position).is_walkable and not self.crate_at_pos(position)
+        return self.template.tile_at(position).is_walkable and not self.crate_at_pos(position)
 
     def process_input(self, input_action: Optional[InputAction]) -> None:
         """Transform given input action to game action and queue it (so it can be run later,
@@ -244,7 +270,7 @@ class Level:
         if input_action.is_movement:
             self.robot.face_direction = input_action.direction
             robot_dest = self.robot.tile_position.move(input_action.direction)
-            if self.tilemap.tile_at(robot_dest).is_walkable:
+            if self.template.tile_at(robot_dest).is_walkable:
                 crate = self.crate_at_pos(robot_dest)
                 if crate:
                     crate_dest = crate.tile_position.move(input_action.direction)
@@ -269,20 +295,13 @@ class Level:
         for layer in self.layers:
             self.__draw_level_layer(layer)
 
-    @staticmethod
-    def __new_crate(position: TilePosition, tilemap: Tilemap, crate_skin: SkinPack) -> Crate:
-        is_initially_placed = tilemap.tile_at(position).is_crate_initially_placed
-        return Crate(position, is_initially_placed, crate_skin)
-
     def __evaluate_crates(self) -> None:
         for crate in self.crates:
-            crate_tile = self.tilemap.tile_at(crate.tile_position)
+            crate_tile = self.template.tile_at(crate.tile_position)
             crate_in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
             crate.state = CrateState.PLACED if crate_in_place else CrateState.MISPLACED
 
     def __draw_level_layer(self, layer: Layer) -> None:
-        pyxel.bltm(layer.offset.x, layer.offset.y, layer.layer_index,
-                   self.tilemap.u, self.tilemap.v, LEVEL_WIDTH, LEVEL_HEIGHT,
-                   colkey=-1 if layer.layer_index == 0 else 0)  # TODO: Layer should have information about transparent color!
+        self.template.tilemap.draw(layer)
         for game_object in self.game_objects:
             game_object.draw(layer)
