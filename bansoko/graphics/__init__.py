@@ -202,23 +202,10 @@ def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 2
     return Point(x, y)
 
 
-@unique
-class Layer(Enum):
-    """Layer enumeration defines 3 layers the game is drawn on.
-
-    LAYER_0 is the very bottom one (main) and it's drawn first, then LAYER_1 and finally LAYER_2
-    (which is the layer on top).
-    Each layer contains an offset information that is used during drawing to shift the layer to
-    achieve pseudo 3D effect."""
-    LAYER_0 = 0, Point(0, 0)
-    LAYER_1 = 1, Point(-1, -1)
-    LAYER_2 = 2, Point(-2, -2)
-
-    def __init__(self, layer_index: int, offset: Point):
-        self.layer_index = layer_index
-        self.offset = offset
+class Layer(NamedTuple):
+    layer_index: int
+    global_offset: Point = Point(0, 0)
 
     @property
-    def is_main(self) -> bool:
-        """Check whether this layer is a main layer (the one used for game logic)"""
-        return self == Layer.LAYER_0
+    def offset(self) -> Point:
+        return self.global_offset.offset(-self.layer_index, -self.layer_index)

@@ -1,5 +1,5 @@
 """Module exposing Sprite type."""
-from typing import NamedTuple, Tuple
+from typing import NamedTuple, Tuple, Optional
 
 import pyxel
 
@@ -12,7 +12,7 @@ class Sprite(NamedTuple):
     The exact fragment of the image is defined by image_bank and uv_rect (which is a rectangle in
     image space)
     Additionally, sprite can be:
-    - multilayer - it contains variants for all 3 layers,
+    - multilayer - it contains variants for all layers,
     - directional - it contains variants for all 4 directions,
     - multiframe - it contains multiple frames (for example for animation purposes)
 
@@ -21,11 +21,11 @@ class Sprite(NamedTuple):
     """
     image_bank: int
     uv_rect: Rect
-    multilayer: bool = False
     directional: bool = False
+    num_layers: int = 1
     num_frames: int = 1
 
-    def draw(self, position: Point, layer: Layer = Layer.LAYER_0,
+    def draw(self, position: Point, layer: Optional[Layer] = None,
              direction: Direction = Direction.UP, frame: int = 0) -> None:
         """Draw the sprite at given position using specified layer, direction and frame.
 
@@ -36,24 +36,27 @@ class Sprite(NamedTuple):
         :param direction: direction-specific variant of sprite to be drawn
         :param frame: frame of sprite to be drawn
         """
-        if not self.multilayer and not layer.is_main:
+        if layer and layer.layer_index >= self.num_layers:
             return
 
         clamped_frame = min(frame, self.num_frames - 1)
+        frame_offset_u = clamped_frame * self.uv_rect.w // self.num_frames
+        top_layer_offset = self.num_layers - 1
 
-        x = self.uv_rect.x + clamped_frame * self.uv_rect.w // self.num_frames
-        y = self.uv_rect.y
+        u = self.uv_rect.x + frame_offset_u + top_layer_offset
+        v = self.uv_rect.y + top_layer_offset
 
         if self.directional:
-            x += self.uv_rect.w // Direction.num_directions() * direction.direction_index
+            u += self.uv_rect.w // Direction.num_directions() * direction.direction_index
 
-        if self.multilayer:
-            top_layer = Layer.LAYER_2.layer_index
-            x += top_layer + layer.offset.x
-            y += top_layer + layer.offset.y
+        if layer:
+            u -= layer.layer_index
+            v -= layer.layer_index
 
-        pyxel.blt(position.x + layer.offset.x, position.y + layer.offset.y, self.image_bank, x,
-                  y, self.width, self.height, 0)
+        offset = layer.offset if layer else Point(0, 0)
+
+        pyxel.blt(position.x + offset.x, position.y + offset.y, self.image_bank,
+                  u, v, self.width, self.height, 0)
 
     @property
     def width(self) -> int:
@@ -63,22 +66,14 @@ class Sprite(NamedTuple):
         if self.directional:
             width //= Direction.num_directions()
 
-        if self.multilayer:
-            top_layer = Layer.LAYER_2.layer_index
-            width -= top_layer
+        width -= self.num_layers - 1
 
         return width
 
     @property
     def height(self) -> int:
         """The height of sprite in pixels."""
-        height = self.uv_rect.h
-
-        if self.multilayer:
-            top_layer = Layer.LAYER_2.layer_index
-            height -= top_layer
-
-        return height
+        return self.uv_rect.h - (self.num_layers - 1)
 
 
 class SkinPack(NamedTuple):

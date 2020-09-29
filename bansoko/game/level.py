@@ -77,15 +77,17 @@ class LevelStatistics:
 class LevelTemplate:
     level_num: int
     tilemap: Tilemap
+    draw_offset: Point
     robot_skin: SkinPack
     crate_skin: SkinPack
 
-    def __init__(self, level_num: int, tileset_index: int, robot_skin: SkinPack,
+    def __init__(self, level_num: int, tileset_index: int, draw_offset: Point, robot_skin: SkinPack,
                  crate_skin: SkinPack) -> None:
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         self.level_num = level_num
         self.tilemap = Tilemap(Tileset(tileset_index), tilemap_u, tilemap_v)
+        self.draw_offset = draw_offset
         self.robot_skin = robot_skin
         self.crate_skin = crate_skin
 
@@ -174,6 +176,7 @@ class Level:
 
         self.statistics = LevelStatistics(template.level_num)
         self.tilemap = tilemap
+        self.layers = [Layer(i, template.draw_offset) for i in range(3)]  # TODO: Hard-coded 3!
         self.robot = Robot(self.tilemap.start, self.initial_robot_direction, template.robot_skin)
         self.crates = [
             Level.__new_crate(position, tilemap, template.crate_skin) for position in tilemap.crates
@@ -263,8 +266,7 @@ class Level:
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""
-        # TODO: Add offset to tilemap so it will be ideally centered
-        for layer in list(Layer):
+        for layer in self.layers:
             self.__draw_level_layer(layer)
 
     @staticmethod
@@ -281,6 +283,6 @@ class Level:
     def __draw_level_layer(self, layer: Layer) -> None:
         pyxel.bltm(layer.offset.x, layer.offset.y, layer.layer_index,
                    self.tilemap.u, self.tilemap.v, LEVEL_WIDTH, LEVEL_HEIGHT,
-                   colkey=-1 if layer.is_main else 0)
+                   colkey=-1 if layer.layer_index == 0 else 0)  # TODO: Layer should have information about transparent color!
         for game_object in self.game_objects:
             game_object.draw(layer)

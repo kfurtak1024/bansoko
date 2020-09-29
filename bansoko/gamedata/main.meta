@@ -2,9 +2,9 @@
   "sprites": {
     "logo": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         0,
         72,
@@ -14,9 +14,9 @@
     },
     "check_icon": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         215,
         112,
@@ -26,9 +26,9 @@
     },
     "locked_icon": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         68,
         116,
@@ -38,9 +38,9 @@
     },
     "desert_crate": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         215,
         102,
@@ -50,9 +50,9 @@
     },
     "desert_crate_placed": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         225,
         102,
@@ -62,9 +62,9 @@
     },
     "mint_crate": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         235,
         102,
@@ -74,9 +74,9 @@
     },
     "mint_crate_placed": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         245,
         102,
@@ -86,9 +86,9 @@
     },
     "ice_crate": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         100,
         116,
@@ -98,9 +98,9 @@
     },
     "ice_crate_placed": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         110,
         116,
@@ -110,9 +110,9 @@
     },
     "moon_crate": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         120,
         116,
@@ -122,9 +122,9 @@
     },
     "moon_crate_placed": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         130,
         116,
@@ -134,9 +134,9 @@
     },
     "robot_standing": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": true,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         215,
         72,
@@ -146,9 +146,9 @@
     },
     "robot_moving": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": true,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         215,
         82,
@@ -158,9 +158,9 @@
     },
     "robot_pushing": {
       "image_bank": 1,
-      "multilayer": true,
       "directional": true,
       "num_frames": 1,
+      "num_layers": 3,
       "uv_rect": [
         215,
         92,
@@ -170,9 +170,9 @@
     },
     "cockpit_top": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         0,
         0,
@@ -182,9 +182,9 @@
     },
     "cockpit_right1": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         0,
         116,
@@ -194,9 +194,9 @@
     },
     "cockpit_right2": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         17,
         116,
@@ -206,9 +206,9 @@
     },
     "cockpit_bottom": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         0,
         24,
@@ -218,9 +218,9 @@
     },
     "cockpit_left1": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         34,
         116,
@@ -230,9 +230,9 @@
     },
     "cockpit_left2": {
       "image_bank": 1,
-      "multilayer": false,
       "directional": false,
       "num_frames": 1,
+      "num_layers": 1,
       "uv_rect": [
         51,
         116,
@@ -339,7 +339,7 @@
   "levels": [
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -348,7 +348,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -357,7 +357,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -366,7 +366,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -375,7 +375,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -384,7 +384,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -393,7 +393,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -402,7 +402,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -411,7 +411,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -420,7 +420,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -429,7 +429,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -438,7 +438,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -447,7 +447,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -456,7 +456,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -465,7 +465,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -474,7 +474,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -483,7 +483,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -492,7 +492,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -501,7 +501,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -510,7 +510,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -519,7 +519,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -528,7 +528,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -537,7 +537,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -546,7 +546,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -555,7 +555,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -564,7 +564,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -573,7 +573,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -582,7 +582,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -591,7 +591,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -600,7 +600,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -609,7 +609,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -618,7 +618,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -627,7 +627,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -636,7 +636,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -645,7 +645,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -654,7 +654,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -663,7 +663,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -672,7 +672,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -681,7 +681,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -690,7 +690,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -699,7 +699,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -708,7 +708,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -717,7 +717,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -726,7 +726,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -735,7 +735,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -744,7 +744,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -753,7 +753,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -762,7 +762,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -771,7 +771,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -780,7 +780,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -789,7 +789,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -798,7 +798,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -807,7 +807,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -816,7 +816,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -825,7 +825,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -834,7 +834,7 @@
     },
     {
       "tileset": 0,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -843,7 +843,7 @@
     },
     {
       "tileset": 1,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -852,7 +852,7 @@
     },
     {
       "tileset": 2,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -861,7 +861,7 @@
     },
     {
       "tileset": 3,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],
@@ -870,7 +870,7 @@
     },
     {
       "tileset": 4,
-      "tilemap_offset": [
+      "draw_offset": [
         0,
         0
       ],

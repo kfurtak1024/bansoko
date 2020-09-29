@@ -40,7 +40,7 @@ def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: D
 
         levels_metadata.append({
             "tileset": theme_id,
-            "tilemap_offset": [0, 0],
+            "draw_offset": [0, 0],
             "robot_skin": theme.robot_skin,
             "crate_skin": theme.crate_skin
         })

@@ -131,11 +131,14 @@ def process_sprites(base_dir: Path, sprites_data):
         sprite_path = Path(base_dir).joinpath(sprite_data["image"])
         sprites_ids[sprite_name] = packer.add_sprite(sprite_path)
 
+        # TODO: 3 should be configurable
+        num_layers = 3 if sprite_data.get("multilayer", False) else 1
+
         sprites[sprite_name] = {
             "image_bank": image_bank,
-            "multilayer": sprite_data.get("multilayer", False),
             "directional": sprite_data.get("directional", False),
-            "num_frames": sprite_data.get("num_frames", 1)
+            "num_frames": sprite_data.get("num_frames", 1),
+            "num_layers": num_layers
         }
 
     sprite_uv_rects = packer.pack(image_bank, Size(256, 256))
