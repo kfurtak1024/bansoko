@@ -5,10 +5,14 @@ from itertools import chain
 from typing import Optional, List, Iterable, Any, Tuple, NamedTuple
 
 from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
-from bansoko.game.tiles import Tileset, Tilemap, LEVEL_WIDTH, LEVEL_HEIGHT, TILE_SIZE, TilePosition, \
-    TileType
+from bansoko.game.tiles import Tileset, TileType
 from bansoko.graphics import Point, Direction, Layer, Rect
 from bansoko.graphics.sprite import SkinPack
+from bansoko.graphics.tilemap import TILE_SIZE, Tilemap, TilePosition
+
+# TODO: Should be taken from bundle
+LEVEL_WIDTH = 32
+LEVEL_HEIGHT = 32
 
 
 class LevelStatistics:
@@ -172,7 +176,7 @@ class LevelTemplate(NamedTuple):
         return self.tileset.tile_of(self.tilemap.tile_index_at(position))
 
     def create_layers(self) -> Tuple[Layer, ...]:
-        return tuple([Layer(i, self.draw_offset) for i in range(3)]) # TODO: Hard-coded 3!
+        return tuple([Layer(i, self.draw_offset) for i in range(3)])  # TODO: Hard-coded 3!
 
     def create_crates(self) -> Tuple[Crate, ...]:
         crates_positions = []
@@ -287,21 +291,18 @@ class Level:
         """Perform an update on the level's game logic."""
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
-        self.__evaluate_crates()
+        self._evaluate_crates()
         self.statistics.time_in_ms += 33  # TODO: Hard-coded value! Not accurate!
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""
         for layer in self.layers:
-            self.__draw_level_layer(layer)
+            self.template.tilemap.draw(layer)
+            for game_object in self.game_objects:
+                game_object.draw(layer)
 
-    def __evaluate_crates(self) -> None:
+    def _evaluate_crates(self) -> None:
         for crate in self.crates:
             crate_tile = self.template.tile_at(crate.tile_position)
             crate_in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
             crate.state = CrateState.PLACED if crate_in_place else CrateState.MISPLACED
-
-    def __draw_level_layer(self, layer: Layer) -> None:
-        self.template.tilemap.draw(layer)
-        for game_object in self.game_objects:
-            game_object.draw(layer)

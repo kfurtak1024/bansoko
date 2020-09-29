@@ -2,9 +2,9 @@
 import abc
 from enum import IntEnum, unique
 
-from bansoko.game.tiles import TilePosition
 from bansoko.graphics import Point, Direction, Layer
 from bansoko.graphics.sprite import SkinPack
+from bansoko.graphics.tilemap import TilePosition
 
 
 class ObjectPosition:

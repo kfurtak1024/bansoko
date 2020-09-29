@@ -6,15 +6,13 @@ from bansoko.game.level import LevelTemplate
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite, SkinPack
+from bansoko.graphics.tilemap import Tilemap
 
 
 # TODO: Consider renaming "bundle" (maybe game_pack?)
-
-
 class Bundle(NamedTuple):
     """Bundle is a central repository of game resources (such as: sprites, backgrounds
-    and level templates).
-    """
+    and level templates)."""
 
     sprites: Dict[str, Sprite]
     skin_packs: Dict[str, SkinPack]
@@ -110,10 +108,14 @@ def load_backgrounds(json_data, sprites: Dict[str, Sprite]) -> Dict[str, Backgro
 
 def __background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
     color = json_data.get("color")
+    tilemap_data = json_data.get("background_tilemap")
+    tilemap = None
+    if tilemap_data:
+        tilemap = Tilemap(tilemap_data["tilemap_id"], Rect.from_list(tilemap_data["tilemap_uv"]))
     if json_data.get("elements") is None:
         return Background(tuple(), color)
 
-    return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), color)
+    return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), color, tilemap)
 
 
 def __background_element_from_json(json_data, sprites: Dict[str, Sprite]) -> BackgroundElement:

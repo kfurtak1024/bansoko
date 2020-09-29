@@ -5,11 +5,10 @@ import pyxel
 
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
+from bansoko.graphics.tilemap import Tilemap
 
 
 # TODO: Rename it!
-
-
 class BackgroundElement(NamedTuple):
     """BackgroundElement is a drawable part of Background.
 
@@ -26,6 +25,7 @@ class Background(NamedTuple):
     """Background is a composition of background elements that can be drawn on a screen."""
     background_elements: Tuple[BackgroundElement, ...] = ()
     background_color: Optional[int] = None
+    background_tilemap: Optional[Tilemap] = None
 
     def draw(self) -> None:
         """Draw background with all its elements.
@@ -34,6 +34,8 @@ class Background(NamedTuple):
         """
         if self.background_color:
             pyxel.cls(self.background_color)
+        if self.background_tilemap:
+            self.background_tilemap.draw()
         if self.background_elements:
             for element in self.background_elements:
                 element.draw()
