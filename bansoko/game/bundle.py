@@ -107,15 +107,15 @@ def load_backgrounds(json_data, sprites: Dict[str, Sprite]) -> Dict[str, Backgro
 
 
 def __background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
-    color = json_data.get("color")
+    background_color = json_data.get("background_color")
     tilemap_data = json_data.get("background_tilemap")
     tilemap = None
     if tilemap_data:
         tilemap = Tilemap(tilemap_data["tilemap_id"], Rect.from_list(tilemap_data["tilemap_uv"]))
     if json_data.get("elements") is None:
-        return Background(tuple(), color)
+        return Background(tuple(), background_color)
 
-    return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), color, tilemap)
+    return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), background_color, tilemap)
 
 
 def __background_element_from_json(json_data, sprites: Dict[str, Sprite]) -> BackgroundElement:

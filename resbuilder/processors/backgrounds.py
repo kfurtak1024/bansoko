@@ -6,9 +6,9 @@ def process_backgrounds(input_data, sprites):
     backgrounds = {}
     for background_name, background_data in input_data.items():
         background = {}
-        color = background_data.get("color")
-        if color:
-            background["color"] = color
+        background_color = background_data.get("background_color")
+        if background_color:
+            background["background_color"] = background_color
         # TODO: Validate color
 
         if background_data.get("elements") is not None:

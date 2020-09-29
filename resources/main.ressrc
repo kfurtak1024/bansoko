@@ -120,7 +120,7 @@
   },
   "backgrounds": {
     "main_menu": {
-      "color": "0",
+      "background_color": "0",
       "elements": [
         {
           "sprite": "logo",
@@ -157,16 +157,16 @@
       ]
     },
     "choose_level": {
-      "color": "0"
+      "background_color": "0"
     },
     "game_paused": {
-      "color": "0"
+      "background_color": "0"
     },
     "level_completed": {
-      "color": "0"
+      "background_color": "0"
     },
     "victory": {
-      "color": "0"
+      "background_color": "0"
     }
   },
   "levels": [
