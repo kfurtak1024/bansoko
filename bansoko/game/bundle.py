@@ -68,9 +68,6 @@ class Bundle(NamedTuple):
         return self.num_levels - 1
 
 
-# TODO: This is the most messy part so far!
-
-
 def load_bundle(metadata_filename: str) -> Bundle:
     with open(metadata_filename) as metadata_file:
         metadata = json.load(metadata_file)
@@ -82,53 +79,60 @@ def load_bundle(metadata_filename: str) -> Bundle:
 
 
 def load_sprites(json_data) -> Dict[str, Sprite]:
-    return {name: __sprite_from_json(data) for name, data in json_data.items()}
-
-
-def __sprite_from_json(sprite_json) -> Sprite:
-    return Sprite(
-        sprite_json["image_bank"],
-        Rect.from_list(sprite_json["uv_rect"]),
-        sprite_json["directional"],
-        sprite_json["num_layers"],
-        sprite_json["num_frames"])
+    return {
+        name: Sprite(
+            image_bank=data["image_bank"],
+            uv_rect=Rect.from_list(data["uv_rect"]),
+            directional=data["directional"],
+            num_layers=data["num_layers"],
+            num_frames=data["num_frames"])
+        for name, data in json_data.items()
+    }
 
 
 def load_skin_packs(json_data, sprites: Dict[str, Sprite]) -> Dict[str, SkinPack]:
-    return {name: __skin_pack_from_json(data, sprites) for (name, data) in json_data.items()}
-
-
-def __skin_pack_from_json(skin_pack_json, sprites: Dict[str, Sprite]) -> SkinPack:
-    return SkinPack(tuple([sprites[sprite_name] for sprite_name in skin_pack_json]))
+    return {
+        name: SkinPack(
+            skin_sprites=tuple([sprites[sprite_name] for sprite_name in data]))
+        for (name, data) in json_data.items()
+    }
 
 
 def load_backgrounds(json_data, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
-    return {name: __background_from_json(data, sprites) for (name, data) in json_data.items()}
+    return {
+        name: _background_from_json(data, sprites)
+        for (name, data) in json_data.items()
+    }
 
 
-def __background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
+def _background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
     background_color = json_data.get("background_color")
     tilemap_data = json_data.get("background_tilemap")
     tilemap = None
     if tilemap_data:
-        tilemap = Tilemap(tilemap_data["tilemap_id"], Rect.from_list(tilemap_data["tilemap_uv"]))
-    if json_data.get("elements") is None:
-        return Background(tuple(), background_color)
+        tilemap = Tilemap(
+            tilemap_id=tilemap_data["tilemap_id"],
+            rect_uv=Rect.from_list(tilemap_data["tilemap_uv"])
+        )
+    background_elements = []
+    if json_data.get("elements") is not None:
+        background_elements = [
+            BackgroundElement(
+                sprite=sprites[data["sprite"]],
+                position=Point.from_list(data["position"]))
+            for data in json_data["elements"]
+        ]
 
-    return Background(tuple([__background_element_from_json(data, sprites) for data in json_data["elements"]]), background_color, tilemap)
-
-
-def __background_element_from_json(json_data, sprites: Dict[str, Sprite]) -> BackgroundElement:
-    return BackgroundElement(sprites[json_data["sprite"]], Point.from_list(json_data["position"]))
+    return Background(tuple(background_elements), background_color, tilemap)
 
 
 def load_level_templates(json_data, skin_packs: Dict[str, SkinPack]) -> Tuple[LevelTemplate, ...]:
-    return tuple([__level_template_from_json(level, level_num, skin_packs) for level_num, level in enumerate(json_data)])
-
-
-def __level_template_from_json(json_data, level_num: int,
-                               skin_packs: Dict[str, SkinPack]) -> LevelTemplate:
-    return LevelTemplate.from_level_num(level_num, json_data["tileset"],
-                                        Point.from_list(json_data["draw_offset"]),
-                                        skin_packs[json_data["robot_skin"]],
-                                        skin_packs[json_data["crate_skin"]])
+    return tuple([
+        LevelTemplate.from_level_num(
+            level_num=level_num,
+            tileset_index=data["tileset"],
+            draw_offset=Point.from_list(data["draw_offset"]),
+            robot_skin=skin_packs[data["robot_skin"]],
+            crate_skin=skin_packs[data["crate_skin"]])
+        for level_num, data in enumerate(json_data)]
+    )

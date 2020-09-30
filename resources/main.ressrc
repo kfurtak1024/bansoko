@@ -121,6 +121,9 @@
   "backgrounds": {
     "main_menu": {
       "background_color": "0",
+      "background_tilemap": {
+        "generator": "space_background"
+      },
       "elements": [
         {
           "sprite": "logo",
@@ -166,7 +169,10 @@
       "background_color": "0"
     },
     "victory": {
-      "background_color": "0"
+      "background_color": "0",
+      "background_tilemap": {
+        "generator": "space_background"
+      }
     }
   },
   "levels": [

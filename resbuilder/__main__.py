@@ -39,7 +39,6 @@ def configure_logger(verbose: bool) -> None:
 
 class FileNames(NamedTuple):
     """Container for directories and file names used by Resource Builder."""
-
     input_filename: str
     input_dir: Path
     resource_filename: str
@@ -61,6 +60,8 @@ if __name__ == "__main__":
     files = generate_file_names(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
 
+    # TODO: --force command line argument is not used!
+
     logging.info("Processing file '%s'...", files.input_filename)
     try:
         with open(files.input_filename) as input_file,\
@@ -74,14 +75,13 @@ if __name__ == "__main__":
             logging.info("Processing skins...")
             skin_packs = process_skin_packs(input_data["skin_packs"], sprites)
             metadata["skin_packs"] = skin_packs
-            logging.info("Processing backgrounds...")
-            metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"], sprites)
             tile_packer = TilePacker(0, files.input_dir)
             logging.info("Generating level themes...")
-            level_themes = generate_level_themes(input_data["level_themes"], tile_packer,
-                                                 skin_packs)
+            level_themes = generate_level_themes(input_data["level_themes"], tile_packer, skin_packs)
             logging.info("Processing tilemap generators...")
             tilemap_generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
+            logging.info("Processing backgrounds...")
+            metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"], sprites, tilemap_generators)
             logging.info("Processing levels...")
             metadata["levels"] = process_levels(input_data["levels"], level_themes, tilemap_generators)
 

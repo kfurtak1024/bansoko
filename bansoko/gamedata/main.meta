@@ -267,6 +267,15 @@
   "backgrounds": {
     "main_menu": {
       "background_color": "0",
+      "background_tilemap": {
+        "tilemap_id": 7,
+        "tilemap_uv": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
       "elements": [
         {
           "sprite": "logo",
@@ -333,7 +342,16 @@
       "background_color": "0"
     },
     "victory": {
-      "background_color": "0"
+      "background_color": "0",
+      "background_tilemap": {
+        "tilemap_id": 7,
+        "tilemap_uv": [
+          32,
+          0,
+          32,
+          32
+        ]
+      }
     }
   },
   "levels": [

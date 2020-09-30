@@ -2,7 +2,7 @@ import itertools
 import logging
 import random
 from collections import namedtuple
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 import pyxel
 
@@ -27,7 +27,7 @@ def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: D
         preprocessed_level = _preprocess_level(level_num, level["data"])
         tilemap_uv = preprocessed_level.tilemap_uv
 
-        _generate_background(level_num, tile_generator)
+        _generate_background(level_num, level.get("seed", level_num), tile_generator)
 
         for offset, tile in enumerate(preprocessed_level.tile_data):
             local_pos = preprocessed_level.offset_to_pos(offset)
@@ -51,9 +51,9 @@ def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: D
     return levels_metadata
 
 
-def _generate_background(level_num: int, tile_generator: TilemapGenerator) -> None:
+def _generate_background(level_num: int, seed: int, tile_generator: TilemapGenerator) -> None:
     # TODO: Refactor this!
-    random.seed(level_num)
+    random.seed(seed)
     levels_horizontally = IMAGE_BANK_SIZE // LEVEL_WIDTH
     offset = Position(
         (level_num % levels_horizontally) * LEVEL_WIDTH,

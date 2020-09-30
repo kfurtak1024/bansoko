@@ -1,4 +1,4 @@
-from typing import NamedTuple, Any, Generator, Optional
+from typing import NamedTuple, Any, Generator
 
 import pyxel
 
