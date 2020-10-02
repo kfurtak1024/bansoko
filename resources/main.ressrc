@@ -67,6 +67,7 @@
     "robot_pushing" : {
       "image_bank": 1,
       "image": "sprites/robot_pushing.png",
+      "num_frames": 2,
       "multilayer": true,
       "directional": true
     },

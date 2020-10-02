@@ -4,6 +4,7 @@ from enum import Enum
 from itertools import chain
 from typing import Optional, List, Iterable
 
+from bansoko import GAME_FRAME_RATE
 from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
@@ -19,13 +20,11 @@ class LevelStatistics:
                  ("move" happens when player pushes a crate)
         steps - number of steps that player made
                 ("step" happens when player moves by one cell in any direction)
-        time_in_ms - time spent playing the level (expressed in milliseconds)
     """
 
     def __init__(self) -> None:
         self.pushes: int = 0
         self.steps: int = 0
-        self.time_in_ms: int = 0
 
 
 class InputAction(Enum):
@@ -109,6 +108,7 @@ class PushCrate(MoveAction):
 class Level:
     def __init__(self, template: LevelTemplate) -> None:
         self.statistics = LevelStatistics()
+        self.game_time = 0.0
         self.template = template
         self.robot = template.create_robot(self.initial_robot_direction)
         self.crates = template.create_crates()
@@ -118,7 +118,7 @@ class Level:
     @property
     def level_score(self) -> LevelScore:
         return LevelScore(self.template.level_num, self.is_completed, self.statistics.pushes,
-                          self.statistics.steps, self.statistics.time_in_ms)
+                          self.statistics.steps, int(self.game_time))
 
     @property
     def level_num(self) -> int:
@@ -202,7 +202,7 @@ class Level:
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self._evaluate_crates()
-        self.statistics.time_in_ms += 33  # TODO: Hard-coded value! Not accurate!
+        self.game_time += 1000 / GAME_FRAME_RATE
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""

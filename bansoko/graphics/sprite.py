@@ -40,11 +40,11 @@ class Sprite(NamedTuple):
             return
 
         clamped_frame = min(frame, self.num_frames - 1)
-        frame_offset_u = clamped_frame * self.uv_rect.w // self.num_frames
+        frame_offset_v = clamped_frame * self.uv_rect.h // self.num_frames
         top_layer_offset = self.num_layers - 1
 
-        u = self.uv_rect.x + frame_offset_u + top_layer_offset
-        v = self.uv_rect.y + top_layer_offset
+        u = self.uv_rect.x + top_layer_offset
+        v = self.uv_rect.y + frame_offset_v + top_layer_offset
 
         if self.directional:
             u += self.uv_rect.w // Direction.num_directions() * direction.direction_index
@@ -61,7 +61,7 @@ class Sprite(NamedTuple):
     @property
     def width(self) -> int:
         """The width of sprite in pixels."""
-        width = self.uv_rect.w // self.num_frames
+        width = self.uv_rect.w
 
         if self.directional:
             width //= Direction.num_directions()

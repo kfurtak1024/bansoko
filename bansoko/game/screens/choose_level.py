@@ -49,19 +49,22 @@ class LevelMenuItem(MenuItem):
             self.check_icon.draw(Point(position.x+32-7, position.y+32-7))
 
         if selected:
-            text = ""
-            if not self.player_profile.is_level_unlocked(self.level_num):
-                text = "LOCKED"
-            elif not self.player_profile.is_level_completed(self.level_num):
-                text = "NOT COMPLETED"
-            else:
-                level_score = self.player_profile.levels_scores[self.level_num]
-                if level_score:
-                    text = f"TIME:   {level_score.time}\n" \
-                           f"PUSHES: {level_score.pushes}\n" \
-                           f"MOVES:  {level_score.steps}"
+            self._draw_level_score()
 
-            pyxel.text(8, 220, f"LEVEL STATS ({self.level_num}):\n============\n{text}", 10)
+    def _draw_level_score(self) -> None:
+        text = ""
+        if not self.player_profile.is_level_unlocked(self.level_num):
+            text = "LOCKED"
+        elif not self.player_profile.is_level_completed(self.level_num):
+            text = "NOT COMPLETED"
+        else:
+            level_score = self.player_profile.levels_scores[self.level_num]
+            if level_score:
+                text = f"TIME:   {level_score.time}\n" \
+                       f"PUSHES: {level_score.pushes}\n" \
+                       f"MOVES:  {level_score.steps}"
+
+        pyxel.text(8, 220, f"LEVEL STATS ({self.level_num}):\n============\n{text}", 10)
 
 
 class ChooseLevelScreen(MenuScreen):

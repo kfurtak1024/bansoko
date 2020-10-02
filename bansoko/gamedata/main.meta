@@ -42,61 +42,13 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        215,
-        102,
-        10,
-        10
-      ]
-    },
-    "desert_crate_placed": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 3,
-      "uv_rect": [
-        225,
-        102,
-        10,
-        10
-      ]
-    },
-    "mint_crate": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 3,
-      "uv_rect": [
-        235,
-        102,
-        10,
-        10
-      ]
-    },
-    "mint_crate_placed": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 3,
-      "uv_rect": [
-        245,
-        102,
-        10,
-        10
-      ]
-    },
-    "ice_crate": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 3,
-      "uv_rect": [
         100,
         116,
         10,
         10
       ]
     },
-    "ice_crate_placed": {
+    "desert_crate_placed": {
       "image_bank": 1,
       "directional": false,
       "num_frames": 1,
@@ -108,7 +60,7 @@
         10
       ]
     },
-    "moon_crate": {
+    "mint_crate": {
       "image_bank": 1,
       "directional": false,
       "num_frames": 1,
@@ -120,13 +72,61 @@
         10
       ]
     },
-    "moon_crate_placed": {
+    "mint_crate_placed": {
       "image_bank": 1,
       "directional": false,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
         130,
+        116,
+        10,
+        10
+      ]
+    },
+    "ice_crate": {
+      "image_bank": 1,
+      "directional": false,
+      "num_frames": 1,
+      "num_layers": 3,
+      "uv_rect": [
+        140,
+        116,
+        10,
+        10
+      ]
+    },
+    "ice_crate_placed": {
+      "image_bank": 1,
+      "directional": false,
+      "num_frames": 1,
+      "num_layers": 3,
+      "uv_rect": [
+        150,
+        116,
+        10,
+        10
+      ]
+    },
+    "moon_crate": {
+      "image_bank": 1,
+      "directional": false,
+      "num_frames": 1,
+      "num_layers": 3,
+      "uv_rect": [
+        160,
+        116,
+        10,
+        10
+      ]
+    },
+    "moon_crate_placed": {
+      "image_bank": 1,
+      "directional": false,
+      "num_frames": 1,
+      "num_layers": 3,
+      "uv_rect": [
+        170,
         116,
         10,
         10
@@ -159,13 +159,13 @@
     "robot_pushing": {
       "image_bank": 1,
       "directional": true,
-      "num_frames": 1,
+      "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
         215,
         92,
         40,
-        10
+        20
       ]
     },
     "cockpit_top": {
