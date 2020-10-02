@@ -13,18 +13,18 @@ Options:
 import json
 import logging
 from pathlib import Path
-from typing import NamedTuple
+from typing import NamedTuple, Dict, Any
 
 import pyxel
 from docopt import docopt
 
 from resbuilder.processors.backgrounds import process_backgrounds
-from resbuilder.processors.levels import process_levels
 from resbuilder.processors.level_themes import generate_level_themes
+from resbuilder.processors.levels import process_levels
 from resbuilder.processors.skin_packs import process_skin_packs
 from resbuilder.processors.sprites import process_sprites
-from resbuilder.processors.tiles import TilePacker
 from resbuilder.processors.tilemap_generators import process_tilemap_generators
+from resbuilder.processors.tiles import TilePacker
 
 
 def configure_logger(verbose: bool) -> None:
@@ -55,7 +55,30 @@ def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
                      str(metadata_file_path))
 
 
-if __name__ == "__main__":
+def create_metadata(input_dir: Path, input_data: Any) -> Dict:
+    metadata = {}
+
+    logging.info("Processing sprites...")
+    sprites = process_sprites(input_dir, input_data["sprites"])
+    metadata["sprites"] = sprites
+    logging.info("Processing skins...")
+    skin_packs = process_skin_packs(input_data["skin_packs"], sprites)
+    metadata["skin_packs"] = skin_packs
+    tile_packer = TilePacker(0, input_dir)
+    logging.info("Generating level themes...")
+    level_themes = generate_level_themes(input_data["level_themes"], tile_packer, skin_packs)
+    logging.info("Processing tilemap generators...")
+    generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
+    logging.info("Processing backgrounds...")
+    metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"], sprites, generators)
+    logging.info("Processing levels...")
+    metadata["levels"] = process_levels(input_data["levels"], level_themes, generators)
+
+    return metadata
+
+
+def main() -> None:
+    """Main entry point."""
     arguments = docopt(__doc__, version="0.1")
     files = generate_file_names(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
@@ -68,22 +91,7 @@ if __name__ == "__main__":
              open(files.metadata_filename, "w") as metadata_file:
             pyxel.init(256, 256)
             input_data = json.load(input_file)
-            metadata = {}
-            logging.info("Processing sprites...")
-            sprites = process_sprites(files.input_dir, input_data["sprites"])
-            metadata["sprites"] = sprites
-            logging.info("Processing skins...")
-            skin_packs = process_skin_packs(input_data["skin_packs"], sprites)
-            metadata["skin_packs"] = skin_packs
-            tile_packer = TilePacker(0, files.input_dir)
-            logging.info("Generating level themes...")
-            level_themes = generate_level_themes(input_data["level_themes"], tile_packer, skin_packs)
-            logging.info("Processing tilemap generators...")
-            tilemap_generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
-            logging.info("Processing backgrounds...")
-            metadata["backgrounds"] = process_backgrounds(input_data["backgrounds"], sprites, tilemap_generators)
-            logging.info("Processing levels...")
-            metadata["levels"] = process_levels(input_data["levels"], level_themes, tilemap_generators)
+            metadata = create_metadata(files.input_dir, input_data)
 
             logging.info("Writing resource file '%s'...", files.resource_filename)
             pyxel.save(files.resource_filename)
@@ -91,3 +99,7 @@ if __name__ == "__main__":
             json.dump(metadata, metadata_file, indent=2)
     except Exception as error:
         logging.exception(error)
+
+
+if __name__ == "__main__":
+    main()

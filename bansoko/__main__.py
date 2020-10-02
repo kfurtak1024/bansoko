@@ -41,7 +41,8 @@ def generate_file_names(base_name: str) -> FileNames:
     return FileNames(str(resource_file), str(metadata_file))
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Main entry point."""
     arguments = docopt(__doc__, version=__version__)
     bundle_name = arguments["--bundle"]
     file_names = generate_file_names(bundle_name)
@@ -52,3 +53,7 @@ if __name__ == "__main__":
     game_context = GameContext(bundle, player_profile)
     controller = ScreenController(game_context.get_main_menu(), pyxel.quit)
     pyxel.run(controller.update, controller.draw)
+
+
+if __name__ == "__main__":
+    main()

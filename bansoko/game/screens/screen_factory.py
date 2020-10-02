@@ -2,8 +2,7 @@
 from abc import ABC, abstractmethod
 
 from bansoko.game.bundle import Bundle
-from bansoko.game.level import LevelStatistics
-from bansoko.game.profile import PlayerProfile
+from bansoko.game.profile import PlayerProfile, LevelScore
 from bansoko.gui.screen import Screen
 
 
@@ -39,7 +38,7 @@ class ScreenFactory(ABC):
         """Create a new instance of GamePaused screen"""
 
     @abstractmethod
-    def get_level_completed_screen(self, level_stats: LevelStatistics) -> Screen:
+    def get_level_completed_screen(self, level_score: LevelScore) -> Screen:
         """Create a new instance of LevelCompleted screen"""
 
     @abstractmethod

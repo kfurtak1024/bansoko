@@ -2,7 +2,7 @@
 import json
 from typing import NamedTuple, Dict, Tuple
 
-from bansoko.game.level import LevelTemplate
+from bansoko.game.level_template import LevelTemplate
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite, SkinPack

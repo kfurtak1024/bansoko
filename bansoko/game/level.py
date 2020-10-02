@@ -2,24 +2,19 @@
 import abc
 from enum import Enum
 from itertools import chain
-from typing import Optional, List, Iterable, Any, Tuple, NamedTuple
+from typing import Optional, List, Iterable
 
 from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
-from bansoko.game.tiles import Tileset, TileType
-from bansoko.graphics import Point, Direction, Layer, Rect
-from bansoko.graphics.sprite import SkinPack
-from bansoko.graphics.tilemap import TILE_SIZE, Tilemap, TilePosition
-
-# TODO: Should be taken from bundle
-LEVEL_WIDTH = 32
-LEVEL_HEIGHT = 32
+from bansoko.game.level_template import LevelTemplate
+from bansoko.game.profile import LevelScore
+from bansoko.graphics import Point, Direction
+from bansoko.graphics.tilemap import TILE_SIZE, TilePosition
 
 
 class LevelStatistics:
     """Player's score for given level.
 
     Attributes:
-        level_num - level number (value from 0 to NUM_LEVELS-1)
         pushes - number of moves that player made
                  ("move" happens when player pushes a crate)
         steps - number of steps that player made
@@ -27,53 +22,10 @@ class LevelStatistics:
         time_in_ms - time spent playing the level (expressed in milliseconds)
     """
 
-    def __init__(self, level_num: int) -> None:
-        self.level_num: int = level_num
+    def __init__(self) -> None:
         self.pushes: int = 0
         self.steps: int = 0
         self.time_in_ms: int = 0
-
-    @property
-    def debug_description(self) -> str:
-        # TODO: Just for debug purposes
-        hours = int((self.time_in_ms / (1000 * 60 * 60)) % 60)
-        minutes = int((self.time_in_ms / (1000 * 60)) % 60)
-        seconds = int((self.time_in_ms / 1000) % 60)
-        if self.time_in_ms >= 10 * 60 * 60 * 1000:
-            hours = 9
-            seconds = 59
-            minutes = 59
-
-        time = "{:d}:{:02d}:{:02d}".format(hours, minutes, seconds)
-        pushes = self.pushes
-        steps = self.steps
-
-        return "TIME:   {}\nPUSHES: {:03d}\nSTEPS:  {:03d}".format(time, pushes, steps)
-
-    @property
-    def completed(self) -> bool:
-        return self.time_in_ms > 0
-
-    def merge_with(self, level_stats: "LevelStatistics") -> None:
-        if self == level_stats:
-            return
-        if self.level_num != level_stats.level_num:
-            raise Exception("Cannot merge statistics from different levels")
-
-        if self.completed:
-            self.pushes = min(self.pushes, level_stats.pushes)
-            self.steps = min(self.steps, level_stats.steps)
-            self.time_in_ms = min(self.time_in_ms, level_stats.time_in_ms)
-        else:
-            self.pushes = level_stats.pushes
-            self.steps = level_stats.steps
-            self.time_in_ms = level_stats.time_in_ms
-
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, LevelStatistics):
-            return self.level_num == other.level_num and self.pushes == other.pushes \
-                   and self.steps == other.steps and self.time_in_ms == other.time_in_ms
-        return NotImplemented
 
 
 class InputAction(Enum):
@@ -154,65 +106,23 @@ class PushCrate(MoveAction):
         level_stats.pushes += 1 if not self.backward else -1
 
 
-class LevelTemplate(NamedTuple):
-    level_num: int
-    tilemap: Tilemap
-    tileset: Tileset
-    draw_offset: Point
-    robot_skin: SkinPack
-    crate_skin: SkinPack
-
-    @classmethod
-    def from_level_num(cls, level_num: int, tileset_index: int, draw_offset: Point,
-                       robot_skin: SkinPack, crate_skin: SkinPack) -> "LevelTemplate":
-        tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
-        tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
-        tilemap = Tilemap(0, Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT), 3)
-        tileset = Tileset(tileset_index)
-        return cls(level_num=level_num, tilemap=tilemap, tileset=tileset, draw_offset=draw_offset,
-                   robot_skin=robot_skin, crate_skin=crate_skin)
-
-    def tile_at(self, position: TilePosition) -> TileType:
-        return self.tileset.tile_of(self.tilemap.tile_index_at(position))
-
-    def create_layers(self) -> Tuple[Layer, ...]:
-        return tuple([Layer(i, self.draw_offset) for i in range(3)])  # TODO: Hard-coded 3!
-
-    def create_crates(self) -> Tuple[Crate, ...]:
-        crates_positions = []
-        for tile_position in self.tilemap.tiles_positions():
-            if self.tile_at(tile_position).is_crate_spawn_point:
-                crates_positions.append(tile_position)
-
-        crates = []
-        for crate_position in crates_positions:
-            is_initially_placed = self.tile_at(crate_position).is_crate_initially_placed
-            crates.append(Crate(crate_position, is_initially_placed, self.crate_skin))
-        if not crates:
-            raise Exception(f"Level {self.level_num} does not have any crates")
-
-        return tuple(crates)
-
-    def create_robot(self, face_direction: Direction) -> Robot:
-        start = None
-        for tile_position in self.tilemap.tiles_positions():
-            if self.tile_at(tile_position).is_start:
-                start = tile_position
-        if not start:
-            raise Exception(f"Level {self.level_num} does not have player start tile")
-
-        return Robot(start, face_direction, self.robot_skin)
-
-
 class Level:
     def __init__(self, template: LevelTemplate) -> None:
-        self.statistics = LevelStatistics(template.level_num)
+        self.statistics = LevelStatistics()
         self.template = template
-        self.layers = template.create_layers()
         self.robot = template.create_robot(self.initial_robot_direction)
         self.crates = template.create_crates()
         self.running_action: Optional[MoveAction] = None
         self.history: List[MoveAction] = []
+
+    @property
+    def level_score(self) -> LevelScore:
+        return LevelScore(self.template.level_num, self.is_completed, self.statistics.pushes,
+                          self.statistics.steps, self.statistics.time_in_ms)
+
+    @property
+    def level_num(self) -> int:
+        return self.template.level_num
 
     @property
     def is_completed(self) -> bool:
@@ -296,7 +206,7 @@ class Level:
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""
-        for layer in self.layers:
+        for layer in self.template.layers:
             self.template.tilemap.draw(layer)
             for game_object in self.game_objects:
                 game_object.draw(layer)

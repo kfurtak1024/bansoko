@@ -55,9 +55,11 @@ class LevelMenuItem(MenuItem):
             elif not self.player_profile.is_level_completed(self.level_num):
                 text = "NOT COMPLETED"
             else:
-                level_stats = self.player_profile.levels_stats[self.level_num]
-                if level_stats:
-                    text = level_stats.debug_description
+                level_score = self.player_profile.levels_scores[self.level_num]
+                if level_score:
+                    text = f"TIME:   {level_score.time}\n" \
+                           f"PUSHES: {level_score.pushes}\n" \
+                           f"MOVES:  {level_score.steps}"
 
             pyxel.text(8, 220, f"LEVEL STATS ({self.level_num}):\n============\n{text}", 10)
 

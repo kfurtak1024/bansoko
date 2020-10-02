@@ -4,9 +4,9 @@ from typing import Dict, Tuple, Generator
 
 import pyxel
 
-from processors.levels import Position
-from processors.tiles import IMAGE_BANK_SIZE
+from resbuilder.processors.levels import Position
 from resbuilder.processors.tilemap_generators import TilemapGenerator
+from resbuilder.processors.tiles import IMAGE_BANK_SIZE
 
 BACKGROUND_TILEMAP_ID: int = 7
 BACKGROUND_WIDTH_IN_TILES: int = 32
@@ -64,7 +64,7 @@ def _generate_background(seed: int, offset: Position, tile_generator: TilemapGen
                 pyxel.tilemap(BACKGROUND_TILEMAP_ID).set(offset.x + x, offset.y + y, tile)
 
 
-def tilemap_uvs() -> Generator[Tuple[int], None, None]:
+def tilemap_uvs() -> Generator[Tuple[int, ...], None, None]:
     tilemaps_horizontally = IMAGE_BANK_SIZE // BACKGROUND_WIDTH_IN_TILES
     tilemaps_vertically = IMAGE_BANK_SIZE // BACKGROUND_HEIGHT_IN_TILES
     num_of_tilemaps = tilemaps_horizontally * tilemaps_vertically

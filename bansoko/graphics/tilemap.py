@@ -52,6 +52,7 @@ class Tilemap(NamedTuple):
         if layer and layer.layer_index >= self.num_layers:
             return
 
+        # TODO: Layer should have information about transparent color!
         pyxel.bltm(layer.offset.x, layer.offset.y, self.tilemap_id + layer.layer_index,
                    self.rect_uv.x, self.rect_uv.y, self.rect_uv.w, self.rect_uv.h,
-                   colkey=-1 if layer.layer_index == 0 else 0)  # TODO: Layer should have information about transparent color!
+                   colkey=-1 if layer.layer_index == 0 else 0)

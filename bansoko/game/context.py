@@ -1,8 +1,7 @@
 """Module defining game context shared between all game screens."""
 
 from bansoko.game.bundle import Bundle
-from bansoko.game.level import LevelStatistics
-from bansoko.game.profile import PlayerProfile
+from bansoko.game.profile import PlayerProfile, LevelScore
 from bansoko.game.screens.choose_level import ChooseLevelScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
 from bansoko.game.screens.level_completed import LevelCompletedScreen
@@ -38,8 +37,8 @@ class GameContext(ScreenFactory):
     def get_game_paused_screen(self, level_num: int) -> Screen:
         return GamePausedScreen(self, level_num)
 
-    def get_level_completed_screen(self, level_stats: LevelStatistics) -> Screen:
-        return LevelCompletedScreen(self, level_stats)
+    def get_level_completed_screen(self, level_score: LevelScore) -> Screen:
+        return LevelCompletedScreen(self, level_score)
 
     def get_victory_screen(self) -> Screen:
         return VictoryScreen(self)

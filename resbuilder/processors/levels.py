@@ -16,7 +16,8 @@ LEVEL_HEIGHT = 32
 
 
 # TODO: Add error handling!
-def process_levels(levels, level_themes: List[LevelTheme], tilemap_generators: Dict[str, TilemapGenerator]):
+def process_levels(levels, level_themes: List[LevelTheme],
+                   tilemap_generators: Dict[str, TilemapGenerator]):
     thumbnails_image = pyxel.image(2)  # TODO: Hard-coded image bank for thumbnails
     levels_metadata = []
 

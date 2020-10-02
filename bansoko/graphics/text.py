@@ -47,7 +47,7 @@ def text_size(text: str, style: TextStyle) -> Size:
     return Size(text_width, text_height)
 
 
-def draw_text(position: Point, text: str, style: TextStyle) -> None:
+def draw_text(position: Point, text: str, style: TextStyle = TextStyle()) -> None:
     """Draws given text at specified position with defined text style.
 
     :param position: position of text to be drawn at
