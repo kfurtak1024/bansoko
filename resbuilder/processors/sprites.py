@@ -1,7 +1,7 @@
 import logging
 from collections import deque
 from pathlib import Path
-from typing import NamedTuple, List, Optional
+from typing import NamedTuple, List, Optional, Dict, Any
 
 import pyxel
 
@@ -120,7 +120,7 @@ class SpriteSheetPacker:
             return Size(width, height)
 
 
-def process_sprites(base_dir: Path, sprites_data):
+def process_sprites(base_dir: Path, sprites_data: Dict[str, Any]) -> Dict[str, Any]:
     packer = SpriteSheetPacker()
     image_bank = 1  # TODO: Hard-coded image bank
 

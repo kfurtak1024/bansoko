@@ -1,6 +1,6 @@
 """Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
 import json
-from typing import NamedTuple, Dict, Tuple
+from typing import NamedTuple, Dict, Tuple, Any
 
 from bansoko.game.level_template import LevelTemplate
 from bansoko.graphics import Rect, Point
@@ -78,7 +78,7 @@ def load_bundle(metadata_filename: str) -> Bundle:
         return Bundle(sprites, skin_packs, backgrounds, level_templates)
 
 
-def load_sprites(json_data) -> Dict[str, Sprite]:
+def load_sprites(json_data: Any) -> Dict[str, Sprite]:
     return {
         name: Sprite(
             image_bank=data["image_bank"],
@@ -90,7 +90,7 @@ def load_sprites(json_data) -> Dict[str, Sprite]:
     }
 
 
-def load_skin_packs(json_data, sprites: Dict[str, Sprite]) -> Dict[str, SkinPack]:
+def load_skin_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, SkinPack]:
     return {
         name: SkinPack(
             skin_sprites=tuple([sprites[sprite_name] for sprite_name in data]))
@@ -98,14 +98,14 @@ def load_skin_packs(json_data, sprites: Dict[str, Sprite]) -> Dict[str, SkinPack
     }
 
 
-def load_backgrounds(json_data, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
+def load_backgrounds(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
     return {
         name: _background_from_json(data, sprites)
         for (name, data) in json_data.items()
     }
 
 
-def _background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
+def _background_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Background:
     background_color = json_data.get("background_color")
     tilemap_data = json_data.get("background_tilemap")
     tilemap = None
@@ -126,7 +126,8 @@ def _background_from_json(json_data, sprites: Dict[str, Sprite]) -> Background:
     return Background(tuple(background_elements), background_color, tilemap)
 
 
-def load_level_templates(json_data, skin_packs: Dict[str, SkinPack]) -> Tuple[LevelTemplate, ...]:
+def load_level_templates(json_data: Any, skin_packs: Dict[str, SkinPack]) \
+        -> Tuple[LevelTemplate, ...]:
     return tuple([
         LevelTemplate.from_level_num(
             level_num=level_num,

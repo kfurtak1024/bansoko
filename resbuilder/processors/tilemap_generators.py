@@ -1,6 +1,6 @@
 import logging
 import random
-from typing import Dict, NamedTuple, Optional
+from typing import Dict, NamedTuple, Optional, Any
 
 from resbuilder.processors.tiles import TilePacker
 
@@ -14,7 +14,8 @@ class TilemapGenerator(NamedTuple):
         return random.choices(list(self.tiles_probs.keys()), list(self.tiles_probs.values())).pop()
 
 
-def process_tilemap_generators(input_data, tile_packer: TilePacker) -> Dict[str, TilemapGenerator]:
+def process_tilemap_generators(input_data: Any, tile_packer: TilePacker) \
+        -> Dict[str, TilemapGenerator]:
     generators: Dict[str, TilemapGenerator] = {}
 
     for generator_name, generator_data in input_data.items():

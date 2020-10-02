@@ -1,7 +1,8 @@
 import logging
+from typing import Any, Dict
 
 
-def process_skin_packs(input_data, sprites):
+def process_skin_packs(input_data: Any, sprites: Dict[str, Any]) -> Dict[str, Any]:
     skin_packs = {}
 
     for skin_pack_name, skin_pack_data in input_data.items():

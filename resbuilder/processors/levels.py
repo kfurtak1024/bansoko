@@ -2,7 +2,7 @@ import itertools
 import logging
 import random
 from collections import namedtuple
-from typing import List, Dict, Optional
+from typing import List, Dict, Any
 
 import pyxel
 
@@ -10,14 +10,13 @@ from resbuilder.processors.level_themes import LevelTheme
 from resbuilder.processors.tilemap_generators import TilemapGenerator
 from resbuilder.processors.tiles import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
 
-
 LEVEL_WIDTH = 32
 LEVEL_HEIGHT = 32
 
 
 # TODO: Add error handling!
-def process_levels(levels, level_themes: List[LevelTheme],
-                   tilemap_generators: Dict[str, TilemapGenerator]):
+def process_levels(levels: Any, level_themes: List[LevelTheme],
+                   tilemap_generators: Dict[str, TilemapGenerator]) -> Any:
     thumbnails_image = pyxel.image(2)  # TODO: Hard-coded image bank for thumbnails
     levels_metadata = []
 
@@ -129,7 +128,7 @@ class PreprocessedLevel:
             visited_map[self.pos_to_offset(pos)] = True
 
 
-def _preprocess_level(level_num: int, level_data) -> PreprocessedLevel:
+def _preprocess_level(level_num: int, level_data: Any) -> PreprocessedLevel:
     # TODO: Add some validation at this point
     flatten_data = [[SYMBOL_TO_TILE[symbol] for symbol in row_data] for row_data in level_data]
     level_width = len(flatten_data[0])

@@ -55,7 +55,7 @@ def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
                      str(metadata_file_path))
 
 
-def create_metadata(input_dir: Path, input_data: Any) -> Dict:
+def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
     metadata = {}
 
     logging.info("Processing sprites...")

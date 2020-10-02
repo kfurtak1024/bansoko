@@ -1,6 +1,6 @@
 import logging
 import random
-from typing import Dict, Tuple, Generator
+from typing import Dict, Tuple, Generator, Any
 
 import pyxel
 
@@ -13,7 +13,8 @@ BACKGROUND_WIDTH_IN_TILES: int = 32
 BACKGROUND_HEIGHT_IN_TILES: int = 32
 
 
-def process_backgrounds(input_data, sprites, tilemap_generators: Dict[str, TilemapGenerator]):
+def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
+                        tilemap_generators: Dict[str, TilemapGenerator]) -> Dict[str, Any]:
     # TODO: What a mess! Under construction!
     backgrounds = {}
     tilemap_rects = tilemap_uvs()

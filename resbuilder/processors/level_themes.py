@@ -1,6 +1,6 @@
-from typing import Dict, List, NamedTuple
+from typing import Dict, List, NamedTuple, Any
 
-from resbuilder.processors.tiles import Tile
+from resbuilder.processors.tiles import Tile, TilePacker
 
 
 class LevelTheme(NamedTuple):
@@ -21,7 +21,8 @@ class LevelTheme(NamedTuple):
         return self.thumbnail_colors[tile]
 
 
-def generate_level_themes(data, tile_packer, skin_packs) -> List[LevelTheme]:
+def generate_level_themes(data: Any, tile_packer: TilePacker, skin_packs: Dict[str, Any]) \
+        -> List[LevelTheme]:
     # TODO: Refactor it
     themes: List[LevelTheme] = []
 
@@ -52,7 +53,7 @@ def generate_level_themes(data, tile_packer, skin_packs) -> List[LevelTheme]:
     return themes
 
 
-def _extract_thumbnail_colors(data) -> Dict[Tile, int]:
+def _extract_thumbnail_colors(data: Any) -> Dict[Tile, int]:
     thumbnail_colors: Dict[Tile, int] = {}
 
     for tile in list(Tile):
