@@ -73,7 +73,7 @@ class Sprite(NamedTuple):
     @property
     def height(self) -> int:
         """The height of sprite in pixels."""
-        return self.uv_rect.h - (self.num_layers - 1)
+        return self.uv_rect.h // self.num_frames - (self.num_layers - 1)
 
 
 class SkinPack(NamedTuple):
