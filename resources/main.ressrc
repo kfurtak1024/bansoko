@@ -123,6 +123,7 @@
     "main_menu": {
       "background_color": "0",
       "background_tilemap": {
+        "seed": 784455464,
         "generator": "space_background"
       },
       "elements": [
@@ -1348,8 +1349,14 @@
   ],
   "tilemap_generators": {
     "space_background": {
-      "tiles/void.png": 100,
-      "tiles/backgrounds/stars/star.png": 1
+      "tiles/void.png": 5000,
+      "tiles/backgrounds/stars/dark_star1.png": 200,
+      "tiles/backgrounds/stars/dark_star2.png": 200,
+      "tiles/backgrounds/stars/dark_star3.png": 200,
+      "tiles/backgrounds/stars/dark_star4.png": 200,
+      "tiles/backgrounds/stars/star1.png": 100,
+      "tiles/backgrounds/stars/star2.png": 100,
+      "tiles/backgrounds/stars/star3.png": 100
     }
   },
   "level_themes": [
