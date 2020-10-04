@@ -1,6 +1,6 @@
 from typing import Dict, List, NamedTuple, Any
 
-from resbuilder.processors.tiles import Tile, TilePacker
+from resbuilder.resources.tiles import Tile, TilePacker
 
 
 class LevelTheme(NamedTuple):
@@ -28,10 +28,10 @@ def generate_level_themes(data: Any, tile_packer: TilePacker, skin_packs: Dict[s
 
     main_layers: List[Dict[Tile, int]] = []
 
-    for level_theme_data in data["themes"]:
+    for level_theme_data in data:
         main_layers.append(tile_packer.pack_level_theme(level_theme_data["tiles"]["layers"][0]))
 
-    for i, level_theme_data in enumerate(data["themes"]):
+    for i, level_theme_data in enumerate(data):
         layers = [main_layers[i]]
         for j in range(1, 3):
             layers.append(tile_packer.pack_level_theme(level_theme_data["tiles"]["layers"][j]))

@@ -2,7 +2,7 @@ import logging
 import random
 from typing import Dict, NamedTuple, Optional, Any
 
-from resbuilder.processors.tiles import TilePacker
+from resbuilder.resources.tiles import TilePacker
 
 
 class TilemapGenerator(NamedTuple):

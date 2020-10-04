@@ -1352,183 +1352,181 @@
       "tiles/backgrounds/stars/star.png": 1
     }
   },
-  "level_themes": {
-    "themes": [
-      {
-        "background_generator": "space_background",
-        "tiles": {
-          "layers": [
-            {
-              "tile_void": "tiles/void.png",
-              "tile_wall": "tiles/desert/wall.png",
-              "tile_start": "tiles/desert/floor.png",
-              "tile_floor": "tiles/desert/floor.png",
-              "tile_initial_crate_position": "tiles/desert/floor.png",
-              "tile_crate_initially_placed": "tiles/desert/cargo_bay.png",
-              "tile_cargo_bay": "tiles/desert/cargo_bay.png"
-            },
-            {
-              "tile_wall": "tiles/desert/wall.png"
-            },
-            {
-              "tile_wall": "tiles/desert/wall_top.png"
-            }
-          ]
-        },
-        "skins": {
-          "robot": "robot_skin",
-          "crate": "desert_crate_skin"
-        },
-        "thumbnail_colors": {
-          "tile_void": "0",
-          "tile_wall": "5",
-          "tile_floor": "7",
-          "tile_start": "E",
-          "tile_initial_crate_position": "A",
-          "tile_crate_initially_placed": "A",
-          "tile_cargo_bay": "B"
-        }
+  "level_themes": [
+    {
+      "background_generator": "space_background",
+      "tiles": {
+        "layers": [
+          {
+            "tile_void": "tiles/void.png",
+            "tile_wall": "tiles/desert/wall.png",
+            "tile_start": "tiles/desert/floor.png",
+            "tile_floor": "tiles/desert/floor.png",
+            "tile_initial_crate_position": "tiles/desert/floor.png",
+            "tile_crate_initially_placed": "tiles/desert/cargo_bay.png",
+            "tile_cargo_bay": "tiles/desert/cargo_bay.png"
+          },
+          {
+            "tile_wall": "tiles/desert/wall.png"
+          },
+          {
+            "tile_wall": "tiles/desert/wall_top.png"
+          }
+        ]
       },
-      {
-        "background_generator": "space_background",
-        "tiles": {
-          "layers": [
-            {
-              "tile_void": "tiles/void.png",
-              "tile_wall": "tiles/mint/wall.png",
-              "tile_start": "tiles/mint/floor.png",
-              "tile_floor": "tiles/mint/floor.png",
-              "tile_initial_crate_position": "tiles/mint/floor.png",
-              "tile_crate_initially_placed": "tiles/mint/cargo_bay.png",
-              "tile_cargo_bay": "tiles/mint/cargo_bay.png"
-            },
-            {
-              "tile_wall": "tiles/mint/wall.png"
-            },
-            {
-              "tile_wall": "tiles/mint/wall_top.png"
-            }
-          ]
-        },
-        "skins": {
-          "robot": "robot_skin",
-          "crate": "mint_crate_skin"
-        },
-        "thumbnail_colors": {
-          "tile_void": "0",
-          "tile_wall": "5",
-          "tile_floor": "7",
-          "tile_start": "E",
-          "tile_initial_crate_position": "A",
-          "tile_crate_initially_placed": "A",
-          "tile_cargo_bay": "B"
-        }
+      "skins": {
+        "robot": "robot_skin",
+        "crate": "desert_crate_skin"
       },
-      {
-        "background_generator": "space_background",
-        "tiles": {
-          "layers": [
-            {
-              "tile_void": "tiles/void.png",
-              "tile_wall": "tiles/ice/wall.png",
-              "tile_start": "tiles/ice/floor.png",
-              "tile_floor": "tiles/ice/floor.png",
-              "tile_initial_crate_position": "tiles/ice/floor.png",
-              "tile_crate_initially_placed": "tiles/ice/cargo_bay.png",
-              "tile_cargo_bay": "tiles/ice/cargo_bay.png"
-            },
-            {
-              "tile_wall": "tiles/ice/wall.png"
-            },
-            {
-              "tile_wall": "tiles/ice/wall_top.png"
-            }
-          ]
-        },
-        "skins": {
-          "robot": "robot_skin",
-          "crate": "ice_crate_skin"
-        },
-        "thumbnail_colors": {
-          "tile_void": "0",
-          "tile_wall": "5",
-          "tile_floor": "7",
-          "tile_start": "E",
-          "tile_initial_crate_position": "A",
-          "tile_crate_initially_placed": "A",
-          "tile_cargo_bay": "B"
-        }
-      },
-      {
-        "background_generator": "space_background",
-        "tiles": {
-          "layers": [
-            {
-              "tile_void": "tiles/void.png",
-              "tile_wall": "tiles/cherry/wall.png",
-              "tile_start": "tiles/cherry/floor.png",
-              "tile_floor": "tiles/cherry/floor.png",
-              "tile_initial_crate_position": "tiles/cherry/floor.png",
-              "tile_crate_initially_placed": "tiles/cherry/cargo_bay.png",
-              "tile_cargo_bay": "tiles/cherry/cargo_bay.png"
-            },
-            {
-              "tile_wall": "tiles/cherry/wall.png"
-            },
-            {
-              "tile_wall": "tiles/cherry/wall_top.png"
-            }
-          ]
-        },
-        "skins": {
-          "robot": "robot_skin",
-          "crate": "desert_crate_skin"
-        },
-        "thumbnail_colors": {
-          "tile_void": "0",
-          "tile_wall": "5",
-          "tile_floor": "7",
-          "tile_start": "E",
-          "tile_initial_crate_position": "A",
-          "tile_crate_initially_placed": "A",
-          "tile_cargo_bay": "B"
-        }
-      },
-      {
-        "background_generator": "space_background",
-        "tiles": {
-          "layers": [
-            {
-              "tile_void": "tiles/void.png",
-              "tile_wall": "tiles/moon/wall.png",
-              "tile_start": "tiles/moon/floor.png",
-              "tile_floor": "tiles/moon/floor.png",
-              "tile_initial_crate_position": "tiles/moon/floor.png",
-              "tile_crate_initially_placed": "tiles/moon/cargo_bay.png",
-              "tile_cargo_bay": "tiles/moon/cargo_bay.png"
-            },
-            {
-              "tile_wall": "tiles/moon/wall.png"
-            },
-            {
-              "tile_wall": "tiles/moon/wall_top.png"
-            }
-          ]
-        },
-        "skins": {
-          "robot": "robot_skin",
-          "crate": "moon_crate_skin"
-        },
-        "thumbnail_colors": {
-          "tile_void": "0",
-          "tile_wall": "5",
-          "tile_floor": "7",
-          "tile_start": "E",
-          "tile_initial_crate_position": "A",
-          "tile_crate_initially_placed": "A",
-          "tile_cargo_bay": "B"
-        }
+      "thumbnail_colors": {
+        "tile_void": "0",
+        "tile_wall": "5",
+        "tile_floor": "7",
+        "tile_start": "E",
+        "tile_initial_crate_position": "A",
+        "tile_crate_initially_placed": "A",
+        "tile_cargo_bay": "B"
       }
-    ]
-  }
+    },
+    {
+      "background_generator": "space_background",
+      "tiles": {
+        "layers": [
+          {
+            "tile_void": "tiles/void.png",
+            "tile_wall": "tiles/mint/wall.png",
+            "tile_start": "tiles/mint/floor.png",
+            "tile_floor": "tiles/mint/floor.png",
+            "tile_initial_crate_position": "tiles/mint/floor.png",
+            "tile_crate_initially_placed": "tiles/mint/cargo_bay.png",
+            "tile_cargo_bay": "tiles/mint/cargo_bay.png"
+          },
+          {
+            "tile_wall": "tiles/mint/wall.png"
+          },
+          {
+            "tile_wall": "tiles/mint/wall_top.png"
+          }
+        ]
+      },
+      "skins": {
+        "robot": "robot_skin",
+        "crate": "mint_crate_skin"
+      },
+      "thumbnail_colors": {
+        "tile_void": "0",
+        "tile_wall": "5",
+        "tile_floor": "7",
+        "tile_start": "E",
+        "tile_initial_crate_position": "A",
+        "tile_crate_initially_placed": "A",
+        "tile_cargo_bay": "B"
+      }
+    },
+    {
+      "background_generator": "space_background",
+      "tiles": {
+        "layers": [
+          {
+            "tile_void": "tiles/void.png",
+            "tile_wall": "tiles/ice/wall.png",
+            "tile_start": "tiles/ice/floor.png",
+            "tile_floor": "tiles/ice/floor.png",
+            "tile_initial_crate_position": "tiles/ice/floor.png",
+            "tile_crate_initially_placed": "tiles/ice/cargo_bay.png",
+            "tile_cargo_bay": "tiles/ice/cargo_bay.png"
+          },
+          {
+            "tile_wall": "tiles/ice/wall.png"
+          },
+          {
+            "tile_wall": "tiles/ice/wall_top.png"
+          }
+        ]
+      },
+      "skins": {
+        "robot": "robot_skin",
+        "crate": "ice_crate_skin"
+      },
+      "thumbnail_colors": {
+        "tile_void": "0",
+        "tile_wall": "5",
+        "tile_floor": "7",
+        "tile_start": "E",
+        "tile_initial_crate_position": "A",
+        "tile_crate_initially_placed": "A",
+        "tile_cargo_bay": "B"
+      }
+    },
+    {
+      "background_generator": "space_background",
+      "tiles": {
+        "layers": [
+          {
+            "tile_void": "tiles/void.png",
+            "tile_wall": "tiles/cherry/wall.png",
+            "tile_start": "tiles/cherry/floor.png",
+            "tile_floor": "tiles/cherry/floor.png",
+            "tile_initial_crate_position": "tiles/cherry/floor.png",
+            "tile_crate_initially_placed": "tiles/cherry/cargo_bay.png",
+            "tile_cargo_bay": "tiles/cherry/cargo_bay.png"
+          },
+          {
+            "tile_wall": "tiles/cherry/wall.png"
+          },
+          {
+            "tile_wall": "tiles/cherry/wall_top.png"
+          }
+        ]
+      },
+      "skins": {
+        "robot": "robot_skin",
+        "crate": "desert_crate_skin"
+      },
+      "thumbnail_colors": {
+        "tile_void": "0",
+        "tile_wall": "5",
+        "tile_floor": "7",
+        "tile_start": "E",
+        "tile_initial_crate_position": "A",
+        "tile_crate_initially_placed": "A",
+        "tile_cargo_bay": "B"
+      }
+    },
+    {
+      "background_generator": "space_background",
+      "tiles": {
+        "layers": [
+          {
+            "tile_void": "tiles/void.png",
+            "tile_wall": "tiles/moon/wall.png",
+            "tile_start": "tiles/moon/floor.png",
+            "tile_floor": "tiles/moon/floor.png",
+            "tile_initial_crate_position": "tiles/moon/floor.png",
+            "tile_crate_initially_placed": "tiles/moon/cargo_bay.png",
+            "tile_cargo_bay": "tiles/moon/cargo_bay.png"
+          },
+          {
+            "tile_wall": "tiles/moon/wall.png"
+          },
+          {
+            "tile_wall": "tiles/moon/wall_top.png"
+          }
+        ]
+      },
+      "skins": {
+        "robot": "robot_skin",
+        "crate": "moon_crate_skin"
+      },
+      "thumbnail_colors": {
+        "tile_void": "0",
+        "tile_wall": "5",
+        "tile_floor": "7",
+        "tile_start": "E",
+        "tile_initial_crate_position": "A",
+        "tile_crate_initially_placed": "A",
+        "tile_cargo_bay": "B"
+      }
+    }
+  ]
 }

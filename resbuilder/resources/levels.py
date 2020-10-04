@@ -6,9 +6,9 @@ from typing import List, Dict, Any
 
 import pyxel
 
-from resbuilder.processors.level_themes import LevelTheme
-from resbuilder.processors.tilemap_generators import TilemapGenerator
-from resbuilder.processors.tiles import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
+from resbuilder.resources.level_themes import LevelTheme
+from resbuilder.resources.tilemap_generators import TilemapGenerator
+from resbuilder.resources.tiles import IMAGE_BANK_SIZE, Tile, SYMBOL_TO_TILE
 
 LEVEL_WIDTH = 32
 LEVEL_HEIGHT = 32

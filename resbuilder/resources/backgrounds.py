@@ -4,9 +4,9 @@ from typing import Dict, Tuple, Generator, Any
 
 import pyxel
 
-from resbuilder.processors.levels import Position
-from resbuilder.processors.tilemap_generators import TilemapGenerator
-from resbuilder.processors.tiles import IMAGE_BANK_SIZE
+from resbuilder.resources.levels import Position
+from resbuilder.resources.tilemap_generators import TilemapGenerator
+from resbuilder.resources.tiles import IMAGE_BANK_SIZE
 
 BACKGROUND_TILEMAP_ID: int = 7
 BACKGROUND_WIDTH_IN_TILES: int = 32
