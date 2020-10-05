@@ -106,18 +106,20 @@ class PlayerProfile:
         if not self.is_level_completed(level_score.level_num):
             self._last_unlocked_level = min(self._last_unlocked_level + 1,
                                             len(self.levels_scores) - 1)
+
         prev_level_score = self.levels_scores[level_score.level_num]
-        self.levels_scores[level_score.level_num] = prev_level_score.merge_with(level_score)
+        new_level_score = prev_level_score.merge_with(level_score)
+        self.levels_scores[level_score.level_num] = new_level_score
 
         with open(self._profile_file_path, "r+b") as profile_file:
             profile_file.seek(len(FILE_HEADER))
             _write_int(profile_file, self._last_unlocked_level)
             profile_file.seek(
-                self._file_offset + level_score.level_num * LEVEL_SCORE_SIZE_IN_BYTES)
-            _write_int(profile_file, 1 if level_score.completed else 0)
-            _write_int(profile_file, level_score.steps)
-            _write_int(profile_file, level_score.pushes)
-            _write_int(profile_file, level_score.time_in_ms)
+                self._file_offset + new_level_score.level_num * LEVEL_SCORE_SIZE_IN_BYTES)
+            _write_int(profile_file, 1 if new_level_score.completed else 0)
+            _write_int(profile_file, new_level_score.steps)
+            _write_int(profile_file, new_level_score.pushes)
+            _write_int(profile_file, new_level_score.time_in_ms)
 
         return prev_level_score
 

@@ -23,4 +23,4 @@ class GamePausedScreen(MenuScreen):
 
     def draw(self) -> None:
         super().draw()
-        pyxel.text(16, 16, "GAME PAUSED", 7)
+        pyxel.text(100, 50, "GAME PAUSED", 7)

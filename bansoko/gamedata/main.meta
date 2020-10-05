@@ -30,7 +30,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        68,
+        97,
         116,
         32,
         32
@@ -42,7 +42,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        100,
+        129,
         116,
         10,
         10
@@ -54,7 +54,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        110,
+        139,
         116,
         10,
         10
@@ -66,7 +66,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        120,
+        149,
         116,
         10,
         10
@@ -78,7 +78,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        130,
+        159,
         116,
         10,
         10
@@ -90,7 +90,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        140,
+        169,
         116,
         10,
         10
@@ -102,7 +102,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        150,
+        179,
         116,
         10,
         10
@@ -114,7 +114,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        160,
+        189,
         116,
         10,
         10
@@ -126,7 +126,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        170,
+        199,
         116,
         10,
         10
@@ -239,6 +239,18 @@
         17,
         92
       ]
+    },
+    "printing_receipt": {
+      "image_bank": 1,
+      "directional": false,
+      "num_frames": 5,
+      "num_layers": 1,
+      "uv_rect": [
+        68,
+        116,
+        29,
+        80
+      ]
     }
   },
   "skin_packs": {
@@ -329,6 +341,13 @@
             0,
             116
           ]
+        },
+        {
+          "sprite": "printing_receipt",
+          "position": [
+            190,
+            202
+          ]
         }
       ]
     },
@@ -336,7 +355,51 @@
       "background_color": "0"
     },
     "game_paused": {
-      "background_color": "0"
+      "background_color": "0",
+      "elements": [
+        {
+          "sprite": "cockpit_top",
+          "position": [
+            0,
+            0
+          ]
+        },
+        {
+          "sprite": "cockpit_right1",
+          "position": [
+            239,
+            24
+          ]
+        },
+        {
+          "sprite": "cockpit_right2",
+          "position": [
+            239,
+            116
+          ]
+        },
+        {
+          "sprite": "cockpit_bottom",
+          "position": [
+            0,
+            208
+          ]
+        },
+        {
+          "sprite": "cockpit_left1",
+          "position": [
+            0,
+            24
+          ]
+        },
+        {
+          "sprite": "cockpit_left2",
+          "position": [
+            0,
+            116
+          ]
+        }
+      ]
     },
     "level_completed": {
       "background_color": "0"

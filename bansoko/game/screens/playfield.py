@@ -9,6 +9,7 @@ from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text
 from bansoko.gui.input import VirtualButton
 from bansoko.gui.screen import Screen
+from game.profile import LevelScore
 
 
 class PlayfieldScreen(Screen):
@@ -40,7 +41,9 @@ class PlayfieldScreen(Screen):
 
         # TODO: Just for tests!
         if pyxel.btnp(pyxel.KEY_SPACE):
-            return self.screen_factory.get_level_completed_screen(self.level.level_score)
+            return self.screen_factory.get_level_completed_screen(
+                LevelScore(self.level.level_num, completed=True, pushes=100, steps=100,
+                           time_in_ms=1000))
 
         return self
 
