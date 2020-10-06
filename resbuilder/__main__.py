@@ -20,13 +20,13 @@ from docopt import docopt
 from jsonschema import validate
 
 from resbuilder.resources.backgrounds import process_backgrounds
+from resbuilder.resources.json_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
 from resbuilder.resources.skin_packs import process_skin_packs
 from resbuilder.resources.sprites import process_sprites
 from resbuilder.resources.tilemap_generators import process_tilemap_generators
 from resbuilder.resources.tiles import TilePacker
-from resources.json_schema import RESOURCES_JSON_SCHEMA
 
 
 def configure_logger(verbose: bool) -> None:

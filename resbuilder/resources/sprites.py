@@ -36,7 +36,7 @@ class BoxPackerNode:
 
         while node_deque:
             node = node_deque.popleft()
-            if node.has_box and node.is_split:
+            if node.has_box and node.bottom_child and node.right_child:
                 node_deque.appendleft(node.bottom_child)
                 node_deque.appendleft(node.right_child)
             elif node.rect.size.can_fit(box_size):

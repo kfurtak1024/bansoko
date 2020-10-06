@@ -4,10 +4,14 @@ import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
+from bansoko.graphics.text import draw_text
 from bansoko.gui.menu import MenuScreen, MenuItem, MenuConfig
 
+LEVEL_LOCKED_BASE_COLOR = 4
+LEVEL_UNLOCKED_BASE_COLOR = 5
+LEVEL_COMPLETED_BASE_COLOR = 3
 
-# TODO: Add horizontal and vertical space
+
 class LevelMenuItem(MenuItem):
     def __init__(self, level_num: int, screen_factory: ScreenFactory):
         super().__init__(lambda: screen_factory.get_playfield_screen(level_num))
@@ -22,49 +26,48 @@ class LevelMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        # TODO: Under construction
-        return Size(39, 39)
+        return Size(74, 52)
+
+    @property
+    def base_color(self) -> int:
+        if self.player_profile.is_level_completed(self.level_num):
+            return LEVEL_COMPLETED_BASE_COLOR
+        if self.player_profile.is_level_unlocked(self.level_num):
+            return LEVEL_UNLOCKED_BASE_COLOR
+
+        return LEVEL_LOCKED_BASE_COLOR
 
     def draw(self, position: Point, selected: bool = False) -> None:
         # TODO: Under construction
-        if self.disabled:
-            self.locked_icon.draw(position)
-        else:
-            pyxel.blt(position.x, position.y, 2, 32 * (self.level_num % 8),
-                      32 * (self.level_num // 8), 32, 32)
-        if selected:
-            pyxel.rectb(position.x, position.y, 32, 32, 10)
-        else:
-            if not self.player_profile.is_level_unlocked(self.level_num):
-                pyxel.rectb(position.x, position.y, 32, 32, 4)
-            elif self.player_profile.is_level_completed(self.level_num):
-                pyxel.rectb(position.x, position.y, 32, 32, 3)
-            else:
-                pyxel.rectb(position.x, position.y, 32, 32, 5)
+        draw_text(position.offset(3, 3), f"#{self.base_color}LEVEL " + str(self.level_num + 1))
 
-        pyxel.line(position.x + 1, position.y + 32, position.x + 32, position.y + 32, 1)
-        pyxel.line(position.x + 32, position.y + 1, position.x + 32, position.y + 32, 1)
+        if not self.player_profile.is_level_unlocked(self.level_num):
+            self.locked_icon.draw(position.offset(18, 10))
+        else:
+            self._draw_level_thumbnail(position.offset(3, 10))
 
         if self.player_profile.is_level_completed(self.level_num):
-            self.check_icon.draw(Point(position.x+32-7, position.y+32-7))
+            self._draw_level_score(position.offset(38, 7))
+            self.check_icon.draw(position.offset(3, 38))
 
+        self._draw_frame(position, selected)
+
+    def _draw_level_thumbnail(self, position: Point) -> None:
+        pyxel.blt(position.x, position.y, 2, 32 * (self.level_num % 8), 32 * (self.level_num // 8),
+                  32, 32)
+
+    def _draw_level_score(self, position: Point) -> None:
+        level_score = self.player_profile.levels_scores[self.level_num]
+        draw_text(position,
+                  f"#DTIME:\n#3{level_score.time}\n"
+                  f"#DPUSHES:\n#3{level_score.pushes}\n"
+                  f"#DSTEPS:\n#3{level_score.steps}")
+
+    def _draw_frame(self, position: Point, selected: bool) -> None:
         if selected:
-            self._draw_level_score()
-
-    def _draw_level_score(self) -> None:
-        text = ""
-        if not self.player_profile.is_level_unlocked(self.level_num):
-            text = "LOCKED"
-        elif not self.player_profile.is_level_completed(self.level_num):
-            text = "NOT COMPLETED"
+            pyxel.rectb(position.x, position.y, 67, 45, 10)
         else:
-            level_score = self.player_profile.levels_scores[self.level_num]
-            if level_score:
-                text = f"TIME:   {level_score.time}\n" \
-                       f"PUSHES: {level_score.pushes}\n" \
-                       f"MOVES:  {level_score.steps}"
-
-        pyxel.text(8, 220, f"LEVEL STATS ({self.level_num}):\n============\n{text}", 10)
+            pyxel.rectb(position.x, position.y, 67, 45, self.base_color)
 
 
 class ChooseLevelScreen(MenuScreen):
@@ -81,14 +84,15 @@ class ChooseLevelScreen(MenuScreen):
             tuple([
                 LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
             ]),
-            MenuConfig(columns=6, rows=5, allow_going_back=True,
-                       background=bundle.get_background("choose_level")))
+            MenuConfig(columns=3, rows=4, allow_going_back=True,
+                       background=bundle.get_background("choose_level")),
+            position=Point(13, 30))
 
     def draw(self) -> None:
         super().draw()
         # TODO: Hard-coded scroll bar (for now!)
-        scrollbar_size_in_pixels = int(super().scrollbar_size * 186)
-        scrollbar_position_in_pixels = int(super().scrollbar_position * 186)
-        pyxel.rectb(244, 30, 8, 186 + 2, 7)
-        pyxel.rect(245, 31 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels, 8)
+        scrollbar_size_in_pixels = int(super().scrollbar_size * 199)
+        scrollbar_position_in_pixels = int(super().scrollbar_position * 199)
+        pyxel.rectb(235, 30, 8, 199 + 2, 5)
+        pyxel.rect(236, 31 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels, 5)
         pyxel.text(8, 8, "CHOOSE LEVEL", 7)

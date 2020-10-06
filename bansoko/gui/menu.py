@@ -94,11 +94,14 @@ class MenuConfig(NamedTuple):
 
 
 class MenuScreen(Screen):
-    def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig):
+    def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig,
+                 position: Optional[Point] = None):
         super().__init__(config.background)
         self.items = items
         self.item_size = reduce(max_size, [item.size for item in self.items])
         self.config = config
+        self.position = position if position else center_in_rect(
+            Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
         self.top_row = 0
         self.selected_item = 0
 
@@ -169,12 +172,9 @@ class MenuScreen(Screen):
     def draw(self) -> None:
         super().draw()
 
-        start_position = center_in_rect(
-            Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
-
         for i, item in enumerate(self.visible_items):
-            position = Point(start_position.x + (i % self.columns) * self.item_size.width,
-                             start_position.y + (i // self.columns) * self.item_size.height)
+            position = Point(self.position.x + (i % self.columns) * self.item_size.width,
+                             self.position.y + (i // self.columns) * self.item_size.height)
             item.draw(position, (self.top_row * self.columns) + i == self.selected_item)
 
     def __move_selection_up(self) -> None:

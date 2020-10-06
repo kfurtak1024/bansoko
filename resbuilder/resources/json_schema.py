@@ -1,5 +1,5 @@
 """Module exposing JSON schema for Bansoko's game resources."""
-from resources.tiles import Tile
+from resbuilder.resources.tiles import Tile
 
 RESOURCES_JSON_SCHEMA = {
     "$schema": "http://json-schema.org/draft-07/schema#",

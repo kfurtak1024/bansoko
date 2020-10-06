@@ -4,12 +4,12 @@ from typing import Optional
 import pyxel
 
 from bansoko.game.level import InputAction, Level
+from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text
 from bansoko.gui.input import VirtualButton
 from bansoko.gui.screen import Screen
-from game.profile import LevelScore
 
 
 class PlayfieldScreen(Screen):
