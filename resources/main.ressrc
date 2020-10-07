@@ -174,36 +174,8 @@
       "background_color": "0"
     },
     "game_paused": {
-      "background_color": "0",
-      "elements": [
-        {
-          "sprite": "cockpit_top",
-          "position": [0, 0]
-        },
-        {
-          "sprite": "cockpit_right1",
-          "position": [239, 24]
-        },
-        {
-          "sprite": "cockpit_right2",
-          "position": [239, 116]
-        },
-        {
-          "sprite": "cockpit_bottom",
-          "position": [0, 208]
-        },
-        {
-          "sprite": "cockpit_left1",
-          "position": [0, 24]
-        },
-        {
-          "sprite": "cockpit_left2",
-          "position": [0, 116]
-        }
-      ]
     },
     "level_completed": {
-      "background_color": "0"
     },
     "victory": {
       "background_color": "0",

@@ -95,8 +95,8 @@ class MenuConfig(NamedTuple):
 
 class MenuScreen(Screen):
     def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig,
-                 position: Optional[Point] = None):
-        super().__init__(config.background)
+                 position: Optional[Point] = None, semi_transparent: bool = False):
+        super().__init__(semi_transparent=semi_transparent, background=config.background)
         self.items = items
         self.item_size = reduce(max_size, [item.size for item in self.items])
         self.config = config
@@ -169,8 +169,8 @@ class MenuScreen(Screen):
 
         return self
 
-    def draw(self) -> None:
-        super().draw()
+    def draw(self, draw_as_secondary: bool = False) -> None:
+        super().draw(draw_as_secondary)
 
         for i, item in enumerate(self.visible_items):
             position = Point(self.position.x + (i % self.columns) * self.item_size.width,

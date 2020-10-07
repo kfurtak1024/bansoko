@@ -88,8 +88,8 @@ class ChooseLevelScreen(MenuScreen):
                        background=bundle.get_background("choose_level")),
             position=Point(13, 30))
 
-    def draw(self) -> None:
-        super().draw()
+    def draw(self, draw_as_secondary: bool = False) -> None:
+        super().draw(draw_as_secondary)
         # TODO: Hard-coded scroll bar (for now!)
         scrollbar_size_in_pixels = int(super().scrollbar_size * 199)
         scrollbar_position_in_pixels = int(super().scrollbar_position * 199)

@@ -20,6 +20,6 @@ class MainMenuScreen(MenuScreen):
             TextMenuItem("EXIT", lambda: None)
         ), MenuConfig(background=screen_factory.get_bundle().get_background("main_menu")))
 
-    def draw(self) -> None:
-        super().draw()
+    def draw(self, draw_as_secondary: bool = False) -> None:
+        super().draw(draw_as_secondary)
         draw_text(Point(80, 240), "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))

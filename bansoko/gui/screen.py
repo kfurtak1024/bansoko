@@ -12,7 +12,9 @@ class Screen:
     values returned in update method.
     """
 
-    def __init__(self, background: Optional[Background] = None):
+    def __init__(self, semi_transparent: Optional[bool] = False,
+                 background: Optional[Background] = None):
+        self.semi_transparent = semi_transparent
         self.background = background
         self.input = InputSystem()
 
@@ -32,10 +34,12 @@ class Screen:
         self.input.update()
         return self
 
-    def draw(self) -> None:
+    def draw(self, draw_as_secondary: bool = False) -> None:
         """Draw screen.
 
         Called once per frame (only if screen is on top of screen stack)
+
+        :param draw_as_secondary: is this screen drawn as a secondary (background) screen
         """
         if self.background is not None:
             self.background.draw()
@@ -67,7 +71,7 @@ class ScreenController:
         if self.screen_stack:
             new_screen = self.screen_stack[-1].update()
             if new_screen is not self.screen_stack[-1]:
-                self.__switch_to_screen(new_screen)
+                self._switch_to_screen(new_screen)
         else:
             self.exit_callback()
             self.skip_next_draw = True
@@ -75,20 +79,23 @@ class ScreenController:
     def draw(self) -> None:
         """Draw screen from top of screen stack."""
         if not self.skip_next_draw:
-            self.screen_stack[-1].draw()
+            top_screen = self.screen_stack[-1]
+            if top_screen.semi_transparent and len(self.screen_stack) > 1:
+                self.screen_stack[-2].draw(draw_as_secondary=True)
+            top_screen.draw()
         self.skip_next_draw = False
 
-    def __switch_to_screen(self, new_screen: Optional[Screen]) -> None:
+    def _switch_to_screen(self, new_screen: Optional[Screen]) -> None:
         if new_screen is None:
             self.screen_stack.pop()
         else:
-            self.__unwind_screen_stack(new_screen)
+            self._unwind_screen_stack(new_screen)
             self.screen_stack.append(new_screen)
         if self.screen_stack:
             self.screen_stack[-1].activate()
         self.skip_next_draw = True
 
-    def __unwind_screen_stack(self, screen: Screen) -> None:
+    def _unwind_screen_stack(self, screen: Screen) -> None:
         try:
             del self.screen_stack[self.screen_stack.index(screen):]
         except ValueError:

@@ -23,7 +23,7 @@ class PlayfieldScreen(Screen):
 
     def __init__(self, screen_factory: ScreenFactory, level_num: int):
         bundle = screen_factory.get_bundle()
-        super().__init__(bundle.get_background("playfield"))
+        super().__init__(background=bundle.get_background("playfield"))
         self.screen_factory = screen_factory
         self.level = Level(bundle.get_level_template(level_num))
 
@@ -39,7 +39,7 @@ class PlayfieldScreen(Screen):
         self.level.process_input(self._get_input_action())
         self.level.update()
 
-        # TODO: Just for tests!
+        # TODO: Just for tests! REMOVE IT IN FINAL VERSION !!!!!!!!!!!!!!!!
         if pyxel.btnp(pyxel.KEY_SPACE):
             return self.screen_factory.get_level_completed_screen(
                 LevelScore(self.level.level_num, completed=True, pushes=100, steps=100,
@@ -47,13 +47,14 @@ class PlayfieldScreen(Screen):
 
         return self
 
-    def draw(self) -> None:
-        self._draw_level()
-        super().draw()
-        self._draw_level_statistics()
+    def draw(self, draw_as_secondary: bool = False) -> None:
+        if draw_as_secondary:
+            pyxel.cls(0)
+        else:
+            self._draw_level()
 
-        # TODO: Just for tests!
-        pyxel.text(70, 255 - 70, "<SPACE> COMPLETE LEVEL", 10)
+        super().draw(draw_as_secondary)
+        self._draw_level_statistics()
 
     def _draw_level(self) -> None:
         pyxel.cls(0)
