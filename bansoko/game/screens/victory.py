@@ -16,7 +16,7 @@ class VictoryScreen(MenuScreen):
         bundle = screen_factory.get_bundle()
         super().__init__((
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu),
-        ), MenuConfig(background=bundle.get_background("victory")))
+        ), config=MenuConfig(background=bundle.get_background("victory")))
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

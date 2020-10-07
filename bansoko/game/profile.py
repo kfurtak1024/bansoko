@@ -74,6 +74,20 @@ class PlayerProfile:
         self._file_offset = file_offset
         self._last_unlocked_level = last_unlocked_level
         self.levels_scores = levels_scores
+        self.last_played_level = 0
+
+    @property
+    def first_not_completed_level(self) -> int:
+        """The first not completed level.
+
+        This is the level that is going to be started when player chooses 'START GAME' option in
+        main menu.
+
+        :return: The first not completed level if there is one *OR* 0 otherwise
+        """
+        level = next((level for level in self.levels_scores if not level.completed),
+                     self.levels_scores[0])
+        return level.level_num
 
     @property
     def last_unlocked_level(self) -> int:

@@ -16,11 +16,12 @@ class GamePausedScreen(MenuScreen):
     def __init__(self, screen_factory: ScreenFactory, level_num: int):
         bundle = screen_factory.get_bundle()
         super().__init__((
-                TextMenuItem("RESUME GAME", lambda: None),
-                TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level_num)),
-                TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)),
-            MenuConfig(allow_going_back=True, background=bundle.get_background("game_paused")),
-            semi_transparent=True)
+            TextMenuItem("RESUME GAME", lambda: None),
+            TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level_num)),
+            TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)),
+            config=MenuConfig(allow_going_back=True,
+                              background=bundle.get_background("game_paused"),
+                              semi_transparent=True))
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

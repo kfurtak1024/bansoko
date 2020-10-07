@@ -14,11 +14,12 @@ class MainMenuScreen(MenuScreen):
     """
 
     def __init__(self, screen_factory: ScreenFactory):
+        first_level_to_play = screen_factory.get_player_profile().first_not_completed_level
         super().__init__((
-            TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(0)),
+            TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(first_level_to_play)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             TextMenuItem("EXIT", lambda: None)
-        ), MenuConfig(background=screen_factory.get_bundle().get_background("main_menu")))
+        ), config=MenuConfig(background=screen_factory.get_bundle().get_background("main_menu")))
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

@@ -202,7 +202,7 @@ class Level:
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self._evaluate_crates()
-        self.game_time += 1000 / GAME_FRAME_RATE
+        self.game_time += 1_000 / GAME_FRAME_RATE
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""

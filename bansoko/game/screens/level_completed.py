@@ -37,8 +37,8 @@ class LevelCompletedScreen(MenuScreen):
         last_level_finished_menu: Tuple[MenuItem, ...] = (finish_game, restart_level)
         menu = last_level_finished_menu if last_level_completed else more_levels_to_play_menu
 
-        super().__init__(menu, MenuConfig(background=bundle.get_background("level_completed")),
-                         semi_transparent=True)
+        background = bundle.get_background("level_completed")
+        super().__init__(menu, config=MenuConfig(background=background, semi_transparent=True))
         player_profile = screen_factory.get_player_profile()
         self.level_score = level_score
         self.prev_level_score = player_profile.complete_level(level_score)

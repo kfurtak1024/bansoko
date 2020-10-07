@@ -71,7 +71,7 @@ class TextMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return text_size(self.__get_item_text(selected=True), self.text_style).enlarge(2)
+        return text_size(self._get_item_text(selected=True), self.text_style).enlarge(2)
 
     def draw(self, position: Point, selected: bool = False) -> None:
         if self.disabled:
@@ -80,9 +80,9 @@ class TextMenuItem(MenuItem):
             style = self.selected_text_style
         else:
             style = self.text_style
-        draw_text(position, self.__get_item_text(selected), style)
+        draw_text(position, self._get_item_text(selected), style)
 
-    def __get_item_text(self, selected: bool = False) -> str:
+    def _get_item_text(self, selected: bool = False) -> str:
         return ("* " if selected else "  ") + self.text
 
 
@@ -91,19 +91,20 @@ class MenuConfig(NamedTuple):
     rows: Optional[int] = None
     allow_going_back: bool = False
     background: Optional[Background] = None
+    semi_transparent: bool = False
+    position: Optional[Point] = None
 
 
 class MenuScreen(Screen):
-    def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig,
-                 position: Optional[Point] = None, semi_transparent: bool = False):
-        super().__init__(semi_transparent=semi_transparent, background=config.background)
+    def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig, selected_item: int = 0):
+        super().__init__(semi_transparent=config.semi_transparent, background=config.background)
         self.items = items
         self.item_size = reduce(max_size, [item.size for item in self.items])
         self.config = config
-        self.position = position if position else center_in_rect(
+        self.position = config.position if config.position else center_in_rect(
             Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
-        self.top_row = 0
-        self.selected_item = 0
+        self.selected_item = selected_item
+        self._scroll_to_item(self.selected_item)
 
     @property
     def columns(self) -> int:
@@ -159,13 +160,13 @@ class MenuScreen(Screen):
             return self.items[self.selected_item].perform_action()
 
         if self.input.is_button_pressed(VirtualButton.UP):
-            self.__move_selection_up()
+            self._move_selection_up()
         elif self.input.is_button_pressed(VirtualButton.DOWN):
-            self.__move_selection_down()
+            self._move_selection_down()
         elif self.input.is_button_pressed(VirtualButton.LEFT):
-            self.__move_selection_left()
+            self._move_selection_left()
         elif self.input.is_button_pressed(VirtualButton.RIGHT):
-            self.__move_selection_right()
+            self._move_selection_right()
 
         return self
 
@@ -177,14 +178,17 @@ class MenuScreen(Screen):
                              self.position.y + (i // self.columns) * self.item_size.height)
             item.draw(position, (self.top_row * self.columns) + i == self.selected_item)
 
-    def __move_selection_up(self) -> None:
+    def _scroll_to_item(self, item: int) -> None:
+        self.top_row = min(item // self.columns, self.total_rows - self.rows)
+
+    def _move_selection_up(self) -> None:
         selected_row = self.selected_item // self.columns
         move_up_possible = (selected_row > 0)
         if move_up_possible:
             self.selected_item = self.selected_item - self.columns
             self.top_row = min(self.top_row, selected_row - 1)
 
-    def __move_selection_down(self) -> None:
+    def _move_selection_down(self) -> None:
         selected_row = self.selected_item // self.columns
         move_down_possible = (selected_row < (len(self.items) - 1) // self.columns)
         if move_down_possible:
@@ -192,13 +196,13 @@ class MenuScreen(Screen):
             if selected_row + 1 >= self.top_row + self.rows:
                 self.top_row += 1
 
-    def __move_selection_left(self) -> None:
+    def _move_selection_left(self) -> None:
         selected_column = self.selected_item % self.columns
         move_left_possible = (selected_column > 0)
         if move_left_possible:
             self.selected_item -= 1
 
-    def __move_selection_right(self) -> None:
+    def _move_selection_right(self) -> None:
         selected_column = self.selected_item % self.columns
         move_right_possible = (selected_column < self.columns - 1) and \
                               (self.selected_item + 1 < len(self.items))

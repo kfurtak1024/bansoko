@@ -23,9 +23,11 @@ class PlayfieldScreen(Screen):
 
     def __init__(self, screen_factory: ScreenFactory, level_num: int):
         bundle = screen_factory.get_bundle()
+        profile = screen_factory.get_player_profile()
         super().__init__(background=bundle.get_background("playfield"))
         self.screen_factory = screen_factory
         self.level = Level(bundle.get_level_template(level_num))
+        profile.last_played_level = level_num
 
     def update(self) -> Screen:
         super().update()
