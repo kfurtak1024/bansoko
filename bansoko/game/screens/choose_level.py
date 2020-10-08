@@ -109,8 +109,8 @@ class ChooseLevelScreen(MenuScreen):
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
         # TODO: Hard-coded scroll bar (for now!)
-        scrollbar_size_in_pixels = int(super().scrollbar_size * 199)
-        scrollbar_position_in_pixels = int(super().scrollbar_position * 199)
+        scrollbar_size_in_pixels = round(super().scrollbar_size * 199)
+        scrollbar_position_in_pixels = round(super().scrollbar_position * 199)
         pyxel.rectb(235, 30, 8, 199 + 2, 5)
         pyxel.rect(236, 31 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels, 5)
         pyxel.text(8, 8, "CHOOSE LEVEL", 7)

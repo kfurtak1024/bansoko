@@ -104,7 +104,8 @@ class MenuScreen(Screen):
         self.position = config.position if config.position else center_in_rect(
             Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
         self.selected_item = selected_item
-        self._scroll_to_item(self.selected_item)
+        self.top_row = 0
+        self.scroll_to_item(self.selected_item)
 
     @property
     def columns(self) -> int:
@@ -178,7 +179,7 @@ class MenuScreen(Screen):
                              self.position.y + (i // self.columns) * self.item_size.height)
             item.draw(position, (self.top_row * self.columns) + i == self.selected_item)
 
-    def _scroll_to_item(self, item: int) -> None:
+    def scroll_to_item(self, item: int) -> None:
         self.top_row = min(item // self.columns, self.total_rows - self.rows)
 
     def _move_selection_up(self) -> None:
