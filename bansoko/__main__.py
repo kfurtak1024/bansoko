@@ -1,7 +1,7 @@
 """Bansoko - Space-themed Sokoban clone created in Python using Pyxel.
 
 Usage:
-    pyxel-bansoko [-h] [--version] [--bundle <name>]
+    bansoko [-h] [--version] [--bundle <name>]
 
 Options:
     -h, --help       Show this screen.
