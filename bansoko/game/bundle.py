@@ -9,7 +9,6 @@ from bansoko.graphics.sprite import Sprite, SpritePack
 from bansoko.graphics.tilemap import Tilemap
 
 
-# TODO: Consider renaming "bundle" (maybe game_pack?)
 class Bundle(NamedTuple):
     """Bundle is a central repository of game resources (such as: sprites, backgrounds
     and level templates)."""
@@ -69,16 +68,26 @@ class Bundle(NamedTuple):
 
 
 def load_bundle(metadata_filename: str) -> Bundle:
+    """Load game resources into bundle using metadata file.
+
+    :param metadata_filename: name of the metadata file
+    :return: bundle with game resources
+    """
     with open(metadata_filename) as metadata_file:
         metadata = json.load(metadata_file)
-        sprites = load_sprites(metadata["sprites"])
-        sprite_packs = load_sprite_packs(metadata["sprite_packs"], sprites)
-        backgrounds = load_backgrounds(metadata["backgrounds"], sprites)
-        level_templates = load_level_templates(metadata["levels"], sprite_packs)
+        sprites = create_sprites(metadata["sprites"])
+        sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
+        backgrounds = create_backgrounds(metadata["backgrounds"], sprites)
+        level_templates = create_level_templates(metadata["levels"], sprite_packs)
         return Bundle(sprites, sprite_packs, backgrounds, level_templates)
 
 
-def load_sprites(json_data: Any) -> Dict[str, Sprite]:
+def create_sprites(json_data: Any) -> Dict[str, Sprite]:
+    """Create sprites from metadata.
+
+    :param json_data: input JSON containing sprites metadata
+    :return: collection of sprites
+    """
     return {
         name: Sprite(
             image_bank=data["image_bank"],
@@ -90,7 +99,13 @@ def load_sprites(json_data: Any) -> Dict[str, Sprite]:
     }
 
 
-def load_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, SpritePack]:
+def create_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, SpritePack]:
+    """Create sprite packs from metadata.
+
+    :param json_data: input JSON containing sprite packs metadata
+    :param sprites: collection of available sprites
+    :return: collection of sprite packs
+    """
     return {
         name: SpritePack(
             sprites=tuple([sprites[sprite_name] for sprite_name in data]))
@@ -98,7 +113,13 @@ def load_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, S
     }
 
 
-def load_backgrounds(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
+def create_backgrounds(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
+    """Create backgrounds from metadata.
+
+    :param json_data: input JSON containing backgrounds metadata
+    :param sprites: collection of available sprites
+    :return: collection of backgrounds
+    """
     return {
         name: _background_from_json(data, sprites)
         for (name, data) in json_data.items()
@@ -126,8 +147,14 @@ def _background_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Backgro
     return Background(tuple(background_elements), background_color, tilemap)
 
 
-def load_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \
+def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \
         -> Tuple[LevelTemplate, ...]:
+    """Create level templates from metadata.
+
+    :param json_data: input JSON containing level template metadata
+    :param sprite_packs: collection of available sprite packs
+    :return: collection of level templates
+    """
     return tuple([
         LevelTemplate.from_level_num(
             level_num=level_num,
@@ -135,5 +162,4 @@ def load_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \
             draw_offset=Point.from_list(data["draw_offset"]),
             robot_sprite_pack=sprite_packs[data["robot_sprite_pack"]],
             crate_sprite_pack=sprite_packs[data["crate_sprite_pack"]])
-        for level_num, data in enumerate(json_data)]
-    )
+        for level_num, data in enumerate(json_data)])

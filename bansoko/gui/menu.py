@@ -52,6 +52,11 @@ class MenuItem(ABC):
         return self.screen_to_switch_to()
 
 
+MENU_TEXT_NORMAL = TextStyle(color=7, shadow_color=1)
+MENU_TEXT_SELECTED = TextStyle(color=10, shadow_color=1)
+MENU_TEXT_DISABLED = TextStyle(color=12, shadow_color=1)
+
+
 class TextMenuItem(MenuItem):
     """Text-based menu item.
 
@@ -61,9 +66,6 @@ class TextMenuItem(MenuItem):
     def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
         super().__init__(screen_to_switch_to)
         self.text = text
-        self.text_style = TextStyle(color=7, shadow_color=1)
-        self.selected_text_style = TextStyle(color=10, shadow_color=1)
-        self.disabled_text_style = TextStyle(color=12, shadow_color=1)
 
     @property
     def disabled(self) -> bool:
@@ -71,15 +73,15 @@ class TextMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return text_size(self._get_item_text(selected=True), self.text_style).enlarge(2)
+        return text_size(self._get_item_text(selected=True), MENU_TEXT_NORMAL).enlarge(2)
 
     def draw(self, position: Point, selected: bool = False) -> None:
         if self.disabled:
-            style = self.disabled_text_style
+            style = MENU_TEXT_DISABLED
         elif selected:
-            style = self.selected_text_style
+            style = MENU_TEXT_SELECTED
         else:
-            style = self.text_style
+            style = MENU_TEXT_NORMAL
         draw_text(position, self._get_item_text(selected), style)
 
     def _get_item_text(self, selected: bool = False) -> str:
@@ -87,6 +89,17 @@ class TextMenuItem(MenuItem):
 
 
 class MenuConfig(NamedTuple):
+    """The configuration of menu screen.
+
+    Attributes:
+        columns - number of visible columns of menu
+        rows - number of visible rows of menu
+        allow_going_back - is it allowed to go back to the previous screen from the menu screen
+        background - the background to drawn the menu screen with
+        semi_transparent - semi transparent screens are drawn on top of the top screen from screen
+                           stack
+        position - screen-space position of the menu
+    """
     columns: int = 1
     rows: Optional[int] = None
     allow_going_back: bool = False
@@ -147,6 +160,10 @@ class MenuScreen(Screen):
         bottom_left_item = min((self.top_row + self.rows) * self.columns, len(self.items))
         return islice(self.items, top_left_item, bottom_left_item)
 
+    def scroll_to_item(self, item: int) -> None:
+        """Scroll menu to specified item."""
+        self.top_row = min(item // self.columns, self.total_rows - self.rows)
+
     def update(self) -> Optional[Screen]:
         super().update()
 
@@ -178,9 +195,6 @@ class MenuScreen(Screen):
             position = Point(self.position.x + (i % self.columns) * self.item_size.width,
                              self.position.y + (i // self.columns) * self.item_size.height)
             item.draw(position, (self.top_row * self.columns) + i == self.selected_item)
-
-    def scroll_to_item(self, item: int) -> None:
-        self.top_row = min(item // self.columns, self.total_rows - self.rows)
 
     def _move_selection_up(self) -> None:
         selected_row = self.selected_item // self.columns

@@ -14,6 +14,7 @@ LEVEL_COMPLETED_STYLE = TextStyle(color=3)
 
 
 class LevelMenuItem(MenuItem):
+    """LevelMenuItem represents a menu item used for selecting level on ChooseLevel screen."""
     def __init__(self, level_num: int, screen_factory: ScreenFactory):
         super().__init__(lambda: screen_factory.get_playfield_screen(level_num))
         self.level_num = level_num
@@ -40,10 +41,12 @@ class LevelMenuItem(MenuItem):
 
     @property
     def level_unlocked(self) -> bool:
+        """Does this menu item represent already unlocked level."""
         return self.player_profile.is_level_unlocked(self.level_num)
 
     @property
     def level_completed(self) -> bool:
+        """Does this menu item represent completed level."""
         return self.player_profile.is_level_completed(self.level_num)
 
     def draw(self, position: Point, selected: bool = False) -> None:
@@ -74,7 +77,9 @@ class LevelMenuItem(MenuItem):
         pyxel.line(position.x, position.y, position.x + 213, position.y, LEVEL_SELECTED_STYLE.color)
 
         if self.level_completed:
-            text = f"TIME: {level_score.time} PUSHES: {level_score.pushes} STEPS: {level_score.steps}"
+            text = f"TIME: {level_score.time} "\
+                   f"PUSHES: {level_score.pushes} "\
+                   f"STEPS: {level_score.steps}"
         elif self.level_unlocked:
             text = "LEVEL NOT COMPLETED"
         else:
@@ -108,9 +113,12 @@ class ChooseLevelScreen(MenuScreen):
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
+        self._draw_scroll_bar()
+        pyxel.text(8, 8, "CHOOSE LEVEL", 7)
+
+    def _draw_scroll_bar(self) -> None:
         # TODO: Hard-coded scroll bar (for now!)
         scrollbar_size_in_pixels = round(super().scrollbar_size * 199)
         scrollbar_position_in_pixels = round(super().scrollbar_position * 199)
         pyxel.rectb(235, 30, 8, 199 + 2, 5)
         pyxel.rect(236, 31 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels, 5)
-        pyxel.text(8, 8, "CHOOSE LEVEL", 7)

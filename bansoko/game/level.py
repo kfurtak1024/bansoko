@@ -1,33 +1,19 @@
 """Module containing level related classes."""
-import abc
 from enum import Enum
 from itertools import chain
 from typing import Optional, List, Iterable
 
-from bansoko import GAME_FRAME_TIME
-from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
+from bansoko import GAME_FRAME_TIME_IN_MS
+from bansoko.game.core import GameObject, Crate, RobotState, CrateState, MoveAction, \
+    LevelStatistics, PushCrate, MoveRobot
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
-from bansoko.graphics import Point, Direction
-from bansoko.graphics.tilemap import TILE_SIZE, TilePosition
-
-
-class LevelStatistics:
-    """Player's score for given level.
-
-    Attributes:
-        pushes - number of moves that player made
-                 ("move" happens when player pushes a crate)
-        steps - number of steps that player made
-                ("step" happens when player moves by one cell in any direction)
-    """
-
-    def __init__(self) -> None:
-        self.pushes: int = 0
-        self.steps: int = 0
+from bansoko.graphics import Direction
+from bansoko.graphics.tilemap import TilePosition
 
 
 class InputAction(Enum):
+    """InputAction represents all possible actions player can perform when playing a level."""
     MOVE_LEFT = Direction.LEFT
     MOVE_RIGHT = Direction.RIGHT
     MOVE_UP = Direction.UP
@@ -43,68 +29,6 @@ class InputAction(Enum):
         return self.direction is not None
 
 
-class MoveAction(abc.ABC):
-    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int,
-                 backward: bool = False):
-        self.game_object = game_object
-        self.direction = direction
-        self.frames_to_complete = frames_to_complete
-        self.elapsed_frames = 0
-        self.backward = backward
-
-    def update(self, level_stats: LevelStatistics) -> Optional["MoveAction"]:
-        self.elapsed_frames += 1
-        move_direction = self.direction.opposite if self.backward else self.direction
-        if self.elapsed_frames == self.frames_to_complete:
-            self.game_object.position.move(move_direction)
-            self._on_stop(level_stats)
-            return None
-
-        delta = self.elapsed_frames / self.frames_to_complete * TILE_SIZE
-        self.game_object.position.offset = Point(
-            int(delta * move_direction.dx), int(delta * move_direction.dy))
-        return self
-
-    def reset(self, backward: bool = False) -> None:
-        self.elapsed_frames = 0
-        self.backward = backward
-
-    def _on_stop(self, level_stats: LevelStatistics) -> None:
-        level_stats.steps += 1 if not self.backward else -1
-
-
-class MoveRobot(MoveAction):
-    def __init__(self, robot: Robot, direction: Direction):
-        super().__init__(robot, direction, TILE_SIZE)
-        self.robot = robot
-
-    def reset(self, backward: bool = False) -> None:
-        super().reset(backward)
-        self.robot.face_direction = self.direction
-        self.robot.state = RobotState.MOVING
-
-
-class PushCrate(MoveAction):
-    def __init__(self, robot: Robot, crate: Crate, direction: Direction) -> None:
-        super().__init__(crate, direction, TILE_SIZE)
-        self.robot = robot
-        self.robot_action = MoveRobot(robot, direction)
-
-    def update(self, level_stats: LevelStatistics) -> Optional[MoveAction]:
-        self.robot_action.update(level_stats)
-        return super().update(level_stats)
-
-    def reset(self, backward: bool = False) -> None:
-        super().reset(backward)
-        self.robot_action.reset(backward)
-
-        # TODO: Refactor robot's state change
-        self.robot.state = RobotState.PUSHING
-
-    def _on_stop(self, level_stats: LevelStatistics) -> None:
-        level_stats.pushes += 1 if not self.backward else -1
-
-
 class Level:
     def __init__(self, template: LevelTemplate) -> None:
         self.statistics = LevelStatistics()
@@ -117,11 +41,13 @@ class Level:
 
     @property
     def level_score(self) -> LevelScore:
+        """Current player's score in the level."""
         return LevelScore(self.template.level_num, self.is_completed, self.statistics.pushes,
                           self.statistics.steps, int(self.game_time))
 
     @property
     def level_num(self) -> int:
+        """The number of the level."""
         return self.template.level_num
 
     @property
@@ -199,10 +125,12 @@ class Level:
 
     def update(self) -> None:
         """Perform an update on the level's game logic."""
+        for game_object in self.game_objects:
+            game_object.update()
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self._evaluate_crates()
-        self.game_time += GAME_FRAME_TIME
+        self.game_time += GAME_FRAME_TIME_IN_MS
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""

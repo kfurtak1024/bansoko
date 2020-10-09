@@ -1,3 +1,4 @@
+"""Module exposing level template."""
 from typing import NamedTuple, Tuple
 
 from bansoko.game.core import Crate, Robot
@@ -37,6 +38,11 @@ class LevelTemplate(NamedTuple):
         return self.tileset.tile_of(self.tilemap.tile_index_at(position))
 
     def create_crates(self) -> Tuple[Crate, ...]:
+        """Create a collection of crates based on information from tilemap about their initial
+        positions.
+
+        :return: collection of crates created from level template
+        """
         crates_positions = []
         for tile_position in self.tilemap.tiles_positions():
             if self.tile_at(tile_position).is_crate_spawn_point:
@@ -52,6 +58,11 @@ class LevelTemplate(NamedTuple):
         return tuple(crates)
 
     def create_robot(self, face_direction: Direction) -> Robot:
+        """Create robot instance based on information from tilemap about its start position.
+
+        :param face_direction: direction the robot should be facing to
+        :return: instance of robot created from level template
+        """
         start = None
         for tile_position in self.tilemap.tiles_positions():
             if self.tile_at(tile_position).is_start:

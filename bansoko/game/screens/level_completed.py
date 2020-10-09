@@ -18,11 +18,9 @@ class LevelCompletedScreen(MenuScreen):
     """
 
     def __init__(self, screen_factory: ScreenFactory, level_score: LevelScore):
-        bundle = screen_factory.get_bundle()
-
         current_level_num = level_score.level_num
         next_level_num = current_level_num + 1
-        last_level_completed = current_level_num == bundle.last_level
+        last_level_completed = current_level_num == screen_factory.get_bundle().last_level
 
         next_level = TextMenuItem(
             "PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(next_level_num))
@@ -37,7 +35,7 @@ class LevelCompletedScreen(MenuScreen):
         last_level_finished_menu: Tuple[MenuItem, ...] = (finish_game, restart_level)
         menu = last_level_finished_menu if last_level_completed else more_levels_to_play_menu
 
-        background = bundle.get_background("level_completed")
+        background = screen_factory.get_bundle().get_background("level_completed")
         super().__init__(menu, config=MenuConfig(background=background, semi_transparent=True))
         player_profile = screen_factory.get_player_profile()
         self.level_score = level_score

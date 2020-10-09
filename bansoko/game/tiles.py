@@ -4,6 +4,7 @@ from enum import Enum, unique, auto
 
 @unique
 class TileType(Enum):
+    """Enum representing type of a tile in terms of game logic."""
     VOID = auto()
     WALL = auto()
     START = auto()
@@ -14,22 +15,41 @@ class TileType(Enum):
 
     @property
     def is_start(self) -> bool:
+        """Is tile a starting position for the player."""
         return self == TileType.START
 
     @property
     def is_crate_initially_placed(self) -> bool:
+        """Is tile a cargo bay with already placed crate.
+
+        Some crates are already placed in cargo bays at level start.
+        """
         return self == TileType.CRATE_INITIALLY_PLACED
 
     @property
     def is_cargo_bay(self) -> bool:
+        """Is tile a cargo bay.
+
+        Cargo bays are the destinations to which crates should be moved to.
+        """
         return self == TileType.CARGO_BAY
 
     @property
     def is_crate_spawn_point(self) -> bool:
+        """Is tile a crate spawn point.
+
+        Crate spawn point is a tile at which crate is placed during level initialization.
+        """
         return self in (TileType.INITIAL_CRATE_POSITION, TileType.CRATE_INITIALLY_PLACED)
 
     @property
     def is_walkable(self) -> bool:
+        """Is tile a walkable tile.
+
+        A walkable tile means that:
+        - player can move to it
+        - crates can be pushed to it
+        """
         return self in (TileType.START, TileType.FLOOR, TileType.INITIAL_CRATE_POSITION,
                         TileType.CRATE_INITIALLY_PLACED, TileType.CARGO_BAY)
 
