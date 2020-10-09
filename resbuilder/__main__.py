@@ -23,7 +23,7 @@ from resbuilder.resources.backgrounds import process_backgrounds
 from resbuilder.resources.json_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
-from resbuilder.resources.skin_packs import process_skin_packs
+from resbuilder.resources.sprite_packs import process_sprite_packs
 from resbuilder.resources.sprites import process_sprites
 from resbuilder.resources.tilemap_generators import process_tilemap_generators
 from resbuilder.resources.tiles import TilePacker
@@ -63,12 +63,12 @@ def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
     logging.info("Processing sprites...")
     sprites = process_sprites(input_dir, input_data["sprites"])
     metadata["sprites"] = sprites
-    logging.info("Processing skins...")
-    skin_packs = process_skin_packs(input_data["skin_packs"], sprites)
-    metadata["skin_packs"] = skin_packs
+    logging.info("Processing sprite packs...")
+    sprite_packs = process_sprite_packs(input_data["sprite_packs"], sprites)
+    metadata["sprite_packs"] = sprite_packs
     tile_packer = TilePacker(0, input_dir)
     logging.info("Generating level themes...")
-    level_themes = generate_level_themes(input_data["level_themes"], tile_packer, skin_packs)
+    level_themes = generate_level_themes(input_data["level_themes"], tile_packer, sprite_packs)
     logging.info("Processing tilemap generators...")
     generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
     logging.info("Processing backgrounds...")

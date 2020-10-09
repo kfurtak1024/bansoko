@@ -41,8 +41,8 @@ def process_levels(levels: Any, level_themes: List[LevelTheme],
         levels_metadata.append({
             "tileset": theme_id,
             "draw_offset": [0, 0],
-            "robot_skin": theme.robot_skin,
-            "crate_skin": theme.crate_skin
+            "robot_sprite_pack": theme.robot_sprite_pack,
+            "crate_sprite_pack": theme.crate_sprite_pack
         })
         logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.width,
                      preprocessed_level.height, theme_id)

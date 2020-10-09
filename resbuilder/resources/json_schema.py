@@ -177,8 +177,8 @@ RESOURCES_JSON_SCHEMA = {
                         }
 
                     },
-                    "skins": {
-                        "description": "Collection of sprite skins.",
+                    "sprite_packs": {
+                        "description": "Collection of sprite packs.",
                         "type": "object",
                         "properties": {
                             "robot": {
@@ -204,7 +204,7 @@ RESOURCES_JSON_SCHEMA = {
                         "required": [tile.tile_name for tile in list(Tile)]
                     }
                 },
-                "required": ["tiles", "skins", "thumbnail_colors"]
+                "required": ["tiles", "sprite_packs", "thumbnail_colors"]
             },
             "minItems": 1
         }

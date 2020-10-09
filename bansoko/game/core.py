@@ -3,7 +3,7 @@ import abc
 from enum import IntEnum, unique
 
 from bansoko.graphics import Point, Direction, Layer
-from bansoko.graphics.sprite import SkinPack
+from bansoko.graphics.sprite import SpritePack
 from bansoko.graphics.tilemap import TilePosition
 
 
@@ -45,9 +45,10 @@ class CrateState(IntEnum):
 
 
 class Crate(GameObject):
-    def __init__(self, tile_position: TilePosition, is_placed: bool, crate_skin: SkinPack) -> None:
+    def __init__(self, tile_position: TilePosition, is_placed: bool,
+                 crate_sprite_pack: SpritePack) -> None:
         super().__init__(tile_position)
-        self.crate_skin = crate_skin
+        self.crate_sprite_pack = crate_sprite_pack
         self.state = CrateState.PLACED if is_placed else CrateState.MISPLACED
 
     @property
@@ -55,7 +56,7 @@ class Crate(GameObject):
         return self.state == CrateState.PLACED
 
     def draw(self, layer: Layer) -> None:
-        sprite = self.crate_skin.skin_sprites[self.state]
+        sprite = self.crate_sprite_pack.sprites[self.state]
         sprite.draw(self.position.to_point(), layer)
 
 
@@ -69,12 +70,12 @@ class RobotState(IntEnum):
 # TODO: Add animations
 class Robot(GameObject):
     def __init__(self, tile_position: TilePosition, face_direction: Direction,
-                 robot_skin: SkinPack):
+                 robot_sprite_pack: SpritePack):
         super().__init__(tile_position)
         self.face_direction = face_direction
-        self.robot_skin = robot_skin
+        self.robot_sprite_pack = robot_sprite_pack
         self.state = RobotState.STANDING
 
     def draw(self, layer: Layer) -> None:
-        sprite = self.robot_skin.skin_sprites[self.state]
+        sprite = self.robot_sprite_pack.sprites[self.state]
         sprite.draw(self.position.to_point(), layer, self.face_direction)

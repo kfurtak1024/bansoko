@@ -5,7 +5,7 @@ from typing import NamedTuple, Dict, Tuple, Any
 from bansoko.game.level_template import LevelTemplate
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
-from bansoko.graphics.sprite import Sprite, SkinPack
+from bansoko.graphics.sprite import Sprite, SpritePack
 from bansoko.graphics.tilemap import Tilemap
 
 
@@ -15,7 +15,7 @@ class Bundle(NamedTuple):
     and level templates)."""
 
     sprites: Dict[str, Sprite]
-    skin_packs: Dict[str, SkinPack]
+    sprite_packs: Dict[str, SpritePack]
     backgrounds: Dict[str, Background]
     level_templates: Tuple[LevelTemplate, ...]
 
@@ -27,13 +27,13 @@ class Bundle(NamedTuple):
         """
         return self.sprites[sprite_name]
 
-    def get_skin_pack(self, skin_pack_name: str) -> SkinPack:
-        """Return skin pack with given skin pack name.
+    def get_sprite_pack(self, sprite_pack_name: str) -> SpritePack:
+        """Return sprite pack with given name.
 
-        :param skin_pack_name: name of skin pack to be retrieved
-        :return: instance of SkinPack with given name
+        :param sprite_pack_name: name of sprite pack to be retrieved
+        :return: instance of SpritePack with given name
         """
-        return self.skin_packs[skin_pack_name]
+        return self.sprite_packs[sprite_pack_name]
 
     def get_background(self, background_name: str) -> Background:
         """Return background with given background name.
@@ -72,10 +72,10 @@ def load_bundle(metadata_filename: str) -> Bundle:
     with open(metadata_filename) as metadata_file:
         metadata = json.load(metadata_file)
         sprites = load_sprites(metadata["sprites"])
-        skin_packs = load_skin_packs(metadata["skin_packs"], sprites)
+        sprite_packs = load_sprite_packs(metadata["sprite_packs"], sprites)
         backgrounds = load_backgrounds(metadata["backgrounds"], sprites)
-        level_templates = load_level_templates(metadata["levels"], skin_packs)
-        return Bundle(sprites, skin_packs, backgrounds, level_templates)
+        level_templates = load_level_templates(metadata["levels"], sprite_packs)
+        return Bundle(sprites, sprite_packs, backgrounds, level_templates)
 
 
 def load_sprites(json_data: Any) -> Dict[str, Sprite]:
@@ -90,10 +90,10 @@ def load_sprites(json_data: Any) -> Dict[str, Sprite]:
     }
 
 
-def load_skin_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, SkinPack]:
+def load_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, SpritePack]:
     return {
-        name: SkinPack(
-            skin_sprites=tuple([sprites[sprite_name] for sprite_name in data]))
+        name: SpritePack(
+            sprites=tuple([sprites[sprite_name] for sprite_name in data]))
         for (name, data) in json_data.items()
     }
 
@@ -126,14 +126,14 @@ def _background_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Backgro
     return Background(tuple(background_elements), background_color, tilemap)
 
 
-def load_level_templates(json_data: Any, skin_packs: Dict[str, SkinPack]) \
+def load_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \
         -> Tuple[LevelTemplate, ...]:
     return tuple([
         LevelTemplate.from_level_num(
             level_num=level_num,
             tileset_index=data["tileset"],
             draw_offset=Point.from_list(data["draw_offset"]),
-            robot_skin=skin_packs[data["robot_skin"]],
-            crate_skin=skin_packs[data["crate_skin"]])
+            robot_sprite_pack=sprite_packs[data["robot_sprite_pack"]],
+            crate_sprite_pack=sprite_packs[data["crate_sprite_pack"]])
         for level_num, data in enumerate(json_data)]
     )

@@ -34,12 +34,12 @@ class Screen:
         self.input.update()
         return self
 
-    def draw(self, _draw_as_secondary: bool = False) -> None:
+    def draw(self, draw_as_secondary: bool = False) -> None:
         """Draw screen.
 
         Called once per frame (only if screen is on top of screen stack)
 
-        :param _draw_as_secondary: is this screen drawn as a secondary (background) screen
+        :param draw_as_secondary: is this screen drawn as a secondary (background) screen
         """
         if self.background is not None:
             self.background.draw()

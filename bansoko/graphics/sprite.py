@@ -76,6 +76,6 @@ class Sprite(NamedTuple):
         return self.uv_rect.h // self.num_frames - (self.num_layers - 1)
 
 
-class SkinPack(NamedTuple):
-    """SkinPack is a collection of sprites, grouped together for organizational purposes."""
-    skin_sprites: Tuple[Sprite, ...]
+class SpritePack(NamedTuple):
+    """Sprite Pack is a collection of sprites, grouped together for organizational purposes."""
+    sprites: Tuple[Sprite, ...]

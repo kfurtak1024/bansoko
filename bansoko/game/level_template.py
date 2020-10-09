@@ -3,7 +3,7 @@ from typing import NamedTuple, Tuple
 from bansoko.game.core import Crate, Robot
 from bansoko.game.tiles import Tileset, TileType
 from bansoko.graphics import Layer, Point, Rect, Direction
-from bansoko.graphics.sprite import SkinPack
+from bansoko.graphics.sprite import SpritePack
 from bansoko.graphics.tilemap import Tilemap, TILE_SIZE, TilePosition
 
 # TODO: Should be taken from bundle
@@ -17,12 +17,13 @@ class LevelTemplate(NamedTuple):
     tilemap: Tilemap
     tileset: Tileset
     layers: Tuple[Layer, ...]
-    robot_skin: SkinPack
-    crate_skin: SkinPack
+    robot_sprite_pack: SpritePack
+    crate_sprite_pack: SpritePack
 
     @classmethod
     def from_level_num(cls, level_num: int, tileset_index: int, draw_offset: Point,
-                       robot_skin: SkinPack, crate_skin: SkinPack) -> "LevelTemplate":
+                       robot_sprite_pack: SpritePack,
+                       crate_sprite_pack: SpritePack) -> "LevelTemplate":
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         tilemap_uv_rect = Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT)
@@ -30,7 +31,7 @@ class LevelTemplate(NamedTuple):
         tileset = Tileset(tileset_index)
         layers = tuple([Layer(i, draw_offset) for i in range(3)])  # TODO: Hard-coded 3!
         return cls(level_num=level_num, tilemap=tilemap, tileset=tileset, layers=layers,
-                   robot_skin=robot_skin, crate_skin=crate_skin)
+                   robot_sprite_pack=robot_sprite_pack, crate_sprite_pack=crate_sprite_pack)
 
     def tile_at(self, position: TilePosition) -> TileType:
         return self.tileset.tile_of(self.tilemap.tile_index_at(position))
@@ -44,7 +45,7 @@ class LevelTemplate(NamedTuple):
         crates = []
         for crate_position in crates_positions:
             is_initially_placed = self.tile_at(crate_position).is_crate_initially_placed
-            crates.append(Crate(crate_position, is_initially_placed, self.crate_skin))
+            crates.append(Crate(crate_position, is_initially_placed, self.crate_sprite_pack))
         if not crates:
             raise Exception(f"Level {self.level_num} does not have any crates")
 
@@ -58,4 +59,4 @@ class LevelTemplate(NamedTuple):
         if not start:
             raise Exception(f"Level {self.level_num} does not have player start tile")
 
-        return Robot(start, face_direction, self.robot_skin)
+        return Robot(start, face_direction, self.robot_sprite_pack)

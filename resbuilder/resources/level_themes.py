@@ -7,8 +7,8 @@ class LevelTheme(NamedTuple):
     tiles_ids: List[Dict[Tile, int]]
     background_generator: str
     thumbnail_colors: Dict[Tile, int]
-    robot_skin: str
-    crate_skin: str
+    robot_sprite_pack: str
+    crate_sprite_pack: str
 
     @property
     def num_layers(self) -> int:
@@ -21,7 +21,7 @@ class LevelTheme(NamedTuple):
         return self.thumbnail_colors[tile]
 
 
-def generate_level_themes(data: Any, tile_packer: TilePacker, skin_packs: Dict[str, Any]) \
+def generate_level_themes(data: Any, tile_packer: TilePacker, sprite_packs: Dict[str, Any]) \
         -> List[LevelTheme]:
     # TODO: Refactor it
     themes: List[LevelTheme] = []
@@ -38,17 +38,17 @@ def generate_level_themes(data: Any, tile_packer: TilePacker, skin_packs: Dict[s
 
         background_generator = level_theme_data["background_generator"]
         thumbnail_colors = _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
-        robot_skin = level_theme_data["skins"]["robot"]
-        if skin_packs.get(robot_skin) is None:
+        robot_sprite_pack = level_theme_data["sprite_packs"]["robot"]
+        if sprite_packs.get(robot_sprite_pack) is None:
             raise Exception(
-                f"Robot skin '{robot_skin}' is undefined'")
-        crate_skin = level_theme_data["skins"]["crate"]
-        if skin_packs.get(crate_skin) is None:
+                f"Robot sprite pack '{robot_sprite_pack}' is undefined'")
+        crate_sprite_pack = level_theme_data["sprite_packs"]["crate"]
+        if sprite_packs.get(crate_sprite_pack) is None:
             raise Exception(
-                f"Skin '{crate_skin}' is undefined'")
+                f"Crate sprite pack '{crate_sprite_pack}' is undefined'")
 
-        themes.append(
-            LevelTheme(layers, background_generator, thumbnail_colors, robot_skin, crate_skin))
+        themes.append(LevelTheme(layers, background_generator, thumbnail_colors, robot_sprite_pack,
+                                 crate_sprite_pack))
 
     return themes
 

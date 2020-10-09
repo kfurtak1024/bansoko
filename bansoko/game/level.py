@@ -4,7 +4,7 @@ from enum import Enum
 from itertools import chain
 from typing import Optional, List, Iterable
 
-from bansoko import GAME_FRAME_RATE
+from bansoko import GAME_FRAME_TIME
 from bansoko.game.core import GameObject, Robot, Crate, RobotState, CrateState
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
@@ -202,7 +202,7 @@ class Level:
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self._evaluate_crates()
-        self.game_time += 1_000 / GAME_FRAME_RATE
+        self.game_time += GAME_FRAME_TIME
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""

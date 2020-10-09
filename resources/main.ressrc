@@ -101,25 +101,25 @@
       "num_frames": 5
     }
   },
-  "skin_packs": {
-    "robot_skin": [
+  "sprite_packs": {
+    "robot": [
       "robot_standing",
       "robot_moving",
       "robot_pushing"
     ],
-    "desert_crate_skin": [
+    "desert_crate": [
       "desert_crate",
       "desert_crate_placed"
     ],
-    "mint_crate_skin": [
+    "mint_crate": [
       "mint_crate",
       "mint_crate_placed"
     ],
-    "ice_crate_skin": [
+    "ice_crate": [
       "ice_crate",
       "ice_crate_placed"
     ],
-    "moon_crate_skin": [
+    "moon_crate": [
       "moon_crate",
       "moon_crate_placed"
     ]
@@ -1388,9 +1388,9 @@
           }
         ]
       },
-      "skins": {
-        "robot": "robot_skin",
-        "crate": "desert_crate_skin"
+      "sprite_packs": {
+        "robot": "robot",
+        "crate": "desert_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1423,9 +1423,9 @@
           }
         ]
       },
-      "skins": {
-        "robot": "robot_skin",
-        "crate": "mint_crate_skin"
+      "sprite_packs": {
+        "robot": "robot",
+        "crate": "mint_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1458,9 +1458,9 @@
           }
         ]
       },
-      "skins": {
-        "robot": "robot_skin",
-        "crate": "ice_crate_skin"
+      "sprite_packs": {
+        "robot": "robot",
+        "crate": "ice_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1493,9 +1493,9 @@
           }
         ]
       },
-      "skins": {
-        "robot": "robot_skin",
-        "crate": "desert_crate_skin"
+      "sprite_packs": {
+        "robot": "robot",
+        "crate": "desert_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1528,9 +1528,9 @@
           }
         ]
       },
-      "skins": {
-        "robot": "robot_skin",
-        "crate": "moon_crate_skin"
+      "sprite_packs": {
+        "robot": "robot",
+        "crate": "moon_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
