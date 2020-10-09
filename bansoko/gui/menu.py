@@ -109,6 +109,17 @@ class MenuConfig(NamedTuple):
 
 
 class MenuScreen(Screen):
+    """MenuScreen is a game screen containing configurable menu.
+
+    Attributes:
+        items - collection of all menu items that are going to be
+        item_size - calculated maximum size of all menu items
+        config - configuration the menu is initialized with
+        position - screen-space position of the menu
+        selected_item - index of currently selected menu item
+        top_row - the very firs, top row that is visible when menu is drawn (it changes during
+                  scrolling)
+    """
     def __init__(self, items: Tuple[MenuItem, ...], config: MenuConfig, selected_item: int = 0):
         super().__init__(semi_transparent=config.semi_transparent, background=config.background)
         self.items = items

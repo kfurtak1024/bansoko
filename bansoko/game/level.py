@@ -4,8 +4,8 @@ from itertools import chain
 from typing import Optional, List, Iterable
 
 from bansoko import GAME_FRAME_TIME_IN_MS
-from bansoko.game.core import GameObject, Crate, RobotState, CrateState, MoveAction, \
-    LevelStatistics, PushCrate, MoveRobot
+from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, MoveAction, \
+    MovementStats, PushCrate, MoveRobot
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
 from bansoko.graphics import Direction
@@ -31,7 +31,7 @@ class InputAction(Enum):
 
 class Level:
     def __init__(self, template: LevelTemplate) -> None:
-        self.statistics = LevelStatistics()
+        self.statistics = MovementStats()
         self.game_time = 0.0
         self.template = template
         self.robot = template.create_robot(self.initial_robot_direction)

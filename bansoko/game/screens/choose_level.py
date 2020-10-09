@@ -32,6 +32,10 @@ class LevelMenuItem(MenuItem):
 
     @property
     def text_style(self) -> TextStyle:
+        """Text style of the menu item.
+
+        It depends on the status of level completion the menu item is referring to.
+        """
         if self.player_profile.is_level_completed(self.level_num):
             return LEVEL_COMPLETED_STYLE
         if self.player_profile.is_level_unlocked(self.level_num):

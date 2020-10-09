@@ -1,7 +1,7 @@
 """Module exposing level template."""
 from typing import NamedTuple, Tuple
 
-from bansoko.game.core import Crate, Robot
+from bansoko.game.game_object import Crate, Robot
 from bansoko.game.tiles import Tileset, TileType
 from bansoko.graphics import Layer, Point, Rect, Direction
 from bansoko.graphics.sprite import SpritePack
@@ -13,18 +13,37 @@ LEVEL_WIDTH = 32
 LEVEL_HEIGHT = 32
 
 
+class LevelSpritePacks(NamedTuple):
+    """
+    Collection of sprite packs used by a level.
+
+    Attributes:
+        robot_sprite_pack - sprite pack containing all robot related sprites
+        crate_sprite_pack - sprite pack containing all crate related sprites
+    """
+    robot_sprite_pack: SpritePack
+    crate_sprite_pack: SpritePack
+
+
 class LevelTemplate(NamedTuple):
+    """LevelTemplate is a blue-print used for level creation.
+
+    Attributes:
+        level_num - the level number
+        tilemap - tilemap to be used in the level
+        tileset -  tileset to be used in the level
+        layers - list of layers level will be drawn on
+        sprite_packs - sprite packs to be used in the level
+    """
     level_num: int
     tilemap: Tilemap
     tileset: Tileset
     layers: Tuple[Layer, ...]
-    robot_sprite_pack: SpritePack
-    crate_sprite_pack: SpritePack
+    sprite_packs: LevelSpritePacks
 
     @classmethod
     def from_level_num(cls, level_num: int, tileset_index: int, draw_offset: Point,
-                       robot_sprite_pack: SpritePack,
-                       crate_sprite_pack: SpritePack) -> "LevelTemplate":
+                       sprite_packs: LevelSpritePacks) -> "LevelTemplate":
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         tilemap_uv_rect = Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT)
@@ -32,9 +51,14 @@ class LevelTemplate(NamedTuple):
         tileset = Tileset(tileset_index)
         layers = tuple([Layer(i, draw_offset) for i in range(3)])  # TODO: Hard-coded 3!
         return cls(level_num=level_num, tilemap=tilemap, tileset=tileset, layers=layers,
-                   robot_sprite_pack=robot_sprite_pack, crate_sprite_pack=crate_sprite_pack)
+                   sprite_packs=sprite_packs)
 
     def tile_at(self, position: TilePosition) -> TileType:
+        """Return the type of tile at given position in tilemap.
+
+        :param position: position of the tile to check tile type of
+        :return: type of the tile at given position
+        """
         return self.tileset.tile_of(self.tilemap.tile_index_at(position))
 
     def create_crates(self) -> Tuple[Crate, ...]:
@@ -51,7 +75,8 @@ class LevelTemplate(NamedTuple):
         crates = []
         for crate_position in crates_positions:
             is_initially_placed = self.tile_at(crate_position).is_crate_initially_placed
-            crates.append(Crate(crate_position, is_initially_placed, self.crate_sprite_pack))
+            crates.append(
+                Crate(crate_position, is_initially_placed, self.sprite_packs.crate_sprite_pack))
         if not crates:
             raise Exception(f"Level {self.level_num} does not have any crates")
 
@@ -70,4 +95,4 @@ class LevelTemplate(NamedTuple):
         if not start:
             raise Exception(f"Level {self.level_num} does not have player start tile")
 
-        return Robot(start, face_direction, self.robot_sprite_pack)
+        return Robot(start, face_direction, self.sprite_packs.robot_sprite_pack)

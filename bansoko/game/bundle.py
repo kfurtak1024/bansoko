@@ -2,7 +2,7 @@
 import json
 from typing import NamedTuple, Dict, Tuple, Any
 
-from bansoko.game.level_template import LevelTemplate
+from bansoko.game.level_template import LevelTemplate, LevelSpritePacks
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite, SpritePack
@@ -160,6 +160,7 @@ def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) 
             level_num=level_num,
             tileset_index=data["tileset"],
             draw_offset=Point.from_list(data["draw_offset"]),
-            robot_sprite_pack=sprite_packs[data["robot_sprite_pack"]],
-            crate_sprite_pack=sprite_packs[data["crate_sprite_pack"]])
+            sprite_packs=LevelSpritePacks(
+                robot_sprite_pack=sprite_packs[data["robot_sprite_pack"]],
+                crate_sprite_pack=sprite_packs[data["crate_sprite_pack"]]))
         for level_num, data in enumerate(json_data)])

@@ -33,6 +33,8 @@ class LevelScore(NamedTuple):
 
     @property
     def time(self) -> str:
+        """Human readable level completion time expressed in format H:MM:SS."""
+        # TODO: Refactor this
         hours = int((self.time_in_ms / (1000 * 60 * 60)) % 60)
         minutes = int((self.time_in_ms / (1000 * 60)) % 60)
         seconds = int((self.time_in_ms / 1000) % 60)
@@ -44,6 +46,14 @@ class LevelScore(NamedTuple):
         return "{:d}:{:02d}:{:02d}".format(hours, minutes, seconds)
 
     def merge_with(self, level_score: "LevelScore") -> "LevelScore":
+        """Merge this level score with given score.
+
+        In case of differences in field values prefer better score
+        (smaller number of steps, pushes, quicker completion time)
+
+        :param level_score: level score to merge with
+        :return: newly created level score which is a result of merge
+        """
         if self == level_score:
             return level_score
         if self.level_num != level_score.level_num:
@@ -139,6 +149,11 @@ class PlayerProfile:
 
 
 def create_or_load_profile(bundle: Bundle) -> PlayerProfile:
+    """Create or load (if already exists) a player profile.
+
+    :param bundle: bundle the profile should be initialized with
+    :return: initialized player profile
+    """
     profile_dir = Path.home().joinpath(GAME_PROFILE_LOCATION)
     os.makedirs(profile_dir, exist_ok=True)
     profile_file_path = profile_dir.joinpath(GAME_PROFILE_FILE_NAME)
