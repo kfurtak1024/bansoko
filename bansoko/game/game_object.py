@@ -1,11 +1,11 @@
 """Module exposing all game objects."""
 import abc
 from enum import IntEnum, unique
-from typing import Optional
+from typing import Optional, Dict
 
 from bansoko.graphics import Point, Direction, Layer
-from bansoko.graphics.animation import AnimationPlayer
-from bansoko.graphics.sprite import SpritePack
+from bansoko.graphics.animation import AnimationPlayer, Animation
+from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.tilemap import TilePosition, TILE_SIZE
 
 
@@ -48,14 +48,11 @@ class GameObject(abc.ABC):
 
     Attributes:
         position - game object position
-        animation_player - update once per frame animation player game object may use
     """
     position: ObjectPosition
-    animation_player: AnimationPlayer
 
     def __init__(self, tile_position: TilePosition) -> None:
         self.position = ObjectPosition(tile_position)
-        self.animation_player = AnimationPlayer()
 
     @property
     def tile_position(self) -> TilePosition:
@@ -67,7 +64,6 @@ class GameObject(abc.ABC):
 
         Called once per frame.
         """
-        self.animation_player.update()
 
     @abc.abstractmethod
     def draw(self, layer: Layer) -> None:
@@ -91,9 +87,9 @@ class CrateState(IntEnum):
 
 class Crate(GameObject):
     def __init__(self, tile_position: TilePosition, is_placed: bool,
-                 crate_sprite_pack: SpritePack) -> None:
+                 crate_sprites: Dict[CrateState, Sprite]) -> None:
         super().__init__(tile_position)
-        self.crate_sprite_pack = crate_sprite_pack
+        self.crate_sprites = crate_sprites
         self.state = CrateState.PLACED if is_placed else CrateState.MISPLACED
 
     @property
@@ -102,7 +98,7 @@ class Crate(GameObject):
         return self.state == CrateState.PLACED
 
     def draw(self, layer: Layer) -> None:
-        sprite = self.crate_sprite_pack.sprites[self.state]
+        sprite = self.crate_sprites[self.state]
         sprite.draw(self.position.to_point(), layer)
 
 
@@ -119,28 +115,45 @@ class RobotState(IntEnum):
     PUSHING = 2
 
 
-# TODO: Add animations
 class Robot(GameObject):
+    _robot_state: RobotState
+
     def __init__(self, tile_position: TilePosition, face_direction: Direction,
-                 robot_sprite_pack: SpritePack):
+                 robot_animations: Dict[RobotState, Animation]):
         super().__init__(tile_position)
         self.face_direction = face_direction
-        self.robot_sprite_pack = robot_sprite_pack
-        self.state = RobotState.STANDING
+        self.robot_animations = robot_animations
+        self.animation_player = AnimationPlayer()
+        self.robot_state = RobotState.STANDING
+
+    @property
+    def robot_state(self) -> RobotState:
+        return self._robot_state
+
+    @robot_state.setter
+    def robot_state(self, robot_state: RobotState) -> None:
+        self.animation_player.play(self.robot_animations[robot_state])
+        self._robot_state = robot_state
+
+    def update(self) -> None:
+        self.animation_player.update()
 
     def draw(self, layer: Layer) -> None:
-        sprite = self.robot_sprite_pack.sprites[self.state]
-        sprite.draw(self.position.to_point(), layer, self.face_direction)
+        self.animation_player.draw(self.position.to_point(), layer, self.face_direction)
 
 
 class MoveAction(abc.ABC):
-    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int,
-                 backward: bool = False):
+    """MoveAction is an abstract class responsible for handling game object movement in tilemap."""
+    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int):
         self.game_object = game_object
         self.direction = direction
+
+        # TODO: It should be time_to_complete
         self.frames_to_complete = frames_to_complete
+
+        # TODO: It should be elapsed_time
         self.elapsed_frames = 0
-        self.backward = backward
+        self.backward = False
 
     def update(self, level_stats: MovementStats) -> Optional["MoveAction"]:
         self.elapsed_frames += 1
@@ -157,10 +170,12 @@ class MoveAction(abc.ABC):
 
     def reset(self, backward: bool = False) -> None:
         self.elapsed_frames = 0
+
+        # TODO: What about animation when moving backward?
         self.backward = backward
 
-    def _on_stop(self, level_stats: MovementStats) -> None:
-        level_stats.steps += 1 if not self.backward else -1
+    def _on_stop(self, movement_stats: MovementStats) -> None:
+        movement_stats.steps += 1 if not self.backward else -1
 
 
 class MoveRobot(MoveAction):
@@ -172,7 +187,7 @@ class MoveRobot(MoveAction):
     def reset(self, backward: bool = False) -> None:
         super().reset(backward)
         self.robot.face_direction = self.direction
-        self.robot.state = RobotState.MOVING
+        self.robot.robot_state = RobotState.MOVING
 
 
 class PushCrate(MoveAction):
@@ -191,7 +206,7 @@ class PushCrate(MoveAction):
         self.robot_action.reset(backward)
 
         # TODO: Refactor robot's state change
-        self.robot.state = RobotState.PUSHING
+        self.robot.robot_state = RobotState.PUSHING
 
-    def _on_stop(self, level_stats: MovementStats) -> None:
-        level_stats.pushes += 1 if not self.backward else -1
+    def _on_stop(self, movement_stats: MovementStats) -> None:
+        movement_stats.pushes += 1 if not self.backward else -1

@@ -99,7 +99,7 @@ class Level:
         # TODO: If player is pressing more then one directional button, prefer the one which
         #       does not lead to collision
 
-        self.robot.state = RobotState.STANDING
+        self.robot.robot_state = RobotState.STANDING
 
         if not input_action:
             return
@@ -125,11 +125,11 @@ class Level:
 
     def update(self) -> None:
         """Perform an update on the level's game logic."""
-        for game_object in self.game_objects:
-            game_object.update()
         if self.running_action:
             self.running_action = self.running_action.update(self.statistics)
         self._evaluate_crates()
+        for game_object in self.game_objects:
+            game_object.update()
         self.game_time += GAME_FRAME_TIME_IN_MS
 
     def draw(self) -> None:

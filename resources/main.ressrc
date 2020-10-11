@@ -61,6 +61,7 @@
     "robot_moving" : {
       "image_bank": 1,
       "image": "sprites/robot_moving.png",
+      "num_frames": 2,
       "multilayer": true,
       "directional": true
     },

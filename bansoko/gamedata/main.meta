@@ -31,7 +31,7 @@
       "num_layers": 1,
       "uv_rect": [
         97,
-        116,
+        136,
         32,
         32
       ]
@@ -42,8 +42,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        129,
-        116,
+        215,
+        102,
         10,
         10
       ]
@@ -54,8 +54,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        139,
-        116,
+        225,
+        102,
         10,
         10
       ]
@@ -66,8 +66,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        149,
-        116,
+        235,
+        102,
         10,
         10
       ]
@@ -78,8 +78,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        159,
-        116,
+        245,
+        102,
         10,
         10
       ]
@@ -90,7 +90,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        169,
+        137,
         116,
         10,
         10
@@ -102,7 +102,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        179,
+        147,
         116,
         10,
         10
@@ -114,7 +114,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        189,
+        157,
         116,
         10,
         10
@@ -126,7 +126,7 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        199,
+        167,
         116,
         10,
         10
@@ -147,13 +147,13 @@
     "robot_moving": {
       "image_bank": 1,
       "directional": true,
-      "num_frames": 1,
+      "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
         215,
         82,
         40,
-        10
+        20
       ]
     },
     "robot_pushing": {
@@ -162,8 +162,8 @@
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
-        215,
-        92,
+        97,
+        116,
         40,
         20
       ]
