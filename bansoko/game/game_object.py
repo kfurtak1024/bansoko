@@ -1,12 +1,12 @@
 """Module exposing all game objects."""
 import abc
 from enum import IntEnum, unique
-from typing import Optional, Dict
+from typing import Dict
 
 from bansoko.graphics import Point, Direction, Layer
 from bansoko.graphics.animation import AnimationPlayer, Animation
 from bansoko.graphics.sprite import Sprite
-from bansoko.graphics.tilemap import TilePosition, TILE_SIZE
+from bansoko.graphics.tilemap import TilePosition
 
 
 # TODO: Rename it

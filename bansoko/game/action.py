@@ -1,115 +1,115 @@
 import abc
 from typing import Optional
 
+from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.game.game_object import MovementStats, GameObject, Robot, RobotState, Crate
 from bansoko.graphics import Direction, Point
 from bansoko.graphics.tilemap import TILE_SIZE
 
 
 class Action(abc.ABC):
-    def __init__(self) -> None:
+    def __init__(self, time_to_complete: float, chain_action: Optional["Action"] = None) -> None:
+        self.time_to_complete = time_to_complete
+        self.chain_action = chain_action
+        self.elapsed_time = 0.0
         self.backward = False
 
-    @abc.abstractmethod
     def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional["Action"]:
-        pass
+        if self.chain_action:
+            self.chain_action.update(dt_in_ms, movement_stats)
+        self.elapsed_time += dt_in_ms
+        if self.elapsed_time >= self.time_to_complete:
+            self._on_complete(movement_stats)
+            return None
+        return self
 
     def reset(self, backward: bool = False) -> None:
+        if self.chain_action:
+            self.chain_action.reset(backward=backward)
+        self.elapsed_time = 0.0
         self.backward = backward
+
+    def _on_complete(self, movement_stats: MovementStats) -> None:
+        pass
 
 
 class MoveAction(Action):
     """MoveAction is an abstract class responsible for handling game object movement in tilemap."""
-    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int):
-        super().__init__()
+    def __init__(self, game_object: GameObject, direction: Direction,
+                 time_to_complete: float, chain_action: Optional[Action] = None) -> None:
+        super().__init__(time_to_complete, chain_action)
         self.game_object = game_object
         self.direction = direction
 
-        # TODO: It should be time_to_complete
-        self.frames_to_complete = frames_to_complete
-
-        # TODO: Promote both elapsed_frames and frames_to_complete to Action
-        self.elapsed_frames = 0
-
     def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
-        self.elapsed_frames += 1
+        running_action = super().update(dt_in_ms, movement_stats)
+        if running_action:
+            move_direction = self.direction.opposite if self.backward else self.direction
+            delta = self.elapsed_time / self.time_to_complete * TILE_SIZE
+            self.game_object.position.offset = Point(
+                int(delta * move_direction.dx), int(delta * move_direction.dy))
+
+        return running_action
+
+    def _on_complete(self, movement_stats: MovementStats) -> None:
         move_direction = self.direction.opposite if self.backward else self.direction
-        if self.elapsed_frames == self.frames_to_complete:
-            self.game_object.position.move(move_direction)
-            self._on_stop(movement_stats)
-            return None
-
-        delta = self.elapsed_frames / self.frames_to_complete * TILE_SIZE
-        self.game_object.position.offset = Point(
-            int(delta * move_direction.dx), int(delta * move_direction.dy))
-        return self
-
-    def reset(self, backward: bool = False) -> None:
-        super().reset(backward)
-        # TODO: It should be elapsed_time
-        self.elapsed_frames = 0
-
-    def _on_stop(self, movement_stats: MovementStats) -> None:
-        pass
+        self.game_object.position.move(move_direction)
 
 
 class TurnRobot(Action):
+    """TurnRobot is an action for turing the robot in given direction.
+
+    Attributes:
+        robot - robot to be turned
+        direction - direction to turn the robot in
+    """
     def __init__(self, robot: Robot, direction: Direction) -> None:
-        super().__init__()
+        super().__init__(time_to_complete=0.0)
         self.robot = robot
         self.direction = direction
 
     def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
+        running_action = super().update(dt_in_ms, movement_stats)
         self.robot.face_direction = self.direction
-        return None
+        return running_action
 
     def reset(self, backward: bool = False) -> None:
         super().reset(backward=backward)
         self.robot.face_direction = self.direction
 
 
-# TODO: Refactor all move actions!
+TIME_TO_COMPLETE_ROBOT_MOVE = TILE_SIZE * GAME_FRAME_TIME_IN_MS
+
+
 class MoveRobot(MoveAction):
     """MoveRobot is a move action that encapsulates the movement of robot."""
-
     def __init__(self, robot: Robot, direction: Direction,
-                 robot_state: RobotState = RobotState.MOVING):
-        super().__init__(robot, direction, TILE_SIZE)
-        self.turn_robot_action = TurnRobot(robot, direction)
+                 move_state: RobotState = RobotState.MOVING):
+        super().__init__(robot, direction, TIME_TO_COMPLETE_ROBOT_MOVE, TurnRobot(robot, direction))
         self.robot = robot
-        # TODO: Rename it!
-        self.robot_state = robot_state
-
-        self.robot.robot_state = robot_state
-
-    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
-        self.turn_robot_action.update(dt_in_ms, movement_stats)
-        return super().update(dt_in_ms, movement_stats)
+        self.move_state = move_state
+        self.robot.robot_state = move_state
 
     def reset(self, backward: bool = False) -> None:
         super().reset(backward)
-        self.turn_robot_action.reset(backward=backward)
-        self.robot.robot_state = self.robot_state
+        self.robot.robot_state = self.move_state
         # TODO: What about animation when moving backward?
 
-    def _on_stop(self, movement_stats: MovementStats) -> None:
+    def _on_complete(self, movement_stats: MovementStats) -> None:
+        super()._on_complete(movement_stats)
         movement_stats.steps += 1 if not self.backward else -1
+
+
+TIME_TO_COMPLETE_CRATE_PUSH = TILE_SIZE * GAME_FRAME_TIME_IN_MS
 
 
 class PushCrate(MoveAction):
     """PushCrate is a move action that encapsulates the movement of robot and the push of crate."""
     def __init__(self, robot: Robot, crate: Crate, direction: Direction) -> None:
-        super().__init__(crate, direction, TILE_SIZE)
-        self.move_robot_action = MoveRobot(robot, direction, RobotState.PUSHING)
+        super().__init__(crate, direction, TIME_TO_COMPLETE_CRATE_PUSH,
+                         chain_action=MoveRobot(robot, direction, RobotState.PUSHING))
         self.crate = crate
 
-    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
-        self.move_robot_action.update(dt_in_ms, movement_stats)
-        return super().update(dt_in_ms, movement_stats)
-
-    def reset(self, backward: bool = False) -> None:
-        super().reset(backward)
-        self.move_robot_action.reset(backward=backward)
-
-    def _on_stop(self, movement_stats: MovementStats) -> None:
+    def _on_complete(self, movement_stats: MovementStats) -> None:
+        super()._on_complete(movement_stats)
         movement_stats.pushes += 1 if not self.backward else -1

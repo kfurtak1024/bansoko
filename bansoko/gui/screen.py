@@ -1,4 +1,5 @@
 """Module for game screens management."""
+import abc
 from typing import Optional, Callable, Any
 
 from bansoko import GAME_FRAME_TIME_IN_MS
@@ -6,7 +7,7 @@ from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem
 
 
-class Screen:
+class Screen(abc.ABC):
     """Base class for all game screens that suppose to be managed by ScreenController.
 
     Screens are updated and drawn once per frame. Screen transitions are triggered by

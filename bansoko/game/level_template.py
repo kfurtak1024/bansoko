@@ -14,10 +14,6 @@ LEVEL_WIDTH = 32
 LEVEL_HEIGHT = 32
 
 
-ROBOT_MOVING_FRAME_LENGTH = GAME_FRAME_TIME_IN_MS * 5
-ROBOT_PUSHING_FRAME_LENGTH = GAME_FRAME_TIME_IN_MS * 5
-
-
 class LevelSpritePacks(NamedTuple):
     """
     Collection of sprite packs used by a level.
@@ -33,8 +29,8 @@ class LevelSpritePacks(NamedTuple):
     def robot_animations(self) -> Dict[RobotState, Animation]:
         return {
             RobotState.STANDING: Animation(self.robot_sprite_pack.sprites[0], frame_length=GAME_FRAME_TIME_IN_MS),
-            RobotState.MOVING: Animation(self.robot_sprite_pack.sprites[1], frame_length=ROBOT_MOVING_FRAME_LENGTH, looped=True),
-            RobotState.PUSHING: Animation(self.robot_sprite_pack.sprites[2], frame_length=ROBOT_PUSHING_FRAME_LENGTH, looped=True)
+            RobotState.MOVING: Animation(self.robot_sprite_pack.sprites[1], frame_length=GAME_FRAME_TIME_IN_MS, looped=True),
+            RobotState.PUSHING: Animation(self.robot_sprite_pack.sprites[2], frame_length=GAME_FRAME_TIME_IN_MS, looped=True)
         }
 
     @property
