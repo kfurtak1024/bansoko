@@ -9,6 +9,7 @@ from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.tilemap import TilePosition, TILE_SIZE
 
 
+# TODO: Rename it
 class MovementStats:
     """Statistics of player's movement.
 
@@ -76,33 +77,6 @@ class GameObject(abc.ABC):
 
 
 @unique
-class CrateState(IntEnum):
-    """Enum defining all states crate can be in.
-
-    Crates can be either PLACED (when they are located in cargo bays) or MISPLACED otherwise.
-    """
-    MISPLACED = 0
-    PLACED = 1
-
-
-class Crate(GameObject):
-    def __init__(self, tile_position: TilePosition, is_placed: bool,
-                 crate_sprites: Dict[CrateState, Sprite]) -> None:
-        super().__init__(tile_position)
-        self.crate_sprites = crate_sprites
-        self.state = CrateState.PLACED if is_placed else CrateState.MISPLACED
-
-    @property
-    def in_place(self) -> bool:
-        """Is the crate placed on a cargo bay tile."""
-        return self.state == CrateState.PLACED
-
-    def draw(self, layer: Layer) -> None:
-        sprite = self.crate_sprites[self.state]
-        sprite.draw(self.position.to_point(), layer)
-
-
-@unique
 class RobotState(IntEnum):
     """Enum defining all states robot can be in.
 
@@ -142,71 +116,28 @@ class Robot(GameObject):
         self.animation_player.draw(self.position.to_point(), layer, self.face_direction)
 
 
-class MoveAction(abc.ABC):
-    """MoveAction is an abstract class responsible for handling game object movement in tilemap."""
-    def __init__(self, game_object: GameObject, direction: Direction, frames_to_complete: int):
-        self.game_object = game_object
-        self.direction = direction
+@unique
+class CrateState(IntEnum):
+    """Enum defining all states crate can be in.
 
-        # TODO: It should be time_to_complete
-        self.frames_to_complete = frames_to_complete
-
-        # TODO: It should be elapsed_time
-        self.elapsed_frames = 0
-        self.backward = False
-
-    def update(self, level_stats: MovementStats) -> Optional["MoveAction"]:
-        self.elapsed_frames += 1
-        move_direction = self.direction.opposite if self.backward else self.direction
-        if self.elapsed_frames == self.frames_to_complete:
-            self.game_object.position.move(move_direction)
-            self._on_stop(level_stats)
-            return None
-
-        delta = self.elapsed_frames / self.frames_to_complete * TILE_SIZE
-        self.game_object.position.offset = Point(
-            int(delta * move_direction.dx), int(delta * move_direction.dy))
-        return self
-
-    def reset(self, backward: bool = False) -> None:
-        self.elapsed_frames = 0
-
-        # TODO: What about animation when moving backward?
-        self.backward = backward
-
-    def _on_stop(self, movement_stats: MovementStats) -> None:
-        movement_stats.steps += 1 if not self.backward else -1
+    Crates can be either PLACED (when they are located in cargo bays) or MISPLACED otherwise.
+    """
+    MISPLACED = 0
+    PLACED = 1
 
 
-class MoveRobot(MoveAction):
-    """MoveRobot is a move action that encapsulates the movement of robot."""
-    def __init__(self, robot: Robot, direction: Direction):
-        super().__init__(robot, direction, TILE_SIZE)
-        self.robot = robot
+class Crate(GameObject):
+    def __init__(self, tile_position: TilePosition, is_placed: bool,
+                 crate_sprites: Dict[CrateState, Sprite]) -> None:
+        super().__init__(tile_position)
+        self.crate_sprites = crate_sprites
+        self.state = CrateState.PLACED if is_placed else CrateState.MISPLACED
 
-    def reset(self, backward: bool = False) -> None:
-        super().reset(backward)
-        self.robot.face_direction = self.direction
-        self.robot.robot_state = RobotState.MOVING
+    @property
+    def in_place(self) -> bool:
+        """Is the crate placed on a cargo bay tile."""
+        return self.state == CrateState.PLACED
 
-
-class PushCrate(MoveAction):
-    """PushCrate is a move action that encapsulates the movement of robot and the push of crate."""
-    def __init__(self, robot: Robot, crate: Crate, direction: Direction) -> None:
-        super().__init__(crate, direction, TILE_SIZE)
-        self.robot = robot
-        self.robot_action = MoveRobot(robot, direction)
-
-    def update(self, level_stats: MovementStats) -> Optional[MoveAction]:
-        self.robot_action.update(level_stats)
-        return super().update(level_stats)
-
-    def reset(self, backward: bool = False) -> None:
-        super().reset(backward)
-        self.robot_action.reset(backward)
-
-        # TODO: Refactor robot's state change
-        self.robot.robot_state = RobotState.PUSHING
-
-    def _on_stop(self, movement_stats: MovementStats) -> None:
-        movement_stats.pushes += 1 if not self.backward else -1
+    def draw(self, layer: Layer) -> None:
+        sprite = self.crate_sprites[self.state]
+        sprite.draw(self.position.to_point(), layer)

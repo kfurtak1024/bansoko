@@ -65,6 +65,8 @@ class AnimationPlayer:
         if not self.animation:
             return
 
+        # TODO: Skip first update (so we won't miss the first frame) We're calling UPDATE first then DRAW!
+
         # TODO: What about the very first call to update() (can we skip the first frame?)
         self.animation_time += GAME_FRAME_TIME_IN_MS
         self.current_frame = self.animation.frame_at_time(self.animation_time)

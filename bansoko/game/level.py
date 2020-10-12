@@ -4,8 +4,8 @@ from itertools import chain
 from typing import Optional, List, Iterable
 
 from bansoko import GAME_FRAME_TIME_IN_MS
-from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, MoveAction, \
-    MovementStats, PushCrate, MoveRobot
+from bansoko.game.action import Action, PushCrate, MoveRobot, TurnRobot
+from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, MovementStats
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
 from bansoko.graphics import Direction
@@ -36,8 +36,8 @@ class Level:
         self.template = template
         self.robot = template.create_robot(self.initial_robot_direction)
         self.crates = template.create_crates()
-        self.running_action: Optional[MoveAction] = None
-        self.history: List[MoveAction] = []
+        self.running_action: Optional[Action] = None
+        self.history: List[Action] = []
 
     @property
     def level_score(self) -> LevelScore:
@@ -87,6 +87,10 @@ class Level:
         """
         return self.template.tile_at(position).is_walkable and not self.crate_at_pos(position)
 
+    def is_crate_in_place(self, position: TilePosition) -> bool:
+        tile = self.template.tile_at(position)
+        return tile.is_cargo_bay or tile.is_crate_initially_placed
+
     def process_input(self, input_action: Optional[InputAction]) -> None:
         """Transform given input action to game action and queue it (so it can be run later,
         during update call)."""
@@ -99,6 +103,8 @@ class Level:
         # TODO: If player is pressing more then one directional button, prefer the one which
         #       does not lead to collision
 
+        # TODO: process_input should only queue an action that will be updated in update()
+        # We have to do this here, because we don't know if there will be a continuation of the movement
         self.robot.robot_state = RobotState.STANDING
 
         if not input_action:
@@ -108,7 +114,6 @@ class Level:
             self.running_action = self.history.pop()
             self.running_action.reset(backward=True)
         if input_action.is_movement:
-            self.robot.face_direction = input_action.direction
             robot_dest = self.robot.tile_position.move(input_action.direction)
             if self.template.tile_at(robot_dest).is_walkable:
                 crate = self.crate_at_pos(robot_dest)
@@ -118,15 +123,12 @@ class Level:
                         self.running_action = PushCrate(self.robot, crate, input_action.direction)
                 else:
                     self.running_action = MoveRobot(self.robot, input_action.direction)
-
-                if self.running_action:
-                    self.running_action.reset()
-                    self.history.append(self.running_action)
+            else:
+                self.running_action = TurnRobot(self.robot, input_action.direction)
 
     def update(self) -> None:
         """Perform an update on the level's game logic."""
-        if self.running_action:
-            self.running_action = self.running_action.update(self.statistics)
+        self._update_running_action()
         self._evaluate_crates()
         for game_object in self.game_objects:
             game_object.update()
@@ -139,8 +141,15 @@ class Level:
             for game_object in self.game_objects:
                 game_object.draw(layer)
 
+    def _update_running_action(self) -> None:
+        if self.running_action:
+            last_action = self.running_action
+            self.running_action = self.running_action.update(self.statistics)
+
+            if last_action is not self.running_action and not last_action.backward:
+                self.history.append(last_action)
+
     def _evaluate_crates(self) -> None:
         for crate in self.crates:
-            crate_tile = self.template.tile_at(crate.tile_position)
-            crate_in_place = crate_tile.is_cargo_bay or crate_tile.is_crate_initially_placed
+            crate_in_place = self.is_crate_in_place(crate.tile_position)
             crate.state = CrateState.PLACED if crate_in_place else CrateState.MISPLACED
