@@ -60,10 +60,12 @@ class GameObject(abc.ABC):
         """The position in tilemap this game object is located at."""
         return self.position.tile_position
 
-    def update(self) -> None:
+    def update(self, dt_in_ms: float) -> None:
         """Update game object.
 
         Called once per frame.
+
+        :param dt_in_ms: delta time since last update (in ms)
         """
 
     @abc.abstractmethod
@@ -109,8 +111,8 @@ class Robot(GameObject):
         self.animation_player.play(self.robot_animations[robot_state])
         self._robot_state = robot_state
 
-    def update(self) -> None:
-        self.animation_player.update()
+    def update(self, dt_in_ms: float) -> None:
+        self.animation_player.update(dt_in_ms)
 
     def draw(self, layer: Layer) -> None:
         self.animation_player.draw(self.position.to_point(), layer, self.face_direction)

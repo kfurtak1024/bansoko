@@ -126,13 +126,13 @@ class Level:
             else:
                 self.running_action = TurnRobot(self.robot, input_action.direction)
 
-    def update(self) -> None:
+    def update(self, dt_in_ms: float) -> None:
         """Perform an update on the level's game logic."""
-        self._update_running_action()
+        self._update_running_action(dt_in_ms)
         self._evaluate_crates()
         for game_object in self.game_objects:
-            game_object.update()
-        self.game_time += GAME_FRAME_TIME_IN_MS
+            game_object.update(dt_in_ms)
+        self.game_time += dt_in_ms
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""
@@ -141,10 +141,10 @@ class Level:
             for game_object in self.game_objects:
                 game_object.draw(layer)
 
-    def _update_running_action(self) -> None:
+    def _update_running_action(self, dt_in_ms: float) -> None:
         if self.running_action:
             last_action = self.running_action
-            self.running_action = self.running_action.update(self.statistics)
+            self.running_action = self.running_action.update(dt_in_ms, self.statistics)
 
             if last_action is not self.running_action and not last_action.backward:
                 self.history.append(last_action)

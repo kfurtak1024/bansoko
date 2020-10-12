@@ -1,6 +1,7 @@
 """Module for game screens management."""
 from typing import Optional, Callable, Any
 
+from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem
 
@@ -22,11 +23,12 @@ class Screen:
         """Called each time Screen is put on top of screen stack by ScreenController."""
         self.input.reset()
 
-    def update(self) -> Optional["Screen"]:
+    def update(self, dt_in_ms: float) -> Optional["Screen"]:
         """Update screen state. Control screen transitions by return value.
 
         Called once per frame (only if screen is on top of screen stack)
 
+        :param dt_in_ms: delta time since last update (in ms)
         :return: self (or any instance of type(self)) - no screen transition *OR*
         instance of Screen class - switch to new screen *OR* None - switch to previous screen
         (perform pop on screen stack)
@@ -69,7 +71,7 @@ class ScreenController:
     def update(self) -> None:
         """Update screen from top of screen stack. Manage screen transitions."""
         if self.screen_stack:
-            new_screen = self.screen_stack[-1].update()
+            new_screen = self.screen_stack[-1].update(GAME_FRAME_TIME_IN_MS)
             if new_screen is not self.screen_stack[-1]:
                 self._switch_to_screen(new_screen)
         else:

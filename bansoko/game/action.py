@@ -11,7 +11,7 @@ class Action(abc.ABC):
         self.backward = False
 
     @abc.abstractmethod
-    def update(self, movement_stats: MovementStats) -> Optional["Action"]:
+    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional["Action"]:
         pass
 
     def reset(self, backward: bool = False) -> None:
@@ -31,7 +31,7 @@ class MoveAction(Action):
         # TODO: Promote both elapsed_frames and frames_to_complete to Action
         self.elapsed_frames = 0
 
-    def update(self, movement_stats: MovementStats) -> Optional[Action]:
+    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
         self.elapsed_frames += 1
         move_direction = self.direction.opposite if self.backward else self.direction
         if self.elapsed_frames == self.frames_to_complete:
@@ -59,7 +59,7 @@ class TurnRobot(Action):
         self.robot = robot
         self.direction = direction
 
-    def update(self, movement_stats: MovementStats) -> Optional[Action]:
+    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
         self.robot.face_direction = self.direction
         return None
 
@@ -82,9 +82,9 @@ class MoveRobot(MoveAction):
 
         self.robot.robot_state = robot_state
 
-    def update(self, movement_stats: MovementStats) -> Optional[Action]:
-        self.turn_robot_action.update(movement_stats)
-        return super().update(movement_stats)
+    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
+        self.turn_robot_action.update(dt_in_ms, movement_stats)
+        return super().update(dt_in_ms, movement_stats)
 
     def reset(self, backward: bool = False) -> None:
         super().reset(backward)
@@ -103,9 +103,9 @@ class PushCrate(MoveAction):
         self.move_robot_action = MoveRobot(robot, direction, RobotState.PUSHING)
         self.crate = crate
 
-    def update(self, movement_stats: MovementStats) -> Optional[Action]:
-        self.move_robot_action.update(movement_stats)
-        return super().update(movement_stats)
+    def update(self, dt_in_ms: float, movement_stats: MovementStats) -> Optional[Action]:
+        self.move_robot_action.update(dt_in_ms, movement_stats)
+        return super().update(dt_in_ms, movement_stats)
 
     def reset(self, backward: bool = False) -> None:
         super().reset(backward)

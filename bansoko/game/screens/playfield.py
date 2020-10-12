@@ -29,8 +29,8 @@ class PlayfieldScreen(Screen):
         self.level = Level(bundle.get_level_template(level_num))
         profile.last_played_level = level_num
 
-    def update(self) -> Screen:
-        super().update()
+    def update(self, dt_in_ms: float) -> Screen:
+        super().update(dt_in_ms)
 
         if self.input.is_button_pressed(VirtualButton.START):
             return self.screen_factory.get_game_paused_screen(self.level.level_num)
@@ -39,7 +39,7 @@ class PlayfieldScreen(Screen):
             return self.screen_factory.get_level_completed_screen(self.level.level_score)
 
         self.level.process_input(self._get_input_action())
-        self.level.update()
+        self.level.update(dt_in_ms)
 
         # TODO: Just for tests! REMOVE IT IN FINAL VERSION !!!!!!!!!!!!!!!!
         if pyxel.btnp(pyxel.KEY_SPACE):

@@ -1,7 +1,6 @@
 """Module exposing animation related classes."""
 from typing import NamedTuple, Optional
 
-from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.graphics import Point, Direction, Layer
 from bansoko.graphics.sprite import Sprite
 
@@ -15,7 +14,7 @@ class Animation(NamedTuple):
         looped - should animation be played from the beginning after reaching the last frame
     """
     sprite: Sprite
-    frame_length: float = GAME_FRAME_TIME_IN_MS
+    frame_length: float
     looped: bool = False
 
     @property
@@ -57,10 +56,12 @@ class AnimationPlayer:
         self.current_frame = 0
         self.animation_time = 0.0
 
-    def update(self) -> None:
+    def update(self, dt_in_ms: float) -> None:
         """Update animation player with time that elapsed over a single game frame.
 
         It updates total animation time and calculates the current animation frame.
+
+        :param dt_in_ms: delta time since last update (in ms)
         """
         if not self.animation:
             return
@@ -68,7 +69,7 @@ class AnimationPlayer:
         # TODO: Skip first update (so we won't miss the first frame) We're calling UPDATE first then DRAW!
 
         # TODO: What about the very first call to update() (can we skip the first frame?)
-        self.animation_time += GAME_FRAME_TIME_IN_MS
+        self.animation_time += dt_in_ms
         self.current_frame = self.animation.frame_at_time(self.animation_time)
 
     def draw(self, position: Point, layer: Optional[Layer] = None,

@@ -175,8 +175,8 @@ class MenuScreen(Screen):
         """Scroll menu to specified item."""
         self.top_row = min(item // self.columns, self.total_rows - self.rows)
 
-    def update(self) -> Optional[Screen]:
-        super().update()
+    def update(self, dt_in_ms: float) -> Optional[Screen]:
+        super().update(dt_in_ms)
 
         if self.input.is_button_pressed(VirtualButton.BACK) and self.config.allow_going_back:
             return None
