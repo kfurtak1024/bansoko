@@ -5,7 +5,7 @@ import pyxel
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
 from bansoko.graphics.text import draw_text, TextStyle
-from bansoko.gui.menu import MenuScreen, MenuItem, MenuConfig
+from bansoko.gui.menu import MenuScreen, MenuItem, Menu
 
 LEVEL_SELECTED_STYLE = TextStyle(color=10)
 LEVEL_LOCKED_STYLE = TextStyle(color=4)
@@ -106,14 +106,16 @@ class ChooseLevelScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
-        super().__init__(
+        menu = Menu.with_defaults(
             tuple([
                 LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
             ]),
-            selected_item=screen_factory.get_player_profile().last_played_level,
-            config=MenuConfig(columns=5, rows=4, allow_going_back=True,
-                              background=bundle.get_background("choose_level"),
-                              position=Point(13, 30)))
+            columns=5, rows=4, position=Point(13, 30))
+        super().__init__(
+            menu=menu,
+            allow_going_back=True,
+            background=bundle.get_background("choose_level"))
+        self.scroll_to_item(screen_factory.get_player_profile().last_played_level)
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

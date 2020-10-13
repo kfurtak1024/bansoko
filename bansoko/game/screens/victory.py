@@ -3,7 +3,7 @@
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuScreen, TextMenuItem, MenuConfig
+from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
 
 
 class VictoryScreen(MenuScreen):
@@ -14,9 +14,10 @@ class VictoryScreen(MenuScreen):
 
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
-        super().__init__((
-            TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu),
-        ), config=MenuConfig(background=bundle.get_background("victory")))
+        menu = Menu.with_defaults(tuple([
+            TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
+        ]))
+        super().__init__(menu=menu, background=bundle.get_background("victory"))
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
