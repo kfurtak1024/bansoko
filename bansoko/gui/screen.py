@@ -2,7 +2,6 @@
 import abc
 from typing import Optional, Callable, Any
 
-from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem
 
@@ -63,16 +62,17 @@ class ScreenController:
     Switching between screens is controlled by update() callback from Screen class.
     """
 
-    def __init__(self, start_screen: Screen, exit_callback: Callable[[], None]):
+    def __init__(self, start_screen: Screen, exit_callback: Callable[[], None], fps: int):
         self.screen_stack = [start_screen]
         self.exit_callback = exit_callback
+        self.frame_time = 1_000.0 / fps
         self.skip_next_draw = False
         start_screen.activate()
 
     def update(self) -> None:
         """Update screen from top of screen stack. Manage screen transitions."""
         if self.screen_stack:
-            new_screen = self.screen_stack[-1].update(GAME_FRAME_TIME_IN_MS)
+            new_screen = self.screen_stack[-1].update(self.frame_time)
             if new_screen is not self.screen_stack[-1]:
                 self._switch_to_screen(new_screen)
         else:

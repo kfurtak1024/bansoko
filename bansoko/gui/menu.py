@@ -129,6 +129,8 @@ class MenuScreen(Screen):
             Size(self.columns * self.item_size.width, self.rows * self.item_size.height))
         self.selected_item = selected_item
         self.top_row = 0
+
+        # TODO: ERROR when there is only one item (Test boundaries)!
         self.scroll_to_item(self.selected_item)
 
     @property

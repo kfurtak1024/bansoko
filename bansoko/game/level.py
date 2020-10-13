@@ -3,7 +3,6 @@ from enum import Enum
 from itertools import chain
 from typing import Optional, List, Iterable
 
-from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.game.action import Action, PushCrate, MoveRobot, TurnRobot
 from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, MovementStats
 from bansoko.game.level_template import LevelTemplate
