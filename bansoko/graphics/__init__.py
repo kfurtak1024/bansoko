@@ -1,7 +1,8 @@
 """Module exposing graphic related classes and routines."""
+from dataclasses import dataclass
 from enum import unique, Enum
 from functools import total_ordering
-from typing import NamedTuple, List, Any, Optional, Tuple
+from typing import List, Any, Optional, Tuple
 
 
 @unique
@@ -51,7 +52,8 @@ class Direction(Enum):
         raise Exception(f"Direction {str(self)} is not supported")
 
 
-class Point(NamedTuple):
+@dataclass(frozen=True)
+class Point:
     """A point representing a location in (x, y) screen space."""
     x: int
     y: int
@@ -75,7 +77,8 @@ class Point(NamedTuple):
 
 
 @total_ordering
-class Size(NamedTuple):
+@dataclass(frozen=True)
+class Size:
     """Size describes width and height dimensions in pixels."""
     width: int = 0
     height: int = 0
@@ -117,7 +120,8 @@ def min_size(size1: Size, size2: Size) -> Size:
     return Size(min(size1.width, size2.width), min(size1.height, size2.height))
 
 
-class Rect(NamedTuple):
+@dataclass(frozen=True)
+class Rect:
     """A rectangle represented by position and size.
 
     Position and size can be accessed directly. Use left, right, top, bottom the get the
@@ -202,7 +206,8 @@ def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 2
     return Point(x, y)
 
 
-class Layer(NamedTuple):
+@dataclass(frozen=True)
+class Layer:
     """
 
     Multiple layers with appropriate offsets creates pseudo 3d effect.
