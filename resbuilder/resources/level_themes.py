@@ -1,9 +1,11 @@
-from typing import Dict, List, NamedTuple, Any
+from dataclasses import dataclass
+from typing import Dict, List, Any
 
 from resbuilder.resources.tiles import Tile, TilePacker
 
 
-class LevelTheme(NamedTuple):
+@dataclass(frozen=True)
+class LevelTheme:
     tiles_ids: List[Dict[Tile, int]]
     background_generator: str
     thumbnail_colors: Dict[Tile, int]

@@ -12,8 +12,9 @@ Options:
 """
 import json
 import logging
+from dataclasses import dataclass
 from pathlib import Path
-from typing import NamedTuple, Dict, Any
+from typing import Dict, Any
 
 import pyxel
 from docopt import docopt
@@ -39,7 +40,8 @@ def configure_logger(verbose: bool) -> None:
     logging.addLevelName(logging.INFO, "")
 
 
-class FileNames(NamedTuple):
+@dataclass(frozen=True)
+class FileNames:
     """Container for directories and file names used by Resource Builder."""
     input_filename: str
     input_dir: Path

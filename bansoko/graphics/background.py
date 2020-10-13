@@ -1,5 +1,6 @@
 """Module exposing Background type."""
-from typing import Optional, NamedTuple, Tuple
+from dataclasses import dataclass
+from typing import Optional, Tuple
 
 import pyxel
 
@@ -9,7 +10,8 @@ from bansoko.graphics.tilemap import Tilemap
 
 
 # TODO: Rename it!
-class BackgroundElement(NamedTuple):
+@dataclass(frozen=True)
+class BackgroundElement:
     """BackgroundElement is a drawable part of Background.
 
     It's described by sprite and position to be drawn at."""
@@ -21,7 +23,8 @@ class BackgroundElement(NamedTuple):
         self.sprite.draw(self.position)
 
 
-class Background(NamedTuple):
+@dataclass(frozen=True)
+class Background:
     """Background is a composition of background elements that can be drawn on a screen."""
     background_elements: Tuple[BackgroundElement, ...] = ()
     background_color: Optional[int] = None

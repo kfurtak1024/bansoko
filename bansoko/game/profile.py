@@ -1,7 +1,8 @@
 """Module exposing PlayerProfile, that can read/write information about game progress."""
 import os
+from dataclasses import dataclass
 from pathlib import Path
-from typing import BinaryIO, NamedTuple, Any, List
+from typing import BinaryIO, List
 
 from bansoko.game.bundle import Bundle
 
@@ -14,7 +15,8 @@ INT_SIZE_IN_BYTES = 4
 LEVEL_SCORE_SIZE_IN_BYTES = 4 * INT_SIZE_IN_BYTES
 
 
-class LevelScore(NamedTuple):
+@dataclass(frozen=True)
+class LevelScore:
     """Player's score for given level.
 
     Attributes:
@@ -68,13 +70,6 @@ class LevelScore(NamedTuple):
             pushes=min(self.pushes, level_score.pushes),
             steps=min(self.steps, level_score.steps),
             time_in_ms=min(self.time_in_ms, level_score.time_in_ms))
-
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, LevelScore):
-            return self.level_num == other.level_num and self.completed == other.completed \
-                   and self.pushes == other.pushes and self.steps == other.steps \
-                   and self.time_in_ms == other.time_in_ms
-        return NotImplemented
 
 
 class PlayerProfile:

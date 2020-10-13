@@ -9,8 +9,8 @@ Options:
     --bundle <name>  Specify resources bundle name [default: main]
 """
 import os
+from dataclasses import dataclass
 from pathlib import Path
-from typing import NamedTuple
 
 import pyxel
 from docopt import docopt
@@ -24,7 +24,8 @@ from bansoko.gui.screen import ScreenController
 GAME_TITLE = "Bansoko"
 
 
-class FileNames(NamedTuple):
+@dataclass(frozen=True)
+class FileNames:
     """Container for resource and metadata file names."""
     resource_file: str
     metadata_file: str

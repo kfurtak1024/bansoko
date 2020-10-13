@@ -1,11 +1,13 @@
 import logging
 import random
-from typing import Dict, NamedTuple, Optional, Any
+from dataclasses import dataclass
+from typing import Dict, Optional, Any
 
 from resbuilder.resources.tiles import TilePacker
 
 
-class TilemapGenerator(NamedTuple):
+@dataclass(frozen=True)
+class TilemapGenerator:
     tiles_probs: Dict[int, int]
 
     def next_tile(self) -> Optional[int]:

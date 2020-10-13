@@ -1,12 +1,14 @@
 """Module exposing Sprite type."""
-from typing import NamedTuple, Tuple, Optional
+from dataclasses import dataclass
+from typing import Tuple, Optional
 
 import pyxel
 
 from bansoko.graphics import Rect, Point, Direction, Layer
 
 
-class Sprite(NamedTuple):
+@dataclass(frozen=True)
+class Sprite:
     """Sprite is a part of an Image that can be drawn on screen at given position.
 
     The exact fragment of the image is defined by image_bank and uv_rect (which is a rectangle in
@@ -76,6 +78,7 @@ class Sprite(NamedTuple):
         return self.uv_rect.h // self.num_frames - (self.num_layers - 1)
 
 
-class SpritePack(NamedTuple):
+@dataclass(frozen=True)
+class SpritePack:
     """Sprite Pack is a collection of sprites, grouped together for organizational purposes."""
     sprites: Tuple[Sprite, ...]

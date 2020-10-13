@@ -1,7 +1,8 @@
 import logging
 from collections import deque
+from dataclasses import dataclass
 from pathlib import Path
-from typing import NamedTuple, List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any
 
 import pyxel
 
@@ -53,7 +54,8 @@ class BoxPackerNode:
         return self.right_child is not None and self.bottom_child is not None
 
 
-class Box(NamedTuple):
+@dataclass(frozen=True)
+class Box:
     id: int
     size: Size
 

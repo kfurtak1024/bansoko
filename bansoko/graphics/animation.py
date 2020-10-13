@@ -1,11 +1,13 @@
 """Module exposing animation related classes."""
-from typing import NamedTuple, Optional
+from dataclasses import dataclass
+from typing import Optional
 
 from bansoko.graphics import Point, Direction, Layer
 from bansoko.graphics.sprite import Sprite
 
 
-class Animation(NamedTuple):
+@dataclass(frozen=True)
+class Animation:
     """Animation exposes information needed for playing a sequence of frames stored in a sprite.
 
     Attributes:
@@ -42,14 +44,11 @@ class Animation(NamedTuple):
         return frame % self.num_frames if self.looped else min(self.last_frame, frame)
 
 
+@dataclass
 class AnimationPlayer:
     animation: Optional[Animation] = None
     current_frame: int = 0
     animation_time: float = 0.0
-
-    def __init__(self, animation: Optional[Animation] = None) -> None:
-        if animation:
-            self.play(animation)
 
     def play(self, animation: Animation) -> None:
         self.animation = animation

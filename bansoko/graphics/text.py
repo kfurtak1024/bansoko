@@ -1,12 +1,14 @@
 """Module exposing text drawing related routines."""
-from typing import NamedTuple, Optional
+from dataclasses import dataclass
+from typing import Optional
 
 import pyxel
 
 from bansoko.graphics import Size, Point
 
 
-class TextStyle(NamedTuple):
+@dataclass(frozen=True)
+class TextStyle:
     """TextStyle defines basic properties used when text is drawn."""
     color: int = 7
     shadow_color: Optional[int] = None

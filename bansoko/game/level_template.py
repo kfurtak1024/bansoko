@@ -1,5 +1,6 @@
 """Module exposing level template."""
-from typing import NamedTuple, Tuple, Dict
+from dataclasses import dataclass
+from typing import Tuple, Dict
 
 from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.game.game_object import Crate, Robot, RobotState, CrateState
@@ -14,7 +15,8 @@ LEVEL_WIDTH = 32
 LEVEL_HEIGHT = 32
 
 
-class LevelSpritePacks(NamedTuple):
+@dataclass(frozen=True)
+class LevelSpritePacks:
     """
     Collection of sprite packs used by a level.
 
@@ -41,7 +43,8 @@ class LevelSpritePacks(NamedTuple):
         }
 
 
-class LevelTemplate(NamedTuple):
+@dataclass(frozen=True)
+class LevelTemplate:
     """LevelTemplate is a blue-print used for level creation.
 
     Attributes:

@@ -1,6 +1,7 @@
 """Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
 import json
-from typing import NamedTuple, Dict, Tuple, Any
+from dataclasses import dataclass
+from typing import Dict, Tuple, Any
 
 from bansoko.game.level_template import LevelTemplate, LevelSpritePacks
 from bansoko.graphics import Rect, Point
@@ -9,7 +10,8 @@ from bansoko.graphics.sprite import Sprite, SpritePack
 from bansoko.graphics.tilemap import Tilemap
 
 
-class Bundle(NamedTuple):
+@dataclass(frozen=True)
+class Bundle:
     """Bundle is a central repository of game resources (such as: sprites, backgrounds
     and level templates)."""
 

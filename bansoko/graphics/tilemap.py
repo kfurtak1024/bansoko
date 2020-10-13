@@ -1,5 +1,6 @@
 """Module for handling tilemaps."""
-from typing import NamedTuple, Any, Generator
+from dataclasses import dataclass
+from typing import Generator
 
 import pyxel
 
@@ -8,7 +9,8 @@ from bansoko.graphics import Rect, Direction, Point, Layer
 TILE_SIZE = 8
 
 
-class TilePosition(NamedTuple):
+@dataclass(frozen=True)
+class TilePosition:
     """Position of tile in tilemap space."""
     tile_x: int = 0
     tile_y: int = 0
@@ -26,16 +28,9 @@ class TilePosition(NamedTuple):
         """Convert tile position to a point in screen space."""
         return Point(self.tile_x * TILE_SIZE, self.tile_y * TILE_SIZE)
 
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, TilePosition):
-            return self.tile_x == other.tile_x and self.tile_y == other.tile_y
-        return NotImplemented
 
-    def __hash__(self) -> int:
-        return hash((self.tile_x, self.tile_y))
-
-
-class Tilemap(NamedTuple):
+@dataclass(frozen=True)
+class Tilemap:
     tilemap_id: int
     rect_uv: Rect
     num_layers: int = 1
