@@ -1,4 +1,5 @@
 """Module exposing tile-related types."""
+from dataclasses import dataclass
 from enum import Enum, unique, auto
 
 
@@ -54,12 +55,24 @@ class TileType(Enum):
                         TileType.CRATE_INITIALLY_PLACED, TileType.CARGO_BAY)
 
 
+INDEX_TO_TILE = tuple(list(TileType))
+
+
+@dataclass(frozen=True)
 class Tileset:
-    def __init__(self, tileset_index: int) -> None:
-        self.first_tile_index = tileset_index * len(TileType)
-        self.tile_indexes = list(TileType)
+    tileset_index: int
+
+    @property
+    def first_tile_index(self) -> int:
+        """The index of the first tile of the tileset."""
+        return self.tileset_index * len(TileType)
 
     def tile_of(self, tile_index: int) -> TileType:
+        """The type of tile with given tile index (which is specific to the tileset)
+
+        :param tile_index: tile index to find tile type for
+        :return: type of tile for given tile index in tileset
+        """
         num_tiles = len(TileType)
         index_in_range = self.first_tile_index <= tile_index < self.first_tile_index + num_tiles
-        return self.tile_indexes[tile_index % num_tiles] if index_in_range else TileType.VOID
+        return INDEX_TO_TILE[tile_index % num_tiles] if index_in_range else TileType.VOID

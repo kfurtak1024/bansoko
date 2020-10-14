@@ -1,5 +1,6 @@
 """Module exposing all game objects."""
 import abc
+from dataclasses import dataclass
 from enum import IntEnum, unique
 from typing import Dict
 
@@ -10,6 +11,7 @@ from bansoko.graphics.tilemap import TilePosition
 
 
 # TODO: Rename it
+@dataclass
 class MovementStats:
     """Statistics of player's movement.
 
@@ -21,13 +23,16 @@ class MovementStats:
     steps: int = 0
 
 
+@dataclass
 class ObjectPosition:
-    tile_position: TilePosition
-    offset: Point
+    """Position of game object in the level.
 
-    def __init__(self, tile_position: TilePosition) -> None:
-        self.tile_position = tile_position
-        self.offset = Point(0, 0)
+    Attributes:
+        tile_position - game object position in tilemap space
+        offset - position offset relative to tile_position (expressed in pixels)
+    """
+    tile_position: TilePosition
+    offset: Point = Point(0, 0)
 
     def move(self, direction: Direction) -> None:
         """Move object position in given direction by one tile.
@@ -92,6 +97,16 @@ class RobotState(IntEnum):
 
 
 class Robot(GameObject):
+    """Robot is the main game object, controlled by the player.
+
+    It can move through the level and push crates.
+
+    Attributes:
+        face_direction - direction the robot is facing to
+        robot_animations - animation pack for all robot states
+        animation_player - used for playing robot animations (animation player updated by Robot)
+        _robot_state - internal robot's state (used for picking the right animation)
+    """
     _robot_state: RobotState
 
     def __init__(self, tile_position: TilePosition, face_direction: Direction,
@@ -104,6 +119,10 @@ class Robot(GameObject):
 
     @property
     def robot_state(self) -> RobotState:
+        """The current state of the robot.
+
+        Change of state results in a change of robot animation.
+        """
         return self._robot_state
 
     @robot_state.setter
@@ -129,6 +148,14 @@ class CrateState(IntEnum):
 
 
 class Crate(GameObject):
+    """Crate represents a crate game object that can be moved and placed in cargo bays (which is
+    the goal of the game)
+
+    Attributes:
+        crate_sprites - collection of sprites for all crate states
+        state - the state crate is currently in (used for picking the right sprite to draw with and
+                importantly to determine whether a crate is in place or not)
+    """
     def __init__(self, tile_position: TilePosition, is_placed: bool,
                  crate_sprites: Dict[CrateState, Sprite]) -> None:
         super().__init__(tile_position)

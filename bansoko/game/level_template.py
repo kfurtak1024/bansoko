@@ -13,6 +13,7 @@ from bansoko.graphics.tilemap import Tilemap, TILE_SIZE, TilePosition
 # TODO: Should be taken from bundle
 LEVEL_WIDTH = 32
 LEVEL_HEIGHT = 32
+LEVEL_NUM_LAYERS = 3
 
 
 @dataclass(frozen=True)
@@ -29,14 +30,24 @@ class LevelSpritePacks:
 
     @property
     def robot_animations(self) -> Dict[RobotState, Animation]:
+        """The pack of animations for all robot states."""
         return {
-            RobotState.STANDING: Animation(self.robot_sprite_pack.sprites[0], frame_length=GAME_FRAME_TIME_IN_MS),
-            RobotState.MOVING: Animation(self.robot_sprite_pack.sprites[1], frame_length=GAME_FRAME_TIME_IN_MS, looped=True),
-            RobotState.PUSHING: Animation(self.robot_sprite_pack.sprites[2], frame_length=GAME_FRAME_TIME_IN_MS, looped=True)
+            RobotState.STANDING: Animation(
+                sprite=self.robot_sprite_pack.sprites[RobotState.STANDING],
+                frame_length=GAME_FRAME_TIME_IN_MS),
+            RobotState.MOVING: Animation(
+                sprite=self.robot_sprite_pack.sprites[RobotState.MOVING],
+                frame_length=GAME_FRAME_TIME_IN_MS,
+                looped=True),
+            RobotState.PUSHING: Animation(
+                sprite=self.robot_sprite_pack.sprites[RobotState.PUSHING],
+                frame_length=GAME_FRAME_TIME_IN_MS,
+                looped=True)
         }
 
     @property
     def crate_sprites(self) -> Dict[CrateState, Sprite]:
+        """The pack of sprites for all crate states."""
         return {
             CrateState.MISPLACED: self.crate_sprite_pack.sprites[0],
             CrateState.PLACED: self.crate_sprite_pack.sprites[1]
@@ -67,16 +78,17 @@ class LevelTemplate:
 
         :param level_num: level number to create level template for
         :param tileset_index: index of first tile (starting tile) used in the template
-        :param draw_offset: the initial offset of the level (used when level is drawn)
+        :param draw_offset: the initial offset of the level (u3sed when level is drawn)
         :param sprite_packs: sprite packs used in the level
         :return: newly created level template
         """
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         tilemap_uv_rect = Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT)
-        tilemap = Tilemap(0, tilemap_uv_rect, 3)  # TODO: Hard-coded 3!
+        tilemap = Tilemap(0, tilemap_uv_rect, LEVEL_NUM_LAYERS)
         tileset = Tileset(tileset_index)
-        layers = tuple([Layer(i, draw_offset) for i in range(3)])  # TODO: Hard-coded 3!
+        layers = tuple(
+            [Layer(i, opaque=(i == 0), global_offset=draw_offset) for i in range(LEVEL_NUM_LAYERS)])
         return cls(level_num=level_num, tilemap=tilemap, tileset=tileset, layers=layers,
                    sprite_packs=sprite_packs)
 

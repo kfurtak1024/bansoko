@@ -31,6 +31,19 @@ class TilePosition:
 
 @dataclass(frozen=True)
 class Tilemap:
+    """Tilemap is a rectangular fragment of Pyxel's tilemap and describes the level layout.
+
+    Tilemaps can have multiple layers (to achieve pseudo 3d effect). In that case all layers are
+    stored on separate Pyxel's tilemaps. For example: tilemap with 3 layers is defined accross
+    Pyxel's tilemaps: tilemap_id, tilemap_id+1 and tilemap_id+2.
+
+    Attributes:
+        tilemap_id - Pyxel's tilemap id
+        rect_uv    - coordinates of the tilemap in Pyxel's tilemap (Tilemap is just a fragment of
+                     Pyxel's tilemap)
+        num_layers - number of layers the tilemap consists of (each layer is stored in a separate
+                     Pyxel's tilemap)
+    """
     tilemap_id: int
     rect_uv: Rect
     num_layers: int = 1
@@ -60,7 +73,7 @@ class Tilemap:
         for i in range(self.width * self.height):
             yield TilePosition(i % self.width, i // self.width)
 
-    def draw(self, layer: Layer = Layer(0)) -> None:
+    def draw(self, layer: Layer) -> None:
         """Draw tilemap on given layer.
 
         :param layer: layer to draw tilemap on
@@ -68,7 +81,6 @@ class Tilemap:
         if layer and layer.layer_index >= self.num_layers:
             return
 
-        # TODO: Layer should have information about transparent color!
         pyxel.bltm(layer.offset.x, layer.offset.y, self.tilemap_id + layer.layer_index,
                    self.rect_uv.x, self.rect_uv.y, self.rect_uv.w, self.rect_uv.h,
-                   colkey=-1 if layer.layer_index == 0 else 0)
+                   colkey=layer.transparency_color)

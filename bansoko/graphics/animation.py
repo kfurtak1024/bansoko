@@ -46,11 +46,24 @@ class Animation:
 
 @dataclass
 class AnimationPlayer:
+    """Player for animations.
+
+    Call to AnimationPlayer's update() is required in each frame.
+
+    Attributes:
+        animation - animation that is played by the animation player
+        current_frame - the current frame of the animation (according to animation_time)
+        animation_time - elapsed animation time (updated in each call to update())
+    """
     animation: Optional[Animation] = None
     current_frame: int = 0
     animation_time: float = 0.0
 
     def play(self, animation: Animation) -> None:
+        """Set up the animation player to play given animation.
+
+        :param animation: animation to be played
+        """
         self.animation = animation
         self.current_frame = 0
         self.animation_time = 0.0

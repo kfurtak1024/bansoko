@@ -183,6 +183,17 @@ class MenuScreen(Screen):
             (self.top_row + self.menu.rows) * self.menu.columns, len(self.menu.items))
         return islice(self.menu.items, top_left_item, bottom_left_item)
 
+    def select_and_scroll_to_item(self, item: int) -> None:
+        """Select menu item with given number and scroll menu to be sure that it's visible.
+
+        :param item: item to be selected
+        """
+        if item >= len(self.menu.items):
+            return
+
+        self.selected_item = item
+        self.scroll_to_item(item)
+
     def scroll_to_item(self, item: int) -> None:
         """Scroll menu to specified item."""
         self.top_row = min(item // self.menu.columns, self.menu.total_rows - self.menu.rows)

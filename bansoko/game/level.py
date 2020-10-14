@@ -3,7 +3,7 @@ from enum import Enum
 from itertools import chain
 from typing import Optional, List, Iterable
 
-from bansoko.game.action import Action, PushCrate, MoveRobot, TurnRobot
+from bansoko.game.game_action import GameAction, PushCrate, MoveRobot, TurnRobot
 from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, MovementStats
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
@@ -29,14 +29,28 @@ class InputAction(Enum):
 
 
 class Level:
+    """Level encapsulates the game logic for playing a level.
+
+    It draws the level with all game objects, it handles the input (used for controlling Robot) and
+    it evaluates victory condition.
+
+    Attributes:
+        statistics - statistics captures during the play of the level
+        game_time - total time spent on playing the level (in ms)
+        template - template the level is crated from
+        robot - instance of Robot game object, that player can control
+        crates - collection of all Crate game objects for the level
+        running_action - currently running game action (updated in update method)
+        history - list of historical game actions (used for undo)
+    """
     def __init__(self, template: LevelTemplate) -> None:
         self.statistics = MovementStats()
         self.game_time = 0.0
         self.template = template
         self.robot = template.create_robot(self.initial_robot_direction)
         self.crates = template.create_crates()
-        self.running_action: Optional[Action] = None
-        self.history: List[Action] = []
+        self.running_action: Optional[GameAction] = None
+        self.history: List[GameAction] = []
 
     @property
     def level_score(self) -> LevelScore:
@@ -72,7 +86,7 @@ class Level:
         """Test if there is a crate at given position.
 
         :param position: position to test the presence of crate at
-        :return: true - if there is a crate in given position *OR* false - otherwise
+        :return: True - if there is a crate in given position *OR* False - otherwise
         """
         return next((crate for crate in self.crates if crate.tile_position == position), None)
 
@@ -82,11 +96,16 @@ class Level:
         Crate can be moved to a position only when there are no obstacles there (crates, walls).
 
         :param position: position to test whether the crate can be moved to
-        :return: true - if crate can be moved to given location *OR* false - otherwise
+        :return: True - if crate can be moved to given location *OR* False - otherwise
         """
         return self.template.tile_at(position).is_walkable and not self.crate_at_pos(position)
 
     def is_crate_in_place(self, position: TilePosition) -> bool:
+        """Test whether the crate is "in place" (at cargo bay) in given position.
+
+        :param position: position to test whether the crate is "in place" or not
+        :return: True - if crate is "in place" at given position *OR* False - otherwise
+        """
         tile = self.template.tile_at(position)
         return tile.is_cargo_bay or tile.is_crate_initially_placed
 
@@ -102,8 +121,9 @@ class Level:
         # TODO: If player is pressing more then one directional button, prefer the one which
         #       does not lead to collision
 
-        # TODO: process_input should only queue an action that will be updated in update()
-        # We have to do this here, because we don't know if there will be a continuation of the movement
+        # Before checking the input we don't know whether there will be a continuation of the
+        # movement or not. That's why we cannot put robot to standing state when action finishes.
+        # We have to do it here.
         self.robot.robot_state = RobotState.STANDING
 
         if not input_action:

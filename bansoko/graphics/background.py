@@ -4,7 +4,7 @@ from typing import Optional, Tuple
 
 import pyxel
 
-from bansoko.graphics import Point
+from bansoko.graphics import Point, Layer
 from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.tilemap import Tilemap
 
@@ -38,7 +38,7 @@ class Background:
         if self.background_color:
             pyxel.cls(self.background_color)
         if self.background_tilemap:
-            self.background_tilemap.draw()
+            self.background_tilemap.draw(Layer(0))
         if self.background_elements:
             for element in self.background_elements:
                 element.draw()

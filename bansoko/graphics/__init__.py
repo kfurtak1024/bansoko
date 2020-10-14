@@ -208,14 +208,16 @@ def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 2
 
 @dataclass(frozen=True)
 class Layer:
-    """
-
-    Multiple layers with appropriate offsets creates pseudo 3d effect.
-    """
     layer_index: int
+    opaque: bool = False
     global_offset: Point = Point(0, 0)
 
     @property
     def offset(self) -> Point:
         """Position offset for all graphical objects drawn on this layer."""
         return self.global_offset.offset(-self.layer_index, -self.layer_index)
+
+    @property
+    def transparency_color(self) -> int:
+        """Transparency color for the layer."""
+        return -1 if self.opaque else 0

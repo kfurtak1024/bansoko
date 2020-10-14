@@ -71,7 +71,6 @@ class LevelMenuItem(MenuItem):
         self._draw_frame(position, selected)
 
     def _draw_level_thumbnail(self, position: Point) -> None:
-        # pyxel.rect(position.x, position.y, 32, 32, 1)
         # TODO: Hard coded image bank (2)
         pyxel.blt(position.x, position.y, 2, 32 * (self.level_num % 8), 32 * (self.level_num // 8),
                   32, 32, colkey=0)
@@ -115,7 +114,7 @@ class ChooseLevelScreen(MenuScreen):
             menu=menu,
             allow_going_back=True,
             background=bundle.get_background("choose_level"))
-        self.scroll_to_item(screen_factory.get_player_profile().last_played_level)
+        self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

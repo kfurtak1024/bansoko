@@ -57,7 +57,7 @@ class InputSystem:
         Both KEY_HOLD_TIME and KEY_PERIOD_TIME are expressed in number of occurred update frames.
 
         :param button: virtual button to be tested
-        :return: true - if button was pressed *OR* false - otherwise
+        :return: True - if button was pressed *OR* False - otherwise
         """
         return any(self.__is_key_pressed(key) for key in self.BUTTONS_MAP[button])
 
@@ -65,7 +65,7 @@ class InputSystem:
         """Test if given virtual button is down at the current update frame.
 
         :param button: virtual button to be tested
-        :return: true - if button is down in current update frame *OR* false - otherwise
+        :return: True - if button is down in current update frame *OR* False - otherwise
         """
         return any(self.__is_key_down(key) for key in self.BUTTONS_MAP[button])
 
@@ -73,7 +73,7 @@ class InputSystem:
         """Test if given virtual button is up at the current update frame.
 
         :param button: virtual button to be tested
-        :return: true - if button is up in current update frame *OR* false - otherwise
+        :return: True - if button is up in current update frame *OR* False - otherwise
         """
         return not self.is_button_down(button)
 

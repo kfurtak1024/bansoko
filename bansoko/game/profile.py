@@ -103,7 +103,7 @@ class PlayerProfile:
         """Test if specified level is unlocked (which means that it can be played now)
 
         :param level_num: level to be tested
-        :return: true - if level is unlocked *OR* false - otherwise
+        :return: True - if level is unlocked *OR* False - otherwise
         """
         return level_num <= self._last_unlocked_level
 
@@ -111,7 +111,7 @@ class PlayerProfile:
         """Test if specified level was ever completed.
 
         :param level_num: level to be tested
-        :return: true - if level was completed *OR* false - otherwise
+        :return: True - if level was completed *OR* False - otherwise
         """
         return self.levels_scores[level_num].completed
 
