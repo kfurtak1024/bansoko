@@ -10,10 +10,9 @@ from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.tilemap import TilePosition
 
 
-# TODO: Rename it
 @dataclass
-class MovementStats:
-    """Statistics of player's movement.
+class GameStats:
+    """Statistics of currently played game.
 
     Attributes:
         pushes - number of moves that player made

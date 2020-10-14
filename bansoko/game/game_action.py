@@ -3,7 +3,7 @@ import abc
 from typing import Optional
 
 from bansoko import GAME_FRAME_TIME_IN_MS
-from bansoko.game.game_object import MovementStats, GameObject, Robot, RobotState, Crate
+from bansoko.game.game_object import GameStats, GameObject, Robot, RobotState, Crate
 from bansoko.graphics import Direction, Point
 from bansoko.graphics.tilemap import TILE_SIZE
 
@@ -25,7 +25,7 @@ class GameAction(abc.ABC):
         self.elapsed_time = 0.0
         self.backward = False
 
-    def update(self, dt_in_ms: float, stats: MovementStats) -> Optional["GameAction"]:
+    def update(self, dt_in_ms: float, stats: GameStats) -> Optional["GameAction"]:
         """Update action with given delta time.
 
         Called once per frame.
@@ -52,7 +52,7 @@ class GameAction(abc.ABC):
         self.elapsed_time = 0.0
         self.backward = backward
 
-    def _on_complete(self, stats: MovementStats) -> None:
+    def _on_complete(self, stats: GameStats) -> None:
         pass
 
 
@@ -64,7 +64,7 @@ class MoveAction(GameAction):
         self.game_object = game_object
         self.direction = direction
 
-    def update(self, dt_in_ms: float, stats: MovementStats) -> Optional[GameAction]:
+    def update(self, dt_in_ms: float, stats: GameStats) -> Optional[GameAction]:
         running_action = super().update(dt_in_ms, stats)
         if running_action:
             move_direction = self.direction.opposite if self.backward else self.direction
@@ -74,7 +74,7 @@ class MoveAction(GameAction):
 
         return running_action
 
-    def _on_complete(self, stats: MovementStats) -> None:
+    def _on_complete(self, stats: GameStats) -> None:
         move_direction = self.direction.opposite if self.backward else self.direction
         self.game_object.position.move(move_direction)
 
@@ -91,7 +91,7 @@ class TurnRobot(GameAction):
         self.robot = robot
         self.direction = direction
 
-    def update(self, dt_in_ms: float, stats: MovementStats) -> Optional[GameAction]:
+    def update(self, dt_in_ms: float, stats: GameStats) -> Optional[GameAction]:
         running_action = super().update(dt_in_ms, stats)
         self.robot.face_direction = self.direction
         return running_action
@@ -118,7 +118,7 @@ class MoveRobot(MoveAction):
         self.robot.robot_state = self.move_state
         # TODO: What about animation when moving backward?
 
-    def _on_complete(self, stats: MovementStats) -> None:
+    def _on_complete(self, stats: GameStats) -> None:
         super()._on_complete(stats)
         stats.steps += 1 if not self.backward else -1
 
@@ -133,6 +133,6 @@ class PushCrate(MoveAction):
                          chain_action=MoveRobot(robot, direction, RobotState.PUSHING))
         self.crate = crate
 
-    def _on_complete(self, stats: MovementStats) -> None:
+    def _on_complete(self, stats: GameStats) -> None:
         super()._on_complete(stats)
         stats.pushes += 1 if not self.backward else -1

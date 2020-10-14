@@ -73,6 +73,16 @@ class LevelScore:
 
 
 class PlayerProfile:
+    """PlayerProfile is a storage for keeping player's game progress.
+
+    Attributes:
+        _profile_file_path - path of the player profile file
+        _file_offset - position in profile file where level scores start (in bytes)
+        _last_unlocked_level - index of last unlocked level
+        levels_scores - list of scores for all levels
+        last_played_level - last level played by player (not persisted)
+    """
+
     def __init__(self, profile_file_path: Path, file_offset: int, last_unlocked_level: int,
                  levels_scores: List[LevelScore]):
         self._profile_file_path = profile_file_path

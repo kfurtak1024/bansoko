@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from enum import unique, Enum
 from functools import total_ordering
-from typing import List, Any, Optional, Tuple
+from typing import List, Optional, Tuple
 
 
 @unique
@@ -67,14 +67,6 @@ class Point:
         """Create a new Point which is the result of moving this Point by (dx, dy)."""
         return Point(self.x + dx, self.y + dy)
 
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, Point):
-            return self.x == other.x and self.y == other.y
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self.x, self.y))
-
 
 @total_ordering
 @dataclass(frozen=True)
@@ -100,14 +92,6 @@ class Size:
 
     def __lt__(self, other: Tuple[int, ...]) -> bool:
         return (self.width, self.height) < (other[0], other[1])
-
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, Size):
-            return self.width == other.width and self.height == other.height
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self.width, self.height))
 
 
 def max_size(size1: Size, size2: Size) -> Size:
@@ -190,14 +174,6 @@ class Rect:
         """The position of bottom edge of the rect."""
         return self.y + self.h
 
-    def __eq__(self, other: Any) -> bool:
-        if isinstance(other, Rect):
-            return self.position == other.position and self.size == other.size
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash((self.position, self.size))
-
 
 def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 256)) -> Point:
     """Return the position of the rect with given size centered in target rectangle."""
@@ -208,6 +184,16 @@ def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 2
 
 @dataclass(frozen=True)
 class Layer:
+    """Layer is an abstract surface on which elements can be drawn.
+
+    Layers are used when drawing elements that should be put on each other in order to achieve
+    pseudo 3d effect.
+
+    Attributes:
+        layer_index - index of the layer (used to calculate layer offset)
+        opaque - is layer opaque *OR* transparent
+        global_offset - offset of elements drawn on the layer
+    """
     layer_index: int
     opaque: bool = False
     global_offset: Point = Point(0, 0)

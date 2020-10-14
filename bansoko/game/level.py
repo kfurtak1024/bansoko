@@ -4,7 +4,7 @@ from itertools import chain
 from typing import Optional, List, Iterable
 
 from bansoko.game.game_action import GameAction, PushCrate, MoveRobot, TurnRobot
-from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, MovementStats
+from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, GameStats
 from bansoko.game.level_template import LevelTemplate
 from bansoko.game.profile import LevelScore
 from bansoko.graphics import Direction
@@ -44,7 +44,7 @@ class Level:
         history - list of historical game actions (used for undo)
     """
     def __init__(self, template: LevelTemplate) -> None:
-        self.statistics = MovementStats()
+        self.statistics = GameStats()
         self.game_time = 0.0
         self.template = template
         self.robot = template.create_robot(self.initial_robot_direction)

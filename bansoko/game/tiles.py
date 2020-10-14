@@ -60,6 +60,11 @@ INDEX_TO_TILE = tuple(list(TileType))
 
 @dataclass(frozen=True)
 class Tileset:
+    """Tileset groups the tiles and provides the mappings for tile types.
+
+    Attributes:
+        tileset_index - start index of all tiles from the tileset
+    """
     tileset_index: int
 
     @property
