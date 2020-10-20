@@ -100,6 +100,21 @@
       "image_bank": 1,
       "image": "gui/printing_receipt.png",
       "num_frames": 5
+    },
+    "digits_blue": {
+      "image_bank": 1,
+      "image": "gui/digits_blue.png",
+      "num_frames": 10
+    },
+    "digits_yellow": {
+      "image_bank": 1,
+      "image": "gui/digits_yellow.png",
+      "num_frames": 10
+    },
+    "digits_fat_red": {
+      "image_bank": 1,
+      "image": "gui/digits_fat_red.png",
+      "num_frames": 10
     }
   },
   "sprite_packs": {
@@ -147,23 +162,23 @@
         },
         {
           "sprite": "cockpit_right1",
-          "position": [239, 24]
+          "position": [241, 31]
         },
         {
           "sprite": "cockpit_right2",
-          "position": [239, 116]
+          "position": [241, 123]
         },
         {
           "sprite": "cockpit_bottom",
-          "position": [0, 208]
+          "position": [0, 206]
         },
         {
           "sprite": "cockpit_left1",
-          "position": [0, 24]
+          "position": [0, 31]
         },
         {
           "sprite": "cockpit_left2",
-          "position": [0, 116]
+          "position": [0, 123]
         },
         {
           "sprite": "printing_receipt",

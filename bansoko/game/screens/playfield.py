@@ -7,9 +7,9 @@ from bansoko.game.level import InputAction, Level
 from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
-from bansoko.graphics.text import draw_text
 from bansoko.gui.input import VirtualButton
 from bansoko.gui.screen import Screen
+from graphics.sprite import Sprite
 
 
 class PlayfieldScreen(Screen):
@@ -27,6 +27,9 @@ class PlayfieldScreen(Screen):
         super().__init__(background=bundle.get_background("playfield"))
         self.screen_factory = screen_factory
         self.level = Level(bundle.get_level_template(level_num))
+        self.digits_yellow = bundle.get_sprite("digits_yellow")
+        self.digits_blue = bundle.get_sprite("digits_blue")
+        self.digits_red = bundle.get_sprite("digits_fat_red")
         profile.last_played_level = level_num
 
     def update(self, dt_in_ms: float) -> Screen:
@@ -66,16 +69,11 @@ class PlayfieldScreen(Screen):
         pyxel.clip()
 
     def _draw_level_statistics(self) -> None:
-        level = self.level.level_num
-        pyxel.text(124, (16 - pyxel.FONT_HEIGHT) // 2, "LEVEL " + str(level + 1), 10)
-
-        draw_text(
-            Point(24, 226),
-            "#6TIME:   #3{:>7s}\n#6PUSHES: #3{:>7d}\n#6STEPS:  #3{:>7d}".format(
-                self.level.level_score.time,
-                self.level.level_score.pushes,
-                self.level.level_score.steps)
-        )
+        score = self.level.level_score
+        _draw_digits(Point(40, 8), "{:>3d}".format(score.level_num), self.digits_yellow)
+        _draw_digits(Point(174, 10), score.time, self.digits_red, colon_size=4)
+        _draw_digits(Point(145, 227), "{:>4d}".format(score.steps), self.digits_yellow)
+        _draw_digits(Point(145, 238), "{:>4d}".format(score.pushes), self.digits_blue)
 
     def _get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):
@@ -89,3 +87,13 @@ class PlayfieldScreen(Screen):
         if self.input.is_button_down(VirtualButton.ACTION):
             return InputAction.UNDO
         return None
+
+
+def _draw_digits(position: Point, text: str, sprite: Sprite, space: int = 1,
+                 colon_size: Optional[int] = None) -> None:
+    p = position
+    for char in text:
+        if char.isdigit():
+            sprite.draw(position=p, frame=int(char))
+        char_size = colon_size if (char == ":" and colon_size) else sprite.width
+        p = p.offset(char_size + space, 0)
