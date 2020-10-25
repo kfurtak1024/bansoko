@@ -50,6 +50,12 @@ class FileNames:
 
 
 def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
+    """Generate all file paths used by resbuilder basing on input file name and output directory.
+
+    :param input_filename: file name of the resources input file
+    :param out_dir: destination directory (all generated artifacts will be put there)
+    :return: instance of FileNames
+    """
     source_file_path = Path(input_filename).resolve()
     source_dir = source_file_path.parent
     base_name = source_file_path.stem
@@ -60,10 +66,16 @@ def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
 
 
 def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
+    """Crate resources metadata file along with Pyxel's resource file.
+
+    :param input_dir: input directory where all resource files are located in
+    :param input_data: resource input data file (parsed from JSON file)
+    :return: resources metadata (ready to be serialized to JSON)
+    """
     metadata = {}
 
     logging.info("Processing sprites...")
-    sprites = process_sprites(input_dir, input_data["sprites"])
+    sprites = process_sprites(input_data["sprites"], input_dir)
     metadata["sprites"] = sprites
     logging.info("Processing sprite packs...")
     sprite_packs = process_sprite_packs(input_data["sprite_packs"], sprites)

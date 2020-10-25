@@ -32,7 +32,7 @@ class FileNames:
 
 
 def generate_file_names(base_name: str) -> FileNames:
-    """Generate resource and metadata file names based on bundle name.
+    """Generate resource and metadata file names basing on bundle name.
 
     :param base_name: name of bundle resource and metadata file names are based on
     :return: instance of FileNames

@@ -1,6 +1,7 @@
+"""Module for processing backgrounds from resource input file."""
 import logging
 import random
-from typing import Dict, Tuple, Generator, Any
+from typing import Dict, Tuple, Generator, Any, List
 
 import pyxel
 
@@ -15,9 +16,15 @@ BACKGROUND_HEIGHT_IN_TILES: int = 32
 
 def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
                         tilemap_generators: Dict[str, TilemapGenerator]) -> Dict[str, Any]:
-    # TODO: What a mess! Under construction!
+    """Process backgrounds from input resource file.
+
+    :param input_data: input data from JSON file (root -> backgrounds)
+    :param sprites: collection of all processed sprites that background can refer to
+    :param tilemap_generators: collection of processed tilemap generators that background can use
+    :return: processed backgrounds (ready to be serialized to JSON)
+    """
     backgrounds = {}
-    tilemap_rects = tilemap_uvs()
+    tilemap_rects = _tilemap_uvs()
     for i, (background_name, background_data) in enumerate(input_data.items()):
         background = {}
 
@@ -27,26 +34,13 @@ def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
 
         background_tilemap_data = background_data.get("background_tilemap")
         if background_tilemap_data:
-            tilemap_uv = next(tilemap_rects)
-            seed = background_tilemap_data.get("seed", i)
-            generator_name = background_tilemap_data["generator"]
-            _generate_background(seed, Position(tilemap_uv[0], tilemap_uv[1]), tilemap_generators[generator_name])
-            background["background_tilemap"] = {
-                "tilemap_id": BACKGROUND_TILEMAP_ID,
-                "tilemap_uv": tilemap_uv
-            }
+            background["background_tilemap"] = _process_tilemap(background_tilemap_data,
+                                                                i, tilemap_rects,
+                                                                tilemap_generators)
 
-        if background_data.get("elements") is not None:
-            elements = []
-            for element in background_data["elements"]:
-                sprite_name = element["sprite"]
-                if sprites.get(sprite_name) is None:
-                    raise Exception(
-                        f"Background '{background_name}' refers to unknown sprite '{sprite_name}'")
-                elements.append({"sprite": sprite_name, "position": element["position"]})
-
-            if elements:
-                background["elements"] = elements
+        if background_data.get("elements"):
+            background["elements"] = _process_elements(background_data["elements"],
+                                                       background_name, sprites)
 
         backgrounds[background_name] = background
         logging.info("Background '%s' added", background_name)
@@ -55,8 +49,7 @@ def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
     return backgrounds
 
 
-def _generate_background(seed: int, offset: Position, tile_generator: TilemapGenerator) -> None:
-    # TODO: Remove hard-codes!!
+def _generate_tilemap(seed: int, offset: Position, tile_generator: TilemapGenerator) -> None:
     random.seed(seed)
     for y in range(BACKGROUND_HEIGHT_IN_TILES):
         for x in range(BACKGROUND_WIDTH_IN_TILES):
@@ -65,9 +58,41 @@ def _generate_background(seed: int, offset: Position, tile_generator: TilemapGen
                 pyxel.tilemap(BACKGROUND_TILEMAP_ID).set(offset.x + x, offset.y + y, tile)
 
 
-def tilemap_uvs() -> Generator[Tuple[int, ...], None, None]:
+def _process_tilemap(tilemap_data: Any, background_num: int,
+                     tilemap_rects: Generator[Tuple[int, ...], None, None],
+                     tilemap_generators: Dict[str, TilemapGenerator]) -> Dict[str, Any]:
+    tilemap_uv = next(tilemap_rects)
+    seed = tilemap_data.get("seed", background_num)
+    generator_name = tilemap_data["generator"]
+    _generate_tilemap(seed, Position(tilemap_uv[0], tilemap_uv[1]),
+                      tilemap_generators[generator_name])
+
+    return {
+        "tilemap_id": BACKGROUND_TILEMAP_ID,
+        "tilemap_uv": tilemap_uv
+    }
+
+
+def _process_elements(elements_data: Any, background_name: str, sprites: Dict[str, Any]) \
+        -> List[Any]:
+    elements = []
+    for element in elements_data:
+        sprite_name = element["sprite"]
+        if sprites.get(sprite_name) is None:
+            raise Exception(
+                f"Background '{background_name}' refers to unknown sprite '{sprite_name}'")
+        elements.append({"sprite": sprite_name, "position": element["position"]})
+
+    return elements
+
+
+# TODO: Should we promote it, so it can be used in other modules (like levels?)
+def _tilemap_uvs() -> Generator[Tuple[int, ...], None, None]:
     tilemaps_horizontally = IMAGE_BANK_SIZE // BACKGROUND_WIDTH_IN_TILES
     tilemaps_vertically = IMAGE_BANK_SIZE // BACKGROUND_HEIGHT_IN_TILES
     num_of_tilemaps = tilemaps_horizontally * tilemaps_vertically
     for i in range(num_of_tilemaps):
-        yield i % tilemaps_horizontally * 32, i // tilemaps_horizontally * 32, BACKGROUND_WIDTH_IN_TILES, BACKGROUND_HEIGHT_IN_TILES
+        yield i % tilemaps_horizontally * 32, \
+              i // tilemaps_horizontally * 32, \
+              BACKGROUND_WIDTH_IN_TILES, \
+              BACKGROUND_HEIGHT_IN_TILES

@@ -7,9 +7,9 @@ from bansoko.game.level import InputAction, Level
 from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
+from bansoko.graphics.sprite import Sprite
 from bansoko.gui.input import VirtualButton
 from bansoko.gui.screen import Screen
-from graphics.sprite import Sprite
 
 
 class PlayfieldScreen(Screen):
@@ -91,9 +91,9 @@ class PlayfieldScreen(Screen):
 
 def _draw_digits(position: Point, text: str, sprite: Sprite, space: int = 1,
                  colon_size: Optional[int] = None) -> None:
-    p = position
+    char_pos = position
     for char in text:
         if char.isdigit():
-            sprite.draw(position=p, frame=int(char))
+            sprite.draw(position=char_pos, frame=int(char))
         char_size = colon_size if (char == ":" and colon_size) else sprite.width
-        p = p.offset(char_size + space, 0)
+        char_pos = char_pos.offset(char_size + space, 0)

@@ -31,12 +31,12 @@ def generate_level_themes(data: Any, tile_packer: TilePacker, sprite_packs: Dict
     main_layers: List[Dict[Tile, int]] = []
 
     for level_theme_data in data:
-        main_layers.append(tile_packer.pack_level_theme(level_theme_data["tiles"]["layers"][0]))
+        main_layers.append(tile_packer.pack_tileset(level_theme_data["tiles"]["layers"][0]))
 
     for i, level_theme_data in enumerate(data):
         layers = [main_layers[i]]
         for j in range(1, 3):
-            layers.append(tile_packer.pack_level_theme(level_theme_data["tiles"]["layers"][j]))
+            layers.append(tile_packer.pack_tileset(level_theme_data["tiles"]["layers"][j]))
 
         background_generator = level_theme_data["background_generator"]
         thumbnail_colors = _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])

@@ -32,8 +32,7 @@ class TilePacker:
         self.base_dir = base_dir
         self.next_free_tile = 0
 
-    # TODO: Rename it to pack_tileset
-    def pack_level_theme(self, theme_data: Dict[str, str]) -> Dict[Tile, int]:
+    def pack_tileset(self, theme_data: Dict[str, str]) -> Dict[Tile, int]:
         level_theme: Dict[Tile, int] = {}
         for tile in list(Tile):
             if theme_data.get(tile.tile_name):
