@@ -15,7 +15,7 @@ from pathlib import Path
 import pyxel
 from docopt import docopt
 
-from bansoko import GAME_FRAME_RATE, __version__
+from bansoko import GAME_FRAME_RATE, __version__, GAME_FRAME_TIME_IN_MS
 from bansoko.game.bundle import load_bundle
 from bansoko.game.context import GameContext
 from bansoko.game.profile import create_or_load_profile
@@ -54,7 +54,7 @@ def main() -> None:
     bundle = load_bundle(file_names.metadata_file)
     player_profile = create_or_load_profile(bundle)
     game_context = GameContext(bundle, player_profile)
-    controller = ScreenController(game_context.get_main_menu(), pyxel.quit, GAME_FRAME_RATE)
+    controller = ScreenController(game_context.get_main_menu(), pyxel.quit, GAME_FRAME_TIME_IN_MS)
     pyxel.run(controller.update, controller.draw)
 
 

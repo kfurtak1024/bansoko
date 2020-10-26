@@ -39,12 +39,12 @@ def process_tilemap_generators(input_data: Any, tile_packer: TilePacker) \
     generators: Dict[str, TilemapGenerator] = {}
 
     for generator_name, generator_data in input_data.items():
-        tiles_probs = {}
+        tiles_weights = {}
         for tile_filename, tile_probability in generator_data.items():
             tile_id = tile_packer.pack_tile(tile_filename)
-            tiles_probs[tile_id] = tile_probability
+            tiles_weights[tile_id] = tile_probability
 
-        generators[generator_name] = TilemapGenerator(tiles_probs)
+        generators[generator_name] = TilemapGenerator(tiles_weights)
         logging.info("Tilemap generator '%s' added", generator_name)
 
     logging.info("Total tilemap generators: %d", len(generators))

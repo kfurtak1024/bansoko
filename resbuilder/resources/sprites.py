@@ -5,6 +5,7 @@ from typing import List, Dict, Any
 
 import pyxel
 
+from bansoko import IMAGE_BANK_HEIGHT, IMAGE_BANK_WIDTH, LEVEL_NUM_LAYERS, SPRITE_IMAGE_BANK
 from bansoko.graphics import Rect, Size
 from resbuilder.resources.box_packer import BoxPacker
 
@@ -64,14 +65,14 @@ class SpriteSheetPacker:
 
 
 def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any]:
-    """Process and pack sprites from input resource file into texture atlas.
+    """Process and pack sprites from input resource file into sprite sheet.
 
     :param input_data: input data from JSON file (root -> sprites)
     :param base_dir:
     :return: processed sprites (ready to be serialized to JSON)
     """
     packer = SpriteSheetPacker()
-    image_bank = 1  # TODO: Hard-coded image bank
+    image_bank = SPRITE_IMAGE_BANK
 
     sprites = {}
     sprites_ids = {}
@@ -79,9 +80,7 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
     for sprite_name, sprite_data in input_data.items():
         sprite_path = Path(base_dir).joinpath(sprite_data["image"])
         sprites_ids[sprite_name] = packer.add_sprite(sprite_path)
-
-        # TODO: 3 should be configurable
-        num_layers = 3 if sprite_data.get("multilayer", False) else 1
+        num_layers = LEVEL_NUM_LAYERS if sprite_data.get("multilayer", False) else 1
 
         sprites[sprite_name] = {
             "image_bank": image_bank,
@@ -90,7 +89,7 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
             "num_layers": num_layers
         }
 
-    sprite_uv_rects = packer.pack(image_bank, Size(256, 256))
+    sprite_uv_rects = packer.pack(image_bank, Size(IMAGE_BANK_WIDTH, IMAGE_BANK_HEIGHT))
 
     for sprite_name, sprite in sprites.items():
         uv_rect = sprite_uv_rects[sprites_ids[sprite_name]]

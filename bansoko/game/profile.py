@@ -163,12 +163,12 @@ def create_or_load_profile(bundle: Bundle) -> PlayerProfile:
     os.makedirs(profile_dir, exist_ok=True)
     profile_file_path = profile_dir.joinpath(GAME_PROFILE_FILE_NAME)
     if not os.path.isfile(profile_file_path):
-        return __create_profile_file(profile_file_path, bundle)
+        return _create_profile_file(profile_file_path, bundle)
 
-    return __load_profile_file(profile_file_path, bundle)
+    return _load_profile_file(profile_file_path, bundle)
 
 
-def __create_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
+def _create_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
     file_offset = len(FILE_HEADER) + INT_SIZE_IN_BYTES
     last_unlocked_level = INITIALLY_UNLOCKED_LEVEL
     levels_scores = [LevelScore(level_num) for level_num in range(bundle.num_levels)]
@@ -182,7 +182,7 @@ def __create_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProf
     return PlayerProfile(profile_file_path, file_offset, last_unlocked_level, levels_scores)
 
 
-def __load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
+def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
     file_offset = len(FILE_HEADER) + INT_SIZE_IN_BYTES
 
     with open(profile_file_path, "rb") as profile_file:

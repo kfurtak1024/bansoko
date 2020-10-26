@@ -2,6 +2,7 @@
 
 import pyxel
 
+from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
 from bansoko.graphics.text import draw_text, TextStyle
@@ -71,9 +72,10 @@ class LevelMenuItem(MenuItem):
         self._draw_frame(position, selected)
 
     def _draw_level_thumbnail(self, position: Point) -> None:
-        # TODO: Hard coded image bank (2)
-        pyxel.blt(position.x, position.y, 2, 32 * (self.level_num % 8), 32 * (self.level_num // 8),
-                  32, 32, colkey=0)
+        pyxel.blt(position.x, position.y, LEVEL_THUMBNAIL_IMAGE_BANK,
+                  LEVEL_WIDTH * (self.level_num % 8),
+                  LEVEL_HEIGHT * (self.level_num // 8),
+                  LEVEL_WIDTH, LEVEL_HEIGHT, colkey=0)
 
     def _draw_level_score(self, position: Point) -> None:
         level_score = self.player_profile.levels_scores[self.level_num]

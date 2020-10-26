@@ -4,8 +4,7 @@ from typing import Dict
 
 import pyxel
 
-IMAGE_BANK_SIZE = 256
-TILE_SIZE = 8
+from bansoko import IMAGE_BANK_WIDTH, TILE_SIZE
 
 
 @unique
@@ -25,6 +24,8 @@ class Tile(Enum):
 
 SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
+# TODO: Make Dict[Tile, int] a Tileset
+
 
 class TilePacker:
     def __init__(self, image_bank: int, base_dir: Path) -> None:
@@ -40,7 +41,7 @@ class TilePacker:
         return level_theme
 
     def pack_tile(self, filename: str) -> int:
-        tiles_in_row = IMAGE_BANK_SIZE / TILE_SIZE
+        tiles_in_row = IMAGE_BANK_WIDTH // TILE_SIZE
         x = (self.next_free_tile % tiles_in_row) * TILE_SIZE
         y = (self.next_free_tile // tiles_in_row) * TILE_SIZE
         pyxel.image(self.image_bank).load(x, y, Path(self.base_dir).joinpath(filename))

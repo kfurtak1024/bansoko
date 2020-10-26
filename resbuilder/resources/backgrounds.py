@@ -5,9 +5,9 @@ from typing import Dict, Tuple, Generator, Any, List
 
 import pyxel
 
-from resbuilder.resources.levels import Position
+from bansoko import TILEMAP_HEIGHT, TILEMAP_WIDTH, LEVEL_WIDTH
+from bansoko.graphics import Point
 from resbuilder.resources.tilemap_generators import TilemapGenerator
-from resbuilder.resources.tiles import IMAGE_BANK_SIZE
 
 BACKGROUND_TILEMAP_ID: int = 7
 BACKGROUND_WIDTH_IN_TILES: int = 32
@@ -49,7 +49,7 @@ def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
     return backgrounds
 
 
-def _generate_tilemap(seed: int, offset: Position, tile_generator: TilemapGenerator) -> None:
+def _generate_tilemap(seed: int, offset: Point, tile_generator: TilemapGenerator) -> None:
     random.seed(seed)
     for y in range(BACKGROUND_HEIGHT_IN_TILES):
         for x in range(BACKGROUND_WIDTH_IN_TILES):
@@ -64,7 +64,7 @@ def _process_tilemap(tilemap_data: Any, background_num: int,
     tilemap_uv = next(tilemap_rects)
     seed = tilemap_data.get("seed", background_num)
     generator_name = tilemap_data["generator"]
-    _generate_tilemap(seed, Position(tilemap_uv[0], tilemap_uv[1]),
+    _generate_tilemap(seed, Point(tilemap_uv[0], tilemap_uv[1]),
                       tilemap_generators[generator_name])
 
     return {
@@ -88,11 +88,11 @@ def _process_elements(elements_data: Any, background_name: str, sprites: Dict[st
 
 # TODO: Should we promote it, so it can be used in other modules (like levels?)
 def _tilemap_uvs() -> Generator[Tuple[int, ...], None, None]:
-    tilemaps_horizontally = IMAGE_BANK_SIZE // BACKGROUND_WIDTH_IN_TILES
-    tilemaps_vertically = IMAGE_BANK_SIZE // BACKGROUND_HEIGHT_IN_TILES
+    tilemaps_horizontally = TILEMAP_WIDTH // BACKGROUND_WIDTH_IN_TILES
+    tilemaps_vertically = TILEMAP_HEIGHT // BACKGROUND_HEIGHT_IN_TILES
     num_of_tilemaps = tilemaps_horizontally * tilemaps_vertically
     for i in range(num_of_tilemaps):
-        yield i % tilemaps_horizontally * 32, \
-              i // tilemaps_horizontally * 32, \
+        yield i % tilemaps_horizontally * LEVEL_WIDTH, \
+              i // tilemaps_horizontally * LEVEL_WIDTH, \
               BACKGROUND_WIDTH_IN_TILES, \
               BACKGROUND_HEIGHT_IN_TILES

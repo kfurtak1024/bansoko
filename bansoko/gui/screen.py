@@ -62,10 +62,10 @@ class ScreenController:
     Switching between screens is controlled by update() callback from Screen class.
     """
 
-    def __init__(self, start_screen: Screen, exit_callback: Callable[[], None], fps: int):
+    def __init__(self, start_screen: Screen, exit_callback: Callable[[], None], frame_time: float):
         self.screen_stack = [start_screen]
         self.exit_callback = exit_callback
-        self.frame_time = 1_000.0 / fps
+        self.frame_time = frame_time
         self.skip_next_draw = False
         start_screen.activate()
 

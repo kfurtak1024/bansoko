@@ -4,9 +4,8 @@ from typing import Generator
 
 import pyxel
 
+from bansoko import TILE_SIZE
 from bansoko.graphics import Rect, Direction, Point, Layer
-
-TILE_SIZE = 8
 
 
 @dataclass(frozen=True)
