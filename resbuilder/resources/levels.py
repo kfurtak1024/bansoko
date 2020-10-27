@@ -2,25 +2,28 @@
 import itertools
 import logging
 import random
+from dataclasses import dataclass
 from typing import List, Dict, Any
 
 import pyxel
 
-from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, IMAGE_BANK_WIDTH, \
-    TILEMAP_WIDTH
-from bansoko.graphics import Point
+from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, TILEMAP_WIDTH
+from bansoko.graphics import Point, Rect
 from resbuilder.resources.level_themes import LevelTheme
 from resbuilder.resources.tilemap_generators import TilemapGenerator
 from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE
 
 
+@dataclass
 class _PreprocessedLevel:
-    def __init__(self, level_num: int, width: int, height: int, tile_data: List[Tile]) -> None:
-        self.level_num = level_num
-        self.tile_data = tile_data
-        self.width = width
-        self.height = height
-        self.start = self.offset_to_pos(self.tile_data.index(Tile.START))
+    level_num: int
+    width: int
+    height: int
+    tile_data: List[Tile]
+
+    @property
+    def start(self) -> Point:
+        return self.offset_to_pos(self.tile_data.index(Tile.START))
 
     @property
     def tilemap_uv(self) -> Point:
@@ -98,15 +101,18 @@ def _preprocess_level(level_num: int, level_data: Any) -> _PreprocessedLevel:
 def _generate_background(level_num: int, seed: int, tile_generator: TilemapGenerator) -> None:
     # TODO: Refactor this!
     random.seed(seed)
-    levels_horizontally = IMAGE_BANK_WIDTH // LEVEL_WIDTH
-    offset = Point(
+    levels_horizontally = TILEMAP_WIDTH // LEVEL_WIDTH
+    tilemap_rect = Rect.from_coords(
         (level_num % levels_horizontally) * LEVEL_WIDTH,
-        (level_num // levels_horizontally) * LEVEL_HEIGHT)
-    for y in range(LEVEL_WIDTH):
-        for x in range(LEVEL_HEIGHT):
-            tile = tile_generator.next_tile()
-            if tile:
-                pyxel.tilemap(0).set(offset.x + x, offset.y + y, tile)
+        (level_num // levels_horizontally) * LEVEL_HEIGHT,
+        LEVEL_WIDTH, LEVEL_HEIGHT)
+
+    tilemap_points = tilemap_rect.inside_points()
+
+    for point in tilemap_points:
+        tile = tile_generator.next_tile()
+        if tile:
+            pyxel.tilemap(0).set(point.x, point.y, tile)
 
 
 def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,

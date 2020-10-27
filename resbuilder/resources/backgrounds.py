@@ -5,13 +5,11 @@ from typing import Dict, Tuple, Generator, Any, List
 
 import pyxel
 
-from bansoko import TILEMAP_HEIGHT, TILEMAP_WIDTH, LEVEL_WIDTH
+from bansoko import TILEMAP_HEIGHT, TILEMAP_WIDTH, LEVEL_WIDTH, LEVEL_HEIGHT
 from bansoko.graphics import Point
 from resbuilder.resources.tilemap_generators import TilemapGenerator
 
 BACKGROUND_TILEMAP_ID: int = 7
-BACKGROUND_WIDTH_IN_TILES: int = 32
-BACKGROUND_HEIGHT_IN_TILES: int = 32
 
 
 def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
@@ -51,8 +49,8 @@ def process_backgrounds(input_data: Any, sprites: Dict[str, Any],
 
 def _generate_tilemap(seed: int, offset: Point, tile_generator: TilemapGenerator) -> None:
     random.seed(seed)
-    for y in range(BACKGROUND_HEIGHT_IN_TILES):
-        for x in range(BACKGROUND_WIDTH_IN_TILES):
+    for y in range(LEVEL_HEIGHT):
+        for x in range(LEVEL_WIDTH):
             tile = tile_generator.next_tile()
             if tile:
                 pyxel.tilemap(BACKGROUND_TILEMAP_ID).set(offset.x + x, offset.y + y, tile)
@@ -88,11 +86,10 @@ def _process_elements(elements_data: Any, background_name: str, sprites: Dict[st
 
 # TODO: Should we promote it, so it can be used in other modules (like levels?)
 def _tilemap_uvs() -> Generator[Tuple[int, ...], None, None]:
-    tilemaps_horizontally = TILEMAP_WIDTH // BACKGROUND_WIDTH_IN_TILES
-    tilemaps_vertically = TILEMAP_HEIGHT // BACKGROUND_HEIGHT_IN_TILES
+    tilemaps_horizontally = TILEMAP_WIDTH // LEVEL_WIDTH
+    tilemaps_vertically = TILEMAP_HEIGHT // LEVEL_HEIGHT
     num_of_tilemaps = tilemaps_horizontally * tilemaps_vertically
     for i in range(num_of_tilemaps):
         yield i % tilemaps_horizontally * LEVEL_WIDTH, \
               i // tilemaps_horizontally * LEVEL_WIDTH, \
-              BACKGROUND_WIDTH_IN_TILES, \
-              BACKGROUND_HEIGHT_IN_TILES
+              LEVEL_WIDTH, LEVEL_HEIGHT

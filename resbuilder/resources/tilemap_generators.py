@@ -2,7 +2,7 @@
 import logging
 import random
 from dataclasses import dataclass
-from typing import Dict, Optional, Any
+from typing import Dict, Any
 
 from resbuilder.resources.tiles import TilePacker
 
@@ -15,7 +15,7 @@ class TilemapGenerator:
     """
     tiles_weights: Dict[int, int]
 
-    def next_tile(self) -> Optional[int]:
+    def next_tile(self) -> int:
         """Generate the next tile from tilemap generator.
 
         Generated tile is the result of randomization with respect of tiles weights.
@@ -23,7 +23,7 @@ class TilemapGenerator:
         :return: next generated tile
         """
         if not self.tiles_weights:
-            return None
+            return 0
         return random.choices(list(self.tiles_weights.keys()),
                               list(self.tiles_weights.values())).pop()
 

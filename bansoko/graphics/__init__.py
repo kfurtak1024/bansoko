@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from enum import unique, Enum
 from functools import total_ordering
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Generator
 
 
 @unique
@@ -173,6 +173,13 @@ class Rect:
     def bottom(self) -> int:
         """The position of bottom edge of the rect."""
         return self.y + self.h
+
+    def inside_points(self) -> Generator[Point, None, None]:
+        """Generator for iterating over all valid positions inside the rectangle (from top-left to
+        bottom-right)."""
+        for y in range(self.y, self.y + self.h):
+            for x in range(self.x, self.x + self.w):
+                yield Point(x, y)
 
 
 def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 256)) -> Point:
