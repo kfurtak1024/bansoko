@@ -38,8 +38,8 @@ class Tilemap:
 
     Attributes:
         tilemap_id - Pyxel's mega-tilemap id
-        rect_uv    - coordinates of the tilemap in Pyxel's mega-tilemap (Tilemap is just a fragment of
-                     Pyxel's mega-tilemap)
+        rect_uv    - coordinates of the tilemap in Pyxel's mega-tilemap (Tilemap is just a fragment
+                     of Pyxel's mega-tilemap)
         num_layers - number of layers the tilemap consists of (each layer is stored in a separate
                      Pyxel's mega-tilemap)
     """
