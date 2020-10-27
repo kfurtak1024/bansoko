@@ -2,7 +2,8 @@
 from dataclasses import dataclass
 from typing import Tuple, Dict
 
-from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, TILE_SIZE
+from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, TILE_SIZE, \
+    LEVEL_BASE_TILEMAP
 from bansoko.game.game_object import Crate, Robot, RobotState, CrateState
 from bansoko.game.tiles import Tileset, TileType
 from bansoko.graphics import Layer, Point, Rect, Direction
@@ -80,8 +81,7 @@ class LevelTemplate:
         tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
         tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
         tilemap_uv_rect = Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT)
-        # TODO: Hard-coded tilemap_id (0)
-        tilemap = Tilemap(0, tilemap_uv_rect, LEVEL_NUM_LAYERS)
+        tilemap = Tilemap(LEVEL_BASE_TILEMAP, tilemap_uv_rect, LEVEL_NUM_LAYERS)
         tileset = Tileset(tileset_index)
         layers = tuple(
             [Layer(i, opaque=(i == 0), global_offset=draw_offset) for i in range(LEVEL_NUM_LAYERS)])

@@ -1,39 +1,44 @@
 """Module for processing levels."""
-import itertools
 import logging
-from dataclasses import dataclass
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Generator, Tuple
 
 import pyxel
 
-from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, TILEMAP_WIDTH
-from bansoko.graphics import Point
+from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_BASE_TILEMAP
+from bansoko.graphics import Point, Direction, Size
+from resbuilder import ResourceError
 from resbuilder.resources.level_themes import LevelTheme
 from resbuilder.resources.tilemap_generators import TilemapGenerator
 from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE, tilemap_rect_nth
 
 
-@dataclass
 class _PreprocessedLevel:
-    level_num: int
-    width: int
-    height: int
-    tile_data: List[Tile]
+    def __init__(self, level_num: int, raw_data: List[List[Tile]]) -> None:
+        self.level_num = level_num
+        self.tilemap_data = [Tile.VOID] * (LEVEL_WIDTH * LEVEL_HEIGHT)
+        self.size = Size(len(raw_data[0]), len(raw_data))
+
+        offset = Point((LEVEL_WIDTH - self.size.width) // 2,
+                       (LEVEL_HEIGHT - self.size.height) // 2)
+
+        for y in range(self.size.height):
+            for x in range(self.size.width):
+                pos = Point(x, y).offset(offset.x, offset.y)
+                self.tilemap_data[self._pos_to_offset(pos)] = raw_data[y][x]
 
     @property
     def start(self) -> Point:
         """Player's start position in level."""
-        return self.offset_to_pos(self.tile_data.index(Tile.START))
+        return self._offset_to_pos(self.tilemap_data.index(Tile.START))
 
-    @property
-    def tilemap_uv(self) -> Point:
-        # TODO: This should take playfield area into account
-        levels_horizontally = TILEMAP_WIDTH // LEVEL_WIDTH
-        u = (self.level_num % levels_horizontally) * LEVEL_WIDTH \
-            + (LEVEL_WIDTH - self.width) // 2
-        v = (self.level_num // levels_horizontally) * LEVEL_HEIGHT \
-            + (LEVEL_HEIGHT - self.height) // 2
-        return Point(u, v)
+    def tile_positions(self) -> Generator[Tuple[Point, Point], None, None]:
+        """Generator for iterating over all valid tile positions inside both level and Pyxel's
+        mega-tilemap (from top-left to bottom-right)."""
+        tilemap_rect = tilemap_rect_nth(self.level_num)
+        tilemap_points = tilemap_rect.inside_points()
+
+        for point in tilemap_points:
+            yield point.offset(-tilemap_rect.x, -tilemap_rect.y), point
 
     def get_tile_at(self, pos: Point) -> Tile:
         """Return tile at given position.
@@ -41,7 +46,7 @@ class _PreprocessedLevel:
         :param pos: position to get tile at
         :return: tile at given position
         """
-        return self.tile_data[self.pos_to_offset(pos)]
+        return self.tilemap_data[self._pos_to_offset(pos)]
 
     def set_tile_at(self, pos: Point, tile: Tile) -> None:
         """Put tile at given position.
@@ -49,20 +54,7 @@ class _PreprocessedLevel:
         :param pos: position to put tile at
         :param tile: tile to be put
         """
-        self.tile_data[self.pos_to_offset(pos)] = tile
-
-    def offset_to_pos(self, offset: int) -> Point:
-        return Point(offset % self.width, offset // self.width)
-
-    def pos_to_offset(self, pos: Point) -> int:
-        return pos.y * self.width + pos.x
-
-    def is_valid_offset(self, offset: int) -> bool:
-        return 0 <= offset < (self.width * self.height)
-
-    def is_valid_pos(self, pos: Point) -> bool:
-        """Test if given position is within level boundaries."""
-        return self.is_valid_offset(self.pos_to_offset(pos))
+        self.tilemap_data[self._pos_to_offset(pos)] = tile
 
     def flood_fill(self, start: Point, fill_tile: Tile, impassable_tile: Tile = Tile.WALL,
                    fillable_tile: Tile = Tile.VOID) -> None:
@@ -74,59 +66,72 @@ class _PreprocessedLevel:
         :param impassable_tile: tile that represents barrier for flood fill
         :param fillable_tile: tile that can be replaced during filling
         """
-        visited_map = [False] * (self.width * self.height)
+        visited_map = [False] * (LEVEL_WIDTH * LEVEL_HEIGHT)
         stack = list()
         stack.append(start)
 
         while len(stack) > 0:
             pos = stack.pop()
-            if not self.is_valid_pos(pos):
+            if not self._is_valid_pos(pos):
                 continue
 
             passable_tile = not self.get_tile_at(pos) == impassable_tile
-            not_visited_yet = not visited_map[self.pos_to_offset(pos)]
+            not_visited_yet = not visited_map[self._pos_to_offset(pos)]
 
             if passable_tile and not_visited_yet:
                 if self.get_tile_at(pos) == fillable_tile:
                     self.set_tile_at(pos, fill_tile)
-                stack.append(Point(pos.x - 1, pos.y))
-                stack.append(Point(pos.x + 1, pos.y))
-                stack.append(Point(pos.x, pos.y - 1))
-                stack.append(Point(pos.x, pos.y + 1))
-            visited_map[self.pos_to_offset(pos)] = True
+                stack.append(pos.move(Direction.LEFT))
+                stack.append(pos.move(Direction.RIGHT))
+                stack.append(pos.move(Direction.UP))
+                stack.append(pos.move(Direction.DOWN))
+            visited_map[self._pos_to_offset(pos)] = True
+
+    @staticmethod
+    def _offset_to_pos(offset: int) -> Point:
+        return Point(offset % LEVEL_WIDTH, offset // LEVEL_WIDTH)
+
+    @staticmethod
+    def _pos_to_offset(pos: Point) -> int:
+        return pos.y * LEVEL_WIDTH + pos.x
+
+    @staticmethod
+    def _is_valid_offset(offset: int) -> bool:
+        return 0 <= offset < (LEVEL_WIDTH * LEVEL_HEIGHT)
+
+    def _is_valid_pos(self, pos: Point) -> bool:
+        return self._is_valid_offset(self._pos_to_offset(pos))
 
 
 def _preprocess_level(level_num: int, level_data: Any) -> _PreprocessedLevel:
+    raw_data = [[SYMBOL_TO_TILE[symbol] for symbol in row_data] for row_data in level_data]
+    level_size = Size(len(raw_data[0]), len(raw_data))
+    if level_size.width > LEVEL_WIDTH:
+        raise ResourceError(f"Level {level_num} exceeds maximum level width ({LEVEL_WIDTH})")
+    if level_size.height > LEVEL_HEIGHT:
+        raise ResourceError(f"Level {level_num} exceeds maximum level height ({LEVEL_WIDTH})")
     # TODO: Add some validation at this point
-    flatten_data = [[SYMBOL_TO_TILE[symbol] for symbol in row_data] for row_data in level_data]
-    level_width = len(flatten_data[0])
-    level_height = len(flatten_data)
-    tile_data = list(itertools.chain.from_iterable(flatten_data))
-
-    preprocessed_level = _PreprocessedLevel(level_num, level_width, level_height, tile_data)
+    preprocessed_level = _PreprocessedLevel(level_num, raw_data)
     preprocessed_level.flood_fill(preprocessed_level.start, Tile.FLOOR)
-
     return preprocessed_level
 
 
 def _generate_background(level_num: int, seed: int, tile_generator: TilemapGenerator) -> None:
-    # TODO: Hard-coded tilemap_id (0)
-    tile_generator.generate_tilemap(0, tilemap_rect_nth(level_num), seed)
+    tile_generator.generate_tilemap(LEVEL_BASE_TILEMAP, tilemap_rect_nth(level_num), seed)
 
 
 def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
                                     level_theme: LevelTheme) -> None:
     thumbnails_image = pyxel.image(LEVEL_THUMBNAIL_IMAGE_BANK)
-    tilemap_uv = preprocessed_level.tilemap_uv
-    for offset, tile in enumerate(preprocessed_level.tile_data):
-        local_pos = preprocessed_level.offset_to_pos(offset)
-        tilemap_pos = Point(tilemap_uv.x + local_pos.x, tilemap_uv.y + local_pos.y)
+    tile_positions = preprocessed_level.tile_positions()
+    for level_pos, tilemap_pos in tile_positions:
+        tile = preprocessed_level.get_tile_at(level_pos)
         thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, level_theme.thumbnail_color(tile))
 
         if tile is not Tile.VOID:
             for layer in range(level_theme.num_layers):
-                pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y,
-                                         level_theme.tile_id(layer, tile))
+                tile_id = level_theme.tile_id(layer, tile)
+                pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, tile_id)
 
 
 def process_levels(input_data: Any, level_themes: List[LevelTheme],
@@ -159,8 +164,8 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
             "robot_sprite_pack": level_theme.robot_sprite_pack,
             "crate_sprite_pack": level_theme.crate_sprite_pack
         })
-        logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.width,
-                     preprocessed_level.height, level_theme_id)
+        logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.size.width,
+                     preprocessed_level.size.height, level_theme_id)
 
     logging.info("Total levels: %d", len(levels_metadata))
     return levels_metadata

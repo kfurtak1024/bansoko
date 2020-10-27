@@ -44,6 +44,11 @@ class TilePacker:
         self.next_free_tile = 0
 
     def pack_tileset(self, theme_data: Dict[str, str]) -> Dict[Tile, int]:
+        """Pack a whole tileset into Pyxel's image bank this TilePacker controls.
+
+        :param theme_data: data from JSON file describing tileset
+        :return: packed tileset
+        """
         level_theme: Dict[Tile, int] = {}
         for tile in list(Tile):
             if theme_data.get(tile.tile_name):

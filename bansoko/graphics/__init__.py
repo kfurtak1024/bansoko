@@ -67,6 +67,10 @@ class Point:
         """Create a new Point which is the result of moving this Point by (dx, dy)."""
         return Point(self.x + dx, self.y + dy)
 
+    def move(self, direction: Direction) -> "Point":
+        """Create a new Point which is the result of moving this Point in given direction."""
+        return Point(self.x + direction.dx, self.y + direction.dy)
+
 
 @total_ordering
 @dataclass(frozen=True)
