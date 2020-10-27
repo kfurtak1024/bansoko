@@ -1,17 +1,16 @@
 """Module for processing levels."""
 import itertools
 import logging
-import random
 from dataclasses import dataclass
 from typing import List, Dict, Any
 
 import pyxel
 
 from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, TILEMAP_WIDTH
-from bansoko.graphics import Point, Rect
+from bansoko.graphics import Point
 from resbuilder.resources.level_themes import LevelTheme
 from resbuilder.resources.tilemap_generators import TilemapGenerator
-from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE
+from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE, tilemap_rect_nth
 
 
 @dataclass
@@ -23,6 +22,7 @@ class _PreprocessedLevel:
 
     @property
     def start(self) -> Point:
+        """Player's start position in level."""
         return self.offset_to_pos(self.tile_data.index(Tile.START))
 
     @property
@@ -36,9 +36,19 @@ class _PreprocessedLevel:
         return Point(u, v)
 
     def get_tile_at(self, pos: Point) -> Tile:
+        """Return tile at given position.
+
+        :param pos: position to get tile at
+        :return: tile at given position
+        """
         return self.tile_data[self.pos_to_offset(pos)]
 
     def set_tile_at(self, pos: Point, tile: Tile) -> None:
+        """Put tile at given position.
+
+        :param pos: position to put tile at
+        :param tile: tile to be put
+        """
         self.tile_data[self.pos_to_offset(pos)] = tile
 
     def offset_to_pos(self, offset: int) -> Point:
@@ -51,6 +61,7 @@ class _PreprocessedLevel:
         return 0 <= offset < (self.width * self.height)
 
     def is_valid_pos(self, pos: Point) -> bool:
+        """Test if given position is within level boundaries."""
         return self.is_valid_offset(self.pos_to_offset(pos))
 
     def flood_fill(self, start: Point, fill_tile: Tile, impassable_tile: Tile = Tile.WALL,
@@ -99,20 +110,8 @@ def _preprocess_level(level_num: int, level_data: Any) -> _PreprocessedLevel:
 
 
 def _generate_background(level_num: int, seed: int, tile_generator: TilemapGenerator) -> None:
-    # TODO: Refactor this!
-    random.seed(seed)
-    levels_horizontally = TILEMAP_WIDTH // LEVEL_WIDTH
-    tilemap_rect = Rect.from_coords(
-        (level_num % levels_horizontally) * LEVEL_WIDTH,
-        (level_num // levels_horizontally) * LEVEL_HEIGHT,
-        LEVEL_WIDTH, LEVEL_HEIGHT)
-
-    tilemap_points = tilemap_rect.inside_points()
-
-    for point in tilemap_points:
-        tile = tile_generator.next_tile()
-        if tile:
-            pyxel.tilemap(0).set(point.x, point.y, tile)
+    # TODO: Hard-coded tilemap_id (0)
+    tile_generator.generate_tilemap(0, tilemap_rect_nth(level_num), seed)
 
 
 def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
@@ -125,7 +124,7 @@ def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
         thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, level_theme.thumbnail_color(tile))
 
         if tile is not Tile.VOID:
-            for layer in range(0, level_theme.num_layers):
+            for layer in range(level_theme.num_layers):
                 pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y,
                                          level_theme.tile_id(layer, tile))
 
@@ -135,7 +134,7 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
     """Process and produce level metadata from input resource file.
 
     Levels are first pre-processed from human-readable format (format of input resource file) and
-    then stored in Pyxel's tilemaps along with resources metadata file.
+    then stored in Pyxel's mega-tilemaps along with resources metadata file.
     Level theme is assigned basing on a level number.
     Floor tiles are automatically generated basing on player starting position and walls positions.
 

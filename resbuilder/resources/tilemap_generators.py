@@ -4,6 +4,9 @@ import random
 from dataclasses import dataclass
 from typing import Dict, Any
 
+import pyxel
+
+from bansoko.graphics import Rect
 from resbuilder.resources.tiles import TilePacker
 
 
@@ -15,13 +18,23 @@ class TilemapGenerator:
     """
     tiles_weights: Dict[int, int]
 
-    def next_tile(self) -> int:
-        """Generate the next tile from tilemap generator.
+    def generate_tilemap(self, tilemap_id: int, tilemap_rect: Rect, seed: int) -> None:
+        """Generate a tilemap using random tiles at given position in Pyxel's mega-tilemap.
 
-        Generated tile is the result of randomization with respect of tiles weights.
+        Tiles are randomized using specified seed and tiles weights.
 
-        :return: next generated tile
+        :param tilemap_id: Pyxel's mega-tilemap id
+        :param tilemap_rect: tilemap rect where generated tiles will be put into
+        :param seed: seed to be used during tiles generation
         """
+        state = random.getstate()
+        random.seed(seed)
+        tilemap_points = tilemap_rect.inside_points()
+        for point in tilemap_points:
+            pyxel.tilemap(tilemap_id).set(point.x, point.y, self._next_tile())
+        random.setstate(state)
+
+    def _next_tile(self) -> int:
         if not self.tiles_weights:
             return 0
         return random.choices(list(self.tiles_weights.keys()),

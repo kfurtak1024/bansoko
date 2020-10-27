@@ -20,6 +20,7 @@ import pyxel
 from docopt import docopt
 from jsonschema import validate
 
+from bansoko import TILESET_IMAGE_BANK
 from resbuilder.resources.backgrounds import process_backgrounds
 from resbuilder.resources.json_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
@@ -80,7 +81,7 @@ def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
     logging.info("Processing sprite packs...")
     sprite_packs = process_sprite_packs(input_data["sprite_packs"], sprites)
     metadata["sprite_packs"] = sprite_packs
-    tile_packer = TilePacker(0, input_dir)
+    tile_packer = TilePacker(TILESET_IMAGE_BANK, input_dir)
     logging.info("Generating level themes...")
     level_themes = generate_level_themes(input_data["level_themes"], tile_packer, sprite_packs)
     logging.info("Processing tilemap generators...")
@@ -109,7 +110,6 @@ def main() -> None:
             input_data = json.load(input_file)
             validate(input_data, RESOURCES_JSON_SCHEMA)
             metadata = create_metadata(files.input_dir, input_data)
-
             logging.info("Writing resource file '%s'...", files.resource_filename)
             pyxel.save(files.resource_filename)
             logging.info("Writing metadata file '%s'...", files.metadata_filename)

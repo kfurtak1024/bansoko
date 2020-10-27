@@ -30,18 +30,18 @@ class TilePosition:
 
 @dataclass(frozen=True)
 class Tilemap:
-    """Tilemap is a rectangular fragment of Pyxel's tilemap and describes the level layout.
+    """Tilemap is a rectangular fragment of Pyxel's mega-tilemap and describes the level layout.
 
     Tilemaps can have multiple layers (to achieve pseudo 3d effect). In that case all layers are
-    stored on separate Pyxel's tilemaps. For example: tilemap with 3 layers is defined accross
-    Pyxel's tilemaps: tilemap_id, tilemap_id+1 and tilemap_id+2.
+    stored on separate Pyxel's mega-tilemaps. For example: tilemap with 3 layers is defined across
+    Pyxel's mega-tilemaps: tilemap_id, tilemap_id+1 and tilemap_id+2.
 
     Attributes:
-        tilemap_id - Pyxel's tilemap id
-        rect_uv    - coordinates of the tilemap in Pyxel's tilemap (Tilemap is just a fragment of
-                     Pyxel's tilemap)
+        tilemap_id - Pyxel's mega-tilemap id
+        rect_uv    - coordinates of the tilemap in Pyxel's mega-tilemap (Tilemap is just a fragment of
+                     Pyxel's mega-tilemap)
         num_layers - number of layers the tilemap consists of (each layer is stored in a separate
-                     Pyxel's tilemap)
+                     Pyxel's mega-tilemap)
     """
     tilemap_id: int
     rect_uv: Rect
