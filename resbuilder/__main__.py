@@ -21,6 +21,7 @@ from docopt import docopt
 from jsonschema import validate
 
 from bansoko import TILESET_IMAGE_BANK
+from resbuilder import ResourceError
 from resbuilder.resources.backgrounds import process_backgrounds
 from resbuilder.resources.json_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
@@ -114,7 +115,7 @@ def main() -> None:
             pyxel.save(files.resource_filename)
             logging.info("Writing metadata file '%s'...", files.metadata_filename)
             json.dump(metadata, metadata_file, indent=2)
-    except Exception as error:
+    except ResourceError as error:
         logging.exception(error)
 
 

@@ -9,7 +9,7 @@ from bansoko.graphics import Size, Point, max_size, center_in_rect
 from bansoko.graphics.background import Background
 from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.gui.input import VirtualButton
-from bansoko.gui.screen import Screen
+from bansoko.gui.screen import Screen, BaseScreen
 
 
 class MenuItem(ABC):
@@ -136,7 +136,7 @@ class Menu:
         return -(-len(self.items) // self.columns)
 
 
-class MenuScreen(Screen):
+class MenuScreen(BaseScreen):
     """MenuScreen is a game screen containing configurable menu.
 
     Attributes:

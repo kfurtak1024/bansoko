@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Any
 
 from bansoko import LEVEL_NUM_LAYERS
+from resbuilder import ResourceError
 from resbuilder.resources.tiles import Tile, TilePacker
 
 
@@ -73,11 +74,11 @@ def generate_level_themes(input_data: Any, tile_packer: TilePacker,
         thumbnail_colors = _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
         robot_sprite_pack = level_theme_data["sprite_packs"]["robot"]
         if sprite_packs.get(robot_sprite_pack) is None:
-            raise Exception(
+            raise ResourceError(
                 f"Robot sprite pack '{robot_sprite_pack}' is undefined'")
         crate_sprite_pack = level_theme_data["sprite_packs"]["crate"]
         if sprite_packs.get(crate_sprite_pack) is None:
-            raise Exception(
+            raise ResourceError(
                 f"Crate sprite pack '{crate_sprite_pack}' is undefined'")
 
         themes.append(LevelTheme(layers, background_generator, thumbnail_colors, robot_sprite_pack,

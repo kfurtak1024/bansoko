@@ -12,17 +12,14 @@ class Screen(abc.ABC):
     Screens are updated and drawn once per frame. Screen transitions are triggered by
     values returned in update method.
     """
-
-    def __init__(self, semi_transparent: Optional[bool] = False,
-                 background: Optional[Background] = None):
+    def __init__(self, semi_transparent: Optional[bool] = False) -> None:
         self.semi_transparent = semi_transparent
-        self.background = background
-        self.input = InputSystem()
 
+    @abc.abstractmethod
     def activate(self) -> None:
         """Called each time Screen is put on top of screen stack by ScreenController."""
-        self.input.reset()
 
+    @abc.abstractmethod
     def update(self, dt_in_ms: float) -> Optional["Screen"]:
         """Update screen state. Control screen transitions by return value.
 
@@ -33,9 +30,8 @@ class Screen(abc.ABC):
         instance of Screen class - switch to new screen *OR* None - switch to previous screen
         (perform pop on screen stack)
         """
-        self.input.update()
-        return self
 
+    @abc.abstractmethod
     def draw(self, draw_as_secondary: bool = False) -> None:
         """Draw screen.
 
@@ -43,11 +39,33 @@ class Screen(abc.ABC):
 
         :param draw_as_secondary: is this screen drawn as a secondary (background) screen
         """
-        if self.background is not None:
-            self.background.draw()
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(self, type(other))
+
+
+class BaseScreen(Screen):
+    """Base class for all game screens that suppose to be managed by ScreenController.
+
+    Screens are updated and drawn once per frame. Screen transitions are triggered by
+    values returned in update method.
+    """
+    def __init__(self, semi_transparent: Optional[bool] = False,
+                 background: Optional[Background] = None) -> None:
+        super().__init__(semi_transparent)
+        self.background = background
+        self.input = InputSystem()
+
+    def activate(self) -> None:
+        self.input.reset()
+
+    def update(self, dt_in_ms: float) -> Optional["Screen"]:
+        self.input.update()
+        return self
+
+    def draw(self, draw_as_secondary: bool = False) -> None:
+        if self.background is not None:
+            self.background.draw()
 
 
 class ScreenController:

@@ -7,6 +7,7 @@ import pyxel
 
 from bansoko import IMAGE_BANK_HEIGHT, IMAGE_BANK_WIDTH, LEVEL_NUM_LAYERS, SPRITE_IMAGE_BANK
 from bansoko.graphics import Rect, Size
+from resbuilder import ResourceError
 from resbuilder.resources.box_packer import BoxPacker
 
 PNG_HEADER = "89 50 4E 47 0D 0A 1A 0A"
@@ -53,11 +54,11 @@ class SpriteSheetPacker:
         with open(file_path, "rb") as file:
             header = file.read(8)
             if header != bytes.fromhex(PNG_HEADER):
-                raise Exception(f"File '{file_path}' is not a valid PNG file")
+                raise ResourceError(f"File '{file_path}' is not a valid PNG file")
             file.read(4)
             chunk_type = file.read(4)
             if chunk_type != PNG_CHUNK_TYPE:
-                raise Exception(f"File '{file_path}' is not a valid PNG file")
+                raise ResourceError(f"File '{file_path}' is not a valid PNG file")
 
             width = int.from_bytes(file.read(4), byteorder='big')
             height = int.from_bytes(file.read(4), byteorder='big')

@@ -2,6 +2,7 @@
 import logging
 from typing import Dict, Any, List
 
+from resbuilder import ResourceError
 from resbuilder.resources.tilemap_generators import TilemapGenerator
 from resbuilder.resources.tiles import tilemap_rect_nth
 
@@ -61,7 +62,7 @@ def _process_elements(elements_data: Any, background_name: str, sprites: Dict[st
     for element in elements_data:
         sprite_name = element["sprite"]
         if sprites.get(sprite_name) is None:
-            raise Exception(
+            raise ResourceError(
                 f"Background '{background_name}' refers to unknown sprite '{sprite_name}'")
         elements.append({"sprite": sprite_name, "position": element["position"]})
 

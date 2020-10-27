@@ -9,10 +9,10 @@ from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
 from bansoko.gui.input import VirtualButton
-from bansoko.gui.screen import Screen
+from bansoko.gui.screen import Screen, BaseScreen
 
 
-class PlayfieldScreen(Screen):
+class PlayfieldScreen(BaseScreen):
     """Main game screen.
 
     Screen allows player to "play" the level. It evaluates end-game conditions

@@ -2,6 +2,8 @@
 import logging
 from typing import Any, Dict
 
+from resbuilder import ResourceError
+
 
 def process_sprite_packs(input_data: Any, sprites: Dict[str, Any]) -> Dict[str, Any]:
     """Process sprite packs from input resource file.
@@ -16,7 +18,7 @@ def process_sprite_packs(input_data: Any, sprites: Dict[str, Any]) -> Dict[str, 
         verified_sprites = []
         for sprite_name in sprite_pack_data:
             if sprites.get(sprite_name) is None:
-                raise Exception(
+                raise ResourceError(
                     f"Sprite pack '{sprite_pack_name}' refers to unknown sprite '{sprite_name}'")
             verified_sprites.append(sprite_name)
 

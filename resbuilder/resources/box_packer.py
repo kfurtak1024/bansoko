@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Optional, List
 
 from bansoko.graphics import Rect, Size
+from resbuilder import ResourceError
 
 
 class _Node:
@@ -106,6 +107,7 @@ class BoxPacker:
                 node.box_id = box.box_id
                 uv_rects[box.box_id] = node.rect
             else:
-                raise Exception(f"Unable to fit box with size ({box.size.width}x{box.size.height})")
+                raise ResourceError(
+                    f"Unable to fit box with size ({box.size.width}x{box.size.height})")
 
         return uv_rects
