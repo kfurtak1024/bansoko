@@ -206,9 +206,6 @@ def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile
     return PlayerProfile(profile_file_path, file_offset, last_unlocked_level, levels_scores)
 
 
-# TODO: Test it on Linux!
-
-
 def _write_int(file: BinaryIO, value: int) -> None:
     file.write(value.to_bytes(INT_SIZE_IN_BYTES, byteorder="big"))
 
