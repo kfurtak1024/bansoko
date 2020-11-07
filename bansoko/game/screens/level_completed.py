@@ -44,8 +44,7 @@ class LevelCompletedScreen(MenuScreen):
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
-        pyxel.rect(56, 48, 144, 64, 7)
-        pyxel.text(95, 57, "LEVEL " + str(self.level_score.level_num + 1) + " COMPLETED", 3)
+        pyxel.rect(65, 48, 126, 64, 7)
         self._draw_level_statistics()
 
     def _draw_level_statistics(self) -> None:
@@ -54,11 +53,10 @@ class LevelCompletedScreen(MenuScreen):
         pushes_beaten = self.level_score.pushes < self.prev_level_score.pushes
         steps_beaten = self.level_score.steps < self.prev_level_score.steps
 
-        draw_text(
-            Point(72, 75),
-            "#DTIME:   #0{:>7s} #8{:s}\n"
-            "#DPUSHES: #0{:>7d} #8{:s}\n"
-            "#DSTEPS:  #0{:>7d} #8{:s}".format(
-                self.level_score.time, new_record if time_beaten else "",
-                self.level_score.pushes, new_record if pushes_beaten else "",
-                self.level_score.steps, new_record if steps_beaten else ""))
+        pyxel.text(95, 57, "LEVEL " + str(self.level_score.level_num) + " COMPLETED", 3)
+        draw_text(Point(72, 75), "#DTIME:   #0{:>7s} #8{:s}".format(
+            self.level_score.time, new_record if time_beaten else ""))
+        draw_text(Point(72, 84), "#DPUSHES: #0{:>7d} #8{:s}".format(
+            self.level_score.pushes, new_record if pushes_beaten else ""))
+        draw_text(Point(72, 93), "#DSTEPS:  #0{:>7d} #8{:s}".format(
+            self.level_score.steps, new_record if steps_beaten else ""))

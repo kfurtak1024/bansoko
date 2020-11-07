@@ -56,7 +56,7 @@ class LevelMenuItem(MenuItem):
 
     def draw(self, position: Point, selected: bool = False) -> None:
         # TODO: Under construction
-        draw_text(position.offset(3, 3), f"LEVEL {self.level_num + 1}", self.text_style)
+        draw_text(position.offset(3, 3), f"LEVEL {self.level_num}", self.text_style)
 
         if not self.level_unlocked:
             self.locked_icon.draw(position.offset(3, 10))

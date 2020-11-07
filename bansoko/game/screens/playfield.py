@@ -30,9 +30,14 @@ class PlayfieldScreen(BaseScreen):
         self.digits_yellow = bundle.get_sprite("digits_yellow")
         self.digits_blue = bundle.get_sprite("digits_blue")
         self.digits_red = bundle.get_sprite("digits_fat_red")
+        self.introduction_shown = False
         profile.last_played_level = level_num
 
     def update(self, dt_in_ms: float) -> Screen:
+        if self.level.level_num == 0 and not self.introduction_shown:
+            self.introduction_shown = True
+            return self.screen_factory.get_introduction_screen()
+
         super().update(dt_in_ms)
 
         if self.input.is_button_pressed(VirtualButton.START):

@@ -10,6 +10,7 @@ from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.game.screens.victory import VictoryScreen
 from bansoko.gui.screen import Screen
+from game.screens.introduction import IntroductionScreen
 
 
 class GameContext(ScreenFactory):
@@ -39,6 +40,9 @@ class GameContext(ScreenFactory):
 
     def get_level_completed_screen(self, level_score: LevelScore) -> Screen:
         return LevelCompletedScreen(self, level_score)
+
+    def get_introduction_screen(self) -> Screen:
+        return IntroductionScreen(self)
 
     def get_victory_screen(self) -> Screen:
         return VictoryScreen(self)
