@@ -63,3 +63,55 @@ def process_tilemap_generators(input_data: Any, tile_packer: TilePacker) \
     logging.info("Total tilemap generators: %d", len(generators))
 
     return generators
+
+
+@dataclass(frozen=True)
+class WindowTileset:
+    top_left_tile: int
+    top_tile: int
+    top_right_tile: int
+    middle_left_tile: int
+    center_tile: int
+    middle_right_tile: int
+    bottom_left_tile: int
+    bottom_tile: int
+    bottom_right_tile: int
+
+    def draw_window(self, tilemap_id: int, rect: Rect) -> None:
+        tilemap = pyxel.tilemap(tilemap_id)
+        tilemap.set(rect.left, rect.top, self.top_left_tile)
+        tilemap.set(rect.right, rect.top, self.top_right_tile)
+        tilemap.set(rect.left, rect.bottom, self.bottom_left_tile)
+        tilemap.set(rect.right, rect.bottom, self.bottom_right_tile)
+        for x in range(rect.left + 1, rect.right):
+            tilemap.set(x, rect.top, self.top_tile)
+            for y in range(rect.top + 1, rect.bottom):
+                tilemap.set(x, y, self.center_tile)
+            tilemap.set(x, rect.bottom, self.bottom_tile)
+
+        for y in range(rect.top + 1, rect.bottom):
+            tilemap.set(rect.left, y, self.middle_left_tile)
+            tilemap.set(rect.right, y, self.middle_right_tile)
+
+
+def process_window_tilesets(input_data: Any, tile_packer: TilePacker) \
+        -> Dict[str, WindowTileset]:
+    window_tilesets: Dict[str, WindowTileset] = {}
+
+    for window_tileset_name, window_tileset_data in input_data.items():
+        window_tilesets[window_tileset_name] = WindowTileset(
+            top_left_tile=tile_packer.pack_tile(window_tileset_data["top_left"]),
+            top_tile=tile_packer.pack_tile(window_tileset_data["top"]),
+            top_right_tile=tile_packer.pack_tile(window_tileset_data["top_right"]),
+            middle_left_tile=tile_packer.pack_tile(window_tileset_data["middle_left"]),
+            center_tile=tile_packer.pack_tile(window_tileset_data["center"]),
+            middle_right_tile=tile_packer.pack_tile(window_tileset_data["middle_right"]),
+            bottom_left_tile=tile_packer.pack_tile(window_tileset_data["bottom_left"]),
+            bottom_tile=tile_packer.pack_tile(window_tileset_data["bottom"]),
+            bottom_right_tile=tile_packer.pack_tile(window_tileset_data["bottom_right"])
+        )
+        logging.info("Window tileset '%s' added", window_tileset_name)
+
+    logging.info("Total window tilesets: %d", len(window_tilesets))
+
+    return window_tilesets

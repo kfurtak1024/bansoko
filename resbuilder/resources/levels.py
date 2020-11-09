@@ -8,7 +8,7 @@ from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL
 from bansoko.graphics import Point, Direction, Size
 from resbuilder import ResourceError
 from resbuilder.resources.level_themes import LevelTheme
-from resbuilder.resources.tilemap_generators import TilemapGenerator
+from resbuilder.resources.background_tilemaps import TilemapGenerator
 from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE, tilemap_rect_nth
 
 

@@ -178,6 +178,10 @@ class Rect:
         """The position of bottom edge of the rect."""
         return self.y + self.h
 
+    def offset(self, d: Point) -> "Rect":
+        """Create a new Rect which is the result of moving this Rect by (dx, dy)."""
+        return Rect(self.position.offset(d.x, d.y), self.size)
+
     def inside_points(self) -> Generator[Point, None, None]:
         """Generator for iterating over all valid positions inside the rectangle (from top-left to
         bottom-right)."""

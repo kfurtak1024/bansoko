@@ -152,12 +152,27 @@
       "moon_crate_placed"
     ]
   },
+  "window_tilesets": {
+    "popup_frame": {
+      "top_left": "gui/popup/top_left.png",
+      "top": "gui/popup/top.png",
+      "top_right": "gui/popup/top_right.png",
+      "middle_left": "gui/popup/middle_left.png",
+      "center": "gui/popup/center.png",
+      "middle_right": "gui/popup/middle_right.png",
+      "bottom_left": "gui/popup/bottom_left.png",
+      "bottom": "gui/popup/bottom.png",
+      "bottom_right": "gui/popup/bottom_right.png"
+    }
+  },
   "backgrounds": {
     "main_menu": {
       "background_color": "0",
       "background_tilemap": {
-        "seed": 784455464,
-        "generator": "space_background"
+        "tilemap_generator": {
+          "generator_name": "space_background",
+          "seed": 784455464
+        }
       },
       "elements": [
         {
@@ -224,11 +239,21 @@
       ]
     },
     "introduction": {
+      "background_tilemap": {
+        "background_windows": [
+          {
+            "tileset_name": "popup_frame",
+            "rect": [3, 6, 25, 17]
+          }
+        ]
+      }
     },
     "victory": {
       "background_color": "0",
       "background_tilemap": {
-        "generator": "space_background"
+        "tilemap_generator": {
+          "generator_name": "space_background"
+        }
       }
     }
   },

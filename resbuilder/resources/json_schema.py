@@ -1,6 +1,9 @@
 """Module exposing JSON schema for Bansoko's game resources."""
 from resbuilder.resources.tiles import Tile
 
+# TODO: Rename *_name to *_ref
+# TODO: Review this schema!
+
 RESOURCES_JSON_SCHEMA = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Bansoko game resources",
@@ -76,13 +79,23 @@ RESOURCES_JSON_SCHEMA = {
                         "description": "The tilemap the background is drawn with.",
                         "type": "object",
                         "properties": {
-                            "generator": {
-                                "description": "Reference to generator the tilemap will be "
-                                               "generated with.",
-                                "type": "string"
+                            "tilemap_generator": {
+                                "description": "Generator the tilemap will be generated with.",
+                                "type": "object",
+                                "properties": {
+                                    "generator_name": {
+                                        "description": "Reference to tilemap generator.",
+                                        "type": "string"
+                                    },
+                                    "seed": {
+                                        "description": "Seed used during tilemap generation.",
+                                        "type": "integer",
+                                        "minimum": 0
+                                    }
+                                },
+                                "required": ["generator_name"]
                             }
                         },
-                        "required": ["generator"]
                     },
                     "elements": {
                         "description": "Collection of drawable, backgrounds elements.",

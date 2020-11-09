@@ -459,13 +459,23 @@
         }
       ]
     },
-    "introduction": {},
+    "introduction": {
+      "background_tilemap": {
+        "tilemap_id": 7,
+        "tilemap_uv": [
+          32,
+          0,
+          32,
+          32
+        ]
+      }
+    },
     "victory": {
       "background_color": "0",
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
-          32,
+          64,
           0,
           32,
           32
