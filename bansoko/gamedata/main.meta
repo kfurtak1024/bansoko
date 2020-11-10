@@ -30,8 +30,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        129,
-        146,
+        111,
+        145,
         32,
         32
       ]
@@ -90,8 +90,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        169,
-        126,
+        151,
+        125,
         10,
         10
       ]
@@ -102,8 +102,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        179,
-        126,
+        161,
+        125,
         10,
         10
       ]
@@ -114,8 +114,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        189,
-        126,
+        171,
+        125,
         10,
         10
       ]
@@ -126,8 +126,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        199,
-        126,
+        181,
+        125,
         10,
         10
       ]
@@ -162,8 +162,8 @@
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
-        129,
-        126,
+        111,
+        125,
         40,
         20
       ]
@@ -187,7 +187,7 @@
       "num_layers": 1,
       "uv_rect": [
         8,
-        126,
+        125,
         15,
         92
       ]
@@ -199,7 +199,7 @@
       "num_layers": 1,
       "uv_rect": [
         52,
-        126,
+        125,
         15,
         83
       ]
@@ -223,7 +223,7 @@
       "num_layers": 1,
       "uv_rect": [
         23,
-        126,
+        125,
         15,
         92
       ]
@@ -235,7 +235,7 @@
       "num_layers": 1,
       "uv_rect": [
         67,
-        126,
+        125,
         15,
         83
       ]
@@ -247,45 +247,9 @@
       "num_layers": 1,
       "uv_rect": [
         82,
-        126,
+        125,
         29,
         80
-      ]
-    },
-    "receipt_left_edge": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 1,
-      "uv_rect": [
-        111,
-        126,
-        9,
-        64
-      ]
-    },
-    "receipt_right_edge": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 1,
-      "uv_rect": [
-        120,
-        126,
-        9,
-        64
-      ]
-    },
-    "receipt_paper_cut": {
-      "image_bank": 1,
-      "directional": false,
-      "num_frames": 1,
-      "num_layers": 1,
-      "uv_rect": [
-        0,
-        125,
-        144,
-        1
       ]
     },
     "digits_blue": {
@@ -295,7 +259,7 @@
       "num_layers": 1,
       "uv_rect": [
         38,
-        126,
+        125,
         7,
         90
       ]
@@ -307,7 +271,7 @@
       "num_layers": 1,
       "uv_rect": [
         45,
-        126,
+        125,
         7,
         90
       ]
@@ -319,7 +283,7 @@
       "num_layers": 1,
       "uv_rect": [
         0,
-        126,
+        125,
         8,
         130
       ]
@@ -428,42 +392,21 @@
     },
     "game_paused": {},
     "level_completed": {
-      "elements": [
-        {
-          "sprite": "receipt_left_edge",
-          "position": [
-            56,
-            48
-          ]
-        },
-        {
-          "sprite": "receipt_right_edge",
-          "position": [
-            191,
-            48
-          ]
-        },
-        {
-          "sprite": "receipt_paper_cut",
-          "position": [
-            56,
-            47
-          ]
-        },
-        {
-          "sprite": "receipt_paper_cut",
-          "position": [
-            56,
-            112
-          ]
-        }
-      ]
+      "background_tilemap": {
+        "tilemap_id": 7,
+        "tilemap_uv": [
+          32,
+          0,
+          32,
+          32
+        ]
+      }
     },
     "introduction": {
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
-          32,
+          64,
           0,
           32,
           32
@@ -475,7 +418,7 @@
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
-          64,
+          96,
           0,
           32,
           32

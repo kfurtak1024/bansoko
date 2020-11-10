@@ -44,7 +44,6 @@ class LevelCompletedScreen(MenuScreen):
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
-        pyxel.rect(65, 48, 126, 64, 7)
         self._draw_level_statistics()
 
     def _draw_level_statistics(self) -> None:

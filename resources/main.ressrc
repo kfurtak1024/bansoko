@@ -101,18 +101,6 @@
       "image": "gui/printing_receipt.png",
       "num_frames": 5
     },
-    "receipt_left_edge": {
-      "image_bank": 1,
-      "image": "gui/receipt_left_edge.png"
-    },
-    "receipt_right_edge": {
-      "image_bank": 1,
-      "image": "gui/receipt_right_edge.png"
-    },
-    "receipt_paper_cut": {
-      "image_bank": 1,
-      "image": "gui/receipt_paper_cut.png"
-    },
     "digits_blue": {
       "image_bank": 1,
       "image": "gui/digits_blue.png",
@@ -163,6 +151,17 @@
       "bottom_left": "gui/popup/bottom_left.png",
       "bottom": "gui/popup/bottom.png",
       "bottom_right": "gui/popup/bottom_right.png"
+    },
+    "receipt_frame": {
+      "top_left": "gui/receipt/top_left.png",
+      "top": "gui/receipt/top.png",
+      "top_right": "gui/receipt/top_right.png",
+      "middle_left": "gui/receipt/middle_left.png",
+      "center": "gui/receipt/center.png",
+      "middle_right": "gui/receipt/middle_right.png",
+      "bottom_left": "gui/receipt/bottom_left.png",
+      "bottom": "gui/receipt/bottom.png",
+      "bottom_right": "gui/receipt/bottom_right.png"
     }
   },
   "backgrounds": {
@@ -219,24 +218,14 @@
     "game_paused": {
     },
     "level_completed": {
-      "elements": [
-        {
-          "sprite": "receipt_left_edge",
-          "position": [56, 48]
-        },
-        {
-          "sprite": "receipt_right_edge",
-          "position": [191, 48]
-        },
-        {
-          "sprite": "receipt_paper_cut",
-          "position": [56, 47]
-        },
-        {
-          "sprite": "receipt_paper_cut",
-          "position": [56, 112]
-        }
-      ]
+      "background_tilemap": {
+        "background_windows": [
+          {
+            "tileset_name": "receipt_frame",
+            "rect": [7, 5, 17, 9]
+          }
+        ]
+      }
     },
     "introduction": {
       "background_tilemap": {
