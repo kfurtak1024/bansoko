@@ -4,7 +4,9 @@
 [![](https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko)]()
 -----------------
 
-Space-themed Sokoban clone created in Python using [Pyxel](https://github.com/kitao/pyxel).
+**Bansoko** is a space-themed Sokoban clone created in Python using [Pyxel](https://github.com/kitao/pyxel).
+
+> Game story introduction - TBD
 
 ![Alt text](docs/screen_shot1.png) ![Alt text](docs/screen_shot2.png) ![Alt text](docs/screen_shot3.png)
 ![Alt text](docs/screen_shot4.png) ![Alt text](docs/screen_shot5.png) ![Alt text](docs/screen_shot6.png)
