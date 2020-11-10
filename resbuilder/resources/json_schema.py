@@ -60,6 +60,11 @@ RESOURCES_JSON_SCHEMA = {
                         "description": "Is sprite directional. Directional sprites has variants "
                                        "for all 4 directions (Left, Right, Up and Down).",
                         "type": "boolean"
+                    },
+                    "transparent": {
+                        "description": "Is sprite transparent. Transparent sprites are drawn with "
+                                       "transparency color 0. (pixels with color 0 are not drawn)",
+                        "type": "boolean"
                     }
                 },
                 "required": ["image_bank", "image"]

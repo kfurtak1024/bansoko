@@ -95,6 +95,7 @@ def create_sprites(json_data: Any) -> Dict[str, Sprite]:
             image_bank=data["image_bank"],
             uv_rect=Rect.from_list(data["uv_rect"]),
             directional=data["directional"],
+            transparent=data["transparent"],
             num_layers=data["num_layers"],
             num_frames=data["num_frames"])
         for name, data in json_data.items()

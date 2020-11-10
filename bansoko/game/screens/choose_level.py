@@ -9,7 +9,7 @@ from bansoko.graphics.text import draw_text, TextStyle
 from bansoko.gui.menu import MenuScreen, MenuItem, Menu
 
 LEVEL_SELECTED_STYLE = TextStyle(color=10)
-LEVEL_LOCKED_STYLE = TextStyle(color=4)
+LEVEL_LOCKED_STYLE = TextStyle(color=1)
 LEVEL_UNLOCKED_STYLE = TextStyle(color=5)
 LEVEL_COMPLETED_STYLE = TextStyle(color=3)
 
@@ -67,7 +67,7 @@ class LevelMenuItem(MenuItem):
             self.check_icon.draw(position.offset(3, 38))
 
         if selected:
-            self._draw_level_score(Point(13, 236))
+            self._draw_level_score(Point(14, 231))
 
         self._draw_frame(position, selected)
 
@@ -79,18 +79,18 @@ class LevelMenuItem(MenuItem):
 
     def _draw_level_score(self, position: Point) -> None:
         level_score = self.player_profile.levels_scores[self.level_num]
-        pyxel.line(position.x, position.y, position.x + 213, position.y, LEVEL_SELECTED_STYLE.color)
+        pyxel.line(position.x, position.y, position.x + 227, position.y, LEVEL_SELECTED_STYLE.color)
 
         if self.level_completed:
-            text = f"TIME: {level_score.time} "\
-                   f"PUSHES: {level_score.pushes} "\
+            text = f"TIME: {level_score.time}  "\
+                   f"PUSHES: {level_score.pushes}  "\
                    f"STEPS: {level_score.steps}"
         elif self.level_unlocked:
             text = "LEVEL NOT COMPLETED"
         else:
             text = "LEVEL LOCKED"
 
-        draw_text(position.offset(0, 4), text, LEVEL_SELECTED_STYLE)
+        draw_text(position.offset(0, 6), text, LEVEL_SELECTED_STYLE)
 
     def _draw_frame(self, position: Point, selected: bool) -> None:
         style = LEVEL_SELECTED_STYLE if selected else self.text_style
@@ -111,7 +111,7 @@ class ChooseLevelScreen(MenuScreen):
             tuple([
                 LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
             ]),
-            columns=5, rows=4, position=Point(13, 30))
+            columns=5, rows=4, position=Point(14, 26))
         super().__init__(
             menu=menu,
             allow_going_back=True,
@@ -121,11 +121,12 @@ class ChooseLevelScreen(MenuScreen):
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
         self._draw_scroll_bar()
-        pyxel.text(8, 8, "CHOOSE LEVEL", 7)
+        pyxel.text(14, 14, "CHOOSE LEVEL", 10)
 
     def _draw_scroll_bar(self) -> None:
         # TODO: Hard-coded scroll bar (for now!)
-        scrollbar_size_in_pixels = round(super().scrollbar_size * 199)
-        scrollbar_position_in_pixels = round(super().scrollbar_position * 199)
-        pyxel.rectb(235, 30, 8, 199 + 2, 5)
-        pyxel.rect(236, 31 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels, 5)
+        scrollbar_size_in_pixels = round(super().scrollbar_size * 196)
+        scrollbar_position_in_pixels = round(super().scrollbar_position * 196)
+        pyxel.rectb(234, 26, 8, 196 + 2, LEVEL_SELECTED_STYLE.color)
+        pyxel.rect(235, 27 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels,
+                   LEVEL_SELECTED_STYLE.color)

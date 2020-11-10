@@ -94,24 +94,27 @@ class WindowTileset:
             tilemap.set(rect.right, y, self.middle_right_tile)
 
 
-def process_window_tilesets(input_data: Any, tile_packer: TilePacker) \
-        -> Dict[str, WindowTileset]:
-    window_tilesets: Dict[str, WindowTileset] = {}
+def process_window_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[str, WindowTileset]:
+    tilesets: Dict[str, WindowTileset] = {}
 
-    for window_tileset_name, window_tileset_data in input_data.items():
-        window_tilesets[window_tileset_name] = WindowTileset(
-            top_left_tile=tile_packer.pack_tile(window_tileset_data["top_left"]),
-            top_tile=tile_packer.pack_tile(window_tileset_data["top"]),
-            top_right_tile=tile_packer.pack_tile(window_tileset_data["top_right"]),
-            middle_left_tile=tile_packer.pack_tile(window_tileset_data["middle_left"]),
-            center_tile=tile_packer.pack_tile(window_tileset_data["center"]),
-            middle_right_tile=tile_packer.pack_tile(window_tileset_data["middle_right"]),
-            bottom_left_tile=tile_packer.pack_tile(window_tileset_data["bottom_left"]),
-            bottom_tile=tile_packer.pack_tile(window_tileset_data["bottom"]),
-            bottom_right_tile=tile_packer.pack_tile(window_tileset_data["bottom_right"])
+    for tileset_name, tileset_data in input_data.items():
+        tilesets[tileset_name] = WindowTileset(
+            top_left_tile=_pack_tile(tileset_data.get("top_left"), tile_packer),
+            top_tile=_pack_tile(tileset_data.get("top"), tile_packer),
+            top_right_tile=_pack_tile(tileset_data.get("top_right"), tile_packer),
+            middle_left_tile=_pack_tile(tileset_data.get("middle_left"), tile_packer),
+            center_tile=_pack_tile(tileset_data.get("center"), tile_packer),
+            middle_right_tile=_pack_tile(tileset_data.get("middle_right"), tile_packer),
+            bottom_left_tile=_pack_tile(tileset_data.get("bottom_left"), tile_packer),
+            bottom_tile=_pack_tile(tileset_data.get("bottom"), tile_packer),
+            bottom_right_tile=_pack_tile(tileset_data.get("bottom_right"), tile_packer)
         )
-        logging.info("Window tileset '%s' added", window_tileset_name)
+        logging.info("Window tileset '%s' added", tileset_name)
 
-    logging.info("Total window tilesets: %d", len(window_tilesets))
+    logging.info("Total window tilesets: %d", len(tilesets))
 
-    return window_tilesets
+    return tilesets
+
+
+def _pack_tile(tile_filename: str, tile_packer: TilePacker) -> int:
+    return tile_packer.pack_tile(tile_filename) if tile_filename else 0

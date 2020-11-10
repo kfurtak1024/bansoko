@@ -16,6 +16,7 @@ class Sprite:
     Additionally, sprite can be:
     - multilayer - it contains variants for all layers,
     - directional - it contains variants for all 4 directions,
+    - transparent - it is drawn with transparency color set to 0
     - multiframe - it contains multiple frames (for example for animation purposes)
 
     Please note that those features can be combined, so we can have sprite which is multilayer,
@@ -24,6 +25,7 @@ class Sprite:
     image_bank: int
     uv_rect: Rect
     directional: bool = False
+    transparent: bool = True
     num_layers: int = 1
     num_frames: int = 1
 
@@ -58,7 +60,7 @@ class Sprite:
         offset = layer.offset if layer else Point(0, 0)
 
         pyxel.blt(position.x + offset.x, position.y + offset.y, self.image_bank,
-                  u, v, self.width, self.height, 0)
+                  u, v, self.width, self.height, 0 if self.transparent else -1)
 
     @property
     def width(self) -> int:

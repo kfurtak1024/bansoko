@@ -86,6 +86,7 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
         sprites[sprite_name] = {
             "image_bank": image_bank,
             "directional": sprite_data.get("directional", False),
+            "transparent": sprite_data.get("transparent", True),
             "num_frames": sprite_data.get("num_frames", 1),
             "num_layers": num_layers
         }

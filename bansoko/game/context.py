@@ -4,13 +4,13 @@ from bansoko.game.bundle import Bundle
 from bansoko.game.profile import PlayerProfile, LevelScore
 from bansoko.game.screens.choose_level import ChooseLevelScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
+from bansoko.game.screens.introduction import IntroductionScreen
 from bansoko.game.screens.level_completed import LevelCompletedScreen
 from bansoko.game.screens.main_menu import MainMenuScreen
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.game.screens.victory import VictoryScreen
 from bansoko.gui.screen import Screen
-from game.screens.introduction import IntroductionScreen
 
 
 class GameContext(ScreenFactory):

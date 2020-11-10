@@ -3,6 +3,7 @@
     "logo": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -15,6 +16,7 @@
     "check_icon": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -27,6 +29,7 @@
     "locked_icon": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -39,6 +42,7 @@
     "desert_crate": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
@@ -51,6 +55,7 @@
     "desert_crate_placed": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
@@ -63,6 +68,7 @@
     "mint_crate": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
@@ -75,6 +81,7 @@
     "mint_crate_placed": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
@@ -87,10 +94,11 @@
     "ice_crate": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        151,
+        215,
         125,
         10,
         10
@@ -99,10 +107,11 @@
     "ice_crate_placed": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        161,
+        225,
         125,
         10,
         10
@@ -111,10 +120,11 @@
     "moon_crate": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        171,
+        235,
         125,
         10,
         10
@@ -123,10 +133,11 @@
     "moon_crate_placed": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        181,
+        245,
         125,
         10,
         10
@@ -135,6 +146,7 @@
     "robot_standing": {
       "image_bank": 1,
       "directional": true,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
@@ -147,6 +159,7 @@
     "robot_moving": {
       "image_bank": 1,
       "directional": true,
+      "transparent": true,
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
@@ -159,6 +172,7 @@
     "robot_pushing": {
       "image_bank": 1,
       "directional": true,
+      "transparent": true,
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
@@ -171,6 +185,7 @@
     "cockpit_top": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -183,6 +198,7 @@
     "cockpit_right1": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -195,6 +211,7 @@
     "cockpit_right2": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -207,6 +224,7 @@
     "cockpit_bottom": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -219,6 +237,7 @@
     "cockpit_left1": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -231,6 +250,7 @@
     "cockpit_left2": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -243,6 +263,7 @@
     "printing_receipt": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 5,
       "num_layers": 1,
       "uv_rect": [
@@ -255,6 +276,7 @@
     "digits_blue": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 10,
       "num_layers": 1,
       "uv_rect": [
@@ -267,6 +289,7 @@
     "digits_yellow": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 10,
       "num_layers": 1,
       "uv_rect": [
@@ -279,6 +302,7 @@
     "digits_fat_red": {
       "image_bank": 1,
       "directional": false,
+      "transparent": true,
       "num_frames": 10,
       "num_layers": 1,
       "uv_rect": [
@@ -286,6 +310,58 @@
         125,
         8,
         130
+      ]
+    },
+    "monitor_top_left_corner": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": false,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        151,
+        125,
+        16,
+        16
+      ]
+    },
+    "monitor_top_right_corner": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": false,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        167,
+        125,
+        16,
+        16
+      ]
+    },
+    "monitor_bottom_left_corner": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": false,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        183,
+        125,
+        16,
+        16
+      ]
+    },
+    "monitor_bottom_right_corner": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": false,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        199,
+        125,
+        16,
+        16
       ]
     }
   },
@@ -388,14 +464,53 @@
       ]
     },
     "choose_level": {
-      "background_color": "0"
+      "background_color": "0",
+      "background_tilemap": {
+        "tilemap_id": 7,
+        "tilemap_uv": [
+          32,
+          0,
+          32,
+          32
+        ]
+      },
+      "elements": [
+        {
+          "sprite": "monitor_top_left_corner",
+          "position": [
+            0,
+            0
+          ]
+        },
+        {
+          "sprite": "monitor_top_right_corner",
+          "position": [
+            240,
+            0
+          ]
+        },
+        {
+          "sprite": "monitor_bottom_left_corner",
+          "position": [
+            0,
+            240
+          ]
+        },
+        {
+          "sprite": "monitor_bottom_right_corner",
+          "position": [
+            240,
+            240
+          ]
+        }
+      ]
     },
     "game_paused": {},
     "level_completed": {
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
-          32,
+          64,
           0,
           32,
           32
@@ -406,7 +521,7 @@
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
-          64,
+          96,
           0,
           32,
           32
@@ -418,7 +533,7 @@
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
-          96,
+          128,
           0,
           32,
           32

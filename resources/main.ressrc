@@ -115,6 +115,26 @@
       "image_bank": 1,
       "image": "gui/digits_fat_red.png",
       "num_frames": 10
+    },
+    "monitor_top_left_corner": {
+      "image_bank": 1,
+      "image": "gui/monitor/top_left_corner.png",
+      "transparent": false
+    },
+    "monitor_top_right_corner": {
+      "image_bank": 1,
+      "image": "gui/monitor/top_right_corner.png",
+      "transparent": false
+    },
+    "monitor_bottom_left_corner": {
+      "image_bank": 1,
+      "image": "gui/monitor/bottom_left_corner.png",
+      "transparent": false
+    },
+    "monitor_bottom_right_corner": {
+      "image_bank": 1,
+      "image": "gui/monitor/bottom_right_corner.png",
+      "transparent": false
     }
   },
   "sprite_packs": {
@@ -155,13 +175,17 @@
     "receipt_frame": {
       "top_left": "gui/receipt/top_left.png",
       "top": "gui/receipt/top.png",
-      "top_right": "gui/receipt/top_right.png",
       "middle_left": "gui/receipt/middle_left.png",
       "center": "gui/receipt/center.png",
       "middle_right": "gui/receipt/middle_right.png",
       "bottom_left": "gui/receipt/bottom_left.png",
-      "bottom": "gui/receipt/bottom.png",
-      "bottom_right": "gui/receipt/bottom_right.png"
+      "bottom": "gui/receipt/bottom.png"
+    },
+    "monitor_frame": {
+      "top": "gui/monitor/top.png",
+      "middle_left": "gui/monitor/middle_left.png",
+      "middle_right": "gui/monitor/middle_right.png",
+      "bottom": "gui/monitor/bottom.png"
     }
   },
   "backgrounds": {
@@ -213,7 +237,33 @@
       ]
     },
     "choose_level": {
-      "background_color": "0"
+      "background_color": "0",
+      "background_tilemap": {
+        "background_windows": [
+          {
+            "tileset_name": "monitor_frame",
+            "rect": [0, 0, 32, 32]
+          }
+        ]
+      },
+      "elements": [
+        {
+          "sprite": "monitor_top_left_corner",
+          "position": [0, 0]
+        },
+        {
+          "sprite": "monitor_top_right_corner",
+          "position": [240, 0]
+        },
+        {
+          "sprite": "monitor_bottom_left_corner",
+          "position": [0, 240]
+        },
+        {
+          "sprite": "monitor_bottom_right_corner",
+          "position": [240, 240]
+        }
+      ]
     },
     "game_paused": {
     },
@@ -222,7 +272,7 @@
         "background_windows": [
           {
             "tileset_name": "receipt_frame",
-            "rect": [7, 5, 17, 9]
+            "rect": [7, 5, 18, 10]
           }
         ]
       }
@@ -232,7 +282,7 @@
         "background_windows": [
           {
             "tileset_name": "popup_frame",
-            "rect": [3, 6, 25, 17]
+            "rect": [3, 6, 26, 18]
           }
         ]
       }

@@ -166,7 +166,7 @@ class Rect:
     @property
     def right(self) -> int:
         """The position of right edge of the rect."""
-        return self.x + self.w
+        return self.x + self.w - 1
 
     @property
     def top(self) -> int:
@@ -176,11 +176,11 @@ class Rect:
     @property
     def bottom(self) -> int:
         """The position of bottom edge of the rect."""
-        return self.y + self.h
+        return self.y + self.h - 1
 
-    def offset(self, d: Point) -> "Rect":
+    def offset(self, delta: Point) -> "Rect":
         """Create a new Rect which is the result of moving this Rect by (dx, dy)."""
-        return Rect(self.position.offset(d.x, d.y), self.size)
+        return Rect(self.position.offset(delta.x, delta.y), self.size)
 
     def inside_points(self) -> Generator[Point, None, None]:
         """Generator for iterating over all valid positions inside the rectangle (from top-left to
