@@ -7,7 +7,7 @@ from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
 from graphics import Point
 
 
-class IntroductionScreen(MenuScreen):
+class TutorialScreen(MenuScreen):
     """Screen displayed before player starts tutorial level.
 
     Player can only go back to playfield screen from here.
@@ -18,7 +18,7 @@ class IntroductionScreen(MenuScreen):
         menu = Menu.with_defaults(tuple([
             TextMenuItem("OK", lambda: None)
         ]), position=Point(120, 176))
-        super().__init__(menu=menu, background=bundle.get_background("introduction"),
+        super().__init__(menu=menu, background=bundle.get_background("tutorial"),
                          semi_transparent=True, allow_going_back=True)
 
     def draw(self, draw_as_secondary: bool = False) -> None:

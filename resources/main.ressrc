@@ -6,11 +6,11 @@
     },
     "check_icon" : {
       "image_bank": 1,
-      "image": "gui/check_icon.png"
+      "image": "gui/choose_level/check_icon.png"
     },
     "locked_icon" : {
       "image_bank": 1,
-      "image": "gui/locked_icon.png"
+      "image": "gui/choose_level/locked_icon.png"
     },
     "desert_crate" : {
       "image_bank": 1,
@@ -74,66 +74,96 @@
     },
     "cockpit_top" : {
       "image_bank": 1,
-      "image": "gui/cockpit_top.png"
+      "image": "gui/playfield/cockpit_top.png"
     },
     "cockpit_right1" : {
       "image_bank": 1,
-      "image": "gui/cockpit_right1.png"
+      "image": "gui/playfield/cockpit_right1.png"
     },
     "cockpit_right2" : {
       "image_bank": 1,
-      "image": "gui/cockpit_right2.png"
+      "image": "gui/playfield/cockpit_right2.png"
     },
     "cockpit_bottom" : {
       "image_bank": 1,
-      "image": "gui/cockpit_bottom.png"
+      "image": "gui/playfield/cockpit_bottom.png"
     },
     "cockpit_left1" : {
       "image_bank": 1,
-      "image": "gui/cockpit_left1.png"
+      "image": "gui/playfield/cockpit_left1.png"
     },
     "cockpit_left2" : {
       "image_bank": 1,
-      "image": "gui/cockpit_left2.png"
+      "image": "gui/playfield/cockpit_left2.png"
     },
     "printing_receipt" : {
       "image_bank": 1,
-      "image": "gui/printing_receipt.png",
+      "image": "gui/playfield/printing_receipt.png",
       "num_frames": 5
     },
     "digits_blue": {
       "image_bank": 1,
-      "image": "gui/digits_blue.png",
+      "image": "gui/playfield/digits_blue.png",
       "num_frames": 10
     },
     "digits_yellow": {
       "image_bank": 1,
-      "image": "gui/digits_yellow.png",
+      "image": "gui/playfield/digits_yellow.png",
       "num_frames": 10
     },
     "digits_fat_red": {
       "image_bank": 1,
-      "image": "gui/digits_fat_red.png",
+      "image": "gui/playfield/digits_fat_red.png",
       "num_frames": 10
     },
     "monitor_top_left_corner": {
       "image_bank": 1,
-      "image": "gui/monitor/top_left_corner.png",
+      "image": "gui/choose_level/frame_top_left_corner.png",
       "transparent": false
     },
     "monitor_top_right_corner": {
       "image_bank": 1,
-      "image": "gui/monitor/top_right_corner.png",
+      "image": "gui/choose_level/frame_top_right_corner.png",
       "transparent": false
     },
     "monitor_bottom_left_corner": {
       "image_bank": 1,
-      "image": "gui/monitor/bottom_left_corner.png",
+      "image": "gui/choose_level/frame_bottom_left_corner.png",
       "transparent": false
     },
     "monitor_bottom_right_corner": {
       "image_bank": 1,
-      "image": "gui/monitor/bottom_right_corner.png",
+      "image": "gui/choose_level/frame_bottom_right_corner.png",
+      "transparent": false
+    },
+    "key_undo": {
+      "image_bank": 1,
+      "image": "gui/tutorial/key_undo.png"
+    },
+    "key_up": {
+      "image_bank": 1,
+      "image": "gui/tutorial/key_up.png"
+    },
+    "key_down": {
+      "image_bank": 1,
+      "image": "gui/tutorial/key_down.png"
+    },
+    "key_left": {
+      "image_bank": 1,
+      "image": "gui/tutorial/key_left.png"
+    },
+    "key_right": {
+      "image_bank": 1,
+      "image": "gui/tutorial/key_right.png"
+    },
+    "placing_crate1": {
+      "image_bank": 1,
+      "image": "gui/tutorial/placing_crate1.png",
+      "transparent": false
+    },
+    "placing_crate2": {
+      "image_bank": 1,
+      "image": "gui/tutorial/placing_crate2.png",
       "transparent": false
     }
   },
@@ -161,16 +191,16 @@
     ]
   },
   "window_tilesets": {
-    "popup_frame": {
-      "top_left": "gui/popup/top_left.png",
-      "top": "gui/popup/top.png",
-      "top_right": "gui/popup/top_right.png",
-      "middle_left": "gui/popup/middle_left.png",
-      "center": "gui/popup/center.png",
-      "middle_right": "gui/popup/middle_right.png",
-      "bottom_left": "gui/popup/bottom_left.png",
-      "bottom": "gui/popup/bottom.png",
-      "bottom_right": "gui/popup/bottom_right.png"
+    "tutorial_frame": {
+      "top_left": "gui/tutorial/frame_top_left.png",
+      "top": "gui/tutorial/frame_top.png",
+      "top_right": "gui/tutorial/frame_top_right.png",
+      "middle_left": "gui/tutorial/frame_middle_left.png",
+      "center": "gui/tutorial/frame_center.png",
+      "middle_right": "gui/tutorial/frame_middle_right.png",
+      "bottom_left": "gui/tutorial/frame_bottom_left.png",
+      "bottom": "gui/tutorial/frame_bottom.png",
+      "bottom_right": "gui/tutorial/frame_bottom_right.png"
     },
     "receipt_frame": {
       "top_left": "gui/receipt/top_left.png",
@@ -182,10 +212,10 @@
       "bottom": "gui/receipt/bottom.png"
     },
     "monitor_frame": {
-      "top": "gui/monitor/top.png",
-      "middle_left": "gui/monitor/middle_left.png",
-      "middle_right": "gui/monitor/middle_right.png",
-      "bottom": "gui/monitor/bottom.png"
+      "top": "gui/choose_level/frame_top.png",
+      "middle_left": "gui/choose_level/frame_middle_left.png",
+      "middle_right": "gui/choose_level/frame_middle_right.png",
+      "bottom": "gui/choose_level/frame_bottom.png"
     }
   },
   "backgrounds": {
@@ -277,15 +307,45 @@
         ]
       }
     },
-    "introduction": {
+    "tutorial": {
       "background_tilemap": {
         "background_windows": [
           {
-            "tileset_name": "popup_frame",
+            "tileset_name": "tutorial_frame",
             "rect": [3, 6, 26, 18]
           }
         ]
-      }
+      },
+      "elements": [
+        {
+          "sprite": "key_undo",
+          "position": [50, 130]
+        },
+        {
+          "sprite": "key_up",
+          "position": [66, 130]
+        },
+        {
+          "sprite": "key_down",
+          "position": [84, 130]
+        },
+        {
+          "sprite": "key_left",
+          "position": [100, 130]
+        },
+        {
+          "sprite": "key_right",
+          "position": [116, 130]
+        },
+        {
+          "sprite": "placing_crate1",
+          "position": [50, 150]
+        },
+        {
+          "sprite": "placing_crate2",
+          "position": [100, 150]
+        }
+      ]
     },
     "victory": {
       "background_color": "0",

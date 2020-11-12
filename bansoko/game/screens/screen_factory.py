@@ -42,8 +42,8 @@ class ScreenFactory(ABC):
         """Create a new instance of LevelCompleted screen"""
 
     @abstractmethod
-    def get_introduction_screen(self) -> Screen:
-        """Create a new instance of Introduction screen"""
+    def get_tutorial_screen(self) -> Screen:
+        """Create a new instance of Tutorial screen"""
 
     @abstractmethod
     def get_victory_screen(self) -> Screen:

@@ -20,8 +20,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        215,
-        121,
+        248,
+        111,
         4,
         4
       ]
@@ -46,8 +46,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        215,
-        111,
+        235,
+        125,
         10,
         10
       ]
@@ -59,8 +59,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        225,
-        111,
+        245,
+        125,
         10,
         10
       ]
@@ -72,8 +72,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        235,
-        111,
+        207,
+        145,
         10,
         10
       ]
@@ -85,8 +85,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        245,
-        111,
+        217,
+        145,
         10,
         10
       ]
@@ -98,8 +98,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        215,
-        125,
+        227,
+        145,
         10,
         10
       ]
@@ -111,8 +111,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        225,
-        125,
+        237,
+        145,
         10,
         10
       ]
@@ -124,8 +124,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        235,
-        125,
+        143,
+        161,
         10,
         10
       ]
@@ -137,8 +137,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        245,
-        125,
+        153,
+        161,
         10,
         10
       ]
@@ -319,8 +319,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        151,
-        125,
+        143,
+        145,
         16,
         16
       ]
@@ -332,8 +332,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        167,
-        125,
+        159,
+        145,
         16,
         16
       ]
@@ -345,8 +345,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        183,
-        125,
+        175,
+        145,
         16,
         16
       ]
@@ -358,10 +358,101 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        199,
-        125,
+        191,
+        145,
         16,
         16
+      ]
+    },
+    "key_undo": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": true,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        215,
+        111,
+        11,
+        11
+      ]
+    },
+    "key_up": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": true,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        226,
+        111,
+        11,
+        11
+      ]
+    },
+    "key_down": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": true,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        237,
+        111,
+        11,
+        11
+      ]
+    },
+    "key_left": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": true,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        213,
+        125,
+        11,
+        11
+      ]
+    },
+    "key_right": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": true,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        224,
+        125,
+        11,
+        11
+      ]
+    },
+    "placing_crate1": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": false,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        151,
+        125,
+        31,
+        15
+      ]
+    },
+    "placing_crate2": {
+      "image_bank": 1,
+      "directional": false,
+      "transparent": false,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        182,
+        125,
+        31,
+        15
       ]
     }
   },
@@ -517,7 +608,7 @@
         ]
       }
     },
-    "introduction": {
+    "tutorial": {
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
@@ -526,7 +617,58 @@
           32,
           32
         ]
-      }
+      },
+      "elements": [
+        {
+          "sprite": "key_undo",
+          "position": [
+            50,
+            130
+          ]
+        },
+        {
+          "sprite": "key_up",
+          "position": [
+            66,
+            130
+          ]
+        },
+        {
+          "sprite": "key_down",
+          "position": [
+            84,
+            130
+          ]
+        },
+        {
+          "sprite": "key_left",
+          "position": [
+            100,
+            130
+          ]
+        },
+        {
+          "sprite": "key_right",
+          "position": [
+            116,
+            130
+          ]
+        },
+        {
+          "sprite": "placing_crate1",
+          "position": [
+            50,
+            150
+          ]
+        },
+        {
+          "sprite": "placing_crate2",
+          "position": [
+            100,
+            150
+          ]
+        }
+      ]
     },
     "victory": {
       "background_color": "0",
