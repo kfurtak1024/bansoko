@@ -1,5 +1,6 @@
 """Module providing an abstraction over game screens creation."""
 from abc import ABC, abstractmethod
+from typing import Callable
 
 from bansoko.game.bundle import Bundle
 from bansoko.game.profile import PlayerProfile, LevelScore
@@ -48,3 +49,7 @@ class ScreenFactory(ABC):
     @abstractmethod
     def get_victory_screen(self) -> Screen:
         """Create a new instance of VictoryCompleted screen"""
+
+    @abstractmethod
+    def get_exit_screen(self, exit_callback: Callable) -> Screen:
+        """Create a new instance of Exit screen"""

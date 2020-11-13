@@ -1,10 +1,10 @@
-"""Module defining game screen which is displayed before playing tutorial level."""
+"""Module defining game screen containing information on how to play."""
 
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.graphics import Point
 from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
-from graphics import Point
 
 
 class TutorialScreen(MenuScreen):
@@ -18,8 +18,9 @@ class TutorialScreen(MenuScreen):
         menu = Menu.with_defaults(tuple([
             TextMenuItem("OK", lambda: None)
         ]), position=Point(120, 176))
-        super().__init__(menu=menu, background=bundle.get_background("tutorial"),
-                         semi_transparent=True, allow_going_back=True)
+        super().__init__(
+            menu=menu, allow_going_back=True, background=bundle.get_background("tutorial"),
+            semi_transparent=True)
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

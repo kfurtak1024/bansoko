@@ -1,14 +1,16 @@
 """Module defining game context shared between all game screens."""
+from typing import Callable
 
 from bansoko.game.bundle import Bundle
 from bansoko.game.profile import PlayerProfile, LevelScore
 from bansoko.game.screens.choose_level import ChooseLevelScreen
+from bansoko.game.screens.exit import ExitScreen
 from bansoko.game.screens.game_paused import GamePausedScreen
-from bansoko.game.screens.tutorial import TutorialScreen
 from bansoko.game.screens.level_completed import LevelCompletedScreen
 from bansoko.game.screens.main_menu import MainMenuScreen
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
+from bansoko.game.screens.tutorial import TutorialScreen
 from bansoko.game.screens.victory import VictoryScreen
 from bansoko.gui.screen import Screen
 
@@ -46,3 +48,6 @@ class GameContext(ScreenFactory):
 
     def get_victory_screen(self) -> Screen:
         return VictoryScreen(self)
+
+    def get_exit_screen(self, exit_callback: Callable) -> Screen:
+        return ExitScreen(self, exit_callback)

@@ -681,6 +681,17 @@
           32
         ]
       }
+    },
+    "exit": {
+      "background_tilemap": {
+        "tilemap_id": 7,
+        "tilemap_uv": [
+          160,
+          0,
+          32,
+          32
+        ]
+      }
     }
   },
   "levels": [

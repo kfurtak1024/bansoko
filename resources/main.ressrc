@@ -191,16 +191,16 @@
     ]
   },
   "window_tilesets": {
-    "tutorial_frame": {
-      "top_left": "gui/tutorial/frame_top_left.png",
-      "top": "gui/tutorial/frame_top.png",
-      "top_right": "gui/tutorial/frame_top_right.png",
-      "middle_left": "gui/tutorial/frame_middle_left.png",
-      "center": "gui/tutorial/frame_center.png",
-      "middle_right": "gui/tutorial/frame_middle_right.png",
-      "bottom_left": "gui/tutorial/frame_bottom_left.png",
-      "bottom": "gui/tutorial/frame_bottom.png",
-      "bottom_right": "gui/tutorial/frame_bottom_right.png"
+    "popup_frame": {
+      "top_left": "gui/popup/frame_top_left.png",
+      "top": "gui/popup/frame_top.png",
+      "top_right": "gui/popup/frame_top_right.png",
+      "middle_left": "gui/popup/frame_middle_left.png",
+      "center": "gui/popup/frame_center.png",
+      "middle_right": "gui/popup/frame_middle_right.png",
+      "bottom_left": "gui/popup/frame_bottom_left.png",
+      "bottom": "gui/popup/frame_bottom.png",
+      "bottom_right": "gui/popup/frame_bottom_right.png"
     },
     "receipt_frame": {
       "top_left": "gui/receipt/top_left.png",
@@ -311,7 +311,7 @@
       "background_tilemap": {
         "background_windows": [
           {
-            "tileset_name": "tutorial_frame",
+            "tileset_name": "popup_frame",
             "rect": [3, 6, 26, 18]
           }
         ]
@@ -353,6 +353,16 @@
         "tilemap_generator": {
           "generator_name": "space_background"
         }
+      }
+    },
+    "exit": {
+      "background_tilemap": {
+        "background_windows": [
+          {
+            "tileset_name": "popup_frame",
+            "rect": [6, 14, 20, 4]
+          }
+        ]
       }
     }
   },

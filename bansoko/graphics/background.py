@@ -9,7 +9,9 @@ from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.tilemap import Tilemap
 
 
-# TODO: Rename it!
+# TODO: Rename it! (Maybe to ScreenBlueprint and move it to gui module)
+
+
 @dataclass(frozen=True)
 class BackgroundElement:
     """BackgroundElement is a drawable part of Background.
