@@ -15,5 +15,5 @@ class VictoryController(MenuController):
         screen = screen_factory.get_bundle().get_screen("victory")
         menu = Menu.with_defaults(tuple([
             TextMenuItem("MAIN MENU", screen_factory.get_main_menu)
-        ]))
+        ]), position=screen.menu_position)
         super().__init__(menu=menu, screen=screen)

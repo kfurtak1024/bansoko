@@ -216,6 +216,14 @@
       "middle_left": "gui/choose_level/frame_middle_left.png",
       "middle_right": "gui/choose_level/frame_middle_right.png",
       "bottom": "gui/choose_level/frame_bottom.png"
+    },
+    "scrollbar_frame": {
+      "top_left": "gui/choose_level/scrollbar_top_left.png",
+      "top_right": "gui/choose_level/scrollbar_top_right.png",
+      "middle_left": "gui/choose_level/scrollbar_middle_left.png",
+      "middle_right": "gui/choose_level/scrollbar_middle_right.png",
+      "bottom_left": "gui/choose_level/scrollbar_bottom_left.png",
+      "bottom_right": "gui/choose_level/scrollbar_bottom_right.png"
     }
   },
   "screens": {
@@ -273,6 +281,10 @@
           {
             "rect": [0, 0, 32, 32],
             "tileset_name": "monitor_frame"
+          },
+          {
+            "rect": [29, 3, 2, 25],
+            "tileset_name": "scrollbar_frame"
           }
         ]
       },
@@ -297,7 +309,11 @@
           "position": [14, 14],
           "text": "#ACHOOSE LEVEL"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [14, 26],
+        "scrollbar_rect": [235, 27, 6, 196]
+      }
     },
     "game_paused": {
       "screen_elements": [
@@ -379,7 +395,10 @@
           "position": [32, 167],
           "text": "#7NOTE, YOU CAN #BUNDO #7AS MANY MOVES AS YOU NEED."
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [120, 179]
+      }
     },
     "victory": {
       "background_color": "0",
@@ -409,7 +428,10 @@
           "position": [60, 118],
           "text": "#7ARE YOU SURE DO YOU WANT TO EXIT?"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [98, 132]
+      }
     }
   },
   "levels": [

@@ -109,11 +109,9 @@ class ChooseLevelController(MenuController):
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
         screen = bundle.get_screen("choose_level")
-        menu = Menu.with_defaults(
-            tuple([
-                LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
-            ]),
-            columns=5, rows=4, position=Point(14, 26))
+        menu = Menu.with_defaults(tuple([
+            LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
+        ]), columns=5, rows=4, position=screen.menu_position)
         super().__init__(menu=menu, allow_going_back=True, screen=screen)
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
 
@@ -122,9 +120,8 @@ class ChooseLevelController(MenuController):
         self._draw_scroll_bar()
 
     def _draw_scroll_bar(self) -> None:
-        # TODO: Hard-coded scroll bar (for now!)
-        scrollbar_size_in_pixels = round(super().scrollbar_size * 196)
-        scrollbar_position_in_pixels = round(super().scrollbar_position * 196)
-        pyxel.rectb(234, 26, 8, 196 + 2, LEVEL_SELECTED_STYLE.color)
-        pyxel.rect(235, 27 + scrollbar_position_in_pixels, 6, scrollbar_size_in_pixels,
-                   LEVEL_SELECTED_STYLE.color)
+        scrollbar_rect = self.screen.menu_scrollbar_rect
+        scrollbar_size_in_pixels = round(super().scrollbar_size * scrollbar_rect.h)
+        scrollbar_position_in_pixels = round(super().scrollbar_position * scrollbar_rect.h)
+        pyxel.rect(scrollbar_rect.x, scrollbar_rect.y + scrollbar_position_in_pixels,
+                   scrollbar_rect.w, scrollbar_size_in_pixels, LEVEL_SELECTED_STYLE.color)

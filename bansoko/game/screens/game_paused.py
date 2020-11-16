@@ -19,5 +19,6 @@ class GamePausedController(MenuController):
             # TODO: Restarting Level 0 should not display how to play (again)
             TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level_num)),
             TextMenuItem("HOW TO PLAY", screen_factory.get_how_to_play_screen),
-            TextMenuItem("MAIN MENU", screen_factory.get_main_menu)))
+            TextMenuItem("MAIN MENU", screen_factory.get_main_menu)
+        ), position=screen.menu_position)
         super().__init__(menu=menu, allow_going_back=True, screen=screen, semi_transparent=True)

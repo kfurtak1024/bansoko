@@ -33,10 +33,11 @@ class LevelCompletedController(MenuController):
 
         more_levels_to_play_menu: Tuple[MenuItem, ...] = (next_level, restart_level, go_back)
         last_level_finished_menu: Tuple[MenuItem, ...] = (finish_game, restart_level)
-        menu = Menu.with_defaults(
-            last_level_finished_menu if last_level_completed else more_levels_to_play_menu)
-
         screen = screen_factory.get_bundle().get_screen("level_completed")
+        menu = Menu.with_defaults(
+            last_level_finished_menu if last_level_completed else more_levels_to_play_menu,
+            position=screen.menu_position)
+
         super().__init__(menu=menu, screen=screen, semi_transparent=True)
         player_profile = screen_factory.get_player_profile()
         self.level_score = level_score

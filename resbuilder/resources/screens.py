@@ -48,6 +48,15 @@ def process_screens(input_data: Any, sprites: Dict[str, Any],
             screen["screen_elements"] = _process_elements(
                 screen_data["screen_elements"], screen_name, sprites)
 
+        if screen_data.get("screen_menu"):
+            screen_menu = {}
+            screen_menu_data = screen_data["screen_menu"]
+            if screen_menu_data.get("position"):
+                screen_menu["position"] = screen_menu_data["position"]
+            if screen_menu_data.get("scrollbar_rect"):
+                screen_menu["scrollbar_rect"] = screen_menu_data["scrollbar_rect"]
+            screen["screen_menu"] = screen_menu
+
         screens[screen_name] = screen
         logging.info("Screen '%s' added", screen_name)
 

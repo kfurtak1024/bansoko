@@ -601,7 +601,19 @@
           ],
           "text": "#ACHOOSE LEVEL"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [
+          14,
+          26
+        ],
+        "scrollbar_rect": [
+          235,
+          27,
+          6,
+          196
+        ]
+      }
     },
     "game_paused": {
       "screen_elements": [
@@ -727,7 +739,13 @@
           ],
           "text": "#7NOTE, YOU CAN #BUNDO #7AS MANY MOVES AS YOU NEED."
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [
+          120,
+          179
+        ]
+      }
     },
     "victory": {
       "background_color": "0",
@@ -768,7 +786,13 @@
           ],
           "text": "#7ARE YOU SURE DO YOU WANT TO EXIT?"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [
+          98,
+          132
+        ]
+      }
     }
   },
   "levels": [

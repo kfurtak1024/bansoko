@@ -27,6 +27,15 @@ RESOURCES_JSON_SCHEMA = {
             },
             "minItems": 2,
             "maxItems": 2
+        },
+        "rect": {
+            "type": "array",
+            "description": "A rectangle in screen space.",
+            "items": {
+                "type": "integer"
+            },
+            "minItems": 4,
+            "maxItems": 4
         }
     },
     "properties": {
@@ -130,6 +139,20 @@ RESOURCES_JSON_SCHEMA = {
                                     "required": ["position", "text"]
                                 }
                             ]
+                        }
+                    },
+                    "screen_menu": {
+                        "description": "Configuration of screen menu.",
+                        "type": "object",
+                        "properties": {
+                            "position": {
+                                "description": "The position of menu on the screen.",
+                                "$ref": "#/definitions/position"
+                            },
+                            "scrollbar_rect": {
+                                "description": "The rectangle describing optional menu scrollbar.",
+                                "$ref": "#/definitions/rect"
+                            }
                         }
                     }
                 }

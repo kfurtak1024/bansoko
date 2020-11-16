@@ -4,7 +4,7 @@ from typing import Optional, Tuple
 
 import pyxel
 
-from bansoko.graphics import Point, Layer
+from bansoko.graphics import Point, Layer, Rect
 from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.text import draw_text
 from bansoko.graphics.tilemap import Tilemap
@@ -31,9 +31,11 @@ class ScreenElement:
 @dataclass(frozen=True)
 class Screen:
     """Screen is a composition of elements that can be drawn on a game screen."""
-    elements: Tuple[ScreenElement, ...] = ()
     background_color: Optional[int] = None
     background_tilemap: Optional[Tilemap] = None
+    elements: Tuple[ScreenElement, ...] = ()
+    menu_position: Optional[Point] = None
+    menu_scrollbar_rect: Optional[Rect] = None
 
     def draw(self) -> None:
         """Draw screen with all its elements.

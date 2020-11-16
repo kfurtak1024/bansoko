@@ -2,7 +2,6 @@
 from typing import Callable
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics import Point
 from bansoko.gui.menu import MenuController, TextMenuItem, Menu
 
 
@@ -15,7 +14,7 @@ class ExitController(MenuController):
             # TODO: Add horizontal space to menu items (so no spaces will be needed)
             TextMenuItem("YES  ", self._exit),
             TextMenuItem("NO  ", lambda: None)
-        ]), columns=2, position=Point(98, 132))
+        ]), columns=2, position=screen.menu_position)
         super().__init__(menu=menu, allow_going_back=True, screen=screen, semi_transparent=True)
         self.exit_callback = exit_callback
 

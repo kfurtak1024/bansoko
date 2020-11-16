@@ -131,15 +131,15 @@ def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Scre
 
 def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
     background_color = json_data.get("background_color")
+    background_tilemap = None
     tilemap_data = json_data.get("background_tilemap")
-    tilemap = None
     if tilemap_data:
-        tilemap = Tilemap(
+        background_tilemap = Tilemap(
             tilemap_id=tilemap_data["tilemap_id"],
             rect_uv=Rect.from_list(tilemap_data["tilemap_uv"])
         )
     screen_elements = []
-    if json_data.get("screen_elements") is not None:
+    if json_data.get("screen_elements"):
         screen_elements = [
             ScreenElement(
                 position=Point.from_list(data["position"]),
@@ -147,8 +147,19 @@ def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
                 text=data.get("text"))
             for data in json_data["screen_elements"]
         ]
+    menu_position = None
+    menu_scrollbar_rect = None
+    if json_data.get("screen_menu"):
+        menu_data = json_data["screen_menu"]
+        menu_position = \
+            Point.from_list(menu_data["position"]) if menu_data.get("position") else None
+        menu_scrollbar_rect = \
+            Rect.from_list(menu_data["scrollbar_rect"]) if menu_data.get("scrollbar_rect") else None
 
-    return Screen(tuple(screen_elements), background_color, tilemap)
+    return Screen(
+        background_color=background_color, background_tilemap=background_tilemap,
+        elements=tuple(screen_elements), menu_position=menu_position,
+        menu_scrollbar_rect=menu_scrollbar_rect)
 
 
 def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \
