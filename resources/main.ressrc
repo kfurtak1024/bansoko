@@ -312,38 +312,38 @@
         "background_windows": [
           {
             "tileset_name": "popup_frame",
-            "rect": [3, 6, 26, 18]
+            "rect": [3, 5, 26, 19]
           }
         ]
       },
       "elements": [
         {
-          "sprite": "key_undo",
-          "position": [50, 130]
-        },
-        {
           "sprite": "key_up",
-          "position": [66, 130]
+          "position": [32, 91]
         },
         {
           "sprite": "key_down",
-          "position": [84, 130]
+          "position": [48, 91]
         },
         {
           "sprite": "key_left",
-          "position": [100, 130]
+          "position": [64, 91]
         },
         {
           "sprite": "key_right",
-          "position": [116, 130]
+          "position": [80, 91]
         },
         {
           "sprite": "placing_crate1",
-          "position": [50, 150]
+          "position": [32, 116]
         },
         {
           "sprite": "placing_crate2",
-          "position": [100, 150]
+          "position": [70, 116]
+        },
+        {
+          "sprite": "key_undo",
+          "position": [32, 151]
         }
       ]
     },

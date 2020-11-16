@@ -28,6 +28,10 @@ class MainMenuScreen(MenuScreen):
             allow_going_back=True,
             background=screen_factory.get_bundle().get_background("main_menu"))
 
+    def activate(self) -> None:
+        super().activate()
+        self.select_and_scroll_to_item(0)
+
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
         draw_text(Point(79, 240), "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))

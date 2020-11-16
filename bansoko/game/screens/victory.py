@@ -21,4 +21,5 @@ class VictoryScreen(MenuScreen):
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
+        # TODO: Those should belong to resources file!
         pyxel.text(90, 60, "CONGRATULATIONS !!!\n\n    YOU WON !!!", 7)

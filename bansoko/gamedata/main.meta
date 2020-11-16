@@ -620,52 +620,52 @@
       },
       "elements": [
         {
-          "sprite": "key_undo",
-          "position": [
-            50,
-            130
-          ]
-        },
-        {
           "sprite": "key_up",
           "position": [
-            66,
-            130
+            32,
+            91
           ]
         },
         {
           "sprite": "key_down",
           "position": [
-            84,
-            130
+            48,
+            91
           ]
         },
         {
           "sprite": "key_left",
           "position": [
-            100,
-            130
+            64,
+            91
           ]
         },
         {
           "sprite": "key_right",
           "position": [
-            116,
-            130
+            80,
+            91
           ]
         },
         {
           "sprite": "placing_crate1",
           "position": [
-            50,
-            150
+            32,
+            116
           ]
         },
         {
           "sprite": "placing_crate2",
           "position": [
-            100,
-            150
+            70,
+            116
+          ]
+        },
+        {
+          "sprite": "key_undo",
+          "position": [
+            32,
+            151
           ]
         }
       ]
