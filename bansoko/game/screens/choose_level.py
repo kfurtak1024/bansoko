@@ -108,21 +108,18 @@ class ChooseLevelController(MenuController):
 
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
+        screen = bundle.get_screen("choose_level")
         menu = Menu.with_defaults(
             tuple([
                 LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
             ]),
             columns=5, rows=4, position=Point(14, 26))
-        super().__init__(
-            menu=menu,
-            allow_going_back=True,
-            screen=bundle.get_screen("choose_level"))
+        super().__init__(menu=menu, allow_going_back=True, screen=screen)
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
         self._draw_scroll_bar()
-        pyxel.text(14, 14, "CHOOSE LEVEL", 10)
 
     def _draw_scroll_bar(self) -> None:
         # TODO: Hard-coded scroll bar (for now!)

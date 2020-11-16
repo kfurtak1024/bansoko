@@ -113,12 +113,23 @@ RESOURCES_JSON_SCHEMA = {
                                                    "screen element.",
                                     "type": "string"
                                 },
+                                "text": {
+                                    "description": "Text to be displayed as screen element.",
+                                    "type": "string"
+                                },
                                 "position": {
                                     "description": "The position of screen element.",
                                     "$ref": "#/definitions/position"
                                 }
                             },
-                            "required": ["sprite", "position"]
+                            "oneOf": [
+                                {
+                                    "required": ["position", "sprite"]
+                                },
+                                {
+                                    "required": ["position", "text"]
+                                }
+                            ]
                         }
                     }
                 }

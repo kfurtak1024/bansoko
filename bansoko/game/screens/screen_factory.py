@@ -51,5 +51,5 @@ class ScreenFactory(ABC):
         """Create a new instance of Victory Completed screen controller"""
 
     @abstractmethod
-    def get_exit_screen(self, exit_callback: Callable) -> ScreenController:
+    def get_exit_screen(self, exit_callback: Callable[[], None]) -> ScreenController:
         """Create a new instance of Exit screen controller"""

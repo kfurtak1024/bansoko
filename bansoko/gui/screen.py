@@ -6,6 +6,7 @@ import pyxel
 
 from bansoko.graphics import Point, Layer
 from bansoko.graphics.sprite import Sprite
+from bansoko.graphics.text import draw_text
 from bansoko.graphics.tilemap import Tilemap
 
 
@@ -13,14 +14,18 @@ from bansoko.graphics.tilemap import Tilemap
 class ScreenElement:
     """ScreenElement is a drawable part of Screen.
 
-    It's described by sprite and position to be drawn at.
+    It's described by sprite *OR* text and by position to be drawn at.
     """
-    sprite: Sprite
     position: Point
+    sprite: Optional[Sprite] = None
+    text: Optional[str] = None
 
     def draw(self) -> None:
         """Draw screen element at its defined position."""
-        self.sprite.draw(self.position)
+        if self.sprite:
+            self.sprite.draw(self.position)
+        elif self.text:
+            draw_text(self.position, self.text)
 
 
 @dataclass(frozen=True)

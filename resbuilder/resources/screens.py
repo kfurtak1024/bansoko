@@ -74,11 +74,16 @@ def _process_windows(tilemap_num: int, window_tileset_data: Any,
 
 def _process_elements(elements_data: Any, screen_name: str, sprites: Dict[str, Any]) -> List[Any]:
     elements = []
-    for element in elements_data:
-        sprite_name = element["sprite"]
-        if sprites.get(sprite_name) is None:
-            raise ResourceError(
-                f"Screen '{screen_name}' refers to unknown sprite '{sprite_name}'")
-        elements.append({"sprite": sprite_name, "position": element["position"]})
+    for element_data in elements_data:
+        element = {"position": element_data["position"]}
+        if element_data.get("sprite"):
+            sprite_name = element_data["sprite"]
+            if sprites.get(sprite_name) is None:
+                raise ResourceError(
+                    f"Screen '{screen_name}' refers to unknown sprite '{sprite_name}'")
+            element["sprite"] = sprite_name
+        elif element_data.get("text"):
+            element["text"] = element_data["text"]
+        elements.append(element)
 
     return elements

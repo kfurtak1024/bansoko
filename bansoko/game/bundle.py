@@ -142,8 +142,9 @@ def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
     if json_data.get("screen_elements") is not None:
         screen_elements = [
             ScreenElement(
-                sprite=sprites[data["sprite"]],
-                position=Point.from_list(data["position"]))
+                position=Point.from_list(data["position"]),
+                sprite=sprites.get(data.get("sprite")),
+                text=data.get("text"))
             for data in json_data["screen_elements"]
         ]
 

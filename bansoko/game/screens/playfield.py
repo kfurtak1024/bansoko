@@ -75,6 +75,7 @@ class PlayfieldScreen(BaseScreenController):
 
     def _draw_level_statistics(self) -> None:
         score = self.level.level_score
+        # TODO: Should be taken from resources metadata!
         _draw_digits(Point(40, 8), "{:>3d}".format(score.level_num), self.digits_yellow)
         _draw_digits(Point(174, 10), score.time, self.digits_red, colon_size=4)
         _draw_digits(Point(145, 227), "{:>4d}".format(score.steps), self.digits_yellow)

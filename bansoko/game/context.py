@@ -49,5 +49,5 @@ class GameContext(ScreenFactory):
     def get_victory_screen(self) -> ScreenController:
         return VictoryController(self)
 
-    def get_exit_screen(self, exit_callback: Callable) -> ScreenController:
+    def get_exit_screen(self, exit_callback: Callable[[], None]) -> ScreenController:
         return ExitController(self, exit_callback)

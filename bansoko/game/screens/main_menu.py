@@ -1,5 +1,5 @@
 """Module defining main menu screen controller."""
-from typing import Optional
+from typing import Optional, Callable
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
@@ -17,16 +17,15 @@ class MainMenuController(MenuController):
 
     def __init__(self, screen_factory: ScreenFactory):
         self.exiting = False
-        self._get_exit_screen = lambda: screen_factory.get_exit_screen(self._exit_callback)
+        self._get_exit_screen: Callable[[], ScreenController] =\
+            lambda: screen_factory.get_exit_screen(self._exit_callback)
         level_to_play = screen_factory.get_player_profile().first_not_completed_level
+        screen = screen_factory.get_bundle().get_screen("main_menu")
         menu = Menu.with_defaults((
             TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(level_to_play)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             TextMenuItem("EXIT", self._get_exit_screen)))
-        super().__init__(
-            menu=menu,
-            allow_going_back=True,
-            screen=screen_factory.get_bundle().get_screen("main_menu"))
+        super().__init__(menu=menu, allow_going_back=True, screen=screen)
 
     def activate(self) -> None:
         super().activate()

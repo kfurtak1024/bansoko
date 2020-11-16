@@ -493,64 +493,64 @@
       },
       "screen_elements": [
         {
-          "sprite": "logo",
           "position": [
             20,
             20
-          ]
+          ],
+          "sprite": "logo"
         }
       ]
     },
     "playfield": {
       "screen_elements": [
         {
-          "sprite": "cockpit_top",
           "position": [
             0,
             0
-          ]
+          ],
+          "sprite": "cockpit_top"
         },
         {
-          "sprite": "cockpit_right1",
           "position": [
             241,
             31
-          ]
+          ],
+          "sprite": "cockpit_right1"
         },
         {
-          "sprite": "cockpit_right2",
           "position": [
             241,
             123
-          ]
+          ],
+          "sprite": "cockpit_right2"
         },
         {
-          "sprite": "cockpit_bottom",
           "position": [
             0,
             206
-          ]
+          ],
+          "sprite": "cockpit_bottom"
         },
         {
-          "sprite": "cockpit_left1",
           "position": [
             0,
             31
-          ]
+          ],
+          "sprite": "cockpit_left1"
         },
         {
-          "sprite": "cockpit_left2",
           "position": [
             0,
             123
-          ]
+          ],
+          "sprite": "cockpit_left2"
         },
         {
-          "sprite": "printing_receipt",
           "position": [
             202,
             202
-          ]
+          ],
+          "sprite": "printing_receipt"
         }
       ]
     },
@@ -567,36 +567,53 @@
       },
       "screen_elements": [
         {
-          "sprite": "monitor_top_left_corner",
           "position": [
             0,
             0
-          ]
+          ],
+          "sprite": "monitor_top_left_corner"
         },
         {
-          "sprite": "monitor_top_right_corner",
           "position": [
             240,
             0
-          ]
+          ],
+          "sprite": "monitor_top_right_corner"
         },
         {
-          "sprite": "monitor_bottom_left_corner",
           "position": [
             0,
             240
-          ]
+          ],
+          "sprite": "monitor_bottom_left_corner"
         },
         {
-          "sprite": "monitor_bottom_right_corner",
           "position": [
             240,
             240
-          ]
+          ],
+          "sprite": "monitor_bottom_right_corner"
+        },
+        {
+          "position": [
+            14,
+            14
+          ],
+          "text": "#ACHOOSE LEVEL"
         }
       ]
     },
-    "game_paused": {},
+    "game_paused": {
+      "screen_elements": [
+        {
+          "position": [
+            100,
+            50
+          ],
+          "text": "#7GAME PAUSED"
+        }
+      ]
+    },
     "level_completed": {
       "background_tilemap": {
         "tilemap_id": 7,
@@ -620,53 +637,95 @@
       },
       "screen_elements": [
         {
-          "sprite": "key_up",
           "position": [
             32,
             91
-          ]
+          ],
+          "sprite": "key_up"
         },
         {
-          "sprite": "key_down",
           "position": [
             48,
             91
-          ]
+          ],
+          "sprite": "key_down"
         },
         {
-          "sprite": "key_left",
           "position": [
             64,
             91
-          ]
+          ],
+          "sprite": "key_left"
         },
         {
-          "sprite": "key_right",
           "position": [
             80,
             91
-          ]
+          ],
+          "sprite": "key_right"
         },
         {
-          "sprite": "placing_crate1",
           "position": [
             32,
             116
-          ]
+          ],
+          "sprite": "placing_crate1"
         },
         {
-          "sprite": "placing_crate2",
           "position": [
             70,
             116
-          ]
+          ],
+          "sprite": "placing_crate2"
         },
         {
-          "sprite": "key_undo",
           "position": [
             32,
             151
-          ]
+          ],
+          "sprite": "key_undo"
+        },
+        {
+          "position": [
+            32,
+            48
+          ],
+          "text": "WELCOME TO BANSOKO!\n\nWE ARE SCAVENGERS, WE COLLECT CARGOS THAT PEOPLE\nHAVE LEFT IN ABANDONED SHIPS IN DEEP SPACE.\nIT'S A DANGEROUS JOB. THAT'S WHY WE USE ROBOTS."
+        },
+        {
+          "position": [
+            32,
+            82
+          ],
+          "text": "#7YOU CONTROL YOUR ROBOT BY USING ARROW KEYS:"
+        },
+        {
+          "position": [
+            32,
+            106
+          ],
+          "text": "#7YOUR GOAL IS TO PUSH ALL CRATES TO CARGO BAYS:"
+        },
+        {
+          "position": [
+            108,
+            118
+          ],
+          "text": "#7REMEMBER, YOU CAN ONLY #BPUSH\n#7CRATES (YOU CANNOT PULL THEM)"
+        },
+        {
+          "position": [
+            32,
+            136
+          ],
+          "text": "#7IF YOU MAKE A MISTAKE YOU CAN #BUNDO #7YOUR MOVE\nBY PRESSING:"
+        },
+        {
+          "position": [
+            32,
+            167
+          ],
+          "text": "#7NOTE, YOU CAN #BUNDO #7AS MANY MOVES AS YOU NEED."
         }
       ]
     },
@@ -680,7 +739,16 @@
           32,
           32
         ]
-      }
+      },
+      "screen_elements": [
+        {
+          "position": [
+            90,
+            60
+          ],
+          "text": "#7CONGRATULATIONS !!!\n\n    YOU WON !!!"
+        }
+      ]
     },
     "exit": {
       "background_tilemap": {
@@ -691,7 +759,16 @@
           32,
           32
         ]
-      }
+      },
+      "screen_elements": [
+        {
+          "position": [
+            60,
+            118
+          ],
+          "text": "#7ARE YOU SURE DO YOU WANT TO EXIT?"
+        }
+      ]
     }
   },
   "levels": [
