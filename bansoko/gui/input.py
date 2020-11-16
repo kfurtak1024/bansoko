@@ -17,6 +17,7 @@ class VirtualButton(IntFlag):
     BACK = 0x20
     START = 0x40
     ACTION = 0x80
+    # TODO: Add Home, End, PgUp, PgDown
 
 
 class InputSystem:

@@ -766,7 +766,13 @@
           ],
           "text": "#7CONGRATULATIONS !!!\n\n    YOU WON !!!"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [
+          104,
+          220
+        ]
+      }
     },
     "exit": {
       "background_tilemap": {
