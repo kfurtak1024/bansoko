@@ -479,7 +479,7 @@
       "moon_crate_placed"
     ]
   },
-  "backgrounds": {
+  "screens": {
     "main_menu": {
       "background_color": "0",
       "background_tilemap": {
@@ -491,7 +491,7 @@
           32
         ]
       },
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "logo",
           "position": [
@@ -502,7 +502,7 @@
       ]
     },
     "playfield": {
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "cockpit_top",
           "position": [
@@ -565,7 +565,7 @@
           32
         ]
       },
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "monitor_top_left_corner",
           "position": [
@@ -608,7 +608,7 @@
         ]
       }
     },
-    "tutorial": {
+    "how_to_play": {
       "background_tilemap": {
         "tilemap_id": 7,
         "tilemap_uv": [
@@ -618,7 +618,7 @@
           32
         ]
       },
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "key_up",
           "position": [

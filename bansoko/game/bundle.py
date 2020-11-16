@@ -1,23 +1,23 @@
-"""Module exposing a Bundle, which is a repository of sprites, backgrounds and level templates."""
+"""Module exposing a Bundle, which is a repository of sprites, screens and level templates."""
 import json
 from dataclasses import dataclass
 from typing import Dict, Tuple, Any
 
 from bansoko.game.level_template import LevelTemplate, LevelSpritePacks
 from bansoko.graphics import Rect, Point
-from bansoko.graphics.background import Background, BackgroundElement
 from bansoko.graphics.sprite import Sprite, SpritePack
 from bansoko.graphics.tilemap import Tilemap
+from bansoko.gui.screen import Screen, ScreenElement
 
 
 @dataclass(frozen=True)
 class Bundle:
-    """Bundle is a central repository of game resources (such as: sprites, backgrounds
+    """Bundle is a central repository of game resources (such as: sprites, screens
     and level templates)."""
 
     sprites: Dict[str, Sprite]
     sprite_packs: Dict[str, SpritePack]
-    backgrounds: Dict[str, Background]
+    screens: Dict[str, Screen]
     level_templates: Tuple[LevelTemplate, ...]
 
     def get_sprite(self, sprite_name: str) -> Sprite:
@@ -36,13 +36,13 @@ class Bundle:
         """
         return self.sprite_packs[sprite_pack_name]
 
-    def get_background(self, background_name: str) -> Background:
-        """Return background with given background name.
+    def get_screen(self, screen_name: str) -> Screen:
+        """Return screen with given screen name.
 
-        :param background_name: name of background to be retrieved
-        :return: instance of Background with given name
+        :param screen_name: name of screen to be retrieved
+        :return: instance of Screen with given name
         """
-        return self.backgrounds[background_name]
+        return self.screens[screen_name]
 
     def get_level_template(self, template_id: int) -> LevelTemplate:
         """Return level template with given template id.
@@ -79,9 +79,9 @@ def load_bundle(metadata_filename: str) -> Bundle:
         metadata = json.load(metadata_file)
         sprites = create_sprites(metadata["sprites"])
         sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
-        backgrounds = create_backgrounds(metadata["backgrounds"], sprites)
+        screens = create_screens(metadata["screens"], sprites)
         level_templates = create_level_templates(metadata["levels"], sprite_packs)
-        return Bundle(sprites, sprite_packs, backgrounds, level_templates)
+        return Bundle(sprites, sprite_packs, screens, level_templates)
 
 
 def create_sprites(json_data: Any) -> Dict[str, Sprite]:
@@ -116,20 +116,20 @@ def create_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str,
     }
 
 
-def create_backgrounds(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Background]:
-    """Create backgrounds from metadata.
+def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Screen]:
+    """Create screens from metadata.
 
-    :param json_data: input JSON containing backgrounds metadata
+    :param json_data: input JSON containing screens metadata
     :param sprites: collection of available sprites
-    :return: collection of backgrounds
+    :return: collection of screens
     """
     return {
-        name: _background_from_json(data, sprites)
+        name: _screen_from_json(data, sprites)
         for (name, data) in json_data.items()
     }
 
 
-def _background_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Background:
+def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
     background_color = json_data.get("background_color")
     tilemap_data = json_data.get("background_tilemap")
     tilemap = None
@@ -138,16 +138,16 @@ def _background_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Backgro
             tilemap_id=tilemap_data["tilemap_id"],
             rect_uv=Rect.from_list(tilemap_data["tilemap_uv"])
         )
-    background_elements = []
-    if json_data.get("elements") is not None:
-        background_elements = [
-            BackgroundElement(
+    screen_elements = []
+    if json_data.get("screen_elements") is not None:
+        screen_elements = [
+            ScreenElement(
                 sprite=sprites[data["sprite"]],
                 position=Point.from_list(data["position"]))
-            for data in json_data["elements"]
+            for data in json_data["screen_elements"]
         ]
 
-    return Background(tuple(background_elements), background_color, tilemap)
+    return Screen(tuple(screen_elements), background_color, tilemap)
 
 
 def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \

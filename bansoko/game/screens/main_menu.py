@@ -26,7 +26,7 @@ class MainMenuController(MenuController):
         super().__init__(
             menu=menu,
             allow_going_back=True,
-            background=screen_factory.get_bundle().get_background("main_menu"))
+            screen=screen_factory.get_bundle().get_screen("main_menu"))
 
     def activate(self) -> None:
         super().activate()

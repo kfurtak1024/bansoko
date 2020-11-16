@@ -2,8 +2,8 @@
 import abc
 from typing import Optional, Callable, Any
 
-from bansoko.graphics.background import Background
 from bansoko.gui.input import InputSystem
+from bansoko.gui.screen import Screen
 
 
 class ScreenController(abc.ABC):
@@ -53,9 +53,9 @@ class BaseScreenController(ScreenController):
     """
 
     def __init__(self, semi_transparent: Optional[bool] = False,
-                 background: Optional[Background] = None) -> None:
+                 screen: Optional[Screen] = None) -> None:
         super().__init__(semi_transparent)
-        self.background = background
+        self.screen = screen
         self.input = InputSystem()
 
     def activate(self) -> None:
@@ -66,8 +66,8 @@ class BaseScreenController(ScreenController):
         return self
 
     def draw(self, draw_as_secondary: bool = False) -> None:
-        if self.background is not None:
-            self.background.draw()
+        if self.screen is not None:
+            self.screen.draw()
 
 
 class ScreenNavigator:

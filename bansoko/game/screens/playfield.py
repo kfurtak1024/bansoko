@@ -24,19 +24,19 @@ class PlayfieldScreen(BaseScreenController):
     def __init__(self, screen_factory: ScreenFactory, level_num: int):
         bundle = screen_factory.get_bundle()
         profile = screen_factory.get_player_profile()
-        super().__init__(background=bundle.get_background("playfield"))
+        super().__init__(screen=bundle.get_screen("playfield"))
         self.screen_factory = screen_factory
         self.level = Level(bundle.get_level_template(level_num))
         self.digits_yellow = bundle.get_sprite("digits_yellow")
         self.digits_blue = bundle.get_sprite("digits_blue")
         self.digits_red = bundle.get_sprite("digits_fat_red")
-        self.tutorial_shown = False
+        self.how_to_play_shown = False
         profile.last_played_level = level_num
 
     def update(self, dt_in_ms: float) -> ScreenController:
-        if self.level.level_num == 0 and not self.tutorial_shown:
-            self.tutorial_shown = True
-            return self.screen_factory.get_tutorial_screen()
+        if self.level.level_num == 0 and not self.how_to_play_shown:
+            self.how_to_play_shown = True
+            return self.screen_factory.get_how_to_play_screen()
 
         super().update(dt_in_ms)
 

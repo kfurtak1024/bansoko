@@ -6,10 +6,10 @@ from itertools import islice
 from typing import Callable, Optional, Iterable, Tuple
 
 from bansoko.graphics import Size, Point, max_size, center_in_rect
-from bansoko.graphics.background import Background
 from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.gui.input import VirtualButton
 from bansoko.gui.navigator import ScreenController, BaseScreenController
+from bansoko.gui.screen import Screen
 
 
 class MenuItem(ABC):
@@ -151,8 +151,8 @@ class MenuController(BaseScreenController):
     """
 
     def __init__(self, menu: Menu, allow_going_back: bool = False,
-                 background: Optional[Background] = None, semi_transparent: bool = False) -> None:
-        super().__init__(semi_transparent=semi_transparent, background=background)
+                 screen: Optional[Screen] = None, semi_transparent: bool = False) -> None:
+        super().__init__(semi_transparent=semi_transparent, screen=screen)
         # TODO: It should be possible to move selection from last item to the first one (wrapping)
         self.menu = menu
         self.allow_going_back = allow_going_back

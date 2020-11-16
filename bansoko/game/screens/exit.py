@@ -21,7 +21,7 @@ class ExitController(MenuController):
         super().__init__(
             menu=menu,
             allow_going_back=True,
-            background=bundle.get_background("exit"),
+            screen=bundle.get_screen("exit"),
             semi_transparent=True)
         self.exit_callback = exit_callback
 

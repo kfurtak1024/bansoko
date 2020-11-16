@@ -18,7 +18,7 @@ class VictoryController(MenuController):
         menu = Menu.with_defaults(tuple([
             TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
         ]))
-        super().__init__(menu=menu, background=bundle.get_background("victory"))
+        super().__init__(menu=menu, screen=bundle.get_screen("victory"))
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)

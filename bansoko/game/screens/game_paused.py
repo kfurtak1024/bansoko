@@ -18,14 +18,14 @@ class GamePausedController(MenuController):
         bundle = screen_factory.get_bundle()
         menu = Menu.with_defaults((
             TextMenuItem("RESUME GAME", lambda: None),
-            # TODO: Restarting Level 0 should not display tutorial (again)
+            # TODO: Restarting Level 0 should not display how to play (again)
             TextMenuItem("RESTART LEVEL", lambda: screen_factory.get_playfield_screen(level_num)),
-            TextMenuItem("HOW TO PLAY", screen_factory.get_tutorial_screen),
-            TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)))
+            TextMenuItem("HOW TO PLAY", screen_factory.get_how_to_play_screen),
+            TextMenuItem("MAIN MENU", screen_factory.get_main_menu)))
         super().__init__(
             menu=menu,
             allow_going_back=True,
-            background=bundle.get_background("game_paused"),
+            screen=bundle.get_screen("game_paused"),
             semi_transparent=True)
 
     def draw(self, draw_as_secondary: bool = False) -> None:

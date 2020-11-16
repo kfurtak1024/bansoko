@@ -10,7 +10,7 @@ from bansoko.game.screens.level_completed import LevelCompletedController
 from bansoko.game.screens.main_menu import MainMenuController
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.game.screens.tutorial import TutorialController
+from bansoko.game.screens.how_to_play import HowToPlayController
 from bansoko.game.screens.victory import VictoryController
 from bansoko.gui.navigator import ScreenController
 
@@ -43,8 +43,8 @@ class GameContext(ScreenFactory):
     def get_level_completed_screen(self, level_score: LevelScore) -> ScreenController:
         return LevelCompletedController(self, level_score)
 
-    def get_tutorial_screen(self) -> ScreenController:
-        return TutorialController(self)
+    def get_how_to_play_screen(self) -> ScreenController:
+        return HowToPlayController(self)
 
     def get_victory_screen(self) -> ScreenController:
         return VictoryController(self)

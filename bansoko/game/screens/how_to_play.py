@@ -9,7 +9,7 @@ from bansoko.gui.menu import MenuController, TextMenuItem, Menu
 # TODO: Rename it to HowToPlayScreen
 
 
-class TutorialController(MenuController):
+class HowToPlayController(MenuController):
     """Screen controller for displaying how to play instructions.
 
     Player can only go back to playfield screen from here.
@@ -21,7 +21,7 @@ class TutorialController(MenuController):
             TextMenuItem("OK", lambda: None)
         ]), position=Point(120, 179))
         super().__init__(
-            menu=menu, allow_going_back=True, background=bundle.get_background("tutorial"),
+            menu=menu, allow_going_back=True, screen=bundle.get_screen("how_to_play"),
             semi_transparent=True)
 
     def draw(self, draw_as_secondary: bool = False) -> None:

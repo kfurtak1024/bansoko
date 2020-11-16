@@ -116,7 +116,7 @@ class ChooseLevelController(MenuController):
         super().__init__(
             menu=menu,
             allow_going_back=True,
-            background=bundle.get_background("choose_level"))
+            screen=bundle.get_screen("choose_level"))
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
 
     def draw(self, draw_as_secondary: bool = False) -> None:

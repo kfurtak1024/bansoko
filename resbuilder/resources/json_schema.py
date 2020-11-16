@@ -70,8 +70,8 @@ RESOURCES_JSON_SCHEMA = {
                 "required": ["image_bank", "image"]
             }
         },
-        "backgrounds": {
-            "description": "Collection of backgrounds for game screens.",
+        "screens": {
+            "description": "Collection of game screens.",
             "type": "object",
             "additionalProperties": {
                 "type": "object",
@@ -102,19 +102,19 @@ RESOURCES_JSON_SCHEMA = {
                             }
                         },
                     },
-                    "elements": {
-                        "description": "Collection of drawable, backgrounds elements.",
+                    "screen_elements": {
+                        "description": "Collection of drawable, screen elements.",
                         "type": "array",
                         "items": {
                             "type": "object",
                             "properties": {
                                 "sprite": {
                                     "description": "Reference to sprite representing the "
-                                                   "background element.",
+                                                   "screen element.",
                                     "type": "string"
                                 },
                                 "position": {
-                                    "description": "The position of background element.",
+                                    "description": "The position of screen element.",
                                     "$ref": "#/definitions/position"
                                 }
                             },

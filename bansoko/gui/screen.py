@@ -1,4 +1,4 @@
-"""Module exposing Background type."""
+"""Module exposing GUI elements like screen, image and text."""
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
@@ -10,30 +10,28 @@ from bansoko.graphics.tilemap import Tilemap
 
 
 @dataclass(frozen=True)
-class BackgroundElement:
-    """BackgroundElement is a drawable part of Background.
+class ScreenElement:
+    """ScreenElement is a drawable part of Screen.
 
-    It's described by sprite and position to be drawn at."""
+    It's described by sprite and position to be drawn at.
+    """
     sprite: Sprite
     position: Point
 
     def draw(self) -> None:
-        """Draw background element at its defined position."""
+        """Draw screen element at its defined position."""
         self.sprite.draw(self.position)
 
 
-# TODO: Rename it to Screen and move it to gui module!
-
-
 @dataclass(frozen=True)
-class Background:
-    """Background is a composition of background elements that can be drawn on a screen."""
-    background_elements: Tuple[BackgroundElement, ...] = ()
+class Screen:
+    """Screen is a composition of elements that can be drawn on a game screen."""
+    elements: Tuple[ScreenElement, ...] = ()
     background_color: Optional[int] = None
     background_tilemap: Optional[Tilemap] = None
 
     def draw(self) -> None:
-        """Draw background with all its elements.
+        """Draw screen with all its elements.
 
         If background color is specified then screen is cleared with that color first.
         """
@@ -41,6 +39,6 @@ class Background:
             pyxel.cls(self.background_color)
         if self.background_tilemap:
             self.background_tilemap.draw(Layer(0))
-        if self.background_elements:
-            for element in self.background_elements:
+        if self.elements:
+            for element in self.elements:
                 element.draw()

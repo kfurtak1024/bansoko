@@ -36,8 +36,8 @@ class LevelCompletedController(MenuController):
         menu = Menu.with_defaults(
             last_level_finished_menu if last_level_completed else more_levels_to_play_menu)
 
-        background = screen_factory.get_bundle().get_background("level_completed")
-        super().__init__(menu=menu, background=background, semi_transparent=True)
+        screen = screen_factory.get_bundle().get_screen("level_completed")
+        super().__init__(menu=menu, screen=screen, semi_transparent=True)
         player_profile = screen_factory.get_player_profile()
         self.level_score = level_score
         self.prev_level_score = player_profile.complete_level(level_score)

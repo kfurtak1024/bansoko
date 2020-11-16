@@ -218,7 +218,7 @@
       "bottom": "gui/choose_level/frame_bottom.png"
     }
   },
-  "backgrounds": {
+  "screens": {
     "main_menu": {
       "background_color": "0",
       "background_tilemap": {
@@ -227,7 +227,7 @@
           "seed": 784455464
         }
       },
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "logo",
           "position": [20, 20]
@@ -235,7 +235,7 @@
       ]
     },
     "playfield": {
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "cockpit_top",
           "position": [0, 0]
@@ -276,7 +276,7 @@
           }
         ]
       },
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "monitor_top_left_corner",
           "position": [0, 0]
@@ -307,7 +307,7 @@
         ]
       }
     },
-    "tutorial": {
+    "how_to_play": {
       "background_tilemap": {
         "background_windows": [
           {
@@ -316,7 +316,7 @@
           }
         ]
       },
-      "elements": [
+      "screen_elements": [
         {
           "sprite": "key_up",
           "position": [32, 91]
