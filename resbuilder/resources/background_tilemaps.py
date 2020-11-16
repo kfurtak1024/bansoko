@@ -65,6 +65,7 @@ def process_tilemap_generators(input_data: Any, tile_packer: TilePacker) \
     return generators
 
 
+# TODO: Rename it!
 @dataclass(frozen=True)
 class WindowTileset:
     top_left_tile: int

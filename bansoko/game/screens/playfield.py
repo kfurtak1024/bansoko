@@ -58,11 +58,7 @@ class PlayfieldScreen(BaseScreenController):
         return self
 
     def draw(self, draw_as_secondary: bool = False) -> None:
-        if draw_as_secondary:
-            pyxel.cls(0)
-        else:
-            self._draw_level()
-
+        pyxel.cls(0) if draw_as_secondary else self._draw_level()
         super().draw(draw_as_secondary)
         self._draw_level_statistics()
 
