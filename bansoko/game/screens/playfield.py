@@ -9,13 +9,13 @@ from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
 from bansoko.gui.input import VirtualButton
-from bansoko.gui.screen import Screen, BaseScreen
+from bansoko.gui.navigator import ScreenController, BaseScreenController
 
 
-class PlayfieldScreen(BaseScreen):
-    """Main game screen.
+class PlayfieldScreen(BaseScreenController):
+    """Main game screen controller.
 
-    Screen allows player to "play" the level. It evaluates end-game conditions
+    Screen controller allowing player to "play" the level. It evaluates end-game conditions
     and switches to Level Completed screen when those are met.
     It is also possible to pause the game by pressing either 'Escape' or 'Start'
     (on a gamepad). That switches to Game Paused screen.
@@ -33,7 +33,7 @@ class PlayfieldScreen(BaseScreen):
         self.tutorial_shown = False
         profile.last_played_level = level_num
 
-    def update(self, dt_in_ms: float) -> Screen:
+    def update(self, dt_in_ms: float) -> ScreenController:
         if self.level.level_num == 0 and not self.tutorial_shown:
             self.tutorial_shown = True
             return self.screen_factory.get_tutorial_screen()

@@ -9,9 +9,6 @@ from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.tilemap import Tilemap
 
 
-# TODO: Rename it! (Maybe to ScreenBlueprint and move it to gui module)
-
-
 @dataclass(frozen=True)
 class BackgroundElement:
     """BackgroundElement is a drawable part of Background.
@@ -23,6 +20,9 @@ class BackgroundElement:
     def draw(self) -> None:
         """Draw background element at its defined position."""
         self.sprite.draw(self.position)
+
+
+# TODO: Rename it to Screen and move it to gui module!
 
 
 @dataclass(frozen=True)

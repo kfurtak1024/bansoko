@@ -59,7 +59,7 @@ class InputSystem:
         :param button: virtual button to be tested
         :return: True - if button was pressed *OR* False - otherwise
         """
-        return any(self.__is_key_pressed(key) for key in self.BUTTONS_MAP[button])
+        return any(self._is_key_pressed(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_down(self, button: VirtualButton) -> bool:
         """Test if given virtual button is down at the current update frame.
@@ -67,7 +67,7 @@ class InputSystem:
         :param button: virtual button to be tested
         :return: True - if button is down in current update frame *OR* False - otherwise
         """
-        return any(self.__is_key_down(key) for key in self.BUTTONS_MAP[button])
+        return any(self._is_key_down(key) for key in self.BUTTONS_MAP[button])
 
     def is_button_up(self, button: VirtualButton) -> bool:
         """Test if given virtual button is up at the current update frame.
@@ -86,9 +86,9 @@ class InputSystem:
             if pyxel.btn(key):
                 if key not in self.pressed_keys and not pyxel.btnp(key):
                     return
-                self.__press_key(key)
+                self._press_key(key)
             else:
-                self.__depress_key(key)
+                self._depress_key(key)
 
     def reset(self) -> None:
         """Reset the statuses of all watched keys.
@@ -97,7 +97,7 @@ class InputSystem:
         """
         self.pressed_keys.clear()
 
-    def __is_key_pressed(self, key: int) -> bool:
+    def _is_key_pressed(self, key: int) -> bool:
         if pyxel.btn(pyxel.KEY_ALT):
             return False
         if key not in self.pressed_keys:
@@ -111,14 +111,14 @@ class InputSystem:
             return True
         return False
 
-    def __is_key_down(self, key: int) -> bool:
+    def _is_key_down(self, key: int) -> bool:
         if pyxel.btn(pyxel.KEY_ALT):
             return False
         return key in self.pressed_keys
 
-    def __press_key(self, key: int) -> None:
+    def _press_key(self, key: int) -> None:
         self.pressed_keys[key] = self.pressed_keys.get(key, -1) + 1
 
-    def __depress_key(self, key: int) -> None:
+    def _depress_key(self, key: int) -> None:
         if key in self.pressed_keys:
             del self.pressed_keys[key]

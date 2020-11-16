@@ -1,13 +1,13 @@
-"""Module defining a game screen which is displayed when game is paused."""
+"""Module defining screen controller which is displayed when game is paused."""
 
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu
 
 
-class GamePausedScreen(MenuScreen):
-    """This screen is displayed when player pauses the game.
+class GamePausedController(MenuController):
+    """Screen controller for displaying pause menu in the game.
 
     From this screen player can resume the game, restart the current level
     (restoring level to its initial state) display How To Play instructions or return back to

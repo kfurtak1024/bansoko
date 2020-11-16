@@ -3,16 +3,16 @@ from typing import Callable
 
 from bansoko.game.bundle import Bundle
 from bansoko.game.profile import PlayerProfile, LevelScore
-from bansoko.game.screens.choose_level import ChooseLevelScreen
-from bansoko.game.screens.exit import ExitScreen
-from bansoko.game.screens.game_paused import GamePausedScreen
-from bansoko.game.screens.level_completed import LevelCompletedScreen
-from bansoko.game.screens.main_menu import MainMenuScreen
+from bansoko.game.screens.choose_level import ChooseLevelController
+from bansoko.game.screens.exit import ExitController
+from bansoko.game.screens.game_paused import GamePausedController
+from bansoko.game.screens.level_completed import LevelCompletedController
+from bansoko.game.screens.main_menu import MainMenuController
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.game.screens.tutorial import TutorialScreen
-from bansoko.game.screens.victory import VictoryScreen
-from bansoko.gui.screen import Screen
+from bansoko.game.screens.tutorial import TutorialController
+from bansoko.game.screens.victory import VictoryController
+from bansoko.gui.navigator import ScreenController
 
 
 class GameContext(ScreenFactory):
@@ -28,26 +28,26 @@ class GameContext(ScreenFactory):
     def get_player_profile(self) -> PlayerProfile:
         return self.player_profile
 
-    def get_main_menu(self) -> Screen:
-        return MainMenuScreen(self)
+    def get_main_menu(self) -> ScreenController:
+        return MainMenuController(self)
 
-    def get_playfield_screen(self, level_num: int) -> Screen:
+    def get_playfield_screen(self, level_num: int) -> ScreenController:
         return PlayfieldScreen(self, level_num)
 
-    def get_choose_level_screen(self) -> Screen:
-        return ChooseLevelScreen(self)
+    def get_choose_level_screen(self) -> ScreenController:
+        return ChooseLevelController(self)
 
-    def get_game_paused_screen(self, level_num: int) -> Screen:
-        return GamePausedScreen(self, level_num)
+    def get_game_paused_screen(self, level_num: int) -> ScreenController:
+        return GamePausedController(self, level_num)
 
-    def get_level_completed_screen(self, level_score: LevelScore) -> Screen:
-        return LevelCompletedScreen(self, level_score)
+    def get_level_completed_screen(self, level_score: LevelScore) -> ScreenController:
+        return LevelCompletedController(self, level_score)
 
-    def get_tutorial_screen(self) -> Screen:
-        return TutorialScreen(self)
+    def get_tutorial_screen(self) -> ScreenController:
+        return TutorialController(self)
 
-    def get_victory_screen(self) -> Screen:
-        return VictoryScreen(self)
+    def get_victory_screen(self) -> ScreenController:
+        return VictoryController(self)
 
-    def get_exit_screen(self, exit_callback: Callable) -> Screen:
-        return ExitScreen(self, exit_callback)
+    def get_exit_screen(self, exit_callback: Callable) -> ScreenController:
+        return ExitController(self, exit_callback)

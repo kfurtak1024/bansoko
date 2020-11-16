@@ -1,18 +1,15 @@
-"""Module defining game screen which is displayed before exiting the game."""
+"""Module defining screen controller which is displayed before exiting the game."""
 from typing import Callable
 
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
-from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu
 
 
-class ExitScreen(MenuScreen):
-    """Screen displayed when player wants to exit the game.
-
-    It displays confirmation dialog.
-    """
+class ExitController(MenuController):
+    """Screen controller for displaying exit confirmation dialog."""
 
     def __init__(self, screen_factory: ScreenFactory, exit_callback: Callable):
         bundle = screen_factory.get_bundle()

@@ -19,7 +19,7 @@ from bansoko import GAME_FRAME_RATE, __version__, GAME_FRAME_TIME_IN_MS
 from bansoko.game.bundle import load_bundle
 from bansoko.game.context import GameContext
 from bansoko.game.profile import create_or_load_profile
-from bansoko.gui.screen import ScreenController
+from bansoko.gui.navigator import ScreenNavigator
 
 GAME_TITLE = "Bansoko"
 
@@ -54,8 +54,8 @@ def main() -> None:
     bundle = load_bundle(file_names.metadata_file)
     player_profile = create_or_load_profile(bundle)
     game_context = GameContext(bundle, player_profile)
-    controller = ScreenController(game_context.get_main_menu(), pyxel.quit, GAME_FRAME_TIME_IN_MS)
-    pyxel.run(controller.update, controller.draw)
+    navigator = ScreenNavigator(game_context.get_main_menu(), pyxel.quit, GAME_FRAME_TIME_IN_MS)
+    pyxel.run(navigator.update, navigator.draw)
 
 
 if __name__ == "__main__":

@@ -57,6 +57,7 @@ class GameAction(abc.ABC):
 
 class MoveAction(GameAction):
     """MoveAction is an abstract class responsible for handling game object movement in tilemap."""
+
     def __init__(self, game_object: GameObject, direction: Direction,
                  time_to_complete: float, chain_action: Optional[GameAction] = None) -> None:
         super().__init__(time_to_complete, chain_action)
@@ -85,6 +86,7 @@ class TurnRobot(GameAction):
         robot - robot to be turned
         direction - direction to turn the robot in
     """
+
     def __init__(self, robot: Robot, direction: Direction) -> None:
         super().__init__(time_to_complete=0.0)
         self.robot = robot
@@ -105,6 +107,7 @@ TIME_TO_COMPLETE_ROBOT_MOVE = TILE_SIZE * GAME_FRAME_TIME_IN_MS
 
 class MoveRobot(MoveAction):
     """MoveRobot is a move action that encapsulates the movement of robot."""
+
     def __init__(self, robot: Robot, direction: Direction,
                  move_state: RobotState = RobotState.MOVING):
         super().__init__(robot, direction, TIME_TO_COMPLETE_ROBOT_MOVE, TurnRobot(robot, direction))
@@ -127,6 +130,7 @@ TIME_TO_COMPLETE_CRATE_PUSH = TILE_SIZE * GAME_FRAME_TIME_IN_MS
 
 class PushCrate(MoveAction):
     """PushCrate is a move action that encapsulates the movement of robot and the push of crate."""
+
     def __init__(self, robot: Robot, crate: Crate, direction: Direction) -> None:
         super().__init__(crate, direction, TIME_TO_COMPLETE_CRATE_PUSH,
                          chain_action=MoveRobot(robot, direction, RobotState.PUSHING))

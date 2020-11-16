@@ -155,6 +155,7 @@ class Crate(GameObject):
         state - the state crate is currently in (used for picking the right sprite to draw with and
                 importantly to determine whether a crate is in place or not)
     """
+
     def __init__(self, tile_position: TilePosition, is_placed: bool,
                  crate_sprites: Dict[CrateState, Sprite]) -> None:
         super().__init__(tile_position)

@@ -43,6 +43,7 @@ class Level:
         running_action - currently running game action (updated in update method)
         history - list of historical game actions (used for undo)
     """
+
     def __init__(self, template: LevelTemplate) -> None:
         self.statistics = GameStats()
         self.game_time = 0.0

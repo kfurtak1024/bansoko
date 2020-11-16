@@ -3,11 +3,14 @@
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text
-from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu
 
 
-class TutorialScreen(MenuScreen):
-    """Screen displayed before player starts tutorial level.
+# TODO: Rename it to HowToPlayScreen
+
+
+class TutorialController(MenuController):
+    """Screen controller for displaying how to play instructions.
 
     Player can only go back to playfield screen from here.
     """

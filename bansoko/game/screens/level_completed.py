@@ -7,11 +7,11 @@ from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text
-from bansoko.gui.menu import MenuScreen, TextMenuItem, MenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, MenuItem, Menu
 
 
-class LevelCompletedScreen(MenuScreen):
-    """Screen displayed when player completes the level.
+class LevelCompletedController(MenuController):
+    """Screen controller allowing player to choose what to do after completion of the level.
 
     Player can navigate to the next level, replay the current level
     (to get better score) or get back to Main Menu.

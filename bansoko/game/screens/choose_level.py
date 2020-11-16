@@ -1,4 +1,4 @@
-"""Module defining game screen for choosing a level to be played."""
+"""Module defining screen controller for choosing a level to be played."""
 
 import pyxel
 
@@ -6,7 +6,7 @@ from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
 from bansoko.graphics.text import draw_text, TextStyle
-from bansoko.gui.menu import MenuScreen, MenuItem, Menu
+from bansoko.gui.menu import MenuController, MenuItem, Menu
 
 LEVEL_SELECTED_STYLE = TextStyle(color=10)
 LEVEL_LOCKED_STYLE = TextStyle(color=1)
@@ -16,6 +16,7 @@ LEVEL_COMPLETED_STYLE = TextStyle(color=3)
 
 class LevelMenuItem(MenuItem):
     """LevelMenuItem represents a menu item used for selecting level on ChooseLevel screen."""
+
     def __init__(self, level_num: int, screen_factory: ScreenFactory):
         super().__init__(lambda: screen_factory.get_playfield_screen(level_num))
         self.level_num = level_num
@@ -82,8 +83,8 @@ class LevelMenuItem(MenuItem):
         pyxel.line(position.x, position.y, position.x + 227, position.y, LEVEL_SELECTED_STYLE.color)
 
         if self.level_completed:
-            text = f"TIME: {level_score.time}  "\
-                   f"PUSHES: {level_score.pushes}  "\
+            text = f"TIME: {level_score.time}  " \
+                   f"PUSHES: {level_score.pushes}  " \
                    f"STEPS: {level_score.steps}"
         elif self.level_unlocked:
             text = "LEVEL NOT COMPLETED"
@@ -97,8 +98,8 @@ class LevelMenuItem(MenuItem):
         pyxel.rectb(position.x, position.y, 38, 45, style.color)
 
 
-class ChooseLevelScreen(MenuScreen):
-    """Screen allowing player to choose a level to play.
+class ChooseLevelController(MenuController):
+    """Screen controller allowing player to choose a level to play.
 
     Player can choose a level from all unlocked levels (Level is "unlocked"
     when its predecessor level is completed)

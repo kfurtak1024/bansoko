@@ -1,17 +1,17 @@
-"""Module defining main menu screen."""
+"""Module defining main menu screen controller."""
 from typing import Optional
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text, TextStyle
-from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
-from bansoko.gui.screen import Screen
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu
+from bansoko.gui.navigator import ScreenController
 
 
-class MainMenuScreen(MenuScreen):
+class MainMenuController(MenuController):
     """Main Menu for the game (entry point for the game).
 
-    Screen allows player to start a new game, choose a level from a list of
+    Screen controller allowing player to start a new game, choose a level from a list of
     all unlocked levels or exit the game.
     """
 
@@ -36,11 +36,11 @@ class MainMenuScreen(MenuScreen):
         super().draw(draw_as_secondary)
         draw_text(Point(79, 240), "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
 
-    def update(self, dt_in_ms: float) -> Optional[Screen]:
+    def update(self, dt_in_ms: float) -> Optional[ScreenController]:
         if self.exiting:
             return None
-        screen_to_go_to = super().update(dt_in_ms)
-        return screen_to_go_to if screen_to_go_to else self._get_exit_screen()
+        controller_to_go_to = super().update(dt_in_ms)
+        return controller_to_go_to if controller_to_go_to else self._get_exit_screen()
 
     def _exit_callback(self) -> None:
         self.exiting = True

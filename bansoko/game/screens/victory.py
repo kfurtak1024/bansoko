@@ -3,12 +3,13 @@
 import pyxel
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuScreen, TextMenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu
 
 
-class VictoryScreen(MenuScreen):
-    """Screen displayed when player completes the last level (finished the game).
+class VictoryController(MenuController):
+    """Screen controller for displaying victory screen.
 
+    It's displayed when player completes the last level (finishes the game).
     Player can only go back to main menu screen from here.
     """
 

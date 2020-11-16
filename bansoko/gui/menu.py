@@ -9,14 +9,14 @@ from bansoko.graphics import Size, Point, max_size, center_in_rect
 from bansoko.graphics.background import Background
 from bansoko.graphics.text import draw_text, text_size, TextStyle
 from bansoko.gui.input import VirtualButton
-from bansoko.gui.screen import Screen, BaseScreen
+from bansoko.gui.navigator import ScreenController, BaseScreenController
 
 
 class MenuItem(ABC):
     """An abstract, base class for all menu items controlled by MenuScreen."""
 
-    def __init__(self, screen_to_switch_to: Callable[[], Optional[Screen]]):
-        self.screen_to_switch_to = screen_to_switch_to
+    def __init__(self, controller_to_switch_to: Callable[[], Optional[ScreenController]]):
+        self.controller_to_switch_to = controller_to_switch_to
 
     @property
     @abstractmethod
@@ -42,15 +42,15 @@ class MenuItem(ABC):
         :param selected: should the item be drawn as selected
         """
 
-    def perform_action(self) -> Optional[Screen]:
+    def perform_action(self) -> Optional[ScreenController]:
         """Perform action tied up to the menu item.
 
         Navigation between game screens is controlled by return value.
 
-        :return: instance of Screen class - switch to new screen *OR* None - switch to previous
-        screen (exit menu screen)
+        :return: instance of Screen class - switch to new screen controller *OR*
+        None - switch to previous screen controller (exit menu screen)
         """
-        return self.screen_to_switch_to()
+        return self.controller_to_switch_to()
 
 
 MENU_TEXT_NORMAL = TextStyle(color=7, shadow_color=1)
@@ -64,8 +64,9 @@ class TextMenuItem(MenuItem):
     It contains only label, which changes color when item is selected.
     """
 
-    def __init__(self, text: str, screen_to_switch_to: Callable[[], Optional[Screen]]):
-        super().__init__(screen_to_switch_to)
+    def __init__(self, text: str,
+                 controller_to_switch_to: Callable[[], Optional[ScreenController]]):
+        super().__init__(controller_to_switch_to)
         self.text = text
 
     @property
@@ -136,8 +137,8 @@ class Menu:
         return -(-len(self.items) // self.columns)
 
 
-class MenuScreen(BaseScreen):
-    """MenuScreen is a game screen containing configurable menu.
+class MenuController(BaseScreenController):
+    """MenuController is a screen controller containing configurable menu.
 
     Attributes:
         items - collection of all menu items that are going to be
@@ -152,6 +153,7 @@ class MenuScreen(BaseScreen):
     def __init__(self, menu: Menu, allow_going_back: bool = False,
                  background: Optional[Background] = None, semi_transparent: bool = False) -> None:
         super().__init__(semi_transparent=semi_transparent, background=background)
+        # TODO: It should be possible to move selection from last item to the first one (wrapping)
         self.menu = menu
         self.allow_going_back = allow_going_back
         self.top_row = 0
@@ -198,7 +200,7 @@ class MenuScreen(BaseScreen):
         """Scroll menu to specified item."""
         self.top_row = min(item // self.menu.columns, self.menu.total_rows - self.menu.rows)
 
-    def update(self, dt_in_ms: float) -> Optional[Screen]:
+    def update(self, dt_in_ms: float) -> Optional[ScreenController]:
         super().update(dt_in_ms)
 
         if self.input.is_button_pressed(VirtualButton.BACK) and self.allow_going_back:
