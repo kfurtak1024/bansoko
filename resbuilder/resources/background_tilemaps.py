@@ -82,13 +82,16 @@ class WindowTileset:
         tilemap = pyxel.tilemap(tilemap_id)
         tilemap.set(rect.left, rect.top, self.top_left_tile)
         tilemap.set(rect.right, rect.top, self.top_right_tile)
-        tilemap.set(rect.left, rect.bottom, self.bottom_left_tile)
-        tilemap.set(rect.right, rect.bottom, self.bottom_right_tile)
+        if rect.bottom > rect.top:
+            tilemap.set(rect.left, rect.bottom, self.bottom_left_tile)
+            tilemap.set(rect.right, rect.bottom, self.bottom_right_tile)
+
         for x in range(rect.left + 1, rect.right):
             tilemap.set(x, rect.top, self.top_tile)
             for y in range(rect.top + 1, rect.bottom):
                 tilemap.set(x, y, self.center_tile)
-            tilemap.set(x, rect.bottom, self.bottom_tile)
+            if rect.bottom > rect.top:
+                tilemap.set(x, rect.bottom, self.bottom_tile)
 
         for y in range(rect.top + 1, rect.bottom):
             tilemap.set(rect.left, y, self.middle_left_tile)

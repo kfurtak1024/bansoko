@@ -136,6 +136,11 @@ class Menu:
         """Total number of rows in the menu."""
         return -(-len(self.items) // self.columns)
 
+    @property
+    def items_on_page(self) -> int:
+        """Number of items visible on single menu page."""
+        return self.columns * self.rows
+
 
 class MenuController(BaseScreenController):
     """MenuController is a screen controller containing configurable menu.
@@ -190,11 +195,14 @@ class MenuController(BaseScreenController):
 
         :param item: item to be selected
         """
-        if item >= len(self.menu.items):
-            return
+        if item < 0:
+            self.selected_item = 0
+        elif item >= len(self.menu.items):
+            self.selected_item = len(self.menu.items) - 1
+        else:
+            self.selected_item = item
 
-        self.selected_item = item
-        self.scroll_to_item(item)
+        self.scroll_to_item(self.selected_item)
 
     def scroll_to_item(self, item: int) -> None:
         """Scroll menu to specified item."""
@@ -221,6 +229,14 @@ class MenuController(BaseScreenController):
             self._move_selection_left()
         elif self.input.is_button_pressed(VirtualButton.RIGHT):
             self._move_selection_right()
+        elif self.input.is_button_pressed(VirtualButton.HOME):
+            self._select_first()
+        elif self.input.is_button_pressed(VirtualButton.END):
+            self._select_last()
+        elif self.input.is_button_pressed(VirtualButton.PAGE_UP):
+            self._move_selection_page_up()
+        elif self.input.is_button_pressed(VirtualButton.PAGE_DOWN):
+            self._move_selection_page_down()
 
         return self
 
@@ -261,3 +277,15 @@ class MenuController(BaseScreenController):
                               (self.selected_item + 1 < len(self.menu.items))
         if move_right_possible:
             self.selected_item += 1
+
+    def _select_first(self) -> None:
+        self.select_and_scroll_to_item(0)
+
+    def _select_last(self) -> None:
+        self.select_and_scroll_to_item(len(self.menu.items) - 1)
+
+    def _move_selection_page_up(self) -> None:
+        self.select_and_scroll_to_item(self.selected_item - self.menu.items_on_page)
+
+    def _move_selection_page_down(self) -> None:
+        self.select_and_scroll_to_item(self.selected_item + self.menu.items_on_page)

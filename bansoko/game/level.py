@@ -48,7 +48,7 @@ class Level:
         self.statistics = GameStats()
         self.game_time = 0.0
         self.template = template
-        self.robot = template.create_robot(self.initial_robot_direction)
+        self.robot = template.create_robot()
         self.crates = template.create_crates()
         self.running_action: Optional[GameAction] = None
         self.history: List[GameAction] = []
@@ -71,12 +71,6 @@ class Level:
         Level is completed when all crates are in cargo bays.
         """
         return not next((crate for crate in self.crates if not crate.in_place), None)
-
-    @property
-    def initial_robot_direction(self) -> Direction:
-        """The initial direction robot is facing to."""
-        # TODO: Deduct initial robot direction from level layout
-        return Direction.UP
 
     @property
     def game_objects(self) -> Iterable[GameObject]:

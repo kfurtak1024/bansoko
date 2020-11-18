@@ -224,6 +224,11 @@
       "middle_right": "gui/choose_level/scrollbar_middle_right.png",
       "bottom_left": "gui/choose_level/scrollbar_bottom_left.png",
       "bottom_right": "gui/choose_level/scrollbar_bottom_right.png"
+    },
+    "hr_frame": {
+      "top_left": "gui/choose_level/hr_top_left.png",
+      "top": "gui/choose_level/hr_top.png",
+      "top_right": "gui/choose_level/hr_top_right.png"
     }
   },
   "screens": {
@@ -285,6 +290,10 @@
           {
             "rect": [29, 3, 2, 25],
             "tileset_name": "scrollbar_frame"
+          },
+          {
+            "rect": [1, 28, 30, 1],
+            "tileset_name": "hr_frame"
           }
         ]
       },

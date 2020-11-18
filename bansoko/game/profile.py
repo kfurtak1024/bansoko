@@ -36,10 +36,14 @@ class LevelScore:
     @property
     def time(self) -> str:
         """Human readable level completion time expressed in format H:MM:SS."""
-        # TODO: Refactor this
-        hours = int((self.time_in_ms / (1000 * 60 * 60)) % 60)
-        minutes = int((self.time_in_ms / (1000 * 60)) % 60)
-        seconds = int((self.time_in_ms / 1000) % 60)
+
+        total_seconds = self.time_in_ms // 1000
+        total_minutes = total_seconds // 60
+        total_hours = total_minutes // 60
+        hours = total_hours % 60
+        minutes = total_minutes % 60
+        seconds = total_seconds % 60
+
         if self.time_in_ms >= 10 * 60 * 60 * 1000:
             hours = 9
             seconds = 59

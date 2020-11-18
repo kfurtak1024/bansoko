@@ -80,12 +80,11 @@ class LevelMenuItem(MenuItem):
 
     def _draw_level_score(self, position: Point) -> None:
         level_score = self.player_profile.levels_scores[self.level_num]
-        pyxel.line(position.x, position.y, position.x + 227, position.y, LEVEL_SELECTED_STYLE.color)
 
         if self.level_completed:
             text = f"TIME: {level_score.time}  " \
-                   f"PUSHES: {level_score.pushes}  " \
-                   f"STEPS: {level_score.steps}"
+                   f"PUSHES: {level_score.pushes: >4}  " \
+                   f"STEPS: {level_score.steps: >4}"
         elif self.level_unlocked:
             text = "LEVEL NOT COMPLETED"
         else:

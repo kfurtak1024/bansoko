@@ -9,15 +9,18 @@ import pyxel
 class VirtualButton(IntFlag):
     """Virtual button of a virtual game controller."""
 
-    UP = 0x01
-    DOWN = 0x02
-    LEFT = 0x04
-    RIGHT = 0x08
-    SELECT = 0x10
-    BACK = 0x20
-    START = 0x40
-    ACTION = 0x80
-    # TODO: Add Home, End, PgUp, PgDown
+    UP = 0x001
+    DOWN = 0x002
+    LEFT = 0x004
+    RIGHT = 0x008
+    SELECT = 0x010
+    BACK = 0x020
+    START = 0x040
+    ACTION = 0x080
+    HOME = 0x100
+    END = 0x200
+    PAGE_UP = 0x400
+    PAGE_DOWN = 0x800
 
 
 class InputSystem:
@@ -37,7 +40,11 @@ class InputSystem:
         VirtualButton.SELECT: [pyxel.KEY_ENTER, pyxel.GAMEPAD_1_A],
         VirtualButton.BACK: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_B],
         VirtualButton.START: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_START],
-        VirtualButton.ACTION: [pyxel.KEY_Z, pyxel.GAMEPAD_1_B]
+        VirtualButton.ACTION: [pyxel.KEY_Z, pyxel.GAMEPAD_1_B],
+        VirtualButton.HOME: [pyxel.KEY_HOME],
+        VirtualButton.END: [pyxel.KEY_END],
+        VirtualButton.PAGE_UP: [pyxel.KEY_PAGE_UP],
+        VirtualButton.PAGE_DOWN: [pyxel.KEY_PAGE_DOWN]
     }
     WATCHED_KEYS: Set[int] = set(sum(BUTTONS_MAP.values(), []))
 

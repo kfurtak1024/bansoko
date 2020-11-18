@@ -117,17 +117,19 @@ class LevelTemplate:
 
         return tuple(crates)
 
-    def create_robot(self, face_direction: Direction) -> Robot:
-        """Create robot instance based on information from tilemap about its start position.
-
-        :param face_direction: direction the robot should be facing to
-        :return: instance of robot created from level template
-        """
+    def create_robot(self) -> Robot:
+        """Create robot instance based on information from tilemap about its start position."""
         start = None
         for tile_position in self.tilemap.tiles_positions():
             if self.tile_at(tile_position).is_start:
                 start = tile_position
         if not start:
             raise Exception(f"Level {self.level_num} does not have player start tile")
+
+        face_direction = Direction.UP
+        for direction in list(Direction):
+            if self.tile_at(start.move(direction)).is_walkable:
+                face_direction = direction
+                break
 
         return Robot(start, face_direction, self.sprite_packs.robot_animations)
