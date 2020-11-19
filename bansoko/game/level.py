@@ -36,28 +36,28 @@ class Level:
 
     Attributes:
         statistics - statistics captures during the play of the level
-        game_time - total time spent on playing the level (in ms)
         template - template the level is crated from
         robot - instance of Robot game object, that player can control
         crates - collection of all Crate game objects for the level
         running_action - currently running game action (updated in update method)
+        last_input_action - input action that triggered running_action
         history - list of historical game actions (used for undo)
     """
 
     def __init__(self, template: LevelTemplate) -> None:
         self.statistics = GameStats()
-        self.game_time = 0.0
         self.template = template
         self.robot = template.create_robot()
         self.crates = template.create_crates()
         self.running_action: Optional[GameAction] = None
+        self.last_input_action: Optional[InputAction] = None
         self.history: List[GameAction] = []
 
     @property
     def level_score(self) -> LevelScore:
         """Current player's score in the level."""
         return LevelScore(self.template.level_num, self.is_completed, self.statistics.pushes,
-                          self.statistics.steps, int(self.game_time))
+                          self.statistics.steps, int(self.statistics.game_time))
 
     @property
     def level_num(self) -> int:
@@ -118,8 +118,9 @@ class Level:
 
         # Before checking the input we don't know whether there will be a continuation of the
         # movement or not. That's why we cannot put robot to standing state when action finishes.
-        # We have to do it here.
+        # We have to do it here. The same applies to last_input_action.
         self.robot.robot_state = RobotState.STANDING
+        self.last_input_action = input_action
 
         if not input_action:
             return
@@ -146,7 +147,7 @@ class Level:
         self._evaluate_crates()
         for game_object in self.game_objects:
             game_object.update(dt_in_ms)
-        self.game_time += dt_in_ms
+        self.statistics.game_time += dt_in_ms
 
     def draw(self) -> None:
         """Draw all layers of level in order (from bottom to top)."""

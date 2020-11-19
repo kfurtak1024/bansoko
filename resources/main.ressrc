@@ -1,105 +1,118 @@
 {
   "sprites": {
-    "logo" : {
+    "logo": {
       "image_bank": 1,
       "image": "gui/logo.png"
     },
-    "check_icon" : {
+    "check_icon": {
       "image_bank": 1,
       "image": "gui/choose_level/check_icon.png"
     },
-    "locked_icon" : {
+    "locked_icon": {
       "image_bank": 1,
       "image": "gui/choose_level/locked_icon.png"
     },
-    "desert_crate" : {
+    "desert_crate": {
       "image_bank": 1,
       "image": "sprites/desert/crate.png",
       "multilayer": true
     },
-    "desert_crate_placed" : {
+    "desert_crate_placed": {
       "image_bank": 1,
       "image": "sprites/desert/crate_placed.png",
       "multilayer": true
     },
-    "mint_crate" : {
+    "mint_crate": {
       "image_bank": 1,
       "image": "sprites/mint/crate.png",
       "multilayer": true
     },
-    "mint_crate_placed" : {
+    "mint_crate_placed": {
       "image_bank": 1,
       "image": "sprites/mint/crate_placed.png",
       "multilayer": true
     },
-    "ice_crate" : {
+    "ice_crate": {
       "image_bank": 1,
       "image": "sprites/ice/crate.png",
       "multilayer": true
     },
-    "ice_crate_placed" : {
+    "ice_crate_placed": {
       "image_bank": 1,
       "image": "sprites/ice/crate_placed.png",
       "multilayer": true
     },
-    "moon_crate" : {
+    "moon_crate": {
       "image_bank": 1,
       "image": "sprites/moon/crate.png",
       "multilayer": true
     },
-    "moon_crate_placed" : {
+    "moon_crate_placed": {
       "image_bank": 1,
       "image": "sprites/moon/crate_placed.png",
       "multilayer": true
     },
-    "robot_standing" : {
+    "robot_standing": {
       "image_bank": 1,
       "image": "sprites/robot_standing.png",
       "multilayer": true,
       "directional": true
     },
-    "robot_moving" : {
+    "robot_moving": {
       "image_bank": 1,
       "image": "sprites/robot_moving.png",
       "num_frames": 2,
       "multilayer": true,
       "directional": true
     },
-    "robot_pushing" : {
+    "robot_pushing": {
       "image_bank": 1,
       "image": "sprites/robot_pushing.png",
       "num_frames": 2,
       "multilayer": true,
       "directional": true
     },
-    "cockpit_top" : {
+    "cockpit_top": {
       "image_bank": 1,
       "image": "gui/playfield/cockpit_top.png"
     },
-    "cockpit_right1" : {
+    "cockpit_right1": {
       "image_bank": 1,
       "image": "gui/playfield/cockpit_right1.png"
     },
-    "cockpit_right2" : {
+    "cockpit_right2": {
       "image_bank": 1,
       "image": "gui/playfield/cockpit_right2.png"
     },
-    "cockpit_bottom" : {
+    "cockpit_bottom": {
       "image_bank": 1,
       "image": "gui/playfield/cockpit_bottom.png"
     },
-    "cockpit_left1" : {
+    "cockpit_left1": {
       "image_bank": 1,
       "image": "gui/playfield/cockpit_left1.png"
     },
-    "cockpit_left2" : {
+    "cockpit_left2": {
       "image_bank": 1,
       "image": "gui/playfield/cockpit_left2.png"
     },
-    "printing_receipt" : {
+    "printing_receipt": {
       "image_bank": 1,
       "image": "gui/playfield/printing_receipt.png",
       "num_frames": 5
+    },
+    "joystick_neutral": {
+      "image_bank": 1,
+      "image": "gui/playfield/joystick_neutral.png"
+    },
+    "joystick_move": {
+      "image_bank": 1,
+      "image": "gui/playfield/joystick_move.png",
+      "directional": true
+    },
+    "rewind_icon": {
+      "image_bank": 1,
+      "image": "gui/playfield/rewind_icon.png"
     },
     "digits_blue": {
       "image_bank": 1,

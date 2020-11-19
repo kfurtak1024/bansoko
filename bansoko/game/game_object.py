@@ -15,9 +15,11 @@ class GameStats:
     """Statistics of currently played game.
 
     Attributes:
+        game_time - total time spent on playing the level (in ms)
         pushes - number of moves that player made
         steps - number of steps that player made
     """
+    game_time = 0.0
     pushes: int = 0
     steps: int = 0
 

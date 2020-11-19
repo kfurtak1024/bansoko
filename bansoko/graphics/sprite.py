@@ -25,6 +25,7 @@ class Sprite:
     image_bank: int
     uv_rect: Rect
     directional: bool = False
+    # TODO: Add transparency_color instead of transparency
     transparent: bool = True
     num_layers: int = 1
     num_frames: int = 1
