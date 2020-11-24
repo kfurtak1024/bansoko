@@ -2,182 +2,213 @@
   "sprites": {
     "logo": {
       "image_bank": 1,
-      "image": "gui/logo.png"
+      "image": "gui/logo.png",
+      "transparency_color": "0"
     },
     "check_icon": {
       "image_bank": 1,
-      "image": "gui/choose_level/check_icon.png"
+      "image": "gui/choose_level/check_icon.png",
+      "transparency_color": "0"
     },
     "locked_icon": {
       "image_bank": 1,
-      "image": "gui/choose_level/locked_icon.png"
+      "image": "gui/choose_level/locked_icon.png",
+      "transparency_color": "0"
     },
     "desert_crate": {
       "image_bank": 1,
       "image": "sprites/desert/crate.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "desert_crate_placed": {
       "image_bank": 1,
       "image": "sprites/desert/crate_placed.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "mint_crate": {
       "image_bank": 1,
       "image": "sprites/mint/crate.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "mint_crate_placed": {
       "image_bank": 1,
       "image": "sprites/mint/crate_placed.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "ice_crate": {
       "image_bank": 1,
       "image": "sprites/ice/crate.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "ice_crate_placed": {
       "image_bank": 1,
       "image": "sprites/ice/crate_placed.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "moon_crate": {
       "image_bank": 1,
       "image": "sprites/moon/crate.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "moon_crate_placed": {
       "image_bank": 1,
       "image": "sprites/moon/crate_placed.png",
-      "multilayer": true
+      "multilayer": true,
+      "transparency_color": "0"
     },
     "robot_standing": {
       "image_bank": 1,
       "image": "sprites/robot_standing.png",
       "multilayer": true,
-      "directional": true
+      "directional": true,
+      "transparency_color": "0"
     },
     "robot_moving": {
       "image_bank": 1,
       "image": "sprites/robot_moving.png",
       "num_frames": 2,
       "multilayer": true,
-      "directional": true
+      "directional": true,
+      "transparency_color": "0"
     },
     "robot_pushing": {
       "image_bank": 1,
       "image": "sprites/robot_pushing.png",
       "num_frames": 2,
       "multilayer": true,
-      "directional": true
+      "directional": true,
+      "transparency_color": "0"
     },
     "cockpit_top": {
       "image_bank": 1,
-      "image": "gui/playfield/cockpit_top.png"
+      "image": "gui/playfield/cockpit_top.png",
+      "transparency_color": "F"
     },
     "cockpit_right1": {
       "image_bank": 1,
-      "image": "gui/playfield/cockpit_right1.png"
+      "image": "gui/playfield/cockpit_right1.png",
+      "transparency_color": "F"
     },
     "cockpit_right2": {
       "image_bank": 1,
-      "image": "gui/playfield/cockpit_right2.png"
+      "image": "gui/playfield/cockpit_right2.png",
+      "transparency_color": "F"
     },
     "cockpit_bottom": {
       "image_bank": 1,
-      "image": "gui/playfield/cockpit_bottom.png"
+      "image": "gui/playfield/cockpit_bottom.png",
+      "transparency_color": "F"
     },
     "cockpit_left1": {
       "image_bank": 1,
-      "image": "gui/playfield/cockpit_left1.png"
+      "image": "gui/playfield/cockpit_left1.png",
+      "transparency_color": "F"
     },
     "cockpit_left2": {
       "image_bank": 1,
-      "image": "gui/playfield/cockpit_left2.png"
+      "image": "gui/playfield/cockpit_left2.png",
+      "transparency_color": "F"
     },
     "printing_receipt": {
       "image_bank": 1,
       "image": "gui/playfield/printing_receipt.png",
-      "num_frames": 5
+      "num_frames": 5,
+      "transparency_color": "0"
     },
     "joystick_neutral": {
       "image_bank": 1,
-      "image": "gui/playfield/joystick_neutral.png"
+      "image": "gui/playfield/joystick_neutral.png",
+      "transparency_color": "F"
     },
     "joystick_move": {
       "image_bank": 1,
       "image": "gui/playfield/joystick_move.png",
-      "directional": true
+      "directional": true,
+      "transparency_color": "F"
+    },
+    "left_hand": {
+      "image_bank": 1,
+      "image": "gui/playfield/left_hand.png",
+      "transparency_color": "B"
     },
     "rewind_icon": {
       "image_bank": 1,
-      "image": "gui/playfield/rewind_icon.png"
+      "image": "gui/playfield/rewind_icon.png",
+      "transparency_color": "0"
     },
     "digits_blue": {
       "image_bank": 1,
       "image": "gui/playfield/digits_blue.png",
-      "num_frames": 10
+      "num_frames": 10,
+      "transparency_color": "0"
     },
     "digits_yellow": {
       "image_bank": 1,
       "image": "gui/playfield/digits_yellow.png",
-      "num_frames": 10
+      "num_frames": 10,
+      "transparency_color": "0"
     },
     "digits_fat_red": {
       "image_bank": 1,
       "image": "gui/playfield/digits_fat_red.png",
-      "num_frames": 10
+      "num_frames": 10,
+      "transparency_color": "0"
     },
     "monitor_top_left_corner": {
       "image_bank": 1,
-      "image": "gui/choose_level/frame_top_left_corner.png",
-      "transparent": false
+      "image": "gui/choose_level/frame_top_left_corner.png"
     },
     "monitor_top_right_corner": {
       "image_bank": 1,
-      "image": "gui/choose_level/frame_top_right_corner.png",
-      "transparent": false
+      "image": "gui/choose_level/frame_top_right_corner.png"
     },
     "monitor_bottom_left_corner": {
       "image_bank": 1,
-      "image": "gui/choose_level/frame_bottom_left_corner.png",
-      "transparent": false
+      "image": "gui/choose_level/frame_bottom_left_corner.png"
     },
     "monitor_bottom_right_corner": {
       "image_bank": 1,
-      "image": "gui/choose_level/frame_bottom_right_corner.png",
-      "transparent": false
+      "image": "gui/choose_level/frame_bottom_right_corner.png"
     },
     "key_undo": {
       "image_bank": 1,
-      "image": "gui/tutorial/key_undo.png"
+      "image": "gui/tutorial/key_undo.png",
+      "transparency_color": "0"
     },
     "key_up": {
       "image_bank": 1,
-      "image": "gui/tutorial/key_up.png"
+      "image": "gui/tutorial/key_up.png",
+      "transparency_color": "0"
     },
     "key_down": {
       "image_bank": 1,
-      "image": "gui/tutorial/key_down.png"
+      "image": "gui/tutorial/key_down.png",
+      "transparency_color": "0"
     },
     "key_left": {
       "image_bank": 1,
-      "image": "gui/tutorial/key_left.png"
+      "image": "gui/tutorial/key_left.png",
+      "transparency_color": "0"
     },
     "key_right": {
       "image_bank": 1,
-      "image": "gui/tutorial/key_right.png"
+      "image": "gui/tutorial/key_right.png",
+      "transparency_color": "0"
     },
     "placing_crate1": {
       "image_bank": 1,
-      "image": "gui/tutorial/placing_crate1.png",
-      "transparent": false
+      "image": "gui/tutorial/placing_crate1.png"
     },
     "placing_crate2": {
       "image_bank": 1,
-      "image": "gui/tutorial/placing_crate2.png",
-      "transparent": false
+      "image": "gui/tutorial/placing_crate2.png"
     }
   },
   "sprite_packs": {

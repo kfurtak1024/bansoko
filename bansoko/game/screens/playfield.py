@@ -74,33 +74,25 @@ class PlayfieldScreen(BaseScreenController):
         return self
 
     def draw(self, draw_as_secondary: bool = False) -> None:
-        if draw_as_secondary:
-            pyxel.cls(0)
-        else:
-            self._draw_level()
+        pyxel.cls(0)
+        if not draw_as_secondary:
+            self.level.draw()
 
         super().draw(draw_as_secondary)
         self._draw_dynamic_cockpit()
         self._draw_level_statistics()
 
-    def _draw_level(self) -> None:
-        pyxel.cls(0)
-        # TODO: Should be taken from resources metadata!
-        pyxel.clip(10, 20, 238, 188)
-        self.level.draw()
-        pyxel.clip()
-
     def _draw_dynamic_cockpit(self) -> None:
         if not self.level.last_input_action:
-            self.ui_elements.joystick_neutral.draw(Point(20, 209))
+            self.ui_elements.joystick_neutral.draw(Point(18, 209))
             return
 
         input_action = self.level.last_input_action
         if input_action == InputAction.UNDO:
-            self.ui_elements.joystick_neutral.draw(Point(20, 209))
+            self.ui_elements.joystick_neutral.draw(Point(18, 209))
             self.ui_elements.rewind_icon.draw(Point(21, 35))
         elif input_action.is_movement:
-            self.ui_elements.joystick_move.draw(Point(20, 209), direction=input_action.direction)
+            self.ui_elements.joystick_move.draw(Point(18, 209), direction=input_action.direction)
 
     def _draw_level_statistics(self) -> None:
         score = self.level.level_score

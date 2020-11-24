@@ -82,11 +82,14 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
         sprite_path = Path(base_dir).joinpath(sprite_data["image"])
         sprites_ids[sprite_name] = packer.add_sprite(sprite_path)
         num_layers = LEVEL_NUM_LAYERS if sprite_data.get("multilayer", False) else 1
+        transparency_color = -1
+        if sprite_data.get("transparency_color"):
+            transparency_color = int(sprite_data["transparency_color"], 16)
 
         sprites[sprite_name] = {
             "image_bank": image_bank,
             "directional": sprite_data.get("directional", False),
-            "transparent": sprite_data.get("transparent", True),
+            "transparency_color": transparency_color,
             "num_frames": sprite_data.get("num_frames", 1),
             "num_layers": num_layers
         }

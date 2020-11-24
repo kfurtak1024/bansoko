@@ -16,7 +16,7 @@ RESOURCES_JSON_SCHEMA = {
         },
         "color": {
             "type": "string",
-            "description": "One of 16 available colors. A single character with HEX value (0..F)",
+            "description": "One of 16 available colors. A single character with HEX value [0..F]",
             "pattern": "^([A-Fa-f0-9]{1})$"
         },
         "position": {
@@ -70,10 +70,9 @@ RESOURCES_JSON_SCHEMA = {
                                        "for all 4 directions (Left, Right, Up and Down).",
                         "type": "boolean"
                     },
-                    "transparent": {
-                        "description": "Is sprite transparent. Transparent sprites are drawn with "
-                                       "transparency color 0. (pixels with color 0 are not drawn)",
-                        "type": "boolean"
+                    "transparency_color": {
+                        "description": "Transparency color of sprite",
+                        "$ref": "#/definitions/color"
                     }
                 },
                 "required": ["image_bank", "image"]

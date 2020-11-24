@@ -3,7 +3,7 @@
     "logo": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -16,7 +16,7 @@
     "check_icon": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -29,12 +29,12 @@
     "locked_icon": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        136,
-        159,
+        192,
+        160,
         32,
         32
       ]
@@ -42,11 +42,11 @@
     "desert_crate": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        119,
+        157,
         145,
         10,
         10
@@ -55,11 +55,11 @@
     "desert_crate_placed": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        129,
+        167,
         145,
         10,
         10
@@ -68,11 +68,11 @@
     "mint_crate": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        139,
+        177,
         145,
         10,
         10
@@ -81,11 +81,11 @@
     "mint_crate_placed": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        149,
+        187,
         145,
         10,
         10
@@ -94,11 +94,11 @@
     "ice_crate": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        159,
+        197,
         145,
         10,
         10
@@ -107,11 +107,11 @@
     "ice_crate_placed": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        169,
+        207,
         145,
         10,
         10
@@ -120,11 +120,11 @@
     "moon_crate": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        179,
+        217,
         145,
         10,
         10
@@ -133,11 +133,11 @@
     "moon_crate_placed": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        189,
+        227,
         145,
         10,
         10
@@ -146,7 +146,7 @@
     "robot_standing": {
       "image_bank": 1,
       "directional": true,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
@@ -159,7 +159,7 @@
     "robot_moving": {
       "image_bank": 1,
       "directional": true,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
@@ -172,11 +172,11 @@
     "robot_pushing": {
       "image_bank": 1,
       "directional": true,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
-        108,
+        124,
         125,
         40,
         20
@@ -185,7 +185,7 @@
     "cockpit_top": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -198,12 +198,12 @@
     "cockpit_right1": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
         8,
-        159,
+        160,
         15,
         92
       ]
@@ -211,12 +211,12 @@
     "cockpit_right2": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
         52,
-        159,
+        160,
         15,
         83
       ]
@@ -224,7 +224,7 @@
     "cockpit_bottom": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -237,12 +237,12 @@
     "cockpit_left1": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
         23,
-        159,
+        160,
         15,
         92
       ]
@@ -250,12 +250,12 @@
     "cockpit_left2": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
         67,
-        159,
+        160,
         15,
         83
       ]
@@ -263,12 +263,12 @@
     "printing_receipt": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 5,
       "num_layers": 1,
       "uv_rect": [
         82,
-        159,
+        160,
         29,
         80
       ]
@@ -276,33 +276,46 @@
     "joystick_neutral": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        111,
-        159,
-        25,
-        34
+        163,
+        160,
+        29,
+        35
       ]
     },
     "joystick_move": {
       "image_bank": 1,
       "directional": true,
-      "transparent": true,
+      "transparency_color": 15,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
         8,
         125,
-        100,
-        34
+        116,
+        35
+      ]
+    },
+    "left_hand": {
+      "image_bank": 1,
+      "directional": false,
+      "transparency_color": 11,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        111,
+        160,
+        52,
+        54
       ]
     },
     "rewind_icon": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
@@ -315,12 +328,12 @@
     "digits_blue": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 10,
       "num_layers": 1,
       "uv_rect": [
         38,
-        159,
+        160,
         7,
         90
       ]
@@ -328,12 +341,12 @@
     "digits_yellow": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 10,
       "num_layers": 1,
       "uv_rect": [
         45,
-        159,
+        160,
         7,
         90
       ]
@@ -341,7 +354,7 @@
     "digits_fat_red": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 10,
       "num_layers": 1,
       "uv_rect": [
@@ -354,12 +367,12 @@
     "monitor_top_left_corner": {
       "image_bank": 1,
       "directional": false,
-      "transparent": false,
+      "transparency_color": -1,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        168,
-        159,
+        224,
+        160,
         16,
         16
       ]
@@ -367,12 +380,12 @@
     "monitor_top_right_corner": {
       "image_bank": 1,
       "directional": false,
-      "transparent": false,
+      "transparency_color": -1,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        184,
-        159,
+        240,
+        160,
         16,
         16
       ]
@@ -380,12 +393,12 @@
     "monitor_bottom_left_corner": {
       "image_bank": 1,
       "directional": false,
-      "transparent": false,
+      "transparency_color": -1,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        200,
-        159,
+        224,
+        176,
         16,
         16
       ]
@@ -393,12 +406,12 @@
     "monitor_bottom_right_corner": {
       "image_bank": 1,
       "directional": false,
-      "transparent": false,
+      "transparency_color": -1,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        216,
-        159,
+        240,
+        176,
         16,
         16
       ]
@@ -406,11 +419,11 @@
     "key_undo": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        210,
+        226,
         125,
         11,
         11
@@ -419,11 +432,11 @@
     "key_up": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        221,
+        237,
         125,
         11,
         11
@@ -432,12 +445,12 @@
     "key_down": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        232,
-        125,
+        124,
+        145,
         11,
         11
       ]
@@ -445,12 +458,12 @@
     "key_left": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        243,
-        125,
+        135,
+        145,
         11,
         11
       ]
@@ -458,11 +471,11 @@
     "key_right": {
       "image_bank": 1,
       "directional": false,
-      "transparent": true,
+      "transparency_color": 0,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        108,
+        146,
         145,
         11,
         11
@@ -471,11 +484,11 @@
     "placing_crate1": {
       "image_bank": 1,
       "directional": false,
-      "transparent": false,
+      "transparency_color": -1,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        148,
+        164,
         125,
         31,
         15
@@ -484,11 +497,11 @@
     "placing_crate2": {
       "image_bank": 1,
       "directional": false,
-      "transparent": false,
+      "transparency_color": -1,
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        179,
+        195,
         125,
         31,
         15
