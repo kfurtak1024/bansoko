@@ -91,12 +91,30 @@ class TextMenuItem(MenuItem):
 
 
 @dataclass(frozen=True)
+class MenuLayout:
+    """Menu layout configuration.
+
+    Attributes:
+        columns - number of visible columns in a single row of the menu
+        rows - number of visible rows in the menu (if None it will be defaulted to total rows)
+        position - screen-space position of the menu (if None menu will be centered on screen)
+        item_space - space between items in the menu
+    """
+
+    columns: int = 1
+    rows: Optional[int] = None
+    position: Optional[Point] = None
+    item_space: Size = Size(0, 0)
+
+
+@dataclass(frozen=True)
 class Menu:
     """Menu is a list of options, user can navigate and choose from.
 
     Attributes:
         items - collection of menu items
         item_size - standardised size of menu item
+        item_space - space between items in the menu
         columns - number of visible columns in a single row of the menu
         rows - number of visible rows in the menu
         position - screen-space position of the menu
@@ -104,32 +122,34 @@ class Menu:
 
     items: Tuple[MenuItem, ...]
     item_size: Size
+    item_space: Size
     columns: int
     rows: int
     position: Point
 
     @classmethod
-    def with_defaults(cls, items: Tuple[MenuItem, ...], columns: int = 1,
-                      rows: Optional[int] = None, position: Optional[Point] = None) -> "Menu":
+    def with_defaults(cls, items: Tuple[MenuItem, ...],
+                      layout: MenuLayout = MenuLayout()) -> "Menu":
         """Construct menu based on defaults.
 
         :param items: collection of menu items
-        :param columns: number of visible columns in a single row of the menu
-        :param rows: number of visible rows in the menu (if None it will be defaulted to total rows)
-        :param position: screen-space position of the menu (if None menu will be centered on screen)
+        :param layout: layout information of the menu
         :return: newly created instance of Menu
         """
         item_size = reduce(max_size, [item.size for item in items])
-        total_rows = -(-len(items) // columns)
-        calculated_rows = min(rows, total_rows) if rows else total_rows
+        total_rows = -(-len(items) // layout.columns)
+        calculated_rows = min(layout.rows, total_rows) if layout.rows else total_rows
+        calculated_size = Size(
+            layout.columns * item_size.width + (layout.columns - 1) * layout.item_space.width,
+            calculated_rows * item_size.height + (calculated_rows - 1) * layout.item_space.height)
 
         return Menu(
             items=items,
             item_size=item_size,
-            columns=columns,
+            item_space=layout.item_space,
+            columns=layout.columns,
             rows=calculated_rows,
-            position=position if position else center_in_rect(
-                Size(columns * item_size.width, calculated_rows * item_size.height)))
+            position=layout.position if layout.position else center_in_rect(calculated_size))
 
     @property
     def total_rows(self) -> int:
@@ -244,9 +264,11 @@ class MenuController(BaseScreenController):
         super().draw(draw_as_secondary)
 
         for i, item in enumerate(self.visible_items):
+            item_space = self.menu.item_space
+            calculated_item_size = self.menu.item_size.enlarge(item_space.width, item_space.height)
             position = self.menu.position.offset(
-                (i % self.menu.columns) * self.menu.item_size.width,
-                (i // self.menu.columns) * self.menu.item_size.height)
+                (i % self.menu.columns) * calculated_item_size.width,
+                (i // self.menu.columns) * calculated_item_size.height)
             item.draw(position, (self.top_row * self.menu.columns) + i == self.selected_item)
 
     def _move_selection_up(self) -> None:

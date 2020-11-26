@@ -1,7 +1,7 @@
 """Module defining game screen containing information on how to play."""
 
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.gui.menu import MenuController, TextMenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu, MenuLayout
 
 
 class HowToPlayController(MenuController):
@@ -14,5 +14,5 @@ class HowToPlayController(MenuController):
         screen = screen_factory.get_bundle().get_screen("how_to_play")
         menu = Menu.with_defaults(tuple([
             TextMenuItem("OK", lambda: None)
-        ]), position=screen.menu_position)
+        ]), MenuLayout(position=screen.menu_position))
         super().__init__(menu=menu, allow_going_back=True, screen=screen, semi_transparent=True)

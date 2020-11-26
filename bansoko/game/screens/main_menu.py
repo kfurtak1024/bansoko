@@ -4,7 +4,7 @@ from typing import Optional, Callable
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text, TextStyle
-from bansoko.gui.menu import MenuController, TextMenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, Menu, MenuLayout
 from bansoko.gui.navigator import ScreenController
 
 
@@ -25,7 +25,7 @@ class MainMenuController(MenuController):
             TextMenuItem("START GAME", lambda: screen_factory.get_playfield_screen(level_to_play)),
             TextMenuItem("CHOOSE LEVEL", screen_factory.get_choose_level_screen),
             TextMenuItem("EXIT", self._get_exit_screen)
-        ), position=screen.menu_position)
+        ), MenuLayout(position=screen.menu_position))
         super().__init__(menu=menu, allow_going_back=True, screen=screen)
 
     def activate(self) -> None:

@@ -7,7 +7,7 @@ from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text
-from bansoko.gui.menu import MenuController, TextMenuItem, MenuItem, Menu
+from bansoko.gui.menu import MenuController, TextMenuItem, MenuItem, Menu, MenuLayout
 
 
 class LevelCompletedController(MenuController):
@@ -36,7 +36,7 @@ class LevelCompletedController(MenuController):
         screen = screen_factory.get_bundle().get_screen("level_completed")
         menu = Menu.with_defaults(
             last_level_finished_menu if last_level_completed else more_levels_to_play_menu,
-            position=screen.menu_position)
+            MenuLayout(position=screen.menu_position))
 
         super().__init__(menu=menu, screen=screen, semi_transparent=True)
         player_profile = screen_factory.get_player_profile()

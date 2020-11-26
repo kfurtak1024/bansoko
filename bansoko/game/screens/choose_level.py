@@ -6,7 +6,7 @@ from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
 from bansoko.graphics.text import draw_text, TextStyle
-from bansoko.gui.menu import MenuController, MenuItem, Menu
+from bansoko.gui.menu import MenuController, MenuItem, Menu, MenuLayout
 
 LEVEL_SELECTED_STYLE = TextStyle(color=10)
 LEVEL_LOCKED_STYLE = TextStyle(color=1)
@@ -30,7 +30,7 @@ class LevelMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return Size(44, 51)
+        return Size(38, 45)
 
     @property
     def text_style(self) -> TextStyle:
@@ -110,7 +110,7 @@ class ChooseLevelController(MenuController):
         screen = bundle.get_screen("choose_level")
         menu = Menu.with_defaults(tuple([
             LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
-        ]), columns=5, rows=4, position=screen.menu_position)
+        ]), MenuLayout(columns=5, rows=4, position=screen.menu_position, item_space=Size(6, 6)))
         super().__init__(menu=menu, allow_going_back=True, screen=screen)
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
 
