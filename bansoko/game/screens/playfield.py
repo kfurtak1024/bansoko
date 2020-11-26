@@ -15,10 +15,11 @@ from bansoko.gui.navigator import ScreenController, BaseScreenController
 
 @dataclass(frozen=True)
 class CockpitElements:
-    # TODO: Rename those digits!
-    digits_yellow: Sprite
-    digits_blue: Sprite
-    digits_red: Sprite
+    """Collection of dynamic elements of cockpit."""
+    digits_level: Sprite
+    digits_steps: Sprite
+    digits_pushes: Sprite
+    digits_time: Sprite
     rewind_icon: Sprite
     joystick_neutral: Sprite
     joystick_move: Sprite
@@ -40,9 +41,10 @@ class PlayfieldScreen(BaseScreenController):
         self.screen_factory = screen_factory
         self.level = Level(bundle.get_level_template(level_num))
         self.ui_elements = CockpitElements(
-            digits_yellow=bundle.get_sprite("digits_yellow"),
-            digits_blue=bundle.get_sprite("digits_blue"),
-            digits_red=bundle.get_sprite("digits_fat_red"),
+            digits_level=bundle.get_sprite("digits_yellow"),
+            digits_steps=bundle.get_sprite("digits_yellow"),
+            digits_pushes=bundle.get_sprite("digits_blue"),
+            digits_time=bundle.get_sprite("digits_fat_red"),
             rewind_icon=bundle.get_sprite("rewind_icon"),
             joystick_neutral=bundle.get_sprite("joystick_neutral"),
             joystick_move=bundle.get_sprite("joystick_move"))
@@ -97,10 +99,10 @@ class PlayfieldScreen(BaseScreenController):
     def _draw_level_statistics(self) -> None:
         score = self.level.level_score
         # TODO: Should be taken from resources metadata!
-        _draw_digits(Point(40, 8), "{:>3d}".format(score.level_num), self.ui_elements.digits_yellow)
-        _draw_digits(Point(174, 10), score.time, self.ui_elements.digits_red, colon_size=4)
-        _draw_digits(Point(145, 227), "{:>4d}".format(score.steps), self.ui_elements.digits_yellow)
-        _draw_digits(Point(145, 238), "{:>4d}".format(score.pushes), self.ui_elements.digits_blue)
+        _draw_digits(Point(40, 8), "{:>3d}".format(score.level_num), self.ui_elements.digits_level)
+        _draw_digits(Point(174, 10), score.time, self.ui_elements.digits_time, colon_size=4)
+        _draw_digits(Point(145, 227), "{:>4d}".format(score.steps), self.ui_elements.digits_steps)
+        _draw_digits(Point(145, 238), "{:>4d}".format(score.pushes), self.ui_elements.digits_pushes)
 
     def _get_input_action(self) -> Optional[InputAction]:
         if self.input.is_button_down(VirtualButton.UP):

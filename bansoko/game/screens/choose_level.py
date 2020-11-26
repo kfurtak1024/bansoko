@@ -119,6 +119,9 @@ class ChooseLevelController(MenuController):
         self._draw_scroll_bar()
 
     def _draw_scroll_bar(self) -> None:
+        if not self.screen or not self.screen.menu_scrollbar_rect:
+            return
+
         scrollbar_rect = self.screen.menu_scrollbar_rect
         scrollbar_size_in_pixels = round(super().scrollbar_size * scrollbar_rect.h)
         scrollbar_position_in_pixels = round(super().scrollbar_position * scrollbar_rect.h)

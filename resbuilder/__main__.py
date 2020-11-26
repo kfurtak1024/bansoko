@@ -24,10 +24,10 @@ from bansoko import TILESET_IMAGE_BANK
 from resbuilder import ResourceError
 from resbuilder.resources.background_tilemaps import process_tilemap_generators, \
     process_window_tilesets
-from resbuilder.resources.screens import process_screens
 from resbuilder.resources.json_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
+from resbuilder.resources.screens import process_screens
 from resbuilder.resources.sprite_packs import process_sprite_packs
 from resbuilder.resources.sprites import process_sprites
 from resbuilder.resources.tiles import TilePacker
@@ -99,18 +99,35 @@ def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
     return metadata
 
 
+def can_create_output_files(files: FileNames, force_overwrite: bool) -> bool:
+    output_file_exists = False
+    if Path(files.resource_filename).is_file():
+        logging.info("File '%s' already exists", files.resource_filename)
+        output_file_exists = True
+    if Path(files.metadata_filename).is_file():
+        logging.info("File '%s' already exists", files.metadata_filename)
+        output_file_exists = True
+
+    if output_file_exists:
+        logging.info("\nForcing overwrite of output files\n" if force_overwrite
+                     else "\nUse --force to force overwrite of output files\n")
+
+    return not output_file_exists or force_overwrite
+
+
 def main() -> None:
     """Main entry point."""
     arguments = docopt(__doc__, version="0.1")
     files = generate_file_names(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
 
-    # TODO: --force command line argument is not used!
+    if not can_create_output_files(files, arguments["--force"]):
+        return
 
     logging.info("Processing file '%s'...", files.input_filename)
     try:
-        with open(files.input_filename) as input_file,\
-             open(files.metadata_filename, "w") as metadata_file:
+        with open(files.input_filename) as input_file, \
+                open(files.metadata_filename, "w") as metadata_file:
             pyxel.init(256, 256)
             input_data = json.load(input_file)
             validate(input_data, RESOURCES_JSON_SCHEMA)

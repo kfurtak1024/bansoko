@@ -19,6 +19,11 @@ RESOURCES_JSON_SCHEMA = {
             "description": "One of 16 available colors. A single character with HEX value [0..F]",
             "pattern": "^([A-Fa-f0-9]{1})$"
         },
+        "tile": {
+            "type": "string",
+            "description": "",
+            "pattern": "^([ X@\\.#&\\+]*)$"
+        },
         "position": {
             "type": "array",
             "description": "A point representing a location in (x, y) screen space.",
@@ -172,8 +177,7 @@ RESOURCES_JSON_SCHEMA = {
                         "description": "Level in text (human readable) format.",
                         "type": "array",
                         "items": {
-                            "type": "string",
-                            # TODO: Add regex for tiles
+                            "$ref": "#/definitions/tile",
                             "minLength": 1,
                             "maxLength": 32
                         },
