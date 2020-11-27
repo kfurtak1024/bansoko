@@ -853,555 +853,558 @@
       }
     }
   },
-  "levels": [
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 1,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "mint_crate"
-    },
-    {
-      "tileset": 2,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "ice_crate"
-    },
-    {
-      "tileset": 3,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    },
-    {
-      "tileset": 4,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "moon_crate"
-    },
-    {
-      "tileset": 0,
-      "draw_offset": [
-        0,
-        0
-      ],
-      "robot_sprite_pack": "robot",
-      "crate_sprite_pack": "desert_crate"
-    }
-  ]
+  "levels": {
+    "sha1": "8058c96aa3c9c9d6956e862f6620785ef20562e9",
+    "level_templates": [
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
+      },
+      {
+        "tileset": 2,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "ice_crate"
+      },
+      {
+        "tileset": 3,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 4,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "moon_crate"
+      },
+      {
+        "tileset": 0,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "desert_crate"
+      }
+    ]
+  }
 }

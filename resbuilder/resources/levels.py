@@ -1,4 +1,5 @@
 """Module for processing levels."""
+import hashlib
 import logging
 from typing import List, Dict, Any, Generator, Tuple
 
@@ -7,8 +8,8 @@ import pyxel
 from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_BASE_TILEMAP
 from bansoko.graphics import Point, Direction, Size
 from resbuilder import ResourceError
-from resbuilder.resources.level_themes import LevelTheme
 from resbuilder.resources.background_tilemaps import TilemapGenerator
+from resbuilder.resources.level_themes import LevelTheme
 from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE, tilemap_rect_nth
 
 
@@ -134,8 +135,13 @@ def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
                 pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, tile_id)
 
 
+def _update_sha1(level_data: Any, sha1: Any) -> None:
+    for row_data in level_data:
+        sha1.update(row_data.encode())
+
+
 def process_levels(input_data: Any, level_themes: List[LevelTheme],
-                   tilemap_generators: Dict[str, TilemapGenerator]) -> Any:
+                   tilemap_generators: Dict[str, TilemapGenerator], bundle_name: str) -> Any:
     """Process and produce level metadata from input resource file.
 
     Levels are first pre-processed from human-readable format (format of input resource file) and
@@ -146,19 +152,23 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
     :param input_data: input data from JSON file (root -> levels)
     :param level_themes: collection of processed level themes that level can use
     :param tilemap_generators: collection of processed tilemap generators that level can use
+    :param bundle_name: the name of the bundle levels are processed for
     :return: levels metadata (ready to be serialized to JSON)
     """
-    levels_metadata = []
+    level_templates = []
+    sha1 = hashlib.sha1()
+    sha1.update(bundle_name.encode())
 
     for level_num, level_data in enumerate(input_data):
         level_theme_id = level_num % len(level_themes)
         level_theme = level_themes[level_theme_id]
         tile_generator = tilemap_generators[level_theme.background_generator]
+        _update_sha1(level_data["data"], sha1)
         preprocessed_level = _preprocess_level(level_num, level_data["data"])
         _generate_background(level_num, level_data.get("seed", level_num), tile_generator)
         _generate_tilemap_and_thumbnail(preprocessed_level, level_theme)
 
-        levels_metadata.append({
+        level_templates.append({
             "tileset": level_theme_id,
             "draw_offset": [0, 0],  # TODO: Hard-coded for now!
             "robot_sprite_pack": level_theme.robot_sprite_pack,
@@ -167,5 +177,8 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
         logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.size.width,
                      preprocessed_level.size.height, level_theme_id)
 
-    logging.info("Total levels: %d", len(levels_metadata))
-    return levels_metadata
+    logging.info("Total levels: %d", len(level_templates))
+    return {
+        "sha1": sha1.hexdigest(),
+        "level_templates": level_templates
+    }

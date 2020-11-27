@@ -46,6 +46,7 @@ def configure_logger(verbose: bool) -> None:
 @dataclass(frozen=True)
 class FileNames:
     """Container for directories and file names used by Resource Builder."""
+    base_name: str
     input_filename: str
     input_dir: Path
     resource_filename: str
@@ -64,13 +65,14 @@ def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
     base_name = source_file_path.stem
     resource_file_path = Path(out_dir).joinpath(base_name + ".pyxres").resolve()
     metadata_file_path = Path(out_dir).joinpath(base_name + ".meta").resolve()
-    return FileNames(str(source_file_path), source_dir, str(resource_file_path),
+    return FileNames(base_name, str(source_file_path), source_dir, str(resource_file_path),
                      str(metadata_file_path))
 
 
-def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
+def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> Dict[str, Any]:
     """Crate resources metadata file along with Pyxel's resource file.
 
+    :param base_name: the base name of the bundle metadata is created for
     :param input_dir: input directory where all resource files are located in
     :param input_data: resource input data file (parsed from JSON file)
     :return: resources metadata (ready to be serialized to JSON)
@@ -94,7 +96,7 @@ def create_metadata(input_dir: Path, input_data: Any) -> Dict[str, Any]:
     metadata["screens"] = process_screens(
         input_data["screens"], sprites, generators, window_tilesets)
     logging.info("Processing levels...")
-    metadata["levels"] = process_levels(input_data["levels"], level_themes, generators)
+    metadata["levels"] = process_levels(input_data["levels"], level_themes, generators, base_name)
 
     return metadata
 
@@ -131,8 +133,8 @@ def main() -> None:
             pyxel.init(256, 256)
             input_data = json.load(input_file)
             validate(input_data, RESOURCES_JSON_SCHEMA)
-            metadata = create_metadata(files.input_dir, input_data)
-            logging.info("Writing resource file '%s'...", files.resource_filename)
+            metadata = create_metadata(files.base_name, files.input_dir, input_data)
+            logging.info("\nWriting resource file '%s'...", files.resource_filename)
             pyxel.save(files.resource_filename)
             logging.info("Writing metadata file '%s'...", files.metadata_filename)
             json.dump(metadata, metadata_file, indent=2)

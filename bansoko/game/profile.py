@@ -9,7 +9,7 @@ from bansoko.game.bundle import Bundle
 GAME_PROFILE_LOCATION = ".bansoko"
 GAME_PROFILE_FILE_NAME = "profile.data"
 
-FILE_HEADER = bytes.fromhex("42 41 4E 53 01 00")
+FILE_HEADER = bytes.fromhex("42 41 4E 53 01")
 INITIALLY_UNLOCKED_LEVEL = 2
 INT_SIZE_IN_BYTES = 4
 LEVEL_SCORE_SIZE_IN_BYTES = 4 * INT_SIZE_IN_BYTES

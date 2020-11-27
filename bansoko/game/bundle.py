@@ -15,6 +15,7 @@ class Bundle:
     """Bundle is a central repository of game resources (such as: sprites, screens
     and level templates)."""
 
+    sha1: str
     sprites: Dict[str, Sprite]
     sprite_packs: Dict[str, SpritePack]
     screens: Dict[str, Screen]
@@ -80,8 +81,10 @@ def load_bundle(metadata_filename: str) -> Bundle:
         sprites = create_sprites(metadata["sprites"])
         sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
         screens = create_screens(metadata["screens"], sprites)
-        level_templates = create_level_templates(metadata["levels"], sprite_packs)
-        return Bundle(sprites, sprite_packs, screens, level_templates)
+        sha1 = metadata["levels"]["sha1"]
+        level_templates = create_level_templates(
+            metadata["levels"]["level_templates"], sprite_packs)
+        return Bundle(sha1, sprites, sprite_packs, screens, level_templates)
 
 
 def create_sprites(json_data: Any) -> Dict[str, Sprite]:
