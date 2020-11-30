@@ -190,7 +190,7 @@ def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile
         with open(profile_file_path, "r+b") as profile_file:
             header = profile_file.read(len(FILE_HEADER))
             if header != FILE_HEADER:
-                raise GameError(f"File '{profile_file_path}' is not a valid profile file")
+                raise GameError(f"File '{profile_file_path}' is not a valid player profile file")
 
             while True:
                 sha1 = profile_file.read(SHA1_SIZE_IN_BYTES)
@@ -207,6 +207,9 @@ def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile
             return _init_player_profile(profile_file_path, profile_file, bundle)
     except IOError as io_error:
         raise GameError(f"Unable to open player profile file '{profile_file_path}'") from io_error
+    except EOFError as eof_error:
+        raise GameError(
+            f"Unexpected end of player profile file '{profile_file_path}'") from eof_error
 
 
 def _write_int(file: BinaryIO, value: int) -> None:
@@ -233,7 +236,10 @@ def _init_player_profile(profile_file_path: Path, profile_file: BinaryIO,
 
 
 def _read_int(file: BinaryIO) -> int:
-    return int.from_bytes(file.read(INT_SIZE_IN_BYTES), byteorder="big")
+    int_from_file = file.read(INT_SIZE_IN_BYTES)
+    if len(int_from_file) != INT_SIZE_IN_BYTES:
+        raise EOFError()
+    return int.from_bytes(int_from_file, byteorder="big")
 
 
 def _read_player_profile(profile_file_path: Path, profile_file: BinaryIO,
