@@ -10,12 +10,15 @@ from bansoko.graphics.tilemap import Tilemap
 from bansoko.gui.screen import Screen, ScreenElement
 
 
+SHA1_SIZE_IN_BYTES = 40
+
+
 @dataclass(frozen=True)
 class Bundle:
     """Bundle is a central repository of game resources (such as: sprites, screens
     and level templates)."""
 
-    sha1: str
+    sha1: bytearray
     sprites: Dict[str, Sprite]
     sprite_packs: Dict[str, SpritePack]
     screens: Dict[str, Screen]
@@ -81,7 +84,8 @@ def load_bundle(metadata_filename: str) -> Bundle:
         sprites = create_sprites(metadata["sprites"])
         sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
         screens = create_screens(metadata["screens"], sprites)
-        sha1 = metadata["levels"]["sha1"]
+        sha1 = bytearray(metadata["levels"]["sha1"], "utf-8").zfill(SHA1_SIZE_IN_BYTES)[
+               -SHA1_SIZE_IN_BYTES:]
         level_templates = create_level_templates(
             metadata["levels"]["level_templates"], sprite_packs)
         return Bundle(sha1, sprites, sprite_packs, screens, level_templates)

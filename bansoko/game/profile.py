@@ -4,7 +4,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import BinaryIO, List
 
-from bansoko.game.bundle import Bundle
+from bansoko.game import GameError
+from bansoko.game.bundle import Bundle, SHA1_SIZE_IN_BYTES
 
 GAME_PROFILE_LOCATION = ".bansoko"
 GAME_PROFILE_FILE_NAME = "profile.data"
@@ -63,7 +64,7 @@ class LevelScore:
         if self == level_score:
             return level_score
         if self.level_num != level_score.level_num:
-            raise Exception("Cannot merge scores from different levels")
+            raise GameError("Cannot merge scores from different levels")
 
         if not self.completed:
             return level_score
@@ -144,15 +145,18 @@ class PlayerProfile:
         new_level_score = prev_level_score.merge_with(level_score)
         self.levels_scores[level_score.level_num] = new_level_score
 
-        with open(self._profile_file_path, "r+b") as profile_file:
-            profile_file.seek(len(FILE_HEADER))
-            _write_int(profile_file, self._last_unlocked_level)
-            profile_file.seek(
-                self._file_offset + new_level_score.level_num * LEVEL_SCORE_SIZE_IN_BYTES)
-            _write_int(profile_file, 1 if new_level_score.completed else 0)
-            _write_int(profile_file, new_level_score.steps)
-            _write_int(profile_file, new_level_score.pushes)
-            _write_int(profile_file, new_level_score.time_in_ms)
+        try:
+            with open(self._profile_file_path, "r+b") as profile_file:
+                profile_file.seek(self._file_offset)
+                _write_int(profile_file, self._last_unlocked_level)
+                profile_file.seek(new_level_score.level_num * LEVEL_SCORE_SIZE_IN_BYTES, 1)
+                _write_int(profile_file, 1 if new_level_score.completed else 0)
+                _write_int(profile_file, new_level_score.steps)
+                _write_int(profile_file, new_level_score.pushes)
+                _write_int(profile_file, new_level_score.time_in_ms)
+        except IOError:
+            # TODO: Add logging
+            pass
 
         return prev_level_score
 
@@ -173,41 +177,36 @@ def create_or_load_profile(bundle: Bundle) -> PlayerProfile:
 
 
 def _create_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
-    file_offset = len(FILE_HEADER) + INT_SIZE_IN_BYTES
-    last_unlocked_level = INITIALLY_UNLOCKED_LEVEL
-    levels_scores = [LevelScore(level_num) for level_num in range(bundle.num_levels)]
-
-    with open(profile_file_path, "wb") as profile_file:
-        profile_file.write(FILE_HEADER)
-        # TODO: Add bundle hashes (so multiple bundles can be supported)!!
-        _write_int(profile_file, last_unlocked_level)
-        _write_zeros(profile_file, bundle.num_levels * LEVEL_SCORE_SIZE_IN_BYTES)
-
-    return PlayerProfile(profile_file_path, file_offset, last_unlocked_level, levels_scores)
+    try:
+        with open(profile_file_path, "wb") as profile_file:
+            profile_file.write(FILE_HEADER)
+            return _init_player_profile(profile_file_path, profile_file, bundle)
+    except IOError as io_error:
+        raise GameError(f"Unable to create player profile file '{profile_file_path}'") from io_error
 
 
 def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
-    file_offset = len(FILE_HEADER) + INT_SIZE_IN_BYTES
+    try:
+        with open(profile_file_path, "r+b") as profile_file:
+            header = profile_file.read(len(FILE_HEADER))
+            if header != FILE_HEADER:
+                raise GameError(f"File '{profile_file_path}' is not a valid profile file")
 
-    with open(profile_file_path, "rb") as profile_file:
-        header = profile_file.read(len(FILE_HEADER))
-        if header != FILE_HEADER:
-            raise Exception(f"File '{profile_file_path}' is not a valid profile file")
+            while True:
+                sha1 = profile_file.read(SHA1_SIZE_IN_BYTES)
+                if not sha1:
+                    break
 
-        levels_scores = []
+                section_size = _read_int(profile_file)
 
-        # TODO: Read hash of a bundle from profile (so, we can save progress of different bundles)
-        last_unlocked_level = _read_int(profile_file)
-        for level_num in range(bundle.num_levels):
-            levels_scores.append(
-                LevelScore(
-                    level_num=level_num,
-                    completed=_read_int(profile_file) > 0,
-                    steps=_read_int(profile_file),
-                    pushes=_read_int(profile_file),
-                    time_in_ms=_read_int(profile_file)))
+                if sha1 == bundle.sha1:
+                    return _read_player_profile(profile_file_path, profile_file, bundle)
 
-    return PlayerProfile(profile_file_path, file_offset, last_unlocked_level, levels_scores)
+                profile_file.seek(section_size, 1)
+
+            return _init_player_profile(profile_file_path, profile_file, bundle)
+    except IOError as io_error:
+        raise GameError(f"Unable to open player profile file '{profile_file_path}'") from io_error
 
 
 def _write_int(file: BinaryIO, value: int) -> None:
@@ -218,5 +217,38 @@ def _write_zeros(file: BinaryIO, count: int) -> None:
     file.write((0).to_bytes(count, byteorder="big"))
 
 
+def _init_player_profile(profile_file_path: Path, profile_file: BinaryIO,
+                         bundle: Bundle) -> PlayerProfile:
+    profile_file.write(bundle.sha1)
+    _write_int(profile_file, INT_SIZE_IN_BYTES + bundle.num_levels * LEVEL_SCORE_SIZE_IN_BYTES)
+
+    file_offset = profile_file.tell()
+    last_unlocked_level = INITIALLY_UNLOCKED_LEVEL
+    levels_scores = [LevelScore(level_num) for level_num in range(bundle.num_levels)]
+
+    _write_int(profile_file, last_unlocked_level)
+    _write_zeros(profile_file, bundle.num_levels * LEVEL_SCORE_SIZE_IN_BYTES)
+
+    return PlayerProfile(profile_file_path, file_offset, last_unlocked_level, levels_scores)
+
+
 def _read_int(file: BinaryIO) -> int:
     return int.from_bytes(file.read(INT_SIZE_IN_BYTES), byteorder="big")
+
+
+def _read_player_profile(profile_file_path: Path, profile_file: BinaryIO,
+                         bundle: Bundle) -> PlayerProfile:
+    levels_scores = []
+    file_offset = profile_file.tell()
+    last_unlocked_level = _read_int(profile_file)
+    for level_num in range(bundle.num_levels):
+        levels_scores.append(
+            LevelScore(
+                level_num=level_num,
+                completed=_read_int(profile_file) > 0,
+                steps=_read_int(profile_file),
+                pushes=_read_int(profile_file),
+                time_in_ms=_read_int(profile_file)))
+
+    return PlayerProfile(profile_file_path, file_offset, last_unlocked_level,
+                         levels_scores)
