@@ -53,7 +53,7 @@ class FileNames:
     metadata_filename: str
 
 
-def generate_file_names(input_filename: str, out_dir: str) -> FileNames:
+def generate_filenames(input_filename: str, out_dir: str) -> FileNames:
     """Generate all file paths used by resbuilder basing on input file name and output directory.
 
     :param input_filename: file name of the resources input file
@@ -120,7 +120,7 @@ def can_create_output_files(files: FileNames, force_overwrite: bool) -> bool:
 def main() -> None:
     """Main entry point."""
     arguments = docopt(__doc__, version="0.1")
-    files = generate_file_names(arguments["<file>"], arguments["--outdir"])
+    files = generate_filenames(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
 
     if not can_create_output_files(files, arguments["--force"]):

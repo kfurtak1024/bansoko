@@ -178,7 +178,6 @@ class MenuController(BaseScreenController):
     def __init__(self, menu: Menu, allow_going_back: bool = False,
                  screen: Optional[Screen] = None, semi_transparent: bool = False) -> None:
         super().__init__(semi_transparent=semi_transparent, screen=screen)
-        # TODO: It should be possible to move selection from last item to the first one (wrapping)
         self.menu = menu
         self.allow_going_back = allow_going_back
         self.top_row = 0

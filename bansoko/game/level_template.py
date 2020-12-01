@@ -4,6 +4,7 @@ from typing import Tuple, Dict
 
 from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, TILE_SIZE, \
     LEVEL_BASE_TILEMAP
+from bansoko.game import GameException
 from bansoko.game.game_object import Crate, Robot, RobotState, CrateState
 from bansoko.game.tiles import Tileset, TileType
 from bansoko.graphics import Layer, Point, Rect, Direction
@@ -113,7 +114,7 @@ class LevelTemplate:
             crates.append(
                 Crate(crate_position, is_initially_placed, self.sprite_packs.crate_sprites))
         if not crates:
-            raise Exception(f"Level {self.level_num} does not have any crates")
+            raise GameException(f"Level {self.level_num} does not have any crates")
 
         return tuple(crates)
 
@@ -124,7 +125,7 @@ class LevelTemplate:
             if self.tile_at(tile_position).is_start:
                 start = tile_position
         if not start:
-            raise Exception(f"Level {self.level_num} does not have player start tile")
+            raise GameException(f"Level {self.level_num} does not have player start tile")
 
         face_direction = Direction.UP
         for direction in list(Direction):

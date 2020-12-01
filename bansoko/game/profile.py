@@ -1,14 +1,16 @@
 """Module exposing PlayerProfile, that can read/write information about game progress."""
+import logging
 import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import BinaryIO, List
 
-from bansoko.game import GameError
+from bansoko.game import GameException
 from bansoko.game.bundle import Bundle, SHA1_SIZE_IN_BYTES
 
 GAME_PROFILE_LOCATION = ".bansoko"
-GAME_PROFILE_FILE_NAME = "profile.data"
+GAME_PROFILE_FILENAME = "profile.data"
+GAME_LOG_FILENAME = "bansoko.log"
 
 FILE_HEADER = bytes.fromhex("42 41 4E 53 01")
 INITIALLY_UNLOCKED_LEVEL = 2
@@ -64,7 +66,7 @@ class LevelScore:
         if self == level_score:
             return level_score
         if self.level_num != level_score.level_num:
-            raise GameError("Cannot merge scores from different levels")
+            raise GameException("Cannot merge scores from different levels")
 
         if not self.completed:
             return level_score
@@ -137,6 +139,9 @@ class PlayerProfile:
         :param level_score: score of level completion
         :return: the previous score for the completed level
         """
+        logging.info("Updating player profile file '%s' with game progress...",
+                     self._profile_file_path)
+
         if not self.is_level_completed(level_score.level_num):
             self._last_unlocked_level = min(self._last_unlocked_level + 1,
                                             len(self.levels_scores) - 1)
@@ -154,22 +159,21 @@ class PlayerProfile:
                 _write_int(profile_file, new_level_score.steps)
                 _write_int(profile_file, new_level_score.pushes)
                 _write_int(profile_file, new_level_score.time_in_ms)
-        except IOError:
-            # TODO: Add logging
-            pass
+        except IOError as io_error:
+            raise GameException(
+                "Unable to update player profile file '{profile_file_path}'. Progress lost :-(") \
+                from io_error
 
         return prev_level_score
 
 
-def create_or_load_profile(bundle: Bundle) -> PlayerProfile:
+def create_or_load_profile(bundle: Bundle, profile_file_path: Path) -> PlayerProfile:
     """Create or load (if already exists) a player profile.
 
     :param bundle: bundle the profile should be initialized with
+    :param profile_file_path: path to player profile file
     :return: initialized player profile
     """
-    profile_dir = Path.home().joinpath(GAME_PROFILE_LOCATION)
-    os.makedirs(profile_dir, exist_ok=True)
-    profile_file_path = profile_dir.joinpath(GAME_PROFILE_FILE_NAME)
     if not os.path.isfile(profile_file_path):
         return _create_profile_file(profile_file_path, bundle)
 
@@ -178,19 +182,23 @@ def create_or_load_profile(bundle: Bundle) -> PlayerProfile:
 
 def _create_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
     try:
+        logging.info("Creating new player profile file '%s'...", profile_file_path)
         with open(profile_file_path, "wb") as profile_file:
             profile_file.write(FILE_HEADER)
             return _init_player_profile(profile_file_path, profile_file, bundle)
     except IOError as io_error:
-        raise GameError(f"Unable to create player profile file '{profile_file_path}'") from io_error
+        raise GameException(
+            f"Unable to create player profile file '{profile_file_path}'") from io_error
 
 
 def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile:
     try:
+        logging.info("Loading existing player profile file '%s'...", profile_file_path)
         with open(profile_file_path, "r+b") as profile_file:
             header = profile_file.read(len(FILE_HEADER))
             if header != FILE_HEADER:
-                raise GameError(f"File '{profile_file_path}' is not a valid player profile file")
+                raise GameException(
+                    f"File '{profile_file_path}' is not a valid player profile file")
 
             while True:
                 sha1 = profile_file.read(SHA1_SIZE_IN_BYTES)
@@ -206,9 +214,10 @@ def _load_profile_file(profile_file_path: Path, bundle: Bundle) -> PlayerProfile
 
             return _init_player_profile(profile_file_path, profile_file, bundle)
     except IOError as io_error:
-        raise GameError(f"Unable to open player profile file '{profile_file_path}'") from io_error
+        raise GameException(
+            f"Unable to open player profile file '{profile_file_path}'") from io_error
     except EOFError as eof_error:
-        raise GameError(
+        raise GameException(
             f"Unexpected end of player profile file '{profile_file_path}'") from eof_error
 
 
