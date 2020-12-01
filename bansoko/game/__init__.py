@@ -1,5 +1,5 @@
 """Module for game globals."""
 
 
-class GameException(Exception):
+class GameError(Exception):
     """Base class for exceptions in Bansoko."""

@@ -42,7 +42,7 @@ class Screen:
 
         If background color is specified then screen is cleared with that color first.
         """
-        if self.background_color:
+        if self.background_color is not None:
             pyxel.cls(self.background_color)
         if self.background_tilemap:
             self.background_tilemap.draw(Layer(0))

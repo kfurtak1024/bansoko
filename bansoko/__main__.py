@@ -17,8 +17,8 @@ import pyxel
 from docopt import docopt
 
 from bansoko import GAME_FRAME_RATE, __version__, GAME_FRAME_TIME_IN_MS
-from bansoko.game import GameException
-from bansoko.game.bundle import load_bundle
+from bansoko.game import GameError
+from bansoko.game.bundle import load_bundle, Bundle
 from bansoko.game.context import GameContext
 from bansoko.game.profile import create_or_load_profile, GAME_PROFILE_LOCATION, \
     GAME_PROFILE_FILENAME, GAME_LOG_FILENAME
@@ -61,17 +61,24 @@ def configure_logger(log_filename: str) -> None:
     logging.addLevelName(logging.ERROR, "** ERROR: ")
     logging.addLevelName(logging.WARN, "WARN: ")
     logging.addLevelName(logging.INFO, "")
-    logging.info("Starting Bansoko %s...", __version__)
+    logging.info("Starting Bansoko %s", __version__)
 
 
-def load_resource_file(resource_filename: str) -> None:
+def load_game_resources(filenames: FileNames) -> Bundle:
     """Load Pyxel's resource file containing bundle."""
-    if not os.path.isfile(resource_filename):
+    logging.info("Loading Pyxel resources file '%s'", filenames.resource_file)
+    if not os.path.isfile(filenames.resource_file):
         # This is the only way we can pre-check whether pyxel.load() will fail or not
         # In current version of Pyxel it's not possible to react to error or capture the error
         # reason
-        raise GameException(f"Unable to find Pyxel resource file '{resource_filename}'")
-    pyxel.load(resource_filename)
+        raise GameError(f"Unable to find Pyxel resource file '{filenames.resource_file}'")
+    pyxel.load(filenames.resource_file)
+
+    logging.info("Loading resources metadata file '%s'", filenames.metadata_file)
+    if not os.path.isfile(filenames.metadata_file):
+        raise GameError(f"Unable to find resources metadata file '{filenames.metadata_file}'")
+
+    return load_bundle(filenames.metadata_file)
 
 
 def main() -> None:
@@ -80,13 +87,10 @@ def main() -> None:
     bundle_name = arguments["--bundle"]
     filenames = generate_filenames(bundle_name)
     configure_logger(filenames.log_file)
-    logging.info("Initializing Pyxel window...")
+    logging.info("Initializing Pyxel window")
     pyxel.init(256, 256, caption=GAME_TITLE, fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12)
     try:
-        logging.info("Loading Pyxel resources file '%s'...", filenames.resource_file)
-        load_resource_file(filenames.resource_file)
-        logging.info("Loading resources metadata file '%s'...", filenames.metadata_file)
-        bundle = load_bundle(filenames.metadata_file)
+        bundle = load_game_resources(filenames)
         logging.info("Bundle name: %s", bundle_name)
         logging.info("Bundle SHA1: %s", bundle.sha1.decode())
         player_profile = create_or_load_profile(bundle, filenames.profile_file_path)
@@ -94,9 +98,9 @@ def main() -> None:
         navigator = ScreenNavigator(game_context.get_main_menu(), pyxel.quit, GAME_FRAME_TIME_IN_MS)
         logging.info("Game started.")
         pyxel.run(navigator.update, navigator.draw)
-    except GameException as error:
+    except GameError as error:
         # TODO: Add error screen
-        logging.error(error)
+        logging.exception(error)
 
 
 if __name__ == "__main__":

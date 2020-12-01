@@ -24,7 +24,7 @@ from bansoko import TILESET_IMAGE_BANK
 from resbuilder import ResourceError
 from resbuilder.resources.background_tilemaps import process_tilemap_generators, \
     process_window_tilesets
-from resbuilder.resources.json_schema import RESOURCES_JSON_SCHEMA
+from resbuilder.resources.resources_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
 from resbuilder.resources.screens import process_screens

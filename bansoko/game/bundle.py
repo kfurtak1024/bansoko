@@ -3,12 +3,15 @@ import json
 from dataclasses import dataclass
 from typing import Dict, Tuple, Any
 
+from jsonschema import validate, ValidationError
+
+from bansoko.game import GameError
 from bansoko.game.level_template import LevelTemplate, LevelSpritePacks
+from bansoko.game.metadata_schema import METADATA_JSON_SCHEMA
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.sprite import Sprite, SpritePack
 from bansoko.graphics.tilemap import Tilemap
 from bansoko.gui.screen import Screen, ScreenElement
-
 
 SHA1_SIZE_IN_BYTES = 40
 
@@ -79,16 +82,20 @@ def load_bundle(metadata_filename: str) -> Bundle:
     :param metadata_filename: name of the metadata file
     :return: bundle with game resources
     """
-    with open(metadata_filename) as metadata_file:
-        metadata = json.load(metadata_file)
-        sprites = create_sprites(metadata["sprites"])
-        sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
-        screens = create_screens(metadata["screens"], sprites)
-        sha1 = bytearray(metadata["levels"]["sha1"], "utf-8").zfill(SHA1_SIZE_IN_BYTES)[
-               -SHA1_SIZE_IN_BYTES:]
-        level_templates = create_level_templates(
-            metadata["levels"]["level_templates"], sprite_packs)
-        return Bundle(sha1, sprites, sprite_packs, screens, level_templates)
+    try:
+        with open(metadata_filename) as metadata_file:
+            metadata = json.load(metadata_file)
+            validate(metadata, METADATA_JSON_SCHEMA)
+            sprites = create_sprites(metadata["sprites"])
+            sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
+            screens = create_screens(metadata["screens"], sprites)
+            sha1 = bytearray(metadata["levels"]["sha1"], "utf-8").zfill(
+                SHA1_SIZE_IN_BYTES)[-SHA1_SIZE_IN_BYTES:]
+            level_templates = create_level_templates(
+                metadata["levels"]["level_templates"], sprite_packs)
+            return Bundle(sha1, sprites, sprite_packs, screens, level_templates)
+    except ValidationError as validation_error:
+        raise GameError("Incorrect format of resource metadata file") from validation_error
 
 
 def create_sprites(json_data: Any) -> Dict[str, Sprite]:

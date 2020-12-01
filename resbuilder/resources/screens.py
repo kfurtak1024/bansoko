@@ -24,11 +24,11 @@ def process_screens(input_data: Any, sprites: Dict[str, Any],
     screens = {}
     tilemap_num = 0
     for screen_name, screen_data in input_data.items():
-        screen = {}
+        screen: Dict[str, Any] = {}
 
         background_color = screen_data.get("background_color")
         if background_color:
-            screen["background_color"] = background_color
+            screen["background_color"] = int(background_color, 16)
 
         background_tilemap_data = screen_data.get("background_tilemap")
         if background_tilemap_data:
