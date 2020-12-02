@@ -34,7 +34,8 @@ class PlayfieldScreen(BaseScreenController):
     (on a gamepad). That switches to Game Paused screen.
     """
 
-    def __init__(self, screen_factory: ScreenFactory, level_num: int):
+    def __init__(self, screen_factory: ScreenFactory, level_num: int,
+                 show_how_to_play: bool = False):
         bundle = screen_factory.get_bundle()
         profile = screen_factory.get_player_profile()
         super().__init__(screen=bundle.get_screen("playfield"))
@@ -48,11 +49,11 @@ class PlayfieldScreen(BaseScreenController):
             rewind_icon=bundle.get_sprite("rewind_icon"),
             joystick_neutral=bundle.get_sprite("joystick_neutral"),
             joystick_move=bundle.get_sprite("joystick_move"))
-        self.how_to_play_shown = False
+        self.how_to_play_shown = not show_how_to_play
         profile.last_played_level = level_num
 
     def update(self, dt_in_ms: float) -> ScreenController:
-        if self.level.level_num == 0 and not self.how_to_play_shown:
+        if not self.how_to_play_shown:
             self.how_to_play_shown = True
             return self.screen_factory.get_how_to_play_screen()
 

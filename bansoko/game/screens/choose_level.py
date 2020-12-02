@@ -85,10 +85,8 @@ class LevelMenuItem(MenuItem):
             text = f"TIME: {level_score.time}  " \
                    f"PUSHES: {level_score.pushes: >4}  " \
                    f"STEPS: {level_score.steps: >4}"
-        elif self.level_unlocked:
-            text = "LEVEL NOT COMPLETED"
         else:
-            text = "LEVEL LOCKED"
+            text = "LEVEL NOT COMPLETED" if self.level_unlocked else "LEVEL LOCKED"
 
         draw_text(position.offset(0, 6), text, LEVEL_SELECTED_STYLE)
 

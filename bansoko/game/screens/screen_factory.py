@@ -27,7 +27,8 @@ class ScreenFactory(ABC):
         """Create a new instance of Main Menu screen controller"""
 
     @abstractmethod
-    def get_playfield_screen(self, level_num: int) -> ScreenController:
+    def get_playfield_screen(self, level_num: int,
+                             skip_how_to_play: bool = False) -> ScreenController:
         """Create a new instance of Playfield screen controller"""
 
     @abstractmethod

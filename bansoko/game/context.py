@@ -6,11 +6,11 @@ from bansoko.game.profile import PlayerProfile, LevelScore
 from bansoko.game.screens.choose_level import ChooseLevelController
 from bansoko.game.screens.exit import ExitController
 from bansoko.game.screens.game_paused import GamePausedController
+from bansoko.game.screens.how_to_play import HowToPlayController
 from bansoko.game.screens.level_completed import LevelCompletedController
 from bansoko.game.screens.main_menu import MainMenuController
 from bansoko.game.screens.playfield import PlayfieldScreen
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.game.screens.how_to_play import HowToPlayController
 from bansoko.game.screens.victory import VictoryController
 from bansoko.gui.navigator import ScreenController
 
@@ -31,8 +31,10 @@ class GameContext(ScreenFactory):
     def get_main_menu(self) -> ScreenController:
         return MainMenuController(self)
 
-    def get_playfield_screen(self, level_num: int) -> ScreenController:
-        return PlayfieldScreen(self, level_num)
+    def get_playfield_screen(self, level_num: int,
+                             skip_how_to_play: bool = False) -> ScreenController:
+        skip_how_to_play = (level_num == 0) and not skip_how_to_play
+        return PlayfieldScreen(self, level_num, show_how_to_play=skip_how_to_play)
 
     def get_choose_level_screen(self) -> ScreenController:
         return ChooseLevelController(self)

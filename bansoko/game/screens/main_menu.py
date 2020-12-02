@@ -1,6 +1,7 @@
 """Module defining main menu screen controller."""
 from typing import Optional, Callable
 
+from bansoko import __version__
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text, TextStyle
@@ -35,6 +36,7 @@ class MainMenuController(MenuController):
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
         draw_text(Point(79, 240), "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
+        draw_text(Point(11, 240), f"v{__version__}", TextStyle(color=1))
 
     def update(self, dt_in_ms: float) -> Optional[ScreenController]:
         if self.exiting:
