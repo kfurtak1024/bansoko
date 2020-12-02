@@ -854,7 +854,7 @@
     }
   },
   "levels": {
-    "sha1": "8058c96aa3c9c9d6956e862f6620785ef20562e9",
+    "sha1": "d067c98e615e298349021118637f5b115979fc15",
     "level_templates": [
       {
         "tileset": 0,
@@ -1404,6 +1404,15 @@
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
+      },
+      {
+        "tileset": 1,
+        "draw_offset": [
+          0,
+          0
+        ],
+        "robot_sprite_pack": "robot",
+        "crate_sprite_pack": "mint_crate"
       }
     ]
   }

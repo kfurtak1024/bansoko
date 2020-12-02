@@ -138,7 +138,7 @@ def _validate_level(level_data: List[List[Tile]]) -> None:
         raise ResourceError("Level has no cargo bays")
     if num_of_crates > num_of_cargo_bays:
         raise ResourceError("Level has more crates than cargo bays")
-    if num_of_crates > num_of_cargo_bays:
+    if num_of_crates < num_of_cargo_bays:
         raise ResourceError("Level has more cargo bays than crates")
 
 

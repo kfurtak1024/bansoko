@@ -1669,6 +1669,29 @@
         "X  XXXXXXXXXXXXXXXXXX  ++X",
         "XXXX                XXXXXX"
       ]
+    },
+    {
+      "data": [
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "X                         X",
+        "X                         X",
+        "X                         X",
+        "X &&&&& &   & &&&&&       X",
+        "X   &   &   & &           X",
+        "X   &   &&&&& &&&         X",
+        "X   &   &   & &           X",
+        "X   &   &   & &&&&&       X",
+        "X                         X",
+        "X     &&&&& &   & &&&&  & X",
+        "X     &     &&  & &   & & X",
+        "X     &&&   & & & &   & & X",
+        "X     &     &  && &   &   X",
+        "X     &&&&& &   & &&&&  + X",
+        "X                       # X",
+        "X                       @ X",
+        "X                         X",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      ]
     }
   ],
   "tilemap_generators": {
