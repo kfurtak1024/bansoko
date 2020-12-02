@@ -87,7 +87,8 @@ def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> Dict[st
     metadata["sprite_packs"] = sprite_packs
     tile_packer = TilePacker(TILESET_IMAGE_BANK, input_dir)
     logging.info("Generating level themes...")
-    level_themes = generate_level_themes(input_data["level_themes"], tile_packer, sprite_packs)
+    level_themes = generate_level_themes(
+        input_data["level_themes"], input_data["tilemap_generators"], tile_packer, sprite_packs)
     logging.info("Processing tilemap generators...")
     generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
     logging.info("Processing window tilesets...")
@@ -102,6 +103,12 @@ def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> Dict[st
 
 
 def can_create_output_files(files: FileNames, force_overwrite: bool) -> bool:
+    """Check whether the output files (Pyxel's resource and metadata file) can be created.
+
+    :param files: files names to be created
+    :param force_overwrite: if True output files will be overwritten if exist
+    :return: True if output files can be created *OR* False otherwise
+    """
     output_file_exists = False
     if Path(files.resource_filename).is_file():
         logging.info("File '%s' already exists", files.resource_filename)

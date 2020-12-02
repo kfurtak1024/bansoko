@@ -22,6 +22,7 @@ from bansoko.game.bundle import load_bundle, Bundle
 from bansoko.game.context import GameContext
 from bansoko.game.profile import create_or_load_profile, GAME_PROFILE_LOCATION, \
     GAME_PROFILE_FILENAME, GAME_LOG_FILENAME
+from bansoko.game.screens.error import show_error_message
 from bansoko.gui.navigator import ScreenNavigator
 
 GAME_TITLE = "Bansoko"
@@ -99,8 +100,8 @@ def main() -> None:
         logging.info("Game started.")
         pyxel.run(navigator.update, navigator.draw)
     except GameError as error:
-        # TODO: Add error screen
         logging.exception(error)
+        show_error_message(error.message)
 
 
 if __name__ == "__main__":

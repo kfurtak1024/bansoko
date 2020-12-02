@@ -187,7 +187,9 @@ METADATA_JSON_SCHEMA = {
                         }
                     }
                 }
-            }
+            },
+            "required": ["main_menu", "playfield", "choose_level", "game_paused", "level_completed",
+                         "how_to_play", "victory", "exit"]
         },
         "levels": {
             "type": "object",

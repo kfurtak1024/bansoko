@@ -1,6 +1,8 @@
 """Module for processing levels."""
 import hashlib
 import logging
+from collections import Counter
+from itertools import chain
 from typing import List, Dict, Any, Generator, Tuple
 
 import pyxel
@@ -106,15 +108,38 @@ class _PreprocessedLevel:
 
 def _preprocess_level(level_num: int, level_data: Any) -> _PreprocessedLevel:
     raw_data = [[SYMBOL_TO_TILE[symbol] for symbol in row_data] for row_data in level_data]
-    level_size = Size(len(raw_data[0]), len(raw_data))
-    if level_size.width > LEVEL_WIDTH:
-        raise ResourceError(f"Level {level_num} exceeds maximum level width ({LEVEL_WIDTH})")
-    if level_size.height > LEVEL_HEIGHT:
-        raise ResourceError(f"Level {level_num} exceeds maximum level height ({LEVEL_WIDTH})")
-    # TODO: Add some validation at this point
+    _validate_level(raw_data)
     preprocessed_level = _PreprocessedLevel(level_num, raw_data)
     preprocessed_level.flood_fill(preprocessed_level.start, Tile.FLOOR)
     return preprocessed_level
+
+
+def _validate_level(level_data: List[List[Tile]]) -> None:
+    level_size = Size(len(level_data[0]), len(level_data))
+    if level_size.width > LEVEL_WIDTH:
+        raise ResourceError(f"Level exceeds maximum level width ({LEVEL_WIDTH})")
+    if level_size.height > LEVEL_HEIGHT:
+        raise ResourceError(f"Level exceeds maximum level height ({LEVEL_WIDTH})")
+
+    tile_counter = Counter(list(chain.from_iterable(level_data)))
+    if tile_counter.get(Tile.START, 0) == 0:
+        raise ResourceError("Level is missing player start position")
+    if tile_counter.get(Tile.START, 0) > 1:
+        raise ResourceError("Level has more than one player start position")
+
+    num_of_crates = tile_counter.get(Tile.CRATE_INITIALLY_PLACED, 0) + tile_counter.get(
+        Tile.INITIAL_CRATE_POSITION, 0)
+    num_of_cargo_bays = tile_counter.get(Tile.CRATE_INITIALLY_PLACED, 0) + tile_counter.get(
+        Tile.CARGO_BAY, 0)
+
+    if num_of_crates == 0:
+        raise ResourceError("Level has no crates")
+    if num_of_cargo_bays == 0:
+        raise ResourceError("Level has no cargo bays")
+    if num_of_crates > num_of_cargo_bays:
+        raise ResourceError("Level has more crates than cargo bays")
+    if num_of_crates > num_of_cargo_bays:
+        raise ResourceError("Level has more cargo bays than crates")
 
 
 def _generate_background(level_num: int, seed: int, tile_generator: TilemapGenerator) -> None:
@@ -170,7 +195,7 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
 
         level_templates.append({
             "tileset": level_theme_id,
-            "draw_offset": [0, 0],  # TODO: Hard-coded for now!
+            "draw_offset": [0, 0],  # TODO: Hard-coded for now! Center level on the screen
             "robot_sprite_pack": level_theme.robot_sprite_pack,
             "crate_sprite_pack": level_theme.crate_sprite_pack
         })

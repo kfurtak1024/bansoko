@@ -49,7 +49,7 @@ class LevelTheme:
         return self.thumbnail_colors[tile]
 
 
-def generate_level_themes(input_data: Any, tile_packer: TilePacker,
+def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer: TilePacker,
                           sprite_packs: Dict[str, Any]) -> List[LevelTheme]:
     """Generate level themes from input resource file.
 
@@ -70,7 +70,9 @@ def generate_level_themes(input_data: Any, tile_packer: TilePacker,
             layers.append(tile_packer.pack_tileset(level_theme_data["tiles"]["layers"][j]))
 
         background_generator = level_theme_data["background_generator"]
-        # TODO: Check if background_generator exists
+        if not tilemap_generators.get(background_generator):
+            raise ResourceError(
+                f"Background generator '{background_generator}' is undefined'")
         thumbnail_colors = _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
         robot_sprite_pack = level_theme_data["sprite_packs"]["robot"]
         if sprite_packs.get(robot_sprite_pack) is None:

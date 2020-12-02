@@ -1,6 +1,7 @@
 """Module exposing a Bundle, which is a repository of sprites, screens and level templates."""
 import json
 from dataclasses import dataclass
+from json import JSONDecodeError
 from typing import Dict, Tuple, Any
 
 from jsonschema import validate, ValidationError
@@ -94,6 +95,8 @@ def load_bundle(metadata_filename: str) -> Bundle:
             level_templates = create_level_templates(
                 metadata["levels"]["level_templates"], sprite_packs)
             return Bundle(sha1, sprites, sprite_packs, screens, level_templates)
+    except JSONDecodeError as decode_error:
+        raise GameError("Incorrect format of resource metadata file") from decode_error
     except ValidationError as validation_error:
         raise GameError("Incorrect format of resource metadata file") from validation_error
 
