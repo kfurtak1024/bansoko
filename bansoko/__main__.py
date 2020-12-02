@@ -23,6 +23,7 @@ from bansoko.game.context import GameContext
 from bansoko.game.profile import create_or_load_profile, GAME_PROFILE_LOCATION, \
     GAME_PROFILE_FILENAME, GAME_LOG_FILENAME
 from bansoko.game.screens.error import show_error_message
+from bansoko.graphics import SCREEN_WIDTH, SCREEN_HEIGHT
 from bansoko.gui.navigator import ScreenNavigator
 
 GAME_TITLE = "Bansoko"
@@ -89,7 +90,8 @@ def main() -> None:
     filenames = generate_filenames(bundle_name)
     configure_logger(filenames.log_file)
     logging.info("Initializing Pyxel window")
-    pyxel.init(256, 256, caption=GAME_TITLE, fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12)
+    pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT, caption=GAME_TITLE, fps=GAME_FRAME_RATE,
+               quit_key=pyxel.KEY_F12)
     try:
         bundle = load_game_resources(filenames)
         logging.info("Bundle name: %s", bundle_name)

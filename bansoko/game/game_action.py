@@ -2,9 +2,9 @@
 import abc
 from typing import Optional
 
-from bansoko import GAME_FRAME_TIME_IN_MS, TILE_SIZE
+from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.game.game_object import GameStats, GameObject, Robot, RobotState, Crate
-from bansoko.graphics import Direction, Point
+from bansoko.graphics import Direction, Point, TILE_SIZE
 
 
 class GameAction(abc.ABC):

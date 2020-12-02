@@ -794,7 +794,7 @@
       ],
       "screen_menu": {
         "position": [
-          120,
+          -1,
           179
         ]
       }
@@ -821,7 +821,7 @@
       ],
       "screen_menu": {
         "position": [
-          104,
+          -1,
           220
         ]
       }
@@ -847,7 +847,7 @@
       ],
       "screen_menu": {
         "position": [
-          98,
+          -1,
           132
         ]
       }

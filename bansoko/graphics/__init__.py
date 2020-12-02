@@ -4,6 +4,16 @@ from enum import unique, Enum
 from functools import total_ordering
 from typing import List, Optional, Tuple, Generator
 
+TILEMAP_WIDTH = 256
+TILEMAP_HEIGHT = 256
+TILE_SIZE = 8
+
+IMAGE_BANK_WIDTH = 256
+IMAGE_BANK_HEIGHT = 256
+
+SCREEN_WIDTH = 256
+SCREEN_HEIGHT = 256
+
 
 @unique
 class Direction(Enum):
@@ -108,6 +118,9 @@ def min_size(size1: Size, size2: Size) -> Size:
     return Size(min(size1.width, size2.width), min(size1.height, size2.height))
 
 
+SCREEN_RECT = Size(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+
 @dataclass(frozen=True)
 class Rect:
     """A rectangle represented by position and size.
@@ -182,6 +195,10 @@ class Rect:
         """Create a new Rect which is the result of moving this Rect by (dx, dy)."""
         return Rect(self.position.offset(delta.x, delta.y), self.size)
 
+    def enlarge(self, w: int, h: int) -> "Rect":
+        """Create a new Rect enlarged with given size (w, h)."""
+        return Rect(position=self.position, size=self.size.enlarge(w, h))
+
     def inside_points(self) -> Generator[Point, None, None]:
         """Generator for iterating over all valid positions inside the rectangle (from top-left to
         bottom-right)."""
@@ -190,11 +207,23 @@ class Rect:
                 yield Point(x, y)
 
 
-def center_in_rect(size: Size, target_rect: Rect = Rect.from_coords(0, 0, 256, 256)) -> Point:
-    """Return the position of the rect with given size centered in target rectangle."""
-    x = target_rect.x + int((target_rect.w - size.width) / 2)
-    y = target_rect.y + int((target_rect.h - size.height) / 2)
-    return Point(x, y)
+def hcenter(width: int, target_x: int, target_width: int = SCREEN_WIDTH) -> int:
+    """Center horizontally 'size' with specified width in a target section (described by x and
+    width)."""
+    return target_x + (target_width - width) // 2
+
+
+def vcenter(height: int, target_y: int, target_height: int = SCREEN_HEIGHT) -> int:
+    """Center vertically 'size' with specified height in a target section (described by y and
+    height)."""
+    return hcenter(height, target_y, target_height)
+
+
+def center_in_rect(size: Size, target_rect: Rect = Rect.from_size(SCREEN_RECT)) -> Rect:
+    """Return rectangle with given size centered in target rectangle."""
+    x = hcenter(size.width, target_rect.x, target_rect.w)
+    y = vcenter(size.height, target_rect.y, target_rect.h)
+    return Rect(Point(x, y), size)
 
 
 @dataclass(frozen=True)

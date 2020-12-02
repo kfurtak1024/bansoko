@@ -98,6 +98,8 @@ class MenuLayout:
         columns - number of visible columns in a single row of the menu
         rows - number of visible rows in the menu (if None it will be defaulted to total rows)
         position - screen-space position of the menu (if None menu will be centered on screen)
+                   if one of the coordinates (x or y) is equal to -1 then menu will be centered
+                   on screen in appropriate axis (horizontal or vertical)
         item_space - space between items in the menu
     """
 
@@ -142,6 +144,14 @@ class Menu:
         calculated_size = Size(
             layout.columns * item_size.width + (layout.columns - 1) * layout.item_space.width,
             calculated_rows * item_size.height + (calculated_rows - 1) * layout.item_space.height)
+        centered_position = center_in_rect(calculated_size).position
+
+        if layout.position:
+            x = layout.position.x if layout.position.x >= 0 else centered_position.x
+            y = layout.position.y if layout.position.y >= 0 else centered_position.y
+            menu_position = Point(x, y)
+        else:
+            menu_position = centered_position
 
         return Menu(
             items=items,
@@ -149,7 +159,7 @@ class Menu:
             item_space=layout.item_space,
             columns=layout.columns,
             rows=calculated_rows,
-            position=layout.position if layout.position else center_in_rect(calculated_size))
+            position=menu_position)
 
     @property
     def total_rows(self) -> int:

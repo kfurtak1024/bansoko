@@ -450,7 +450,7 @@
         }
       ],
       "screen_menu": {
-        "position": [120, 179]
+        "position": [-1, 179]
       }
     },
     "victory": {
@@ -467,7 +467,7 @@
         }
       ],
       "screen_menu": {
-        "position": [104, 220]
+        "position": [-1, 220]
       }
     },
     "exit": {
@@ -486,7 +486,7 @@
         }
       ],
       "screen_menu": {
-        "position": [98, 132]
+        "position": [-1, 132]
       }
     }
   },

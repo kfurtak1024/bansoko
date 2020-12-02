@@ -2,12 +2,12 @@
 from dataclasses import dataclass
 from typing import Tuple, Dict
 
-from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, TILE_SIZE, \
+from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, \
     LEVEL_BASE_TILEMAP
 from bansoko.game import GameError
 from bansoko.game.game_object import Crate, Robot, RobotState, CrateState
 from bansoko.game.tiles import Tileset, TileType
-from bansoko.graphics import Layer, Point, Rect, Direction
+from bansoko.graphics import Layer, Point, Rect, Direction, TILE_SIZE
 from bansoko.graphics.animation import Animation
 from bansoko.graphics.sprite import SpritePack, Sprite
 from bansoko.graphics.tilemap import Tilemap, TilePosition

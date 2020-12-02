@@ -20,13 +20,14 @@ import pyxel
 from docopt import docopt
 from jsonschema import validate
 
-from bansoko import TILESET_IMAGE_BANK
+from bansoko import TILESET_IMAGE_BANK, __version__
+from bansoko.graphics import SCREEN_HEIGHT, SCREEN_WIDTH
 from resbuilder import ResourceError
 from resbuilder.resources.background_tilemaps import process_tilemap_generators, \
     process_window_tilesets
-from resbuilder.resources.resources_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
+from resbuilder.resources.resources_schema import RESOURCES_JSON_SCHEMA
 from resbuilder.resources.screens import process_screens
 from resbuilder.resources.sprite_packs import process_sprite_packs
 from resbuilder.resources.sprites import process_sprites
@@ -126,7 +127,7 @@ def can_create_output_files(files: FileNames, force_overwrite: bool) -> bool:
 
 def main() -> None:
     """Main entry point."""
-    arguments = docopt(__doc__, version="0.1")
+    arguments = docopt(__doc__, version=__version__)
     files = generate_filenames(arguments["<file>"], arguments["--outdir"])
     configure_logger(arguments["--verbose"])
 
@@ -137,7 +138,7 @@ def main() -> None:
     try:
         with open(files.input_filename) as input_file, \
                 open(files.metadata_filename, "w") as metadata_file:
-            pyxel.init(256, 256)
+            pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
             input_data = json.load(input_file)
             validate(input_data, RESOURCES_JSON_SCHEMA)
             metadata = create_metadata(files.base_name, files.input_dir, input_data)

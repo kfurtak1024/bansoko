@@ -15,7 +15,7 @@ class TextStyle:
     vertical_space: int = 0
 
 
-def text_size(text: str, style: TextStyle) -> Size:
+def text_size(text: str, style: TextStyle = TextStyle()) -> Size:
     """Calculate the size of given text.
 
     Size represents the amount of screen space occupied by text during drawing.

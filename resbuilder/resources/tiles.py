@@ -5,8 +5,8 @@ from typing import Dict
 
 import pyxel
 
-from bansoko import IMAGE_BANK_WIDTH, TILE_SIZE, TILEMAP_WIDTH, LEVEL_WIDTH, LEVEL_HEIGHT
-from bansoko.graphics import Rect
+from bansoko import LEVEL_WIDTH, LEVEL_HEIGHT
+from bansoko.graphics import Rect, IMAGE_BANK_WIDTH, TILE_SIZE, TILEMAP_WIDTH
 
 
 @unique
@@ -27,6 +27,7 @@ class Tile(Enum):
 
 SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
+
 # TODO: Make Dict[Tile, int] a Tileset
 
 
@@ -38,6 +39,7 @@ class TilePacker:
         base_dir - the base directory of all tiles images
         next_free_tile - tile id that will be assigned to a tile during next call to pack_tile()
     """
+
     def __init__(self, image_bank: int, base_dir: Path) -> None:
         self.image_bank = image_bank
         self.base_dir = base_dir

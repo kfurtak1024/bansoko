@@ -5,8 +5,8 @@ from typing import List, Dict, Any
 
 import pyxel
 
-from bansoko import IMAGE_BANK_HEIGHT, IMAGE_BANK_WIDTH, LEVEL_NUM_LAYERS, SPRITE_IMAGE_BANK
-from bansoko.graphics import Rect, Size
+from bansoko import LEVEL_NUM_LAYERS, SPRITE_IMAGE_BANK
+from bansoko.graphics import Rect, Size, IMAGE_BANK_HEIGHT, IMAGE_BANK_WIDTH
 from resbuilder import ResourceError
 from resbuilder.resources.box_packer import BoxPacker
 
@@ -16,6 +16,7 @@ PNG_CHUNK_TYPE = b"IHDR"
 
 class SpriteSheetPacker:
     """Packer for packing sprites into a sprite sheet using BoxPacker."""
+
     def __init__(self) -> None:
         self.box_packer = BoxPacker()
         self.sprite_paths: List[Path] = []
