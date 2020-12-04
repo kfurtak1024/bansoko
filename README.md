@@ -1,9 +1,9 @@
 ![Alt text](docs/logo.png)
 
-[![](https://img.shields.io/github/v/release/kfurtak1024/bansoko)]()
+[![](https://img.shields.io/github/v/release/kfurtak1024/bansoko)](https://github.com/kfurtak1024/bansoko/releases/latest)
 [![](https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko)]()
-[![](https://img.shields.io/lgtm/grade/python/github/kfurtak1024/bansoko)]()
-[![](https://img.shields.io/github/license/kfurtak1024/bansoko)]()
+[![](https://img.shields.io/lgtm/grade/python/github/kfurtak1024/bansoko)](https://lgtm.com/projects/g/kfurtak1024/bansoko)
+[![](https://img.shields.io/github/license/kfurtak1024/bansoko)](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE)
 -----------------
 
 **Bansoko** is a reimagined, space-themed clone of MS-DOS Soko-Ban from 1984 created in Python using [Pyxel](https://github.com/kitao/pyxel).

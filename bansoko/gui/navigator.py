@@ -69,6 +69,9 @@ class BaseScreenController(ScreenController):
         if self.screen is not None:
             self.screen.draw()
 
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(self, type(other))
+
 
 class ScreenNavigator:
     """ScreenNavigator manages game screen controllers.

@@ -1,7 +1,6 @@
 """Module exposing a Bundle, which is a repository of sprites, screens and level templates."""
-import json
 from dataclasses import dataclass
-from json import JSONDecodeError
+from json import JSONDecodeError, load
 from typing import Dict, Tuple, Any
 
 from jsonschema import validate, ValidationError
@@ -85,7 +84,7 @@ def load_bundle(metadata_filename: str) -> Bundle:
     """
     try:
         with open(metadata_filename) as metadata_file:
-            metadata = json.load(metadata_file)
+            metadata = load(metadata_file)
             validate(metadata, METADATA_JSON_SCHEMA)
             sprites = create_sprites(metadata["sprites"])
             sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
