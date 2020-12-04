@@ -143,6 +143,11 @@
       "image": "gui/playfield/rewind_icon.png",
       "transparency_color": "0"
     },
+    "pause_icon": {
+      "image_bank": 1,
+      "image": "gui/playfield/pause_icon.png",
+      "transparency_color": "0"
+    },
     "digits_blue": {
       "image_bank": 1,
       "image": "gui/playfield/digits_blue.png",
@@ -371,10 +376,13 @@
     "game_paused": {
       "screen_elements": [
         {
-          "position": [100, 50],
-          "text": "#7GAME PAUSED"
+          "position": [21, 35],
+          "sprite": "pause_icon"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [-1, 90]
+      }
     },
     "level_completed": {
       "background_tilemap": {

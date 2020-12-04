@@ -46,8 +46,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        157,
-        145,
+        175,
+        125,
         10,
         10
       ]
@@ -59,8 +59,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        167,
-        145,
+        185,
+        125,
         10,
         10
       ]
@@ -72,8 +72,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        177,
-        145,
+        195,
+        125,
         10,
         10
       ]
@@ -85,8 +85,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        187,
-        145,
+        205,
+        125,
         10,
         10
       ]
@@ -98,8 +98,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        197,
-        145,
+        215,
+        125,
         10,
         10
       ]
@@ -111,8 +111,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        207,
-        145,
+        225,
+        125,
         10,
         10
       ]
@@ -124,8 +124,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        217,
-        145,
+        235,
+        125,
         10,
         10
       ]
@@ -137,8 +137,8 @@
       "num_frames": 1,
       "num_layers": 3,
       "uv_rect": [
-        227,
-        145,
+        245,
+        125,
         10,
         10
       ]
@@ -177,7 +177,7 @@
       "num_layers": 3,
       "uv_rect": [
         124,
-        125,
+        135,
         40,
         20
       ]
@@ -325,6 +325,19 @@
         10
       ]
     },
+    "pause_icon": {
+      "image_bank": 1,
+      "directional": false,
+      "transparency_color": 0,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        124,
+        125,
+        51,
+        10
+      ]
+    },
     "digits_blue": {
       "image_bank": 1,
       "directional": false,
@@ -424,7 +437,7 @@
       "num_layers": 1,
       "uv_rect": [
         226,
-        125,
+        135,
         11,
         11
       ]
@@ -437,7 +450,7 @@
       "num_layers": 1,
       "uv_rect": [
         237,
-        125,
+        135,
         11,
         11
       ]
@@ -449,8 +462,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        124,
-        145,
+        163,
+        195,
         11,
         11
       ]
@@ -462,8 +475,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        135,
-        145,
+        174,
+        195,
         11,
         11
       ]
@@ -475,8 +488,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        146,
-        145,
+        185,
+        195,
         11,
         11
       ]
@@ -489,7 +502,7 @@
       "num_layers": 1,
       "uv_rect": [
         164,
-        125,
+        135,
         31,
         15
       ]
@@ -502,7 +515,7 @@
       "num_layers": 1,
       "uv_rect": [
         195,
-        125,
+        135,
         31,
         15
       ]
@@ -671,12 +684,18 @@
       "screen_elements": [
         {
           "position": [
-            100,
-            50
+            21,
+            35
           ],
-          "text": "#7GAME PAUSED"
+          "sprite": "pause_icon"
         }
-      ]
+      ],
+      "screen_menu": {
+        "position": [
+          -1,
+          90
+        ]
+      }
     },
     "level_completed": {
       "background_tilemap": {
@@ -859,8 +878,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -868,8 +887,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -877,8 +896,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -886,8 +905,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -895,8 +914,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -904,8 +923,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -913,8 +932,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -922,8 +941,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -931,8 +950,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -940,8 +959,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -949,8 +968,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -958,8 +977,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -967,8 +986,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -976,8 +995,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -985,8 +1004,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -994,8 +1013,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1003,8 +1022,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1012,8 +1031,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1021,8 +1040,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1030,8 +1049,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1039,8 +1058,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1048,8 +1067,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1057,8 +1076,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1066,8 +1085,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1075,8 +1094,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1084,8 +1103,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1093,8 +1112,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1102,8 +1121,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1111,8 +1130,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1120,8 +1139,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1129,8 +1148,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1138,8 +1157,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1147,8 +1166,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1156,8 +1175,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1165,8 +1184,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1174,8 +1193,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1183,8 +1202,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1192,8 +1211,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1201,8 +1220,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1210,8 +1229,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1219,8 +1238,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1228,8 +1247,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1237,8 +1256,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1246,8 +1265,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1255,8 +1274,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1264,8 +1283,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1273,8 +1292,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1282,8 +1301,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1291,8 +1310,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1300,8 +1319,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1309,8 +1328,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1318,8 +1337,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1327,8 +1346,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1336,8 +1355,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1345,8 +1364,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1354,8 +1373,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1363,8 +1382,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"
@@ -1372,8 +1391,8 @@
       {
         "tileset": 2,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "ice_crate"
@@ -1381,8 +1400,8 @@
       {
         "tileset": 3,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1390,8 +1409,8 @@
       {
         "tileset": 4,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "moon_crate"
@@ -1399,8 +1418,8 @@
       {
         "tileset": 0,
         "draw_offset": [
-          0,
-          0
+          1.0,
+          -13.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "desert_crate"
@@ -1408,8 +1427,8 @@
       {
         "tileset": 1,
         "draw_offset": [
-          0,
-          0
+          5.0,
+          -9.0
         ],
         "robot_sprite_pack": "robot",
         "crate_sprite_pack": "mint_crate"

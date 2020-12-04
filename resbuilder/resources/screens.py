@@ -4,7 +4,7 @@ from typing import Dict, Any, List
 
 from bansoko.graphics import Rect
 from resbuilder import ResourceError
-from resbuilder.resources.background_tilemaps import TilemapGenerator, WindowTileset
+from resbuilder.resources.backgrounds import TilemapGenerator, WindowTileset
 from resbuilder.resources.tiles import tilemap_rect_nth
 
 BACKGROUND_TILEMAP_ID: int = 7

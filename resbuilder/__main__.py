@@ -23,7 +23,7 @@ from jsonschema import validate
 from bansoko import TILESET_IMAGE_BANK, __version__
 from bansoko.graphics import SCREEN_HEIGHT, SCREEN_WIDTH
 from resbuilder import ResourceError
-from resbuilder.resources.background_tilemaps import process_tilemap_generators, \
+from resbuilder.resources.backgrounds import process_tilemap_generators, \
     process_window_tilesets
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels

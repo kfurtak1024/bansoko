@@ -8,9 +8,9 @@ from typing import List, Dict, Any, Generator, Tuple
 import pyxel
 
 from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_BASE_TILEMAP
-from bansoko.graphics import Point, Direction, Size
+from bansoko.graphics import Point, Direction, Size, TILE_SIZE
 from resbuilder import ResourceError
-from resbuilder.resources.background_tilemaps import TilemapGenerator
+from resbuilder.resources.backgrounds import TilemapGenerator
 from resbuilder.resources.level_themes import LevelTheme
 from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE, tilemap_rect_nth
 
@@ -33,6 +33,11 @@ class _PreprocessedLevel:
     def start(self) -> Point:
         """Player's start position in level."""
         return self._offset_to_pos(self.tilemap_data.index(Tile.START))
+
+    @property
+    def tilemap_offset(self) -> Point:
+        """Offset of the tilemap, for properly centering on the screen."""
+        return Point((self.size.width % 2) * TILE_SIZE / 2, (self.size.height % 2) * TILE_SIZE / 2)
 
     def tile_positions(self) -> Generator[Tuple[Point, Point], None, None]:
         """Generator for iterating over all valid tile positions inside both level and Pyxel's
@@ -200,7 +205,8 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
 
         level_templates.append({
             "tileset": level_theme_id,
-            "draw_offset": [0, 0],  # TODO: Hard-coded for now! Center level on the screen
+            # TODO: Hard-coded 1, -13
+            "draw_offset": preprocessed_level.tilemap_offset.offset(1, -13).as_list,
             "robot_sprite_pack": level_theme.robot_sprite_pack,
             "crate_sprite_pack": level_theme.crate_sprite_pack
         })

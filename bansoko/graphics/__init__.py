@@ -73,6 +73,11 @@ class Point:
         """Create a Point from the list of coordinates."""
         return cls(x=coords[0], y=coords[1])
 
+    @property
+    def as_list(self) -> List[int]:
+        """Point represented as a list containing [x, y]."""
+        return [self.x, self.y]
+
     def offset(self, dx: int, dy: int) -> "Point":
         """Create a new Point which is the result of moving this Point by (dx, dy)."""
         return Point(self.x + dx, self.y + dy)
