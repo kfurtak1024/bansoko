@@ -5,6 +5,7 @@ from typing import Optional
 import pyxel
 
 from bansoko.game.level import InputAction, Level
+from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.animation import AnimationPlayer, Animation
@@ -67,9 +68,14 @@ class PlayfieldScreen(BaseScreenController):
         if self.input.is_button_pressed(VirtualButton.START):
             return self.screen_factory.get_game_paused_screen(self.level.level_num)
 
-        # TODO: Just for tests! REMOVE SKIPPING LEVEL WITH SPACE IT IN FINAL VERSION !!!!!!!!!!!!!!
-        if self.level.is_completed or pyxel.btnp(pyxel.KEY_SPACE):
+        if self.level.is_completed:
             return self._start_level_completed_player()
+
+        # TODO: Just for tests! REMOVE IT IN FINAL VERSION !!!!!!!!!!!!!!!!
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            return self.screen_factory.get_level_completed_screen(
+                LevelScore(self.level.level_num, completed=True, pushes=100, steps=100,
+                           time_in_ms=1000))
 
         self.level.process_input(self._get_input_action())
         self.level.update(dt_in_ms)
@@ -125,9 +131,10 @@ class PlayfieldScreen(BaseScreenController):
         return self
 
     def _update_level_completed_player(self, dt_in_ms: float) -> ScreenController:
-        if self.level_completed_player.stopped:
-            return self.screen_factory.get_level_completed_screen(self.level.level_score)
-        self.level_completed_player.update(dt_in_ms)
+        if self.level_completed_player:
+            if self.level_completed_player.stopped:
+                return self.screen_factory.get_level_completed_screen(self.level.level_score)
+            self.level_completed_player.update(dt_in_ms)
         return self
 
 

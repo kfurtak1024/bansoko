@@ -116,6 +116,11 @@ class PlayerProfile:
         """The last unlocked level. The last level from all levels that can be played now."""
         return self._last_unlocked_level
 
+    @property
+    def last_level(self) -> int:
+        """The last level.."""
+        return len(self.levels_scores) - 1
+
     def is_level_unlocked(self, level_num: int) -> bool:
         """Test if specified level is unlocked (which means that it can be played now)
 
@@ -132,6 +137,16 @@ class PlayerProfile:
         """
         return self.levels_scores[level_num].completed
 
+    def next_level_to_play(self, level_num: int) -> int:
+        """Get the next level to be played after completion of given level."""
+        if self._last_unlocked_level == self.last_level:
+            return (level_num + 1) % (self.last_level + 1)
+
+        future_levels = self.levels_scores[level_num + 1:self.last_unlocked_level + 1]
+        next_level = next((level.level_num for level in future_levels if not level.completed),
+                          self.first_not_completed_level)
+        return next_level
+
     def complete_level(self, level_score: LevelScore) -> LevelScore:
         """Save information about level completion to profile file. Additionally, as a reward,
         unlock next level.
@@ -142,8 +157,9 @@ class PlayerProfile:
         logging.info("Updating player profile file with game progress")
 
         if not self.is_level_completed(level_score.level_num):
-            self._last_unlocked_level = min(self._last_unlocked_level + 1,
-                                            len(self.levels_scores) - 1)
+            level_to_be_unlocked = self._last_unlocked_level + 1
+            if self._can_unlock_level(level_to_be_unlocked):
+                self._last_unlocked_level = level_to_be_unlocked
 
         prev_level_score = self.levels_scores[level_score.level_num]
         new_level_score = prev_level_score.merge_with(level_score)
@@ -164,6 +180,16 @@ class PlayerProfile:
                 "Progress lost :-(") from io_error
 
         return prev_level_score
+
+    def _can_unlock_last_level(self) -> bool:
+        return next(level.level_num for level in self.levels_scores if
+                    not level.completed) == self.last_level
+
+    def _can_unlock_level(self, level_to_be_unlocked: int) -> bool:
+        if level_to_be_unlocked > self.last_level:
+            return False
+
+        return level_to_be_unlocked != self.last_level or self._can_unlock_last_level()
 
 
 def create_or_load_profile(bundle: Bundle, profile_file_path: Path) -> PlayerProfile:

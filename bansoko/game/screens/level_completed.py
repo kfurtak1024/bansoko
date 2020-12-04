@@ -19,11 +19,11 @@ class LevelCompletedController(MenuController):
 
     def __init__(self, screen_factory: ScreenFactory, level_score: LevelScore):
         current_level_num = level_score.level_num
-        next_level_num = current_level_num + 1
         last_level_completed = current_level_num == screen_factory.get_bundle().last_level
 
         next_level = TextMenuItem(
-            "PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(next_level_num))
+            "PLAY NEXT LEVEL", lambda: screen_factory.get_playfield_screen(
+                screen_factory.get_player_profile().next_level_to_play(current_level_num)))
         finish_game = TextMenuItem(
             "FINISH GAME", screen_factory.get_victory_screen)
         restart_level = TextMenuItem(
