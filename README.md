@@ -30,8 +30,16 @@
 > 
 > *Good luck!*
 
-![Alt text](docs/screen_shot1.png) ![Alt text](docs/screen_shot2.png) ![Alt text](docs/screen_shot3.png)
-![Alt text](docs/screen_shot4.png) ![Alt text](docs/screen_shot5.png) ![Alt text](docs/screen_shot6.png)
+<p align="center">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot1.png">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot2.png">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot3.png">
+</p>
+<p align="center">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot4.png">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot5.png">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot6.png">
+</p>
 
 ## Installation
 TBD
