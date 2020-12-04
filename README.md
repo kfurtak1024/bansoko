@@ -1,10 +1,24 @@
-![Alt text](docs/logo.png)
+<p align="center">
+  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/logo.png">
+</p>
 
-[![](https://img.shields.io/github/v/release/kfurtak1024/bansoko)](https://github.com/kfurtak1024/bansoko/releases/latest)
-[![](https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko)]()
-[![](https://img.shields.io/lgtm/grade/python/github/kfurtak1024/bansoko)](https://lgtm.com/projects/g/kfurtak1024/bansoko)
-[![](https://img.shields.io/github/license/kfurtak1024/bansoko)](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE)
 -----------------
+
+<p align="center">
+  <a href="https://github.com/kfurtak1024/bansoko/releases/latest">
+    <img src="https://img.shields.io/github/v/release/kfurtak1024/bansoko">
+  </a>
+  <a>
+    <img src="https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko">
+  </a>
+  <a href="https://lgtm.com/projects/g/kfurtak1024/bansoko">
+    <img src="https://img.shields.io/lgtm/grade/python/github/kfurtak1024/bansoko">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+  </a>
+</p>
+
 
 **Bansoko** is a reimagined, space-themed clone of MS-DOS Soko-Ban from 1984 created in Python using [Pyxel](https://github.com/kitao/pyxel).
 
