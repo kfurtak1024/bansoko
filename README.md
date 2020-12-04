@@ -1,9 +1,6 @@
-<p align="center">
+<h1 align="center">
   <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/logo.png">
-</p>
-
------------------
-
+</h1>
 <p align="center">
   <a href="https://github.com/kfurtak1024/bansoko/releases/latest">
     <img src="https://img.shields.io/github/v/release/kfurtak1024/bansoko">
