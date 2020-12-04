@@ -22,14 +22,64 @@
 ![Alt text](docs/screen_shot1.png) ![Alt text](docs/screen_shot2.png) ![Alt text](docs/screen_shot3.png)
 ![Alt text](docs/screen_shot4.png) ![Alt text](docs/screen_shot5.png) ![Alt text](docs/screen_shot6.png)
 
-## How to Install
-
+## Installation
 TBD
+
+## Development setup
+
+### Install prerequisites
+
+#### Windows
+Install 32-bit [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
+
+Additionally, install ```pipenv``` for managing virtual environments and project dependencies: 
+```shell
+pip install pipenv
+```
+
+#### Linux
+Install ```python3``` (version 3.8 or higher), ```python3-pip```, ```pipenv``` and required SDL2 libraries (```libsdl2-2.0-0``` and ```libsdl2-image-2.0-0```).
+
+On Ubuntu, this can be done by running:
+
+```shell
+sudo apt install python3 python3-pip pipenv libsdl2-2.0-0 libsdl2-image-2.0-0 
+```
+
+### Set up the project
+
+Clone the repository:
+```shell
+git clone https://github.com/kfurtak1024/bansoko
+```
+Navigate to the directory Bansoko was cloned to.
+
+Create virtual environment to isolate development:
+```shell
+pipenv shell
+```
+
+Install all dependencies needed for development:
+```shell
+pipenv install --dev
+```
+
+### Run the game
+
+Run Bansoko from virtual environment created in the previous step:
+
+#### Windows
+```shell
+python -m bansoko
+```
+
+#### Linux
+```shell
+python3 -m bansoko
+```
 
 ## Modding
-
-TBD
+**Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found in [resbuilder documentation](docs/Resbuilder.md).
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
