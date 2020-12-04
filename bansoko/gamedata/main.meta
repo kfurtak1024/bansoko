@@ -263,7 +263,7 @@
     "printing_receipt": {
       "image_bank": 1,
       "directional": false,
-      "transparency_color": 0,
+      "transparency_color": 15,
       "num_frames": 5,
       "num_layers": 1,
       "uv_rect": [

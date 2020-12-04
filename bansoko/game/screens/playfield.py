@@ -5,9 +5,9 @@ from typing import Optional
 import pyxel
 
 from bansoko.game.level import InputAction, Level
-from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
+from bansoko.graphics.animation import AnimationPlayer, Animation
 from bansoko.graphics.sprite import Sprite
 from bansoko.gui.input import VirtualButton
 from bansoko.gui.navigator import ScreenController, BaseScreenController
@@ -49,6 +49,8 @@ class PlayfieldScreen(BaseScreenController):
             rewind_icon=bundle.get_sprite("rewind_icon"),
             joystick_neutral=bundle.get_sprite("joystick_neutral"),
             joystick_move=bundle.get_sprite("joystick_move"))
+        self.printing_animation = Animation(bundle.get_sprite("printing_receipt"), 120)
+        self.level_completed_player: Optional[AnimationPlayer] = None
         self.how_to_play_shown = not show_how_to_play
         profile.last_played_level = level_num
 
@@ -59,20 +61,18 @@ class PlayfieldScreen(BaseScreenController):
 
         super().update(dt_in_ms)
 
+        if self.level_completed_player:
+            return self._update_level_completed_player(dt_in_ms)
+
         if self.input.is_button_pressed(VirtualButton.START):
             return self.screen_factory.get_game_paused_screen(self.level.level_num)
 
-        if self.level.is_completed:
-            return self.screen_factory.get_level_completed_screen(self.level.level_score)
+        # TODO: Just for tests! REMOVE SKIPPING LEVEL WITH SPACE IT IN FINAL VERSION !!!!!!!!!!!!!!
+        if self.level.is_completed or pyxel.btnp(pyxel.KEY_SPACE):
+            return self._start_level_completed_player()
 
         self.level.process_input(self._get_input_action())
         self.level.update(dt_in_ms)
-
-        # TODO: Just for tests! REMOVE IT IN FINAL VERSION !!!!!!!!!!!!!!!!
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            return self.screen_factory.get_level_completed_screen(
-                LevelScore(self.level.level_num, completed=True, pushes=100, steps=100,
-                           time_in_ms=1000))
 
         return self
 
@@ -84,6 +84,8 @@ class PlayfieldScreen(BaseScreenController):
         super().draw(draw_as_secondary)
         self._draw_dynamic_cockpit()
         self._draw_level_statistics()
+        if self.level_completed_player:
+            self.level_completed_player.draw(Point(202, 202))
 
     def _draw_dynamic_cockpit(self) -> None:
         if not self.level.last_input_action:
@@ -117,6 +119,16 @@ class PlayfieldScreen(BaseScreenController):
         if self.input.is_button_down(VirtualButton.ACTION):
             return InputAction.UNDO
         return None
+
+    def _start_level_completed_player(self) -> ScreenController:
+        self.level_completed_player = AnimationPlayer(self.printing_animation)
+        return self
+
+    def _update_level_completed_player(self, dt_in_ms: float) -> ScreenController:
+        if self.level_completed_player.stopped:
+            return self.screen_factory.get_level_completed_screen(self.level.level_score)
+        self.level_completed_player.update(dt_in_ms)
+        return self
 
 
 def _draw_digits(position: Point, text: str, sprite: Sprite, space: int = 1,

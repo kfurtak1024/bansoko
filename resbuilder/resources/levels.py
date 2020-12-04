@@ -129,6 +129,8 @@ def _validate_level(level_data: List[List[Tile]]) -> None:
 
     num_of_crates = tile_counter.get(Tile.CRATE_INITIALLY_PLACED, 0) + tile_counter.get(
         Tile.INITIAL_CRATE_POSITION, 0)
+    num_of_not_initially_placed_crates = tile_counter.get(
+        Tile.INITIAL_CRATE_POSITION, 0)
     num_of_cargo_bays = tile_counter.get(Tile.CRATE_INITIALLY_PLACED, 0) + tile_counter.get(
         Tile.CARGO_BAY, 0)
 
@@ -140,6 +142,9 @@ def _validate_level(level_data: List[List[Tile]]) -> None:
         raise ResourceError("Level has more crates than cargo bays")
     if num_of_crates < num_of_cargo_bays:
         raise ResourceError("Level has more cargo bays than crates")
+    if num_of_not_initially_placed_crates == 0:
+        raise ResourceError("Level must have at least one crate that is not initially placed in "
+                            "cargo bay")
 
 
 def _generate_background(level_num: int, seed: int, tile_generator: TilemapGenerator) -> None:

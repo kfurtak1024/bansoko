@@ -43,6 +43,14 @@ class Animation:
         frame = round(animation_time / self.frame_length)
         return frame % self.num_frames if self.looped else min(self.last_frame, frame)
 
+    def stopped_at_time(self, animation_time: float) -> bool:
+        """Check if the animation will be stopped at given animation time.
+
+        :param animation_time: animation time to be checked
+        :return: True if animation will be stopped (not played) at given time; False otherwise
+        """
+        return not self.looped and animation_time > self.animation_length
+
 
 @dataclass
 class AnimationPlayer:
@@ -96,3 +104,12 @@ class AnimationPlayer:
 
         self.animation.sprite.draw(position, layer=layer, direction=direction,
                                    frame=self.current_frame)
+
+    @property
+    def stopped(self) -> bool:
+        """Is animation player stopped.
+
+        Animation player is stopped when it has no animation *OR* animation is not looped and was
+        played already.
+        """
+        return not self.animation or self.animation.stopped_at_time(self.animation_time)

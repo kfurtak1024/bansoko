@@ -120,7 +120,7 @@
       "image_bank": 1,
       "image": "gui/playfield/printing_receipt.png",
       "num_frames": 5,
-      "transparency_color": "0"
+      "transparency_color": "F"
     },
     "joystick_neutral": {
       "image_bank": 1,
