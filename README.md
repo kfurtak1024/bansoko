@@ -98,7 +98,7 @@ python3 -m bansoko
 ```
 
 ## Modding
-**Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found in [resbuilder documentation](docs/Resbuilder.md).
+**Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found in [resbuilder documentation](docs/resbuilder.md).
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
