@@ -1,6 +1,6 @@
 """Module for game screens management."""
 import abc
-from typing import Optional, Callable, Any
+from typing import Optional, Callable
 
 from bansoko.gui.input import InputSystem
 from bansoko.gui.screen import Screen
@@ -41,9 +41,6 @@ class ScreenController(abc.ABC):
         :param draw_as_secondary: is this screen drawn as a secondary (background) screen
         """
 
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(self, type(other))
-
 
 class BaseScreenController(ScreenController):
     """Base class for all game screen controllers that suppose to be managed by ScreenNavigator.
@@ -68,9 +65,6 @@ class BaseScreenController(ScreenController):
     def draw(self, draw_as_secondary: bool = False) -> None:
         if self.screen is not None:
             self.screen.draw()
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(self, type(other))
 
 
 class ScreenNavigator:
@@ -99,7 +93,7 @@ class ScreenNavigator:
         """Update screen controller from top of controllers stack. Manage screen transitions."""
         if self.controllers_stack:
             new_screen = self.controllers_stack[-1].update(self.frame_time)
-            if new_screen is not self.controllers_stack[-1]:
+            if not isinstance(new_screen, type(self.controllers_stack[-1])):
                 self._switch_to_screen(new_screen)
         else:
             self.exit_callback()
@@ -124,8 +118,8 @@ class ScreenNavigator:
             self.controllers_stack[-1].activate()
         self.skip_next_draw = True
 
-    def _unwind_screen_stack(self, screen: ScreenController) -> None:
-        try:
-            del self.controllers_stack[self.controllers_stack.index(screen):]
-        except ValueError:
-            pass
+    def _unwind_screen_stack(self, screen_to_unwind_to: ScreenController) -> None:
+        for i, screen in enumerate(self.controllers_stack):
+            if isinstance(screen, type(screen_to_unwind_to)):
+                del self.controllers_stack[i:]
+                break
