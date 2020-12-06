@@ -7,7 +7,7 @@ import pyxel
 from bansoko.game.level import InputAction, Level
 from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
-from bansoko.graphics import Point
+from bansoko.graphics import Point, Direction
 from bansoko.graphics.animation import AnimationPlayer, Animation
 from bansoko.graphics.sprite import Sprite
 from bansoko.gui.input import VirtualButton
@@ -24,6 +24,9 @@ class CockpitElements:
     rewind_icon: Sprite
     joystick_neutral: Sprite
     joystick_move: Sprite
+    rewind_button: Sprite
+    left_hand: Sprite
+    left_hand_pressing_button: Sprite
 
 
 class PlayfieldScreen(BaseScreenController):
@@ -49,7 +52,10 @@ class PlayfieldScreen(BaseScreenController):
             digits_time=bundle.get_sprite("digits_fat_red"),
             rewind_icon=bundle.get_sprite("rewind_icon"),
             joystick_neutral=bundle.get_sprite("joystick_neutral"),
-            joystick_move=bundle.get_sprite("joystick_move"))
+            joystick_move=bundle.get_sprite("joystick_move"),
+            rewind_button=bundle.get_sprite("rewind_button"),
+            left_hand=bundle.get_sprite("left_hand"),
+            left_hand_pressing_button=bundle.get_sprite("left_hand_pressing_button"))
         self.printing_animation = Animation(bundle.get_sprite("printing_receipt"), 120)
         self.level_completed_player: Optional[AnimationPlayer] = None
         self.how_to_play_shown = not show_how_to_play
@@ -96,14 +102,27 @@ class PlayfieldScreen(BaseScreenController):
     def _draw_dynamic_cockpit(self) -> None:
         if not self.level.last_input_action:
             self.ui_elements.joystick_neutral.draw(Point(18, 209))
+            self.ui_elements.rewind_button.draw(Point(51, 231), frame=0)
+            self.ui_elements.left_hand.draw(Point(-9, 205))
             return
 
         input_action = self.level.last_input_action
         if input_action == InputAction.UNDO:
             self.ui_elements.joystick_neutral.draw(Point(18, 209))
             self.ui_elements.rewind_icon.draw(Point(21, 35))
+            self.ui_elements.rewind_button.draw(Point(51, 231), frame=1)
+            self.ui_elements.left_hand_pressing_button.draw(Point(19, 234))
         elif input_action.is_movement:
             self.ui_elements.joystick_move.draw(Point(18, 209), direction=input_action.direction)
+            if input_action.direction == Direction.LEFT:
+                self.ui_elements.left_hand.draw(Point(-13, 205))
+            elif input_action.direction == Direction.RIGHT:
+                self.ui_elements.left_hand.draw(Point(-5, 205))
+            elif input_action.direction == Direction.UP:
+                self.ui_elements.left_hand.draw(Point(-7, 203))
+            elif input_action.direction == Direction.DOWN:
+                self.ui_elements.left_hand.draw(Point(-11, 208))
+            self.ui_elements.rewind_button.draw(Point(51, 231), frame=0)
 
     def _draw_level_statistics(self) -> None:
         score = self.level.level_score

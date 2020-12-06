@@ -22,7 +22,7 @@ class GamePausedController(MenuController):
         skip_level = TextMenuItem("SKIP LEVEL", lambda: screen_factory.get_playfield_screen(
             screen_factory.get_player_profile().next_level_to_play(level_num)))
         how_to_play = TextMenuItem("HOW TO PLAY", screen_factory.get_how_to_play_screen)
-        main_menu = TextMenuItem("MAIN MENU", screen_factory.get_main_menu)
+        main_menu = TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
 
         before_last_level_menu: Tuple[MenuItem, ...] = \
             (resume_game, restart_level, skip_level, how_to_play, main_menu)

@@ -20,8 +20,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        215,
-        121,
+        246,
+        135,
         4,
         4
       ]
@@ -33,7 +33,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        192,
+        194,
         160,
         32,
         32
@@ -151,7 +151,7 @@
       "num_layers": 3,
       "uv_rect": [
         215,
-        81,
+        103,
         40,
         10
       ]
@@ -163,8 +163,8 @@
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
-        215,
-        91,
+        124,
+        135,
         40,
         20
       ]
@@ -176,7 +176,7 @@
       "num_frames": 2,
       "num_layers": 3,
       "uv_rect": [
-        124,
+        164,
         135,
         40,
         20
@@ -280,7 +280,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        163,
+        165,
         160,
         29,
         35
@@ -299,6 +299,19 @@
         35
       ]
     },
+    "rewind_button": {
+      "image_bank": 1,
+      "directional": false,
+      "transparency_color": 15,
+      "num_frames": 2,
+      "num_layers": 1,
+      "uv_rect": [
+        226,
+        160,
+        14,
+        20
+      ]
+    },
     "left_hand": {
       "image_bank": 1,
       "directional": false,
@@ -308,8 +321,21 @@
       "uv_rect": [
         111,
         160,
-        52,
+        54,
         54
+      ]
+    },
+    "left_hand_pressing_button": {
+      "image_bank": 1,
+      "directional": false,
+      "transparency_color": 11,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        215,
+        81,
+        41,
+        22
       ]
     },
     "rewind_icon": {
@@ -320,7 +346,7 @@
       "num_layers": 1,
       "uv_rect": [
         215,
-        111,
+        113,
         38,
         10
       ]
@@ -384,7 +410,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        224,
+        240,
         160,
         16,
         16
@@ -397,8 +423,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        240,
-        160,
+        111,
+        214,
         16,
         16
       ]
@@ -410,8 +436,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        224,
-        176,
+        127,
+        214,
         16,
         16
       ]
@@ -423,8 +449,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        240,
-        176,
+        143,
+        214,
         16,
         16
       ]
@@ -436,7 +462,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        226,
+        235,
         135,
         11,
         11
@@ -449,8 +475,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        237,
-        135,
+        226,
+        180,
         11,
         11
       ]
@@ -462,8 +488,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        163,
-        195,
+        237,
+        180,
         11,
         11
       ]
@@ -475,7 +501,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        174,
+        196,
         195,
         11,
         11
@@ -488,7 +514,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        185,
+        207,
         195,
         11,
         11
@@ -501,7 +527,7 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
-        164,
+        204,
         135,
         31,
         15
@@ -514,8 +540,8 @@
       "num_frames": 1,
       "num_layers": 1,
       "uv_rect": [
+        165,
         195,
-        135,
         31,
         15
       ]
@@ -705,6 +731,12 @@
           0,
           32,
           32
+        ]
+      },
+      "screen_menu": {
+        "position": [
+          -1,
+          130
         ]
       }
     },

@@ -133,9 +133,20 @@
       "directional": true,
       "transparency_color": "F"
     },
+    "rewind_button": {
+      "image_bank": 1,
+      "image": "gui/playfield/rewind_button.png",
+      "num_frames": 2,
+      "transparency_color": "F"
+    },
     "left_hand": {
       "image_bank": 1,
       "image": "gui/playfield/left_hand.png",
+      "transparency_color": "B"
+    },
+    "left_hand_pressing_button": {
+      "image_bank": 1,
+      "image": "gui/playfield/left_hand_pressing_button.png",
       "transparency_color": "B"
     },
     "rewind_icon": {
@@ -392,6 +403,9 @@
             "tileset_name": "receipt_frame"
           }
         ]
+      },
+      "screen_menu": {
+        "position": [-1, 130]
       }
     },
     "how_to_play": {

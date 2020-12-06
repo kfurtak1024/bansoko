@@ -29,10 +29,10 @@ class LevelCompletedController(MenuController):
         restart_level = TextMenuItem(
             "RESTART LEVEL", lambda: screen_factory.get_playfield_screen(
                 current_level_num, skip_how_to_play=True))
-        go_back = TextMenuItem(
+        main_menu = TextMenuItem(
             "BACK TO MAIN MENU", screen_factory.get_main_menu)
 
-        more_levels_to_play_menu: Tuple[MenuItem, ...] = (next_level, restart_level, go_back)
+        more_levels_to_play_menu: Tuple[MenuItem, ...] = (next_level, restart_level, main_menu)
         last_level_finished_menu: Tuple[MenuItem, ...] = (finish_game, restart_level)
         screen = screen_factory.get_bundle().get_screen("level_completed")
         menu = Menu.with_defaults(
