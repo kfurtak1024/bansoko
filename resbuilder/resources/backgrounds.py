@@ -71,9 +71,9 @@ class WindowTileset:
     top_left_tile: int
     top_tile: int
     top_right_tile: int
-    middle_left_tile: int
+    left_tile: int
     center_tile: int
-    middle_right_tile: int
+    right_tile: int
     bottom_left_tile: int
     bottom_tile: int
     bottom_right_tile: int
@@ -94,8 +94,8 @@ class WindowTileset:
                 tilemap.set(x, rect.bottom, self.bottom_tile)
 
         for y in range(rect.top + 1, rect.bottom):
-            tilemap.set(rect.left, y, self.middle_left_tile)
-            tilemap.set(rect.right, y, self.middle_right_tile)
+            tilemap.set(rect.left, y, self.left_tile)
+            tilemap.set(rect.right, y, self.right_tile)
 
 
 def process_window_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[str, WindowTileset]:
@@ -106,9 +106,9 @@ def process_window_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[st
             top_left_tile=_pack_tile(tileset_data.get("top_left"), tile_packer),
             top_tile=_pack_tile(tileset_data.get("top"), tile_packer),
             top_right_tile=_pack_tile(tileset_data.get("top_right"), tile_packer),
-            middle_left_tile=_pack_tile(tileset_data.get("middle_left"), tile_packer),
+            left_tile=_pack_tile(tileset_data.get("left"), tile_packer),
             center_tile=_pack_tile(tileset_data.get("center"), tile_packer),
-            middle_right_tile=_pack_tile(tileset_data.get("middle_right"), tile_packer),
+            right_tile=_pack_tile(tileset_data.get("right"), tile_packer),
             bottom_left_tile=_pack_tile(tileset_data.get("bottom_left"), tile_packer),
             bottom_tile=_pack_tile(tileset_data.get("bottom"), tile_packer),
             bottom_right_tile=_pack_tile(tileset_data.get("bottom_right"), tile_packer)

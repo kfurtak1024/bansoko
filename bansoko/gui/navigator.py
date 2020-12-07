@@ -102,10 +102,15 @@ class ScreenNavigator:
     def draw(self) -> None:
         """Draw screen controller from top of controllers stack."""
         if not self.skip_next_draw:
-            top_screen = self.controllers_stack[-1]
-            if top_screen.semi_transparent and len(self.controllers_stack) > 1:
-                self.controllers_stack[-2].draw(draw_as_secondary=True)
-            top_screen.draw()
+            screens_to_be_drawn = []
+            for screen in reversed(self.controllers_stack):
+                screens_to_be_drawn.insert(0, screen)
+                if not screen.semi_transparent:
+                    break
+
+            for (i, screen) in enumerate(screens_to_be_drawn):
+                is_top_screen = (i == len(screens_to_be_drawn) - 1)
+                screen.draw(draw_as_secondary=not is_top_screen)
         self.skip_next_draw = False
 
     def _switch_to_screen(self, new_screen: Optional[ScreenController]) -> None:

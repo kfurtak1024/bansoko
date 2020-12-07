@@ -33,3 +33,7 @@ class GamePausedController(MenuController):
             last_level_menu if playing_last_level else before_last_level_menu,
             MenuLayout(position=screen.menu_position))
         super().__init__(menu=menu, allow_going_back=True, screen=screen, semi_transparent=True)
+
+    def draw(self, draw_as_secondary: bool = False) -> None:
+        if not draw_as_secondary:
+            super().draw(draw_as_secondary=draw_as_secondary)

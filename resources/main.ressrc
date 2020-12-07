@@ -255,33 +255,33 @@
       "top_left": "gui/popup/frame_top_left.png",
       "top": "gui/popup/frame_top.png",
       "top_right": "gui/popup/frame_top_right.png",
-      "middle_left": "gui/popup/frame_middle_left.png",
+      "left": "gui/popup/frame_left.png",
       "center": "gui/popup/frame_center.png",
-      "middle_right": "gui/popup/frame_middle_right.png",
+      "right": "gui/popup/frame_right.png",
       "bottom_left": "gui/popup/frame_bottom_left.png",
       "bottom": "gui/popup/frame_bottom.png",
       "bottom_right": "gui/popup/frame_bottom_right.png"
     },
     "receipt_frame": {
-      "top_left": "gui/receipt/top_left.png",
-      "top": "gui/receipt/top.png",
-      "middle_left": "gui/receipt/middle_left.png",
-      "center": "gui/receipt/center.png",
-      "middle_right": "gui/receipt/middle_right.png",
-      "bottom_left": "gui/receipt/bottom_left.png",
-      "bottom": "gui/receipt/bottom.png"
+      "top_left": "gui/receipt/frame_top_left.png",
+      "top": "gui/receipt/frame_top.png",
+      "left": "gui/receipt/frame_left.png",
+      "center": "gui/receipt/frame_center.png",
+      "right": "gui/receipt/frame_right.png",
+      "bottom_left": "gui/receipt/frame_bottom_left.png",
+      "bottom": "gui/receipt/frame_bottom.png"
     },
     "monitor_frame": {
       "top": "gui/choose_level/frame_top.png",
-      "middle_left": "gui/choose_level/frame_middle_left.png",
-      "middle_right": "gui/choose_level/frame_middle_right.png",
+      "left": "gui/choose_level/frame_left.png",
+      "right": "gui/choose_level/frame_right.png",
       "bottom": "gui/choose_level/frame_bottom.png"
     },
     "scrollbar_frame": {
       "top_left": "gui/choose_level/scrollbar_top_left.png",
       "top_right": "gui/choose_level/scrollbar_top_right.png",
-      "middle_left": "gui/choose_level/scrollbar_middle_left.png",
-      "middle_right": "gui/choose_level/scrollbar_middle_right.png",
+      "left": "gui/choose_level/scrollbar_left.png",
+      "right": "gui/choose_level/scrollbar_right.png",
       "bottom_left": "gui/choose_level/scrollbar_bottom_left.png",
       "bottom_right": "gui/choose_level/scrollbar_bottom_right.png"
     },
@@ -289,6 +289,16 @@
       "top_left": "gui/choose_level/hr_top_left.png",
       "top": "gui/choose_level/hr_top.png",
       "top_right": "gui/choose_level/hr_top_right.png"
+    },
+    "victory_frame": {
+      "top_left": "gui/victory/frame_top_left.png",
+      "top": "gui/victory/frame_top.png",
+      "top_right": "gui/victory/frame_top_right.png",
+      "left": "gui/victory/frame_left.png",
+      "right": "gui/victory/frame_right.png",
+      "bottom_left": "gui/victory/frame_bottom_left.png",
+      "bottom": "gui/victory/frame_bottom.png",
+      "bottom_right": "gui/victory/frame_bottom_right.png"
     }
   },
   "screens": {
@@ -480,7 +490,13 @@
       "background_tilemap": {
         "tilemap_generator": {
           "generator_name": "space_background"
-        }
+        },
+        "background_windows": [
+          {
+            "tileset_name": "victory_frame",
+            "rect": [1, 1, 30, 30]
+          }
+        ]
       },
       "screen_elements": [
         {
