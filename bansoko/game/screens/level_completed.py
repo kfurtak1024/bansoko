@@ -53,12 +53,13 @@ class LevelCompletedController(MenuController):
         time_beaten = self.level_score.time_in_ms < self.prev_level_score.time_in_ms
         pushes_beaten = self.level_score.pushes < self.prev_level_score.pushes
         steps_beaten = self.level_score.steps < self.prev_level_score.steps
+        first_completion = not self.prev_level_score.completed
 
         # TODO: Put it to resources
         pyxel.text(95, 57, "LEVEL COMPLETED", 3)
         draw_text(Point(72, 75), "#DTIME:   #0{:>7s} #8{:s}".format(
-            self.level_score.time, new_record if time_beaten else ""))
+            self.level_score.time, new_record if time_beaten or first_completion else ""))
         draw_text(Point(72, 84), "#DPUSHES: #0{:>7d} #8{:s}".format(
-            self.level_score.pushes, new_record if pushes_beaten else ""))
+            self.level_score.pushes, new_record if pushes_beaten or first_completion else ""))
         draw_text(Point(72, 93), "#DSTEPS:  #0{:>7d} #8{:s}".format(
-            self.level_score.steps, new_record if steps_beaten else ""))
+            self.level_score.steps, new_record if steps_beaten or first_completion else ""))

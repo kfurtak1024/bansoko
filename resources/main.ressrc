@@ -500,8 +500,8 @@
       },
       "screen_elements": [
         {
-          "position": [90, 60],
-          "text": "#7CONGRATULATIONS !!!\n\n    YOU WON !!!"
+          "position": [32, 160],
+          "text": "#7ENOUGH IS ENOUGH! I HAVE HAD IT WITH THESE GOD DAMN\nCRATES ON THIS DAMN SPACE SHIP!\n\n"
         }
       ],
       "screen_menu": {
