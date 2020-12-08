@@ -1,13 +1,15 @@
 """Module defining game screen which is displayed when level is completed."""
 from typing import Tuple
 
-import pyxel
-
 from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point
 from bansoko.graphics.text import draw_text
 from bansoko.gui.menu import MenuController, TextMenuItem, MenuItem, Menu, MenuLayout
+
+LEVEL_TIME_POS = Point(104, 75)
+LEVEL_PUSHES_POS = Point(104, 84)
+LEVEL_STEPS_POS = Point(104, 93)
 
 
 class LevelCompletedController(MenuController):
@@ -55,11 +57,9 @@ class LevelCompletedController(MenuController):
         steps_beaten = self.level_score.steps < self.prev_level_score.steps
         first_completion = not self.prev_level_score.completed
 
-        # TODO: Put it to resources
-        pyxel.text(95, 57, "LEVEL COMPLETED", 3)
-        draw_text(Point(72, 75), "#DTIME:   #0{:>7s} #8{:s}".format(
+        draw_text(LEVEL_TIME_POS, "#0{:>7s} #8{:s}".format(
             self.level_score.time, new_record if time_beaten or first_completion else ""))
-        draw_text(Point(72, 84), "#DPUSHES: #0{:>7d} #8{:s}".format(
+        draw_text(LEVEL_PUSHES_POS, "#0{:>7d} #8{:s}".format(
             self.level_score.pushes, new_record if pushes_beaten or first_completion else ""))
-        draw_text(Point(72, 93), "#DSTEPS:  #0{:>7d} #8{:s}".format(
+        draw_text(LEVEL_STEPS_POS, "#0{:>7d} #8{:s}".format(
             self.level_score.steps, new_record if steps_beaten or first_completion else ""))

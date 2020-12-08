@@ -146,27 +146,31 @@ def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Scre
 
 
 def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
-    background_color = json_data.get("background_color")
+    background_data = json_data.get("background")
+    background_color = None
     background_tilemap = None
-    tilemap_data = json_data.get("background_tilemap")
-    if tilemap_data:
-        background_tilemap = Tilemap(
-            tilemap_id=tilemap_data["tilemap_id"],
-            rect_uv=Rect.from_list(tilemap_data["tilemap_uv"])
-        )
+    if background_data:
+        background_color = background_data.get("background_color")
+        tilemap_data = background_data.get("background_tilemap")
+        if tilemap_data:
+            background_tilemap = Tilemap(
+                tilemap_id=tilemap_data["tilemap_id"],
+                rect_uv=Rect.from_list(tilemap_data["tilemap_uv"])
+            )
+
     screen_elements = []
-    if json_data.get("screen_elements"):
+    if json_data.get("elements"):
         screen_elements = [
             ScreenElement(
                 position=Point.from_list(data["position"]),
                 sprite=sprites.get(data.get("sprite")),
                 text=data.get("text"))
-            for data in json_data["screen_elements"]
+            for data in json_data["elements"]
         ]
     menu_position = None
     menu_scrollbar_rect = None
-    if json_data.get("screen_menu"):
-        menu_data = json_data["screen_menu"]
+    if json_data.get("menu"):
+        menu_data = json_data["menu"]
         menu_position = \
             Point.from_list(menu_data["position"]) if menu_data.get("position") else None
         menu_scrollbar_rect = \

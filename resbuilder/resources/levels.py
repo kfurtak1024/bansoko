@@ -26,7 +26,7 @@ class _PreprocessedLevel:
 
         for y in range(self.size.height):
             for x in range(self.size.width):
-                pos = Point(x, y).offset(offset.x, offset.y)
+                pos = Point(x, y).offset(offset)
                 self.tilemap_data[self._pos_to_offset(pos)] = raw_data[y][x]
 
     @property
@@ -37,7 +37,9 @@ class _PreprocessedLevel:
     @property
     def tilemap_offset(self) -> Point:
         """Offset of the tilemap, for properly centering on the screen."""
-        return Point((self.size.width % 2) * TILE_SIZE / 2, (self.size.height % 2) * TILE_SIZE / 2)
+        return Point(
+            (self.size.width % 2) * TILE_SIZE // 2,
+            (self.size.height % 2) * TILE_SIZE // 2)
 
     def tile_positions(self) -> Generator[Tuple[Point, Point], None, None]:
         """Generator for iterating over all valid tile positions inside both level and Pyxel's
@@ -46,7 +48,7 @@ class _PreprocessedLevel:
         tilemap_points = tilemap_rect.inside_points()
 
         for point in tilemap_points:
-            yield point.offset(-tilemap_rect.x, -tilemap_rect.y), point
+            yield point.offset(Point(-tilemap_rect.x, -tilemap_rect.y)), point
 
     def get_tile_at(self, pos: Point) -> Tile:
         """Return tile at given position.
@@ -206,7 +208,7 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
         level_templates.append({
             "tileset": level_theme_id,
             # TODO: Hard-coded 1, -13
-            "draw_offset": preprocessed_level.tilemap_offset.offset(1, -13).as_list,
+            "draw_offset": preprocessed_level.tilemap_offset.offset(Point(1, -13)).as_list,
             "robot_sprite_pack": level_theme.robot_sprite_pack,
             "crate_sprite_pack": level_theme.crate_sprite_pack
         })

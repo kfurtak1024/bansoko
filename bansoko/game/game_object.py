@@ -47,7 +47,7 @@ class ObjectPosition:
 
     def to_point(self) -> Point:
         """Convert tile position to a point in screen space (taking into account the offset)."""
-        return self.tile_position.to_point().offset(self.offset.x, self.offset.y)
+        return self.tile_position.to_point().offset(self.offset)
 
 
 class GameObject(abc.ABC):

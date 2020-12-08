@@ -9,7 +9,7 @@ from bansoko.graphics.text import draw_text, text_size
 from bansoko.gui.menu import MenuController, Menu, TextMenuItem, MenuLayout
 from bansoko.gui.navigator import ScreenNavigator
 
-PADDING = 8
+PADDING = Point(8, 8)
 
 
 class ErrorScreen(MenuController):
@@ -35,7 +35,7 @@ class ErrorScreen(MenuController):
         pyxel.rectb(self.frame_rect.x, self.frame_rect.y, self.frame_rect.w, self.frame_rect.h, 8)
         pyxel.rect(self.frame_rect.x + 1, self.frame_rect.y + 1, self.frame_rect.w - 2,
                    self.frame_rect.h - 2, 2)
-        draw_text(self.frame_rect.position.offset(PADDING, PADDING), self.error_message)
+        draw_text(self.frame_rect.position.offset(PADDING), self.error_message)
 
     @staticmethod
     def _draw_background() -> None:
@@ -51,11 +51,11 @@ class ErrorScreen(MenuController):
     @staticmethod
     def _get_frame_rect(message: str) -> Rect:
         return center_in_rect(text_size(message).enlarge(
-            2 * PADDING, 2 * PADDING + 3 * pyxel.FONT_HEIGHT))
+            2 * PADDING.x, 2 * PADDING.y + 3 * pyxel.FONT_HEIGHT))
 
     @staticmethod
     def _get_menu_position(frame_rect: Rect) -> Point:
-        return Point(-1, frame_rect.bottom - PADDING - pyxel.FONT_HEIGHT)
+        return Point(-1, frame_rect.bottom - PADDING.y - pyxel.FONT_HEIGHT)
 
 
 def show_error_message(message: str) -> None:

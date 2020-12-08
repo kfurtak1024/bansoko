@@ -2,6 +2,7 @@
 import logging
 import random
 from dataclasses import dataclass
+from enum import Enum, unique
 from typing import Dict, Any
 
 import pyxel
@@ -65,57 +66,73 @@ def process_tilemap_generators(input_data: Any, tile_packer: TilePacker) \
     return generators
 
 
-# TODO: Rename it!
-@dataclass(frozen=True)
-class WindowTileset:
-    top_left_tile: int
-    top_tile: int
-    top_right_tile: int
-    left_tile: int
-    center_tile: int
-    right_tile: int
-    bottom_left_tile: int
-    bottom_tile: int
-    bottom_right_tile: int
+@unique
+class FrameSlice(Enum):
+    """Types of slices that make NineSlicingFrame."""
+    TOP_LEFT_TILE = "top_left"
+    TOP_TILE = "top"
+    TOP_RIGHT_TILE = "top_right"
+    LEFT_TILE = "left"
+    CENTER_TILE = "center"
+    RIGHT_TILE = "right"
+    BOTTOM_LEFT_TILE = "bottom_left"
+    BOTTOM_TILE = "bottom"
+    BOTTOM_RIGHT_TILE = "bottom_right"
 
-    def draw_window(self, tilemap_id: int, rect: Rect) -> None:
+
+@dataclass(frozen=True)
+class NineSlicingFrame:
+    """NineSlicingFrame is a frame that can be drawn on a tilemap using collection of 9 slicing
+    tiles."""
+    slice_tiles: Dict[FrameSlice, int]
+
+    def draw_frame(self, tilemap_id: int, rect: Rect) -> None:
+        """Draw a frame with nine slicing technique using slice tiles.
+        Frame is drawn on given Pyxel's tilemap.
+
+        :param tilemap_id: Pyxel's tilemap id to draw frame on
+        :param rect: rectangle describing drawn frame
+        """
         tilemap = pyxel.tilemap(tilemap_id)
-        tilemap.set(rect.left, rect.top, self.top_left_tile)
-        tilemap.set(rect.right, rect.top, self.top_right_tile)
+        tilemap.set(rect.left, rect.top, self._get_tile(FrameSlice.TOP_LEFT_TILE))
+        tilemap.set(rect.right, rect.top, self._get_tile(FrameSlice.TOP_RIGHT_TILE))
         if rect.bottom > rect.top:
-            tilemap.set(rect.left, rect.bottom, self.bottom_left_tile)
-            tilemap.set(rect.right, rect.bottom, self.bottom_right_tile)
+            tilemap.set(rect.left, rect.bottom, self._get_tile(FrameSlice.BOTTOM_LEFT_TILE))
+            tilemap.set(rect.right, rect.bottom, self._get_tile(FrameSlice.BOTTOM_RIGHT_TILE))
 
         for x in range(rect.left + 1, rect.right):
-            tilemap.set(x, rect.top, self.top_tile)
+            tilemap.set(x, rect.top, self._get_tile(FrameSlice.TOP_TILE))
             for y in range(rect.top + 1, rect.bottom):
-                tilemap.set(x, y, self.center_tile)
+                tilemap.set(x, y, self._get_tile(FrameSlice.CENTER_TILE))
             if rect.bottom > rect.top:
-                tilemap.set(x, rect.bottom, self.bottom_tile)
+                tilemap.set(x, rect.bottom, self._get_tile(FrameSlice.BOTTOM_TILE))
 
         for y in range(rect.top + 1, rect.bottom):
-            tilemap.set(rect.left, y, self.left_tile)
-            tilemap.set(rect.right, y, self.right_tile)
+            tilemap.set(rect.left, y, self._get_tile(FrameSlice.LEFT_TILE))
+            tilemap.set(rect.right, y, self._get_tile(FrameSlice.RIGHT_TILE))
+
+    def _get_tile(self, frame_slice: FrameSlice) -> int:
+        return self.slice_tiles.get(frame_slice, 0)
 
 
-def process_window_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[str, WindowTileset]:
-    tilesets: Dict[str, WindowTileset] = {}
+def generate_frame_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[
+        str, NineSlicingFrame]:
+    """Generate frame tilesets that can be used to draw nine slicing frame on screen during screen
+    processing.
+
+    :param input_data: input data from JSON file (root -> frame_tilesets)
+    :param tile_packer: tile packer used to pack tiles from frame tilesets
+    :return: collection of generated frame tilesets
+    """
+    tilesets: Dict[str, NineSlicingFrame] = {}
 
     for tileset_name, tileset_data in input_data.items():
-        tilesets[tileset_name] = WindowTileset(
-            top_left_tile=_pack_tile(tileset_data.get("top_left"), tile_packer),
-            top_tile=_pack_tile(tileset_data.get("top"), tile_packer),
-            top_right_tile=_pack_tile(tileset_data.get("top_right"), tile_packer),
-            left_tile=_pack_tile(tileset_data.get("left"), tile_packer),
-            center_tile=_pack_tile(tileset_data.get("center"), tile_packer),
-            right_tile=_pack_tile(tileset_data.get("right"), tile_packer),
-            bottom_left_tile=_pack_tile(tileset_data.get("bottom_left"), tile_packer),
-            bottom_tile=_pack_tile(tileset_data.get("bottom"), tile_packer),
-            bottom_right_tile=_pack_tile(tileset_data.get("bottom_right"), tile_packer)
-        )
-        logging.info("Window tileset '%s' added", tileset_name)
+        tilesets[tileset_name] = NineSlicingFrame(
+            {frame_slice: _pack_tile(tileset_data.get(frame_slice.value), tile_packer)
+             for frame_slice in list(FrameSlice)})
+        logging.info("Frame tileset '%s' added", tileset_name)
 
-    logging.info("Total window tilesets: %d", len(tilesets))
+    logging.info("Total frame tilesets: %d", len(tilesets))
 
     return tilesets
 

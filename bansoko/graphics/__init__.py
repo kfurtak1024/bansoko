@@ -78,9 +78,9 @@ class Point:
         """Point represented as a list containing [x, y]."""
         return [self.x, self.y]
 
-    def offset(self, dx: int, dy: int) -> "Point":
-        """Create a new Point which is the result of moving this Point by (dx, dy)."""
-        return Point(self.x + dx, self.y + dy)
+    def offset(self, offset: "Point") -> "Point":
+        """Create a new Point which is the result of moving this Point by (x, y)."""
+        return Point(self.x + offset.x, self.y + offset.y)
 
     def move(self, direction: Direction) -> "Point":
         """Create a new Point which is the result of moving this Point in given direction."""
@@ -198,7 +198,7 @@ class Rect:
 
     def offset(self, delta: Point) -> "Rect":
         """Create a new Rect which is the result of moving this Rect by (dx, dy)."""
-        return Rect(self.position.offset(delta.x, delta.y), self.size)
+        return Rect(self.position.offset(delta), self.size)
 
     def enlarge(self, w: int, h: int) -> "Rect":
         """Create a new Rect enlarged with given size (w, h)."""
@@ -250,7 +250,7 @@ class Layer:
     @property
     def offset(self) -> Point:
         """Position offset for all graphical objects drawn on this layer."""
-        return self.global_offset.offset(-self.layer_index, -self.layer_index)
+        return self.global_offset.offset(Point(-self.layer_index, -self.layer_index))
 
     @property
     def transparency_color(self) -> int:

@@ -74,6 +74,7 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
     :return: processed sprites (ready to be serialized to JSON)
     """
     packer = SpriteSheetPacker()
+    # TODO: We should be able to pack sprites in two different banks
     image_bank = SPRITE_IMAGE_BANK
 
     sprites = {}

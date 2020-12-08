@@ -24,7 +24,7 @@ from bansoko import TILESET_IMAGE_BANK, __version__
 from bansoko.graphics import SCREEN_HEIGHT, SCREEN_WIDTH
 from resbuilder import ResourceError
 from resbuilder.resources.backgrounds import process_tilemap_generators, \
-    process_window_tilesets
+    generate_frame_tilesets
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
 from resbuilder.resources.resources_schema import RESOURCES_JSON_SCHEMA
@@ -92,11 +92,11 @@ def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> Dict[st
         input_data["level_themes"], input_data["tilemap_generators"], tile_packer, sprite_packs)
     logging.info("Processing tilemap generators...")
     generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
-    logging.info("Processing window tilesets...")
-    window_tilesets = process_window_tilesets(input_data["window_tilesets"], tile_packer)
+    logging.info("Generating frame tilesets...")
+    frame_tilesets = generate_frame_tilesets(input_data["frame_tilesets"], tile_packer)
     logging.info("Processing screens...")
     metadata["screens"] = process_screens(
-        input_data["screens"], sprites, generators, window_tilesets)
+        input_data["screens"], sprites, generators, frame_tilesets)
     logging.info("Processing levels...")
     metadata["levels"] = process_levels(input_data["levels"], level_themes, generators, base_name)
 

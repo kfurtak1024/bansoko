@@ -1,6 +1,6 @@
 """Module for game screens management."""
 import abc
-from typing import Optional, Callable
+from typing import Optional, Callable, List
 
 from bansoko.gui.input import InputSystem
 from bansoko.gui.screen import Screen
@@ -102,7 +102,7 @@ class ScreenNavigator:
     def draw(self) -> None:
         """Draw screen controller from top of controllers stack."""
         if not self.skip_next_draw:
-            screens_to_be_drawn = []
+            screens_to_be_drawn: List[ScreenController] = []
             for screen in reversed(self.controllers_stack):
                 screens_to_be_drawn.insert(0, screen)
                 if not screen.semi_transparent:

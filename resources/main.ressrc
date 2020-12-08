@@ -250,7 +250,7 @@
       "moon_crate_placed"
     ]
   },
-  "window_tilesets": {
+  "frame_tilesets": {
     "popup_frame": {
       "top_left": "gui/popup/frame_top_left.png",
       "top": "gui/popup/frame_top.png",
@@ -303,56 +303,56 @@
   },
   "screens": {
     "main_menu": {
-      "background_color": "0",
-      "background_tilemap": {
+      "background": {
+        "background_color": "0",
         "tilemap_generator": {
-          "generator_name": "space_background",
+          "generator_ref": "space_background",
           "seed": 784455464
         }
       },
-      "screen_elements": [
+      "elements": [
         {
           "position": [20, 20],
-          "sprite": "logo"
+          "sprite_ref": "logo"
         }
       ]
     },
     "playfield": {
-      "screen_elements": [
+      "elements": [
         {
           "position": [0, 0],
-          "sprite": "cockpit_top"
+          "sprite_ref": "cockpit_top"
         },
         {
           "position": [241, 31],
-          "sprite": "cockpit_right1"
+          "sprite_ref": "cockpit_right1"
         },
         {
           "position": [241, 123],
-          "sprite": "cockpit_right2"
+          "sprite_ref": "cockpit_right2"
         },
         {
           "position": [0, 206],
-          "sprite": "cockpit_bottom"
+          "sprite_ref": "cockpit_bottom"
         },
         {
           "position": [0, 31],
-          "sprite": "cockpit_left1"
+          "sprite_ref": "cockpit_left1"
         },
         {
           "position": [0, 123],
-          "sprite": "cockpit_left2"
+          "sprite_ref": "cockpit_left2"
         },
         {
           "position": [202, 202],
-          "sprite": "printing_receipt"
+          "sprite_ref": "printing_receipt"
         }
       ]
     },
     "choose_level": {
-      "background_color": "0",
-      "background_tilemap": {
-        "background_windows": [
+      "background": {
+        "background_color": "0",
+        "frames": [
           {
             "rect": [0, 0, 32, 32],
             "tileset_name": "monitor_frame"
@@ -367,98 +367,116 @@
           }
         ]
       },
-      "screen_elements": [
+      "elements": [
         {
           "position": [0, 0],
-          "sprite": "monitor_top_left_corner"
+          "sprite_ref": "monitor_top_left_corner"
         },
         {
           "position": [240, 0],
-          "sprite": "monitor_top_right_corner"
+          "sprite_ref": "monitor_top_right_corner"
         },
         {
           "position": [0, 240],
-          "sprite": "monitor_bottom_left_corner"
+          "sprite_ref": "monitor_bottom_left_corner"
         },
         {
           "position": [240, 240],
-          "sprite": "monitor_bottom_right_corner"
+          "sprite_ref": "monitor_bottom_right_corner"
         },
         {
           "position": [14, 14],
           "text": "#ACHOOSE LEVEL"
         }
       ],
-      "screen_menu": {
+      "menu": {
         "position": [14, 26],
         "scrollbar_rect": [235, 27, 6, 196]
       }
     },
     "game_paused": {
-      "screen_elements": [
+      "elements": [
         {
           "position": [21, 35],
-          "sprite": "pause_icon"
+          "sprite_ref": "pause_icon"
         }
       ],
-      "screen_menu": {
+      "menu": {
         "position": [-1, 90]
       }
     },
     "level_completed": {
-      "background_tilemap": {
-        "background_windows": [
+      "background": {
+        "frames": [
           {
             "rect": [7, 5, 18, 10],
             "tileset_name": "receipt_frame"
           }
         ]
       },
-      "screen_menu": {
+      "elements": [
+        {
+          "position": [98, 57],
+          "text": "#3LEVEL COMPLETED"
+        },
+        {
+          "position": [72, 75],
+          "text": "#DTIME:"
+        },
+        {
+          "position": [72, 84],
+          "text": "#DPUSHES:"
+        },
+        {
+          "position": [72, 93],
+          "text": "#DSTEPS:"
+        }
+      ],
+      "menu": {
         "position": [-1, 130]
       }
     },
     "how_to_play": {
-      "background_tilemap": {
-        "background_windows": [
+      "background": {
+        "frames": [
           {
             "rect": [3, 5, 26, 19],
             "tileset_name": "popup_frame"
           }
         ]
       },
-      "screen_elements": [
+      "elements": [
         {
           "position": [32, 91],
-          "sprite": "key_up"
+          "sprite_ref": "key_up"
         },
         {
           "position": [48, 91],
-          "sprite": "key_down"
+          "sprite_ref": "key_down"
         },
         {
           "position": [64, 91],
-          "sprite": "key_left"
+          "sprite_ref": "key_left"
         },
         {
           "position": [80, 91],
-          "sprite": "key_right"
+          "sprite_ref": "key_right"
         },
         {
           "position": [32, 116],
-          "sprite": "placing_crate1"
+          "sprite_ref": "placing_crate1"
         },
         {
           "position": [70, 116],
-          "sprite": "placing_crate2"
+          "sprite_ref": "placing_crate2"
         },
         {
           "position": [32, 151],
-          "sprite": "key_undo"
+          "sprite_ref": "key_undo"
         },
         {
           "position": [32, 48],
-          "text": "WELCOME TO BANSOKO!\n\nWE ARE SCAVENGERS, WE COLLECT CARGOS THAT PEOPLE\nHAVE LEFT IN ABANDONED SHIPS IN DEEP SPACE.\nIT'S A DANGEROUS JOB. THAT'S WHY WE USE ROBOTS."
+          "text": "#7WELCOME TO BANSOKO!\n\nWE ARE SCAVENGERS, WE COLLECT CARGOS THAT PEOPLE\nHAVE LEFT IN ABANDONED SHIPS IN DEEP SPACE.\nIT'S A DANGEROUS JOB. THAT'S WHY WE USE ROBOTS."
         },
         {
           "position": [32, 82],
@@ -481,49 +499,50 @@
           "text": "#7NOTE, YOU CAN #BUNDO #7AS MANY MOVES AS YOU NEED."
         }
       ],
-      "screen_menu": {
+      "menu": {
         "position": [-1, 179]
       }
     },
     "victory": {
-      "background_color": "0",
-      "background_tilemap": {
+      "background": {
+        "background_color": "0",
         "tilemap_generator": {
-          "generator_name": "space_background"
+          "generator_ref": "space_background",
+          "seed": 666
         },
-        "background_windows": [
+        "frames": [
           {
             "tileset_name": "victory_frame",
             "rect": [1, 1, 30, 30]
           }
         ]
       },
-      "screen_elements": [
+      "elements": [
         {
           "position": [32, 160],
           "text": "#7ENOUGH IS ENOUGH! I HAVE HAD IT WITH THESE GOD DAMN\nCRATES ON THIS DAMN SPACE SHIP!\n\n"
         }
       ],
-      "screen_menu": {
+      "menu": {
         "position": [-1, 220]
       }
     },
     "exit": {
-      "background_tilemap": {
-        "background_windows": [
+      "background": {
+        "frames": [
           {
             "tileset_name": "popup_frame",
             "rect": [6, 14, 20, 4]
           }
         ]
       },
-      "screen_elements": [
+      "elements": [
         {
           "position": [60, 118],
           "text": "#7ARE YOU SURE DO YOU WANT TO EXIT?"
         }
       ],
-      "screen_menu": {
+      "menu": {
         "position": [-1, 132]
       }
     }

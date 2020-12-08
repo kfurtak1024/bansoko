@@ -13,6 +13,14 @@ LEVEL_LOCKED_STYLE = TextStyle(color=1)
 LEVEL_UNLOCKED_STYLE = TextStyle(color=5)
 LEVEL_COMPLETED_STYLE = TextStyle(color=3)
 
+LEVEL_ITEM_SIZE = Size(38, 45)
+LEVEL_ITEM_SPACE = Size(6, 6)
+LEVEL_ITEM_TITLE_POS = Point(3, 3)
+LEVEL_LOCKED_ICON_POS = Point(3, 10)
+LEVEL_COMPLETED_ICON_POS = Point(3, 38)
+LEVEL_THUMBNAIL_POS = Point(3, 10)
+LEVEL_SCORE_POS = Point(14, 237)
+
 
 class LevelMenuItem(MenuItem):
     """LevelMenuItem represents a menu item used for selecting level on ChooseLevel screen."""
@@ -30,7 +38,7 @@ class LevelMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return Size(38, 45)
+        return LEVEL_ITEM_SIZE
 
     @property
     def text_style(self) -> TextStyle:
@@ -56,19 +64,18 @@ class LevelMenuItem(MenuItem):
         return self.player_profile.is_level_completed(self.level_num)
 
     def draw(self, position: Point, selected: bool = False) -> None:
-        # TODO: Under construction
-        draw_text(position.offset(3, 3), f"LEVEL {self.level_num}", self.text_style)
+        draw_text(position.offset(LEVEL_ITEM_TITLE_POS), f"LEVEL {self.level_num}", self.text_style)
 
         if not self.level_unlocked:
-            self.locked_icon.draw(position.offset(3, 10))
+            self.locked_icon.draw(position.offset(LEVEL_LOCKED_ICON_POS))
         else:
-            self._draw_level_thumbnail(position.offset(3, 10))
+            self._draw_level_thumbnail(position.offset(LEVEL_THUMBNAIL_POS))
 
         if self.level_completed:
-            self.check_icon.draw(position.offset(3, 38))
+            self.check_icon.draw(position.offset(LEVEL_COMPLETED_ICON_POS))
 
         if selected:
-            self._draw_level_score(Point(14, 231))
+            self._draw_level_score(LEVEL_SCORE_POS)
 
         self._draw_frame(position, selected)
 
@@ -88,11 +95,12 @@ class LevelMenuItem(MenuItem):
         else:
             text = "LEVEL NOT COMPLETED" if self.level_unlocked else "LEVEL LOCKED"
 
-        draw_text(position.offset(0, 6), text, LEVEL_SELECTED_STYLE)
+        draw_text(position, text, LEVEL_SELECTED_STYLE)
 
     def _draw_frame(self, position: Point, selected: bool) -> None:
         style = LEVEL_SELECTED_STYLE if selected else self.text_style
-        pyxel.rectb(position.x, position.y, 38, 45, style.color)
+        pyxel.rectb(position.x, position.y, LEVEL_ITEM_SIZE.width, LEVEL_ITEM_SIZE.height,
+                    style.color)
 
 
 class ChooseLevelController(MenuController):
@@ -108,7 +116,8 @@ class ChooseLevelController(MenuController):
         screen = bundle.get_screen("choose_level")
         menu = Menu.with_defaults(tuple([
             LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
-        ]), MenuLayout(columns=5, rows=4, position=screen.menu_position, item_space=Size(6, 6)))
+        ]), MenuLayout(columns=5, rows=4, position=screen.menu_position,
+                       item_space=LEVEL_ITEM_SPACE))
         super().__init__(menu=menu, allow_going_back=True, screen=screen)
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
 

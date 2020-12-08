@@ -275,9 +275,9 @@ class MenuController(BaseScreenController):
         for i, item in enumerate(self.visible_items):
             item_space = self.menu.item_space
             calculated_item_size = self.menu.item_size.enlarge(item_space.width, item_space.height)
-            position = self.menu.position.offset(
+            position = self.menu.position.offset(Point(
                 (i % self.menu.columns) * calculated_item_size.width,
-                (i // self.menu.columns) * calculated_item_size.height)
+                (i // self.menu.columns) * calculated_item_size.height))
             item.draw(position, (self.top_row * self.menu.columns) + i == self.selected_item)
 
     def _move_selection_up(self) -> None:

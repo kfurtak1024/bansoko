@@ -28,9 +28,6 @@ class Tile(Enum):
 SYMBOL_TO_TILE = {tile.tile_symbol: tile for tile in list(Tile)}
 
 
-# TODO: Make Dict[Tile, int] a Tileset
-
-
 class TilePacker:
     """Packer for packing tiles into a single Pyxel's image bank.
 

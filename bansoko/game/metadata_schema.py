@@ -46,7 +46,7 @@ METADATA_JSON_SCHEMA = {
             "type": "integer",
             "description": "The id of Pyxel's image bank",
             "minimum": 0,
-            "maximum": 2
+            "maximum": 1
         },
         "tilemap_id": {
             "type": "integer",
@@ -120,28 +120,37 @@ METADATA_JSON_SCHEMA = {
             "additionalProperties": {
                 "type": "object",
                 "properties": {
-                    "background_color": {
-                        "$ref": "#/definitions/color",
-                        "description": "Background color screen is cleared with"
-                    },
-                    "background_tilemap": {
+                    "background": {
                         "type": "object",
-                        "description": "Background tilemap drawn on the screen "
-                                       "(it's drawn as first)",
+                        "description": "",
                         "properties": {
-                            "tilemap_id": {
-                                "$ref": "#/definitions/tilemap_id",
-                                "description": "Pyxel's tilemap id for the background tilemap"
+                            "background_color": {
+                                "$ref": "#/definitions/color",
+                                "description": "Background color screen is cleared with"
                             },
-                            "tilemap_uv": {
-                                "$ref": "#/definitions/rect",
-                                "description": "Rectangle representing a portion of Pyxel's "
-                                               "tilemap that is going to be drawn on game screen"
+                            "background_tilemap": {
+                                "type": "object",
+                                "description": "Background tilemap drawn on the screen "
+                                               "(it's drawn as first)",
+                                "properties": {
+                                    "tilemap_id": {
+                                        "$ref": "#/definitions/tilemap_id",
+                                        "description": "Pyxel's tilemap id for the background "
+                                                       "tilemap"
+                                    },
+                                    "tilemap_uv": {
+                                        "$ref": "#/definitions/rect",
+                                        "description": "Rectangle representing a portion of "
+                                                       "Pyxel's tilemap that is going to be drawn "
+                                                       "on game screen"
+                                    }
+                                },
+                                "required": ["tilemap_id", "tilemap_uv"]
                             }
                         },
-                        "required": ["tilemap_id", "tilemap_uv"]
+                        "additionalProperties": False
                     },
-                    "screen_elements": {
+                    "elements": {
                         "type": "array",
                         "description": "Collection of elements (images, texts) of the game screen",
                         "items": {
@@ -171,7 +180,7 @@ METADATA_JSON_SCHEMA = {
                             ]
                         }
                     },
-                    "screen_menu": {
+                    "menu": {
                         "type": "object",
                         "description": "Configuration of the menu displayed on the game screen",
                         "properties": {
@@ -187,9 +196,7 @@ METADATA_JSON_SCHEMA = {
                         }
                     }
                 }
-            },
-            "required": ["main_menu", "playfield", "choose_level", "game_paused", "level_completed",
-                         "how_to_play", "victory", "exit"]
+            }
         },
         "levels": {
             "type": "object",

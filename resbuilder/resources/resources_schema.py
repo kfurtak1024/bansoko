@@ -1,8 +1,9 @@
 """Module exposing JSON schema for Bansoko's game resources."""
-from resbuilder.resources.tiles import Tile
-
+from bansoko import LEVEL_WIDTH, LEVEL_HEIGHT
 # TODO: Rename *_name to *_ref
 # TODO: Review this schema!
+from resbuilder.resources.backgrounds import FrameSlice
+from resbuilder.resources.tiles import Tile
 
 RESOURCES_JSON_SCHEMA = {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10,23 +11,18 @@ RESOURCES_JSON_SCHEMA = {
     "description": "Bansoko pre-processed game resources",
     "type": "object",
     "definitions": {
+        "resource_name": {
+            "type": "string",
+            "description": "Name of a game resource that can be referenced",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+        },
         "file_path": {
             "description": "Path to a resource file",
             "type": "string"
         },
-        "color": {
-            "type": "string",
-            "description": "One of 16 available colors. A single character with HEX value [0..F]",
-            "pattern": "^([A-Fa-f0-9]{1})$"
-        },
-        "tile": {
-            "type": "string",
-            "description": "",
-            "pattern": "^([ X@\\.#&\\+]*)$"
-        },
-        "position": {
+        "point": {
             "type": "array",
-            "description": "A point representing a location in (x, y) screen space",
+            "description": "A point representing a location on screen",
             "items": {
                 "type": "integer"
             },
@@ -41,24 +37,41 @@ RESOURCES_JSON_SCHEMA = {
             },
             "minItems": 4,
             "maxItems": 4
+        },
+        "color": {
+            "type": "string",
+            "description": "One of 16 available colors. A single character with HEX value [0..F]",
+            "pattern": "^([A-Fa-f0-9]{1})$"
+        },
+        "tile": {
+            "type": "string",
+            "description": "",
+            "pattern": "^([ X@\\.#&\\+]*)$"
+        },
+        "image_bank": {
+            "type": "integer",
+            "description": "The id of Pyxel's image bank",
+            "minimum": 0,
+            "maximum": 1
         }
     },
     "properties": {
         "sprites": {
             "description": "Collection of all sprites that are going to be packed in image bank",
             "type": "object",
+            "propertyNames": {
+                "$ref": "#/definitions/resource_name"
+            },
             "additionalProperties": {
                 "type": "object",
                 "properties": {
                     "image_bank": {
                         "description": "Image bank the sprite should be packed to",
-                        "type": "integer",
-                        "minimum": 0,
-                        "maximum": 2
+                        "$ref": "#/definitions/image_bank"
                     },
                     "image": {
                         "description": "Path to the PNG file representing the sprite",
-                        "type": "string"
+                        "$ref": "#/definitions/file_path"
                     },
                     "num_frames": {
                         "description": "Number of animation frames in the sprite",
@@ -83,27 +96,62 @@ RESOURCES_JSON_SCHEMA = {
                 "required": ["image_bank", "image"]
             }
         },
-        "screens": {
-            "description": "Collection of game screens",
+        "sprite_packs": {
+            "description": "Collection of sprite packs that can be used in level themes.",
             "type": "object",
+            "propertyNames": {
+                "$ref": "#/definitions/resource_name"
+            },
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "description": "Reference to sprite representing the "
+                                   "screen element",
+                    "$ref": "#/definitions/resource_name"
+                },
+                "minItems": 1
+            }
+        },
+        "frame_tilesets": {
+            "description": "Collection of nine slicing, tile based frames.",
+            "type": "object",
+            "propertyNames": {
+                "$ref": "#/definitions/resource_name"
+            },
             "additionalProperties": {
                 "type": "object",
                 "properties": {
-                    "background_color": {
-                        "description": "The color the background is cleared with",
-                        "$ref": "#/definitions/color"
-                    },
-                    "background_tilemap": {
-                        "description": "The tilemap the background is drawn with",
+                    frame_slice.value: {
+                        "$ref": "#/definitions/file_path"
+                    } for frame_slice in list(FrameSlice)
+                },
+                "additionalProperties": False
+            }
+        },
+        "screens": {
+            "description": "Collection of game screens",
+            "type": "object",
+            "propertyNames": {
+                "$ref": "#/definitions/resource_name"
+            },
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "background": {
+                        "description": "",
                         "type": "object",
                         "properties": {
+                            "background_color": {
+                                "description": "The color the background is cleared with",
+                                "$ref": "#/definitions/color"
+                            },
                             "tilemap_generator": {
                                 "description": "Generator the tilemap will be generated with",
                                 "type": "object",
                                 "properties": {
-                                    "generator_name": {
+                                    "generator_ref": {
                                         "description": "Reference to tilemap generator",
-                                        "type": "string"
+                                        "$ref": "#/definitions/resource_name"
                                     },
                                     "seed": {
                                         "description": "Seed used during tilemap generation",
@@ -111,20 +159,39 @@ RESOURCES_JSON_SCHEMA = {
                                         "minimum": 0
                                     }
                                 },
-                                "required": ["generator_name"]
+                                "required": ["generator_ref"]
+                            },
+                            "frames": {
+                                "description": "Collection of drawable, background frames",
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "tileset_name": {
+                                            "description": "",
+                                            "$ref": "#/definitions/resource_name"
+                                        },
+                                        "rect": {
+                                            "description": "",
+                                            "$ref": "#/definitions/rect"
+                                        }
+                                    },
+                                    "required": ["tileset_name", "rect"]
+                                }
                             }
                         },
+                        "additionalProperties": False
                     },
-                    "screen_elements": {
+                    "elements": {
                         "description": "Collection of drawable, screen elements",
                         "type": "array",
                         "items": {
                             "type": "object",
                             "properties": {
-                                "sprite": {
+                                "sprite_ref": {
                                     "description": "Reference to sprite representing the "
                                                    "screen element",
-                                    "type": "string"
+                                    "$ref": "#/definitions/resource_name"
                                 },
                                 "text": {
                                     "description": "Text to be displayed as screen element",
@@ -132,12 +199,12 @@ RESOURCES_JSON_SCHEMA = {
                                 },
                                 "position": {
                                     "description": "The position of screen element",
-                                    "$ref": "#/definitions/position"
+                                    "$ref": "#/definitions/point"
                                 }
                             },
                             "oneOf": [
                                 {
-                                    "required": ["position", "sprite"]
+                                    "required": ["position", "sprite_ref"]
                                 },
                                 {
                                     "required": ["position", "text"]
@@ -145,13 +212,13 @@ RESOURCES_JSON_SCHEMA = {
                             ]
                         }
                     },
-                    "screen_menu": {
+                    "menu": {
                         "description": "Configuration of screen menu",
                         "type": "object",
                         "properties": {
                             "position": {
                                 "description": "The position of menu on the screen",
-                                "$ref": "#/definitions/position"
+                                "$ref": "#/definitions/point"
                             },
                             "scrollbar_rect": {
                                 "description": "The rectangle describing optional menu scrollbar",
@@ -159,7 +226,8 @@ RESOURCES_JSON_SCHEMA = {
                             }
                         }
                     }
-                }
+                },
+                "additionalProperties": False
             }
         },
         "levels": {
@@ -179,10 +247,10 @@ RESOURCES_JSON_SCHEMA = {
                         "items": {
                             "$ref": "#/definitions/tile",
                             "minLength": 1,
-                            "maxLength": 32
+                            "maxLength": LEVEL_WIDTH
                         },
                         "minItems": 1,
-                        "maxItems": 32
+                        "maxItems": LEVEL_HEIGHT
                     }
                 },
                 "required": ["data"]
@@ -192,9 +260,15 @@ RESOURCES_JSON_SCHEMA = {
         "tilemap_generators": {
             "description": "Collection of tilemap generators",
             "type": "object",
+            "propertyNames": {
+                "$ref": "#/definitions/resource_name"
+            },
             "additionalProperties": {
                 "description": "Collection of tile to possibility mappings",
                 "type": "object",
+                "propertyNames": {
+                    "$ref": "#/definitions/file_path"
+                },
                 "additionalProperties": {
                     "description": "Relative weight (possibility) of the tile",
                     "type": "integer",
@@ -212,7 +286,7 @@ RESOURCES_JSON_SCHEMA = {
                     "background_generator": {
                         "description": "Reference to generator the background tilemap will be "
                                        "generated with",
-                        "type": "string"
+                        "$ref": "#/definitions/resource_name"
                     },
                     "tiles": {
                         "type": "object",
@@ -225,7 +299,8 @@ RESOURCES_JSON_SCHEMA = {
                                         tile.tile_name: {
                                             "$ref": "#/definitions/file_path"
                                         } for tile in list(Tile)
-                                    }
+                                    },
+                                    "additionalProperties": False
                                 },
                                 "minItems": 1
                             }
@@ -235,17 +310,18 @@ RESOURCES_JSON_SCHEMA = {
                     "sprite_packs": {
                         "description": "Collection of sprite packs",
                         "type": "object",
+                        "propertyNames": {
+                            "$ref": "#/definitions/resource_name"
+                        },
                         "properties": {
                             "robot": {
-                                "type": "string"
+                                "$ref": "#/definitions/resource_name"
                             },
                             "crate": {
-                                "type": "string"
+                                "$ref": "#/definitions/resource_name"
                             }
                         },
-                        "additionalProperties": {
-                            "type": "string"
-                        },
+                        "additionalProperties": False,
                         "required": ["robot", "crate"]
                     },
                     "thumbnail_colors": {
@@ -256,6 +332,7 @@ RESOURCES_JSON_SCHEMA = {
                                 "$ref": "#/definitions/color"
                             } for tile in list(Tile)
                         },
+                        "additionalProperties": False,
                         "required": [tile.tile_name for tile in list(Tile)]
                     }
                 },
