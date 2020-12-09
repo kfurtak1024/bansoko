@@ -69,16 +69,16 @@ def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer:
         for j in range(1, LEVEL_NUM_LAYERS):
             layers.append(tile_packer.pack_tileset(level_theme_data["tiles"]["layers"][j]))
 
-        background_generator = level_theme_data["background_generator"]
+        background_generator = level_theme_data["background_generator_ref"]
         if not tilemap_generators.get(background_generator):
             raise ResourceError(
                 f"Background generator '{background_generator}' is undefined'")
         thumbnail_colors = _extract_thumbnail_colors(level_theme_data["thumbnail_colors"])
-        robot_sprite_pack = level_theme_data["sprite_packs"]["robot"]
+        robot_sprite_pack = level_theme_data["sprite_packs"]["robot_pack_ref"]
         if sprite_packs.get(robot_sprite_pack) is None:
             raise ResourceError(
                 f"Robot sprite pack '{robot_sprite_pack}' is undefined'")
-        crate_sprite_pack = level_theme_data["sprite_packs"]["crate"]
+        crate_sprite_pack = level_theme_data["sprite_packs"]["crate_pack_ref"]
         if sprite_packs.get(crate_sprite_pack) is None:
             raise ResourceError(
                 f"Crate sprite pack '{crate_sprite_pack}' is undefined'")

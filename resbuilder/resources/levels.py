@@ -209,8 +209,8 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
             "tileset": level_theme_id,
             # TODO: Hard-coded 1, -13
             "draw_offset": preprocessed_level.tilemap_offset.offset(Point(1, -13)).as_list,
-            "robot_sprite_pack": level_theme.robot_sprite_pack,
-            "crate_sprite_pack": level_theme.crate_sprite_pack
+            "robot_sprite_pack_ref": level_theme.robot_sprite_pack,
+            "crate_sprite_pack_ref": level_theme.crate_sprite_pack
         })
         logging.info("Level %d (%dx%d tileset:%d) added", level_num, preprocessed_level.size.width,
                      preprocessed_level.size.height, level_theme_id)

@@ -355,15 +355,15 @@
         "frames": [
           {
             "rect": [0, 0, 32, 32],
-            "tileset_name": "monitor_frame"
+            "tileset_ref": "monitor_frame"
           },
           {
             "rect": [29, 3, 2, 25],
-            "tileset_name": "scrollbar_frame"
+            "tileset_ref": "scrollbar_frame"
           },
           {
             "rect": [1, 28, 30, 1],
-            "tileset_name": "hr_frame"
+            "tileset_ref": "hr_frame"
           }
         ]
       },
@@ -410,7 +410,7 @@
         "frames": [
           {
             "rect": [7, 5, 18, 10],
-            "tileset_name": "receipt_frame"
+            "tileset_ref": "receipt_frame"
           }
         ]
       },
@@ -441,7 +441,7 @@
         "frames": [
           {
             "rect": [3, 5, 26, 19],
-            "tileset_name": "popup_frame"
+            "tileset_ref": "popup_frame"
           }
         ]
       },
@@ -512,7 +512,7 @@
         },
         "frames": [
           {
-            "tileset_name": "victory_frame",
+            "tileset_ref": "victory_frame",
             "rect": [1, 1, 30, 30]
           }
         ]
@@ -531,7 +531,7 @@
       "background": {
         "frames": [
           {
-            "tileset_name": "popup_frame",
+            "tileset_ref": "popup_frame",
             "rect": [6, 14, 20, 4]
           }
         ]
@@ -1765,7 +1765,7 @@
   },
   "level_themes": [
     {
-      "background_generator": "space_background",
+      "background_generator_ref": "space_background",
       "tiles": {
         "layers": [
           {
@@ -1786,8 +1786,8 @@
         ]
       },
       "sprite_packs": {
-        "robot": "robot",
-        "crate": "desert_crate"
+        "robot_pack_ref": "robot",
+        "crate_pack_ref": "desert_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1800,7 +1800,7 @@
       }
     },
     {
-      "background_generator": "space_background",
+      "background_generator_ref": "space_background",
       "tiles": {
         "layers": [
           {
@@ -1821,8 +1821,8 @@
         ]
       },
       "sprite_packs": {
-        "robot": "robot",
-        "crate": "mint_crate"
+        "robot_pack_ref": "robot",
+        "crate_pack_ref": "mint_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1835,7 +1835,7 @@
       }
     },
     {
-      "background_generator": "space_background",
+      "background_generator_ref": "space_background",
       "tiles": {
         "layers": [
           {
@@ -1856,8 +1856,8 @@
         ]
       },
       "sprite_packs": {
-        "robot": "robot",
-        "crate": "ice_crate"
+        "robot_pack_ref": "robot",
+        "crate_pack_ref": "ice_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1870,7 +1870,7 @@
       }
     },
     {
-      "background_generator": "space_background",
+      "background_generator_ref": "space_background",
       "tiles": {
         "layers": [
           {
@@ -1891,8 +1891,8 @@
         ]
       },
       "sprite_packs": {
-        "robot": "robot",
-        "crate": "desert_crate"
+        "robot_pack_ref": "robot",
+        "crate_pack_ref": "desert_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",
@@ -1905,7 +1905,7 @@
       }
     },
     {
-      "background_generator": "space_background",
+      "background_generator_ref": "space_background",
       "tiles": {
         "layers": [
           {
@@ -1926,8 +1926,8 @@
         ]
       },
       "sprite_packs": {
-        "robot": "robot",
-        "crate": "moon_crate"
+        "robot_pack_ref": "robot",
+        "crate_pack_ref": "moon_crate"
       },
       "thumbnail_colors": {
         "tile_void": "0",

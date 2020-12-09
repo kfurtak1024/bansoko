@@ -40,12 +40,13 @@ def process_screens(input_data: Any, sprites: Dict[str, Any],
             frames_data = background_data.get("frames")
             if frames_data:
                 _process_frames(tilemap_num, frames_data, frame_tilesets)
+
             if generator_data or frames_data:
                 screen_background["background_tilemap"] = {
                     "tilemap_id": BACKGROUND_TILEMAP_ID,
                     "tilemap_uv": tilemap_rect_nth(tilemap_num).as_list
                 }
-            tilemap_num += 1
+                tilemap_num += 1
 
             if screen_background:
                 screen["background"] = screen_background
@@ -55,13 +56,7 @@ def process_screens(input_data: Any, sprites: Dict[str, Any],
                 screen_data["elements"], screen_name, sprites)
 
         if screen_data.get("menu"):
-            screen_menu = {}
-            screen_menu_data = screen_data["menu"]
-            if screen_menu_data.get("position"):
-                screen_menu["position"] = screen_menu_data["position"]
-            if screen_menu_data.get("scrollbar_rect"):
-                screen_menu["scrollbar_rect"] = screen_menu_data["scrollbar_rect"]
-            screen["menu"] = screen_menu
+            screen["menu"] = _process_menu(screen_data["menu"])
 
         screens[screen_name] = screen
         logging.info("Screen '%s' added", screen_name)
@@ -82,7 +77,7 @@ def _process_frames(tilemap_num: int, frame_tileset_data: Any,
                     frame_tilesets: Dict[str, NineSlicingFrame]) -> None:
     tilemap_rect = tilemap_rect_nth(tilemap_num)
     for frame_data in frame_tileset_data:
-        frame_tileset = frame_tilesets[frame_data["tileset_name"]]
+        frame_tileset = frame_tilesets[frame_data["tileset_ref"]]
         frame_rect = Rect.from_list(frame_data["rect"]).offset(tilemap_rect.position)
         frame_tileset.draw_frame(BACKGROUND_TILEMAP_ID, frame_rect)
 
@@ -96,9 +91,18 @@ def _process_elements(elements_data: Any, screen_name: str, sprites: Dict[str, A
             if sprites.get(sprite_name) is None:
                 raise ResourceError(
                     f"Screen '{screen_name}' refers to unknown sprite '{sprite_name}'")
-            element["sprite"] = sprite_name
+            element["sprite_ref"] = sprite_name
         elif element_data.get("text"):
             element["text"] = element_data["text"]
         elements.append(element)
 
     return elements
+
+
+def _process_menu(screen_menu_data: Any) -> Dict[str, Any]:
+    screen_menu = {}
+    if screen_menu_data.get("position"):
+        screen_menu["position"] = screen_menu_data["position"]
+    if screen_menu_data.get("scrollbar_rect"):
+        screen_menu["scrollbar_rect"] = screen_menu_data["scrollbar_rect"]
+    return screen_menu

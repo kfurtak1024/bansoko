@@ -5,7 +5,6 @@ from typing import Optional
 import pyxel
 
 from bansoko.game.level import InputAction, Level
-from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Direction
 from bansoko.graphics.animation import AnimationPlayer, Animation
@@ -91,12 +90,6 @@ class PlayfieldScreen(BaseScreenController):
 
         if self.level.is_completed:
             return self._start_level_completed_player()
-
-        # TODO: Just for tests! REMOVE IT IN FINAL VERSION !!!!!!!!!!!!!!!!
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            return self.screen_factory.get_level_completed_screen(
-                LevelScore(self.level.level_num, completed=True, pushes=100, steps=100,
-                           time_in_ms=1000))
 
         self.level.process_input(self._get_input_action())
         self.level.update(dt_in_ms)

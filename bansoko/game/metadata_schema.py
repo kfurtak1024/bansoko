@@ -160,7 +160,7 @@ METADATA_JSON_SCHEMA = {
                                     "$ref": "#/definitions/point",
                                     "description": "Position of the element in screen space"
                                 },
-                                "sprite": {
+                                "sprite_ref": {
                                     "$ref": "#/definitions/resource_name",
                                     "description": "Sprite of the element, if element is sprite "
                                                    "based"
@@ -172,7 +172,7 @@ METADATA_JSON_SCHEMA = {
                             },
                             "oneOf": [
                                 {
-                                    "required": ["position", "sprite"]
+                                    "required": ["position", "sprite_ref"]
                                 },
                                 {
                                     "required": ["position", "text"]
@@ -193,7 +193,8 @@ METADATA_JSON_SCHEMA = {
                                 "description": "Rectangle describing the position and size of "
                                                "the menu scrollbar"
                             }
-                        }
+                        },
+                        "additionalProperties": False
                     }
                 }
             }
@@ -223,11 +224,11 @@ METADATA_JSON_SCHEMA = {
                                 "description": "The offset of the level's tilemap relative to "
                                                "screen"
                             },
-                            "robot_sprite_pack": {
+                            "robot_sprite_pack_ref": {
                                 "$ref": "#/definitions/resource_name",
                                 "description": "Reference to sprite pack containing robot sprites"
                             },
-                            "crate_sprite_pack": {
+                            "crate_sprite_pack_ref": {
                                 "$ref": "#/definitions/resource_name",
                                 "description": "Reference to sprite pack containing crate sprites"
                             }
@@ -236,5 +237,6 @@ METADATA_JSON_SCHEMA = {
                 }
             }
         }
-    }
+    },
+    "additionalProperties": False
 }

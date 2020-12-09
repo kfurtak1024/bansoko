@@ -1,7 +1,5 @@
 """Module exposing JSON schema for Bansoko's game resources."""
 from bansoko import LEVEL_WIDTH, LEVEL_HEIGHT
-# TODO: Rename *_name to *_ref
-# TODO: Review this schema!
 from resbuilder.resources.backgrounds import FrameSlice
 from resbuilder.resources.tiles import Tile
 
@@ -138,7 +136,7 @@ RESOURCES_JSON_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "background": {
-                        "description": "",
+                        "description": "Screen background",
                         "type": "object",
                         "properties": {
                             "background_color": {
@@ -159,6 +157,7 @@ RESOURCES_JSON_SCHEMA = {
                                         "minimum": 0
                                     }
                                 },
+                                "additionalProperties": False,
                                 "required": ["generator_ref"]
                             },
                             "frames": {
@@ -167,7 +166,7 @@ RESOURCES_JSON_SCHEMA = {
                                 "items": {
                                     "type": "object",
                                     "properties": {
-                                        "tileset_name": {
+                                        "tileset_ref": {
                                             "description": "",
                                             "$ref": "#/definitions/resource_name"
                                         },
@@ -176,7 +175,8 @@ RESOURCES_JSON_SCHEMA = {
                                             "$ref": "#/definitions/rect"
                                         }
                                     },
-                                    "required": ["tileset_name", "rect"]
+                                    "additionalProperties": False,
+                                    "required": ["tileset_ref", "rect"]
                                 }
                             }
                         },
@@ -209,7 +209,8 @@ RESOURCES_JSON_SCHEMA = {
                                 {
                                     "required": ["position", "text"]
                                 }
-                            ]
+                            ],
+                            "additionalProperties": False
                         }
                     },
                     "menu": {
@@ -224,7 +225,8 @@ RESOURCES_JSON_SCHEMA = {
                                 "description": "The rectangle describing optional menu scrollbar",
                                 "$ref": "#/definitions/rect"
                             }
-                        }
+                        },
+                        "additionalProperties": False
                     }
                 },
                 "additionalProperties": False
@@ -253,6 +255,7 @@ RESOURCES_JSON_SCHEMA = {
                         "maxItems": LEVEL_HEIGHT
                     }
                 },
+                "additionalProperties": False,
                 "required": ["data"]
             },
             "minItems": 1
@@ -283,7 +286,7 @@ RESOURCES_JSON_SCHEMA = {
                 "description": "Theme controlling the look&feel of the level",
                 "type": "object",
                 "properties": {
-                    "background_generator": {
+                    "background_generator_ref": {
                         "description": "Reference to generator the background tilemap will be "
                                        "generated with",
                         "$ref": "#/definitions/resource_name"
@@ -304,8 +307,8 @@ RESOURCES_JSON_SCHEMA = {
                                 },
                                 "minItems": 1
                             }
-                        }
-
+                        },
+                        "additionalProperties": False
                     },
                     "sprite_packs": {
                         "description": "Collection of sprite packs",
@@ -314,15 +317,15 @@ RESOURCES_JSON_SCHEMA = {
                             "$ref": "#/definitions/resource_name"
                         },
                         "properties": {
-                            "robot": {
+                            "robot_pack_ref": {
                                 "$ref": "#/definitions/resource_name"
                             },
-                            "crate": {
+                            "crate_pack_ref": {
                                 "$ref": "#/definitions/resource_name"
                             }
                         },
                         "additionalProperties": False,
-                        "required": ["robot", "crate"]
+                        "required": ["robot_pack_ref", "crate_pack_ref"]
                     },
                     "thumbnail_colors": {
                         "description": "Colors for all tile types used in level thumbnails",
@@ -336,9 +339,11 @@ RESOURCES_JSON_SCHEMA = {
                         "required": [tile.tile_name for tile in list(Tile)]
                     }
                 },
+                "additionalProperties": False,
                 "required": ["tiles", "sprite_packs", "thumbnail_colors"]
             },
             "minItems": 1
         }
-    }
+    },
+    "additionalProperties": False
 }

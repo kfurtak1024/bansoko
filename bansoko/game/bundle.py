@@ -163,7 +163,7 @@ def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
         screen_elements = [
             ScreenElement(
                 position=Point.from_list(data["position"]),
-                sprite=sprites.get(data.get("sprite")),
+                sprite=sprites.get(data.get("sprite_ref")),
                 text=data.get("text"))
             for data in json_data["elements"]
         ]
@@ -196,6 +196,6 @@ def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) 
             tileset_index=data["tileset"],
             draw_offset=Point.from_list(data["draw_offset"]),
             sprite_packs=LevelSpritePacks(
-                robot_sprite_pack=sprite_packs[data["robot_sprite_pack"]],
-                crate_sprite_pack=sprite_packs[data["crate_sprite_pack"]]))
+                robot_sprite_pack=sprite_packs[data["robot_sprite_pack_ref"]],
+                crate_sprite_pack=sprite_packs[data["crate_sprite_pack_ref"]]))
         for level_num, data in enumerate(json_data)])
