@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Any
 
 from bansoko import LEVEL_NUM_LAYERS
+from bansoko.graphics import Point
 from resbuilder import ResourceError
 from resbuilder.resources.tiles import Tile, TilePacker
 
@@ -15,12 +16,14 @@ class LevelTheme:
 
     Attributes:
         tiles_ids - collection of tilesets ordered by layer
+        tilemap_offset - draw offset of level tilemap
         background_generator - generator used for generating level background
         thumbnail_colors - thumbnail colors for all types of tiles
         robot_sprite_pack - sprite pack containing all robot related sprites
         crate_sprite_pack - sprite pack containing all crate related sprites
     """
     tiles_ids: List[Dict[Tile, int]]
+    tilemap_offset: Point
     background_generator: str
     thumbnail_colors: Dict[Tile, int]
     robot_sprite_pack: str
@@ -54,6 +57,7 @@ def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer:
     """Generate level themes from input resource file.
 
     :param input_data: input data from JSON file (root -> level_themes)
+    :param tilemap_generators: tilemap generators used to generate background for levels
     :param tile_packer: tile packer used to pack tiles generated for level themes
     :param sprite_packs: collection of available sprite packs
     :return: collection of generated level themes
@@ -69,6 +73,10 @@ def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer:
         for j in range(1, LEVEL_NUM_LAYERS):
             layers.append(tile_packer.pack_tileset(level_theme_data["tiles"]["layers"][j]))
 
+        tilemap_offset = Point(0, 0)
+        if level_theme_data.get("tilemap_offset"):
+            tilemap_offset = Point.from_list(level_theme_data["tilemap_offset"])
+
         background_generator = level_theme_data["background_generator_ref"]
         if not tilemap_generators.get(background_generator):
             raise ResourceError(
@@ -83,8 +91,13 @@ def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer:
             raise ResourceError(
                 f"Crate sprite pack '{crate_sprite_pack}' is undefined'")
 
-        themes.append(LevelTheme(layers, background_generator, thumbnail_colors, robot_sprite_pack,
-                                 crate_sprite_pack))
+        themes.append(LevelTheme(
+            tiles_ids=layers,
+            tilemap_offset=tilemap_offset,
+            background_generator=background_generator,
+            thumbnail_colors=thumbnail_colors,
+            robot_sprite_pack=robot_sprite_pack,
+            crate_sprite_pack=crate_sprite_pack))
 
     return themes
 

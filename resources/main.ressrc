@@ -1774,6 +1774,7 @@
   "level_themes": [
     {
       "background_generator_ref": "space_background",
+      "tilemap_offset": [1, -13],
       "tiles": {
         "layers": [
           {
@@ -1809,6 +1810,7 @@
     },
     {
       "background_generator_ref": "space_background",
+      "tilemap_offset": [1, -13],
       "tiles": {
         "layers": [
           {
@@ -1844,6 +1846,7 @@
     },
     {
       "background_generator_ref": "space_background",
+      "tilemap_offset": [1, -13],
       "tiles": {
         "layers": [
           {
@@ -1879,6 +1882,7 @@
     },
     {
       "background_generator_ref": "space_background",
+      "tilemap_offset": [1, -13],
       "tiles": {
         "layers": [
           {
@@ -1914,6 +1918,7 @@
     },
     {
       "background_generator_ref": "space_background",
+      "tilemap_offset": [1, -13],
       "tiles": {
         "layers": [
           {

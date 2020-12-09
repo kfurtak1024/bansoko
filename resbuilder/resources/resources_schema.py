@@ -310,6 +310,10 @@ RESOURCES_JSON_SCHEMA = {
                         },
                         "additionalProperties": False
                     },
+                    "tilemap_offset": {
+                        "description": "Draw offset of the level's tilemap.",
+                        "$ref": "#/definitions/point"
+                    },
                     "sprite_packs": {
                         "description": "Collection of sprite packs",
                         "type": "object",

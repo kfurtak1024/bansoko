@@ -204,11 +204,11 @@ def process_levels(input_data: Any, level_themes: List[LevelTheme],
         preprocessed_level = _preprocess_level(level_num, level_data["data"])
         _generate_background(level_num, level_data.get("seed", level_num), tile_generator)
         _generate_tilemap_and_thumbnail(preprocessed_level, level_theme)
+        level_draw_offset = preprocessed_level.tilemap_offset.offset(level_theme.tilemap_offset)
 
         level_templates.append({
             "tileset": level_theme_id,
-            # TODO: Hard-coded 1, -13
-            "draw_offset": preprocessed_level.tilemap_offset.offset(Point(1, -13)).as_list,
+            "draw_offset": level_draw_offset.as_list,
             "robot_sprite_pack_ref": level_theme.robot_sprite_pack,
             "crate_sprite_pack_ref": level_theme.crate_sprite_pack
         })
