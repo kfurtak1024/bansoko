@@ -545,6 +545,19 @@
         31,
         15
       ]
+    },
+    "the_end": {
+      "image_bank": 0,
+      "directional": false,
+      "transparency_color": -1,
+      "num_frames": 1,
+      "num_layers": 1,
+      "uv_rect": [
+        0,
+        128,
+        192,
+        112
+      ]
     }
   },
   "sprite_packs": {
@@ -902,6 +915,13 @@
         }
       },
       "elements": [
+        {
+          "position": [
+            32,
+            32
+          ],
+          "sprite_ref": "the_end"
+        },
         {
           "position": [
             32,

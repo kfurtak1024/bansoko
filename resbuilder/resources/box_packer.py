@@ -86,10 +86,10 @@ class BoxPacker:
         self.boxes.append(box)
         return box.box_id
 
-    def pack(self, size: Size) -> List[Rect]:
+    def pack(self, rect: Rect) -> List[Rect]:
         """Pack all boxes that were added to box packer.
 
-        :param size: destination size to pack boxes in
+        :param rect: destination rect to pack boxes in
         :return: collection of positions for all packed boxes (coords for given box can be found by
                  using box's id assigned during add_box call)
         """
@@ -98,7 +98,7 @@ class BoxPacker:
 
         uv_rects: List[Rect] = [Rect.from_coords(0, 0, 0, 0)] * len(self.boxes)
         sorted_boxes = sorted(self.boxes, key=lambda b: b.size.max_dimension, reverse=True)
-        root_node = _Node(Rect.from_size(size))
+        root_node = _Node(rect)
 
         for box in sorted_boxes:
             node = _Node.find_node_for_box(root_node, box.size)

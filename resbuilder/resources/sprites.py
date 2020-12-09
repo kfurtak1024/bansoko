@@ -5,7 +5,7 @@ from typing import List, Dict, Any
 
 import pyxel
 
-from bansoko import LEVEL_NUM_LAYERS, SPRITE_IMAGE_BANK
+from bansoko import LEVEL_NUM_LAYERS
 from bansoko.graphics import Rect, Size, IMAGE_BANK_HEIGHT, IMAGE_BANK_WIDTH
 from resbuilder import ResourceError
 from resbuilder.resources.box_packer import BoxPacker
@@ -15,11 +15,18 @@ PNG_CHUNK_TYPE = b"IHDR"
 
 
 class SpriteSheetPacker:
-    """Packer for packing sprites into a sprite sheet using BoxPacker."""
+    """Packer for packing sprites into a sprite sheet using BoxPacker.
 
-    def __init__(self) -> None:
+    Attributes:
+        image_bank - destination Pyxel's image bank
+        rect - destination sprite sheet's rect to pack sprites in
+    """
+
+    def __init__(self, image_bank: int, rect: Rect) -> None:
         self.box_packer = BoxPacker()
         self.sprite_paths: List[Path] = []
+        self.image_bank = image_bank
+        self.rect = rect
 
     def add_sprite(self, sprite_path: Path) -> int:
         """Add sprite to collection of sprites that will be packed during pack() call.
@@ -31,17 +38,15 @@ class SpriteSheetPacker:
         sprite_size = self.read_png_image_size(sprite_path)
         return self.box_packer.add_box(sprite_size)
 
-    def pack(self, image_bank: int, size: Size) -> List[Rect]:
+    def pack(self) -> List[Rect]:
         """Pack all sprites that were added to sprite sheet packer.
 
-        :param image_bank: destination Pyxel's image bank
-        :param size: destination sprite sheet's size to pack sprites in
         :return: collection of texture coordinates for all packed sprites (coords for given sprite
                  can be found by using sprite's id assigned during add_sprite call)
         """
-        uv_rects = self.box_packer.pack(size)
+        uv_rects = self.box_packer.pack(self.rect)
         for i, rect in enumerate(uv_rects):
-            pyxel.image(image_bank).load(rect.x, rect.y, str(self.sprite_paths[i]))
+            pyxel.image(self.image_bank).load(rect.x, rect.y, str(self.sprite_paths[i]))
 
         return uv_rects
 
@@ -73,16 +78,16 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
     :param base_dir:
     :return: processed sprites (ready to be serialized to JSON)
     """
-    packer = SpriteSheetPacker()
-    # TODO: We should be able to pack sprites in two different banks
-    image_bank = SPRITE_IMAGE_BANK
-
+    sprite_packers = [
+        SpriteSheetPacker(0, Rect.from_coords(0, 128, IMAGE_BANK_WIDTH, IMAGE_BANK_HEIGHT - 128)),
+        SpriteSheetPacker(1, Rect.from_coords(0, 0, IMAGE_BANK_WIDTH, IMAGE_BANK_HEIGHT))]
     sprites = {}
-    sprites_ids = {}
+    sprites_ids: List[Dict[str, int]] = [{}, {}]
 
     for sprite_name, sprite_data in input_data.items():
+        image_bank = sprite_data["image_bank"]
         sprite_path = Path(base_dir).joinpath(sprite_data["image"])
-        sprites_ids[sprite_name] = packer.add_sprite(sprite_path)
+        sprites_ids[image_bank][sprite_name] = sprite_packers[image_bank].add_sprite(sprite_path)
         num_layers = LEVEL_NUM_LAYERS if sprite_data.get("multilayer", False) else 1
         transparency_color = -1
         if sprite_data.get("transparency_color"):
@@ -96,10 +101,12 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
             "num_layers": num_layers
         }
 
-    sprite_uv_rects = packer.pack(image_bank, Size(IMAGE_BANK_WIDTH, IMAGE_BANK_HEIGHT))
+    sprite_uv_rects = [packer.pack() for packer in sprite_packers]
 
     for sprite_name, sprite in sprites.items():
-        uv_rect = sprite_uv_rects[sprites_ids[sprite_name]]
+        image_bank = sprite["image_bank"]
+        sprite_id = sprites_ids[image_bank][sprite_name]
+        uv_rect = sprite_uv_rects[image_bank][sprite_id]
         sprite["uv_rect"] = uv_rect.as_list
         logging.info("Sprite '%s' (%dx%d) added to image bank %d", sprite_name,
                      uv_rect.w, uv_rect.h, image_bank)

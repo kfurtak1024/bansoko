@@ -225,6 +225,10 @@
     "placing_crate2": {
       "image_bank": 1,
       "image": "gui/tutorial/placing_crate2.png"
+    },
+    "the_end": {
+      "image_bank": 0,
+      "image": "gui/victory/the_end.png"
     }
   },
   "sprite_packs": {
@@ -518,6 +522,10 @@
         ]
       },
       "elements": [
+        {
+          "position": [32, 32],
+          "sprite_ref": "the_end"
+        },
         {
           "position": [32, 160],
           "text": "#7ENOUGH IS ENOUGH! I HAVE HAD IT WITH THESE GOD DAMN\nCRATES ON THIS DAMN SPACE SHIP!\n\n"
