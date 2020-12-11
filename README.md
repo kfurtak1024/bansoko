@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/logo.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/logo.png">
 </h1>
 <p align="center">
   <a href="https://github.com/kfurtak1024/bansoko/releases/latest">
@@ -31,14 +31,14 @@
 > *Good luck!*
 
 <p align="center">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot1.png">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot2.png">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot3.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/screen_shot1.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/screen_shot2.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/screen_shot3.png">
 </p>
 <p align="center">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot4.png">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot5.png">
-  <img src="https://github.com/kfurtak1024/bansoko/blob/master/docs/screen_shot6.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/screen_shot4.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/screen_shot5.png">
+  <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/screen_shot6.png">
 </p>
 
 ## Installation
