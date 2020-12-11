@@ -4,14 +4,17 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pylint = "*"
-mypy = "*"
-pyinstaller = "*"
+pylint = ">=2.6.0"
+mypy = ">=0.790"
+pyinstaller = ">=4.1"
+setuptools = ">=51.0.0"
+wheel = ">=0.36.1"
+twine = ">=3.2.0"
 
 [packages]
-pyxel = "*"
-docopt = "*"
-jsonschema = "*"
+pyxel = ">=1.4.3"
+docopt = ">=0.6.2"
+jsonschema = ">=3.2.0"
 
 [requires]
 python_version = "3.8"

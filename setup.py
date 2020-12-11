@@ -5,19 +5,19 @@ from setuptools import setup, find_packages
 
 import bansoko
 
-
 setup(
     name="bansoko",
     version=bansoko.__version__,
     author="Krzysztof Furtak",
     author_email="contact@krzysztoffurtak.dev",
+    url="https://github.com/kfurtak1024/bansoko",
     description="Space-themed Sokoban clone created in Python using Pyxel.",
     long_description=open(
         os.path.join(os.path.abspath(os.path.dirname(__file__)), "README.md")
     ).read(),
     long_description_content_type="text/markdown",
     platforms="any",
-    keywords="pyxel games",
+    keywords="game puzzle sokoban 8-bit retro",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
@@ -26,8 +26,8 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Games/Entertainment :: Puzzle Games"
     ],
-    install_requires=["setuptools", "pyxel"],
-    packages=find_packages(exclude=["resbuilder"]),
+    install_requires=["setuptools", "pyxel", "docopt", "jsonschema"],
+    packages=find_packages(exclude=["resbuilder", "resbuilder.*"]),
     package_data={
         "bansoko": ["gamedata/main.pyxres", "gamedata/main.meta"]
     },

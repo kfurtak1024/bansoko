@@ -42,7 +42,37 @@
 </p>
 
 ## Installation
-TBD
+
+#### Windows
+Install 32-bit [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
+
+Install Bansoko by running:
+```shell
+pip install -U bansoko
+```
+
+Run the game:
+```shell
+bansoko
+```
+
+#### Linux
+Install ```python3``` (version 3.8 or higher), ```python3-pip``` and required SDL2 libraries (```libsdl2-2.0-0``` and ```libsdl2-image-2.0-0```).
+
+On Ubuntu, this can be done by running:
+
+```shell
+sudo apt install python3 python3-pip libsdl2-2.0-0 libsdl2-image-2.0-0 
+```
+
+Install Bansoko by running:
+```shell
+pip3 install -U bansoko
+```
+Run the game:
+```shell
+bansoko
+```
 
 ## Development setup
 
@@ -101,4 +131,4 @@ python3 -m bansoko
 **Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found in [resbuilder documentation](docs/resbuilder.md).
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/kfurtak1024/bansoko/blob/master/docs/resbuilder.md) file for details.
