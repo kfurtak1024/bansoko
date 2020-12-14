@@ -11,7 +11,8 @@ setup(
     author="Krzysztof Furtak",
     author_email="contact@krzysztoffurtak.dev",
     url="https://github.com/kfurtak1024/bansoko",
-    description="Space-themed Sokoban clone created in Python using Pyxel.",
+    description="Bansoko is a reimagined, space-themed clone of MS-DOS Soko-Ban from 1984 created "
+                "in Python using Pyxel",
     long_description=open(
         os.path.join(os.path.abspath(os.path.dirname(__file__)), "README.md")
     ).read(),

@@ -25,6 +25,7 @@ from bansoko.graphics import SCREEN_HEIGHT, SCREEN_WIDTH
 from resbuilder import ResourceError
 from resbuilder.resources.backgrounds import process_tilemap_generators, \
     generate_frame_tilesets
+from resbuilder.resources.gui_consts import process_gui_consts
 from resbuilder.resources.level_themes import generate_level_themes
 from resbuilder.resources.levels import process_levels
 from resbuilder.resources.resources_schema import RESOURCES_JSON_SCHEMA
@@ -94,6 +95,8 @@ def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> Dict[st
     generators = process_tilemap_generators(input_data["tilemap_generators"], tile_packer)
     logging.info("Generating frame tilesets...")
     frame_tilesets = generate_frame_tilesets(input_data["frame_tilesets"], tile_packer)
+    logging.info("Processing GUI constants...")
+    metadata["gui_consts"] = process_gui_consts(input_data["gui_consts"], sprites)
     logging.info("Processing screens...")
     metadata["screens"] = process_screens(
         input_data["screens"], sprites, generators, frame_tilesets)

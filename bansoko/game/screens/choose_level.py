@@ -3,23 +3,12 @@
 import pyxel
 
 from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT
+from bansoko.game.screens.gui_consts import GuiPosition, GuiColor, GuiSprite
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
+from bansoko.graphics.sprite import Sprite
 from bansoko.graphics.text import draw_text, TextStyle
 from bansoko.gui.menu import MenuController, MenuItem, Menu, MenuLayout
-
-LEVEL_SELECTED_STYLE = TextStyle(color=10)
-LEVEL_LOCKED_STYLE = TextStyle(color=1)
-LEVEL_UNLOCKED_STYLE = TextStyle(color=5)
-LEVEL_COMPLETED_STYLE = TextStyle(color=3)
-
-LEVEL_ITEM_SIZE = Size(38, 45)
-LEVEL_ITEM_SPACE = Size(6, 6)
-LEVEL_ITEM_TITLE_POS = Point(3, 3)
-LEVEL_LOCKED_ICON_POS = Point(3, 10)
-LEVEL_COMPLETED_ICON_POS = Point(3, 38)
-LEVEL_THUMBNAIL_POS = Point(3, 10)
-LEVEL_SCORE_POS = Point(14, 237)
 
 
 class LevelMenuItem(MenuItem):
@@ -29,8 +18,7 @@ class LevelMenuItem(MenuItem):
         super().__init__(lambda: screen_factory.get_playfield_screen(level_num))
         self.level_num = level_num
         self.player_profile = screen_factory.get_player_profile()
-        self.check_icon = screen_factory.get_bundle().get_sprite("check_icon")
-        self.locked_icon = screen_factory.get_bundle().get_sprite("locked_icon")
+        self.gui_consts = screen_factory.get_bundle().get_gui_consts()
 
     @property
     def disabled(self) -> bool:
@@ -38,7 +26,8 @@ class LevelMenuItem(MenuItem):
 
     @property
     def size(self) -> Size:
-        return LEVEL_ITEM_SIZE
+        pos = self._get_position(GuiPosition.LEVEL_ITEM_SIZE)
+        return Size(pos.x, pos.y)
 
     @property
     def text_style(self) -> TextStyle:
@@ -47,11 +36,11 @@ class LevelMenuItem(MenuItem):
         It depends on the status of level completion the menu item is referring to.
         """
         if self.player_profile.is_level_completed(self.level_num):
-            return LEVEL_COMPLETED_STYLE
+            return self._get_text_style(GuiColor.LEVEL_COMPLETED_COLOR)
         if self.player_profile.is_level_unlocked(self.level_num):
-            return LEVEL_UNLOCKED_STYLE
+            return self._get_text_style(GuiColor.LEVEL_UNLOCKED_COLOR)
 
-        return LEVEL_LOCKED_STYLE
+        return self._get_text_style(GuiColor.LEVEL_LOCKED_COLOR)
 
     @property
     def level_unlocked(self) -> bool:
@@ -64,18 +53,22 @@ class LevelMenuItem(MenuItem):
         return self.player_profile.is_level_completed(self.level_num)
 
     def draw(self, position: Point, selected: bool = False) -> None:
-        draw_text(position.offset(LEVEL_ITEM_TITLE_POS), f"LEVEL {self.level_num}", self.text_style)
+        draw_text(position.offset(self._get_position(GuiPosition.LEVEL_ITEM_TITLE_POS)),
+                  f"LEVEL {self.level_num}", self.text_style)
 
         if not self.level_unlocked:
-            self.locked_icon.draw(position.offset(LEVEL_LOCKED_ICON_POS))
+            self._get_sprite(GuiSprite.LOCKED_ICON).draw(position.offset(
+                self._get_position(GuiPosition.LEVEL_LOCKED_ICON_POS)))
         else:
-            self._draw_level_thumbnail(position.offset(LEVEL_THUMBNAIL_POS))
+            self._draw_level_thumbnail(position.offset(
+                self._get_position(GuiPosition.LEVEL_THUMBNAIL_POS)))
 
         if self.level_completed:
-            self.check_icon.draw(position.offset(LEVEL_COMPLETED_ICON_POS))
+            self._get_sprite(GuiSprite.CHECKED_ICON).draw(position.offset(
+                self._get_position(GuiPosition.LEVEL_COMPLETED_ICON_POS)))
 
         if selected:
-            self._draw_level_score(LEVEL_SCORE_POS)
+            self._draw_level_score(self._get_position(GuiPosition.LEVEL_SCORE_POS))
 
         self._draw_frame(position, selected)
 
@@ -95,12 +88,21 @@ class LevelMenuItem(MenuItem):
         else:
             text = "LEVEL NOT COMPLETED" if self.level_unlocked else "LEVEL LOCKED"
 
-        draw_text(position, text, LEVEL_SELECTED_STYLE)
+        draw_text(position, text, self._get_text_style(GuiColor.LEVEL_SELECTED_COLOR))
 
     def _draw_frame(self, position: Point, selected: bool) -> None:
-        style = LEVEL_SELECTED_STYLE if selected else self.text_style
-        pyxel.rectb(position.x, position.y, LEVEL_ITEM_SIZE.width, LEVEL_ITEM_SIZE.height,
-                    style.color)
+        level_item_size = self._get_position(GuiPosition.LEVEL_ITEM_SIZE)
+        style = self._get_text_style(GuiColor.LEVEL_SELECTED_COLOR) if selected else self.text_style
+        pyxel.rectb(position.x, position.y, level_item_size.x, level_item_size.y, style.color)
+
+    def _get_sprite(self, gui_sprite: GuiSprite) -> Sprite:
+        return self.gui_consts.get_sprite(gui_sprite)
+
+    def _get_position(self, gui_position: GuiPosition) -> Point:
+        return self.gui_consts.get_position(gui_position)
+
+    def _get_text_style(self, color: GuiColor) -> TextStyle:
+        return TextStyle(self.gui_consts.get_color(color))
 
 
 class ChooseLevelController(MenuController):
@@ -114,12 +116,14 @@ class ChooseLevelController(MenuController):
     def __init__(self, screen_factory: ScreenFactory):
         bundle = screen_factory.get_bundle()
         screen = bundle.get_screen("choose_level")
+        item_space = bundle.get_gui_consts().get_position(GuiPosition.LEVEL_ITEM_SPACE)
         menu = Menu.with_defaults(tuple([
             LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
         ]), MenuLayout(columns=5, rows=4, position=screen.menu_position,
-                       item_space=LEVEL_ITEM_SPACE))
+                       item_space=Size(item_space.x, item_space.y)))
         super().__init__(menu=menu, allow_going_back=True, screen=screen)
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)
+        self.level_selected_color = bundle.get_gui_consts().get_color(GuiColor.LEVEL_SELECTED_COLOR)
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
@@ -133,4 +137,4 @@ class ChooseLevelController(MenuController):
         scrollbar_size_in_pixels = round(super().scrollbar_size * scrollbar_rect.h)
         scrollbar_position_in_pixels = round(super().scrollbar_position * scrollbar_rect.h)
         pyxel.rect(scrollbar_rect.x, scrollbar_rect.y + scrollbar_position_in_pixels,
-                   scrollbar_rect.w, scrollbar_size_in_pixels, LEVEL_SELECTED_STYLE.color)
+                   scrollbar_rect.w, scrollbar_size_in_pixels, self.level_selected_color)

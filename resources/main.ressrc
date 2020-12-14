@@ -5,9 +5,9 @@
       "image": "gui/logo.png",
       "transparency_color": "0"
     },
-    "check_icon": {
+    "checked_icon": {
       "image_bank": 1,
-      "image": "gui/choose_level/check_icon.png",
+      "image": "gui/choose_level/checked_icon.png",
       "transparency_color": "0"
     },
     "locked_icon": {
@@ -159,21 +159,21 @@
       "image": "gui/playfield/pause_icon.png",
       "transparency_color": "0"
     },
-    "digits_blue": {
+    "blue_digits": {
       "image_bank": 1,
-      "image": "gui/playfield/digits_blue.png",
+      "image": "gui/playfield/blue_digits.png",
       "num_frames": 10,
       "transparency_color": "0"
     },
-    "digits_yellow": {
+    "yellow_digits": {
       "image_bank": 1,
-      "image": "gui/playfield/digits_yellow.png",
+      "image": "gui/playfield/yellow_digits.png",
       "num_frames": 10,
       "transparency_color": "0"
     },
-    "digits_fat_red": {
+    "fat_red_digits": {
       "image_bank": 1,
-      "image": "gui/playfield/digits_fat_red.png",
+      "image": "gui/playfield/fat_red_digits.png",
       "num_frames": 10,
       "transparency_color": "0"
     },
@@ -316,7 +316,10 @@
       },
       "elements": [
         {
-          "position": [20, 20],
+          "position": [
+            20,
+            20
+          ],
           "sprite_ref": "logo"
         }
       ]
@@ -324,31 +327,52 @@
     "playfield": {
       "elements": [
         {
-          "position": [0, 0],
+          "position": [
+            0,
+            0
+          ],
           "sprite_ref": "cockpit_top"
         },
         {
-          "position": [241, 31],
+          "position": [
+            241,
+            31
+          ],
           "sprite_ref": "cockpit_right1"
         },
         {
-          "position": [241, 123],
+          "position": [
+            241,
+            123
+          ],
           "sprite_ref": "cockpit_right2"
         },
         {
-          "position": [0, 206],
+          "position": [
+            0,
+            206
+          ],
           "sprite_ref": "cockpit_bottom"
         },
         {
-          "position": [0, 31],
+          "position": [
+            0,
+            31
+          ],
           "sprite_ref": "cockpit_left1"
         },
         {
-          "position": [0, 123],
+          "position": [
+            0,
+            123
+          ],
           "sprite_ref": "cockpit_left2"
         },
         {
-          "position": [202, 202],
+          "position": [
+            202,
+            202
+          ],
           "sprite_ref": "printing_receipt"
         }
       ]
@@ -358,153 +382,264 @@
         "background_color": "0",
         "frames": [
           {
-            "rect": [0, 0, 32, 32],
+            "rect": [
+              0,
+              0,
+              32,
+              32
+            ],
             "tileset_ref": "monitor_frame"
           },
           {
-            "rect": [29, 3, 2, 25],
+            "rect": [
+              29,
+              3,
+              2,
+              25
+            ],
             "tileset_ref": "scrollbar_frame"
           },
           {
-            "rect": [1, 28, 30, 1],
+            "rect": [
+              1,
+              28,
+              30,
+              1
+            ],
             "tileset_ref": "hr_frame"
           }
         ]
       },
       "elements": [
         {
-          "position": [0, 0],
+          "position": [
+            0,
+            0
+          ],
           "sprite_ref": "monitor_top_left_corner"
         },
         {
-          "position": [240, 0],
+          "position": [
+            240,
+            0
+          ],
           "sprite_ref": "monitor_top_right_corner"
         },
         {
-          "position": [0, 240],
+          "position": [
+            0,
+            240
+          ],
           "sprite_ref": "monitor_bottom_left_corner"
         },
         {
-          "position": [240, 240],
+          "position": [
+            240,
+            240
+          ],
           "sprite_ref": "monitor_bottom_right_corner"
         },
         {
-          "position": [14, 14],
+          "position": [
+            14,
+            14
+          ],
           "text": "#ACHOOSE LEVEL"
         }
       ],
       "menu": {
-        "position": [14, 26],
-        "scrollbar_rect": [235, 27, 6, 196]
+        "position": [
+          14,
+          26
+        ],
+        "scrollbar_rect": [
+          235,
+          27,
+          6,
+          196
+        ]
       }
     },
     "game_paused": {
       "elements": [
         {
-          "position": [21, 35],
+          "position": [
+            21,
+            35
+          ],
           "sprite_ref": "pause_icon"
         }
       ],
       "menu": {
-        "position": [-1, 90]
+        "position": [
+          -1,
+          90
+        ]
       }
     },
     "level_completed": {
       "background": {
         "frames": [
           {
-            "rect": [7, 5, 18, 10],
+            "rect": [
+              7,
+              5,
+              18,
+              10
+            ],
             "tileset_ref": "receipt_frame"
           }
         ]
       },
       "elements": [
         {
-          "position": [98, 57],
+          "position": [
+            98,
+            57
+          ],
           "text": "#3LEVEL COMPLETED"
         },
         {
-          "position": [72, 75],
+          "position": [
+            72,
+            75
+          ],
           "text": "#DTIME:"
         },
         {
-          "position": [72, 84],
+          "position": [
+            72,
+            84
+          ],
           "text": "#DPUSHES:"
         },
         {
-          "position": [72, 93],
+          "position": [
+            72,
+            93
+          ],
           "text": "#DSTEPS:"
         }
       ],
       "menu": {
-        "position": [-1, 130]
+        "position": [
+          -1,
+          130
+        ]
       }
     },
     "how_to_play": {
       "background": {
         "frames": [
           {
-            "rect": [3, 5, 26, 19],
+            "rect": [
+              3,
+              5,
+              26,
+              19
+            ],
             "tileset_ref": "popup_frame"
           }
         ]
       },
       "elements": [
         {
-          "position": [32, 91],
+          "position": [
+            32,
+            91
+          ],
           "sprite_ref": "key_up"
         },
         {
-          "position": [48, 91],
+          "position": [
+            48,
+            91
+          ],
           "sprite_ref": "key_down"
         },
         {
-          "position": [64, 91],
+          "position": [
+            64,
+            91
+          ],
           "sprite_ref": "key_left"
         },
         {
-          "position": [80, 91],
+          "position": [
+            80,
+            91
+          ],
           "sprite_ref": "key_right"
         },
         {
-          "position": [32, 116],
+          "position": [
+            32,
+            116
+          ],
           "sprite_ref": "placing_crate1"
         },
         {
-          "position": [70, 116],
+          "position": [
+            70,
+            116
+          ],
           "sprite_ref": "placing_crate2"
         },
         {
-          "position": [32, 151],
+          "position": [
+            32,
+            151
+          ],
           "sprite_ref": "key_undo"
         },
         {
-          "position": [32, 48],
+          "position": [
+            32,
+            48
+          ],
           "text": "#7WELCOME TO BANSOKO!\n\nWE ARE SCAVENGERS, WE COLLECT CARGOS THAT PEOPLE\nHAVE LEFT IN ABANDONED SHIPS IN DEEP SPACE.\nIT'S A DANGEROUS JOB. THAT'S WHY WE USE ROBOTS."
         },
         {
-          "position": [32, 82],
+          "position": [
+            32,
+            82
+          ],
           "text": "#7YOU CONTROL YOUR ROBOT BY USING ARROW KEYS:"
         },
         {
-          "position": [32, 106],
+          "position": [
+            32,
+            106
+          ],
           "text": "#7YOUR GOAL IS TO PUSH ALL CRATES TO CARGO BAYS:"
         },
         {
-          "position": [108, 118],
+          "position": [
+            108,
+            118
+          ],
           "text": "#7REMEMBER, YOU CAN ONLY #BPUSH\n#7CRATES (YOU CANNOT PULL THEM)"
         },
         {
-          "position": [32, 136],
+          "position": [
+            32,
+            136
+          ],
           "text": "#7IF YOU MAKE A MISTAKE YOU CAN #BUNDO #7YOUR MOVE\nBY PRESSING:"
         },
         {
-          "position": [32, 167],
+          "position": [
+            32,
+            167
+          ],
           "text": "#7NOTE, YOU CAN #BUNDO #7AS MANY MOVES AS YOU NEED."
         }
       ],
       "menu": {
-        "position": [-1, 179]
+        "position": [
+          -1,
+          179
+        ]
       }
     },
     "victory": {
@@ -517,22 +652,36 @@
         "frames": [
           {
             "tileset_ref": "victory_frame",
-            "rect": [1, 1, 30, 30]
+            "rect": [
+              1,
+              1,
+              30,
+              30
+            ]
           }
         ]
       },
       "elements": [
         {
-          "position": [32, 32],
+          "position": [
+            32,
+            32
+          ],
           "sprite_ref": "the_end"
         },
         {
-          "position": [32, 160],
+          "position": [
+            32,
+            160
+          ],
           "text": "#7ENOUGH IS ENOUGH! I HAVE HAD IT WITH THESE GOD\nDAMN CRATES ON THIS DAMN SPACE SHIP!\n\nMAYBE IT'S TIME FOR A CHANGE. MAYBE I WILL OPEN\nA RESTAURANT AT THE END OF UNIVERSE?\n\nBUT FIRST, I THINK I'VE EARNED DECENT VACATIONS."
         }
       ],
       "menu": {
-        "position": [-1, 220]
+        "position": [
+          -1,
+          220
+        ]
       }
     },
     "exit": {
@@ -540,19 +689,138 @@
         "frames": [
           {
             "tileset_ref": "popup_frame",
-            "rect": [6, 14, 20, 4]
+            "rect": [
+              6,
+              14,
+              20,
+              4
+            ]
           }
         ]
       },
       "elements": [
         {
-          "position": [60, 118],
+          "position": [
+            60,
+            118
+          ],
           "text": "#7ARE YOU SURE DO YOU WANT TO EXIT?"
         }
       ],
       "menu": {
-        "position": [-1, 132]
+        "position": [
+          -1,
+          132
+        ]
       }
+    }
+  },
+  "gui_consts": {
+    "positions": {
+      "level_item_size": [
+        38,
+        45
+      ],
+      "level_item_space": [
+        6,
+        6
+      ],
+      "level_item_title_pos": [
+        3,
+        3
+      ],
+      "level_locked_icon_pos": [
+        3,
+        10
+      ],
+      "level_completed_icon_pos": [
+        3,
+        38
+      ],
+      "level_thumbnail_pos": [
+        3,
+        10
+      ],
+      "level_score_pos": [
+        14,
+        237
+      ],
+      "cockpit_level_num_pos": [
+        40,
+        8
+      ],
+      "cockpit_level_time_pos": [
+        174,
+        10
+      ],
+      "cockpit_level_steps_pos": [
+        145,
+        227
+      ],
+      "cockpit_level_pushes_pos": [
+        145,
+        238
+      ],
+      "cockpit_joystick_pos": [
+        18,
+        209
+      ],
+      "cockpit_rewind_button_pos": [
+        51,
+        231
+      ],
+      "cockpit_receipt_pos": [
+        202,
+        202
+      ],
+      "cockpit_rewind_icon_pos": [
+        21,
+        35
+      ],
+      "left_hand_neutral_pos": [
+        -9,
+        205
+      ],
+      "left_hand_left_pos": [
+        -13,
+        205
+      ],
+      "left_hand_right_pos": [
+        -5,
+        205
+      ],
+      "left_hand_up_pos": [
+        -7,
+        203
+      ],
+      "left_hand_down_pos": [
+        -11,
+        208
+      ],
+      "left_hand_pressing_button_pos": [
+        19,
+        234
+      ]
+    },
+    "colors": {
+      "level_selected_color": "A",
+      "level_locked_color": "1",
+      "level_unlocked_color": "5",
+      "level_completed_color": "3"
+    },
+    "sprites": {
+      "checked_icon": "checked_icon",
+      "locked_icon": "locked_icon",
+      "level_digits": "yellow_digits",
+      "steps_digits": "yellow_digits",
+      "pushes_digits": "blue_digits",
+      "time_digits": "fat_red_digits",
+      "rewind_icon": "rewind_icon",
+      "joystick_neutral": "joystick_neutral",
+      "joystick_move": "joystick_move",
+      "rewind_button": "rewind_button",
+      "left_hand": "left_hand",
+      "left_hand_pressing_button": "left_hand_pressing_button"
     }
   },
   "levels": [
@@ -759,7 +1027,7 @@
         "X+++X+X            ",
         "X+++++X            ",
         "XXXXXXX            "
-        ]
+      ]
     },
     {
       "data": [
@@ -1774,7 +2042,10 @@
   "level_themes": [
     {
       "background_generator_ref": "space_background",
-      "tilemap_offset": [1, -13],
+      "tilemap_offset": [
+        1,
+        -13
+      ],
       "tiles": {
         "layers": [
           {
@@ -1810,7 +2081,10 @@
     },
     {
       "background_generator_ref": "space_background",
-      "tilemap_offset": [1, -13],
+      "tilemap_offset": [
+        1,
+        -13
+      ],
       "tiles": {
         "layers": [
           {
@@ -1846,7 +2120,10 @@
     },
     {
       "background_generator_ref": "space_background",
-      "tilemap_offset": [1, -13],
+      "tilemap_offset": [
+        1,
+        -13
+      ],
       "tiles": {
         "layers": [
           {
@@ -1882,7 +2159,10 @@
     },
     {
       "background_generator_ref": "space_background",
-      "tilemap_offset": [1, -13],
+      "tilemap_offset": [
+        1,
+        -13
+      ],
       "tiles": {
         "layers": [
           {
@@ -1918,7 +2198,10 @@
     },
     {
       "background_generator_ref": "space_background",
-      "tilemap_offset": [1, -13],
+      "tilemap_offset": [
+        1,
+        -13
+      ],
       "tiles": {
         "layers": [
           {

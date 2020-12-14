@@ -1,4 +1,5 @@
 """Module exposing JSON schema for Bansoko's resources metadata file."""
+from bansoko.game.screens.gui_consts import GuiSprite, GuiColor, GuiPosition
 
 METADATA_JSON_SCHEMA = {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -198,6 +199,44 @@ METADATA_JSON_SCHEMA = {
                     }
                 }
             }
+        },
+        "gui_consts": {
+            "description": "Collection of static, pre-defined GUI elements related configuration",
+            "type": "object",
+            "properties": {
+                "positions": {
+                    "description": "Collection of pre-defined GUI elements positions",
+                    "type": "object",
+                    "properties": {
+                        position.resource_name: {
+                            "$ref": "#/definitions/point"
+                        } for position in list(GuiPosition)
+                    },
+                    "additionalProperties": False
+                },
+                "colors": {
+                    "description": "Collection of pre-defined GUI elements colors",
+                    "type": "object",
+                    "properties": {
+                        color.resource_name: {
+                            "$ref": "#/definitions/color"
+                        } for color in list(GuiColor)
+                    },
+                    "additionalProperties": False
+                },
+                "sprites": {
+                    "description": "Collection of pre-defined GUI elements sprites",
+                    "type": "object",
+                    "properties": {
+                        sprite.resource_name: {
+                            "$ref": "#/definitions/resource_name"
+                        } for sprite in list(GuiSprite)
+                    },
+                    "additionalProperties": False
+                }
+            },
+            "additionalProperties": False,
+            "required": ["positions", "colors", "sprites"]
         },
         "levels": {
             "type": "object",

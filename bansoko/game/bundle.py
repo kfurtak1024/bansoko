@@ -8,6 +8,7 @@ from jsonschema import validate, ValidationError
 from bansoko.game import GameError
 from bansoko.game.level_template import LevelTemplate, LevelSpritePacks
 from bansoko.game.metadata_schema import METADATA_JSON_SCHEMA
+from bansoko.game.screens.gui_consts import GuiConsts, GuiPosition, GuiColor, GuiSprite
 from bansoko.graphics import Rect, Point
 from bansoko.graphics.sprite import Sprite, SpritePack
 from bansoko.graphics.tilemap import Tilemap
@@ -25,6 +26,7 @@ class Bundle:
     sprites: Dict[str, Sprite]
     sprite_packs: Dict[str, SpritePack]
     screens: Dict[str, Screen]
+    gui_consts: GuiConsts
     level_templates: Tuple[LevelTemplate, ...]
 
     def get_sprite(self, sprite_name: str) -> Sprite:
@@ -42,6 +44,10 @@ class Bundle:
         :return: instance of SpritePack with given name
         """
         return self.sprite_packs[sprite_pack_name]
+
+    def get_gui_consts(self) -> GuiConsts:
+        """Return Gui constants."""
+        return self.gui_consts
 
     def get_screen(self, screen_name: str) -> Screen:
         """Return screen with given screen name.
@@ -89,11 +95,12 @@ def load_bundle(metadata_filename: str) -> Bundle:
             sprites = create_sprites(metadata["sprites"])
             sprite_packs = create_sprite_packs(metadata["sprite_packs"], sprites)
             screens = create_screens(metadata["screens"], sprites)
+            gui_consts = create_gui_consts(metadata["gui_consts"], sprites)
             sha1 = bytearray(metadata["levels"]["sha1"], "utf-8").zfill(
                 SHA1_SIZE_IN_BYTES)[-SHA1_SIZE_IN_BYTES:]
             level_templates = create_level_templates(
                 metadata["levels"]["level_templates"], sprite_packs)
-            return Bundle(sha1, sprites, sprite_packs, screens, level_templates)
+            return Bundle(sha1, sprites, sprite_packs, screens, gui_consts, level_templates)
     except JSONDecodeError as decode_error:
         raise GameError("Incorrect format of resource metadata file") from decode_error
     except ValidationError as validation_error:
@@ -130,6 +137,25 @@ def create_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str,
             sprites=tuple([sprites[sprite_name] for sprite_name in data]))
         for (name, data) in json_data.items()
     }
+
+
+def create_gui_consts(json_data: Any, sprites: Dict[str, Sprite]) -> GuiConsts:
+    """Create Gui constants from metadata.
+
+    :param json_data: input JSON containing Gui constants
+    :param sprites: collection of available sprites
+    :return: Gui constants
+    """
+    return GuiConsts(
+        gui_positions=[
+            Point.from_list(json_data["positions"][pos.resource_name]) for pos in list(GuiPosition)
+        ],
+        gui_colors=[
+            json_data["colors"][color.resource_name] for color in list(GuiColor)
+        ],
+        gui_sprites=[
+            sprites[json_data["sprites"][sprite.resource_name]] for sprite in list(GuiSprite)
+        ])
 
 
 def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Screen]:

@@ -13,7 +13,7 @@
         44
       ]
     },
-    "check_icon": {
+    "checked_icon": {
       "image_bank": 1,
       "directional": false,
       "transparency_color": 0,
@@ -364,7 +364,7 @@
         10
       ]
     },
-    "digits_blue": {
+    "blue_digits": {
       "image_bank": 1,
       "directional": false,
       "transparency_color": 0,
@@ -377,7 +377,7 @@
         90
       ]
     },
-    "digits_yellow": {
+    "yellow_digits": {
       "image_bank": 1,
       "directional": false,
       "transparency_color": 0,
@@ -390,7 +390,7 @@
         90
       ]
     },
-    "digits_fat_red": {
+    "fat_red_digits": {
       "image_bank": 1,
       "directional": false,
       "transparency_color": 0,
@@ -582,6 +582,114 @@
       "moon_crate",
       "moon_crate_placed"
     ]
+  },
+  "gui_consts": {
+    "positions": {
+      "level_item_size": [
+        38,
+        45
+      ],
+      "level_item_space": [
+        6,
+        6
+      ],
+      "level_item_title_pos": [
+        3,
+        3
+      ],
+      "level_locked_icon_pos": [
+        3,
+        10
+      ],
+      "level_completed_icon_pos": [
+        3,
+        38
+      ],
+      "level_thumbnail_pos": [
+        3,
+        10
+      ],
+      "level_score_pos": [
+        14,
+        237
+      ],
+      "cockpit_level_num_pos": [
+        40,
+        8
+      ],
+      "cockpit_level_time_pos": [
+        174,
+        10
+      ],
+      "cockpit_level_steps_pos": [
+        145,
+        227
+      ],
+      "cockpit_level_pushes_pos": [
+        145,
+        238
+      ],
+      "cockpit_joystick_pos": [
+        18,
+        209
+      ],
+      "cockpit_rewind_button_pos": [
+        51,
+        231
+      ],
+      "cockpit_receipt_pos": [
+        202,
+        202
+      ],
+      "cockpit_rewind_icon_pos": [
+        21,
+        35
+      ],
+      "left_hand_neutral_pos": [
+        -9,
+        205
+      ],
+      "left_hand_left_pos": [
+        -13,
+        205
+      ],
+      "left_hand_right_pos": [
+        -5,
+        205
+      ],
+      "left_hand_up_pos": [
+        -7,
+        203
+      ],
+      "left_hand_down_pos": [
+        -11,
+        208
+      ],
+      "left_hand_pressing_button_pos": [
+        19,
+        234
+      ]
+    },
+    "colors": {
+      "level_selected_color": 10,
+      "level_locked_color": 1,
+      "level_unlocked_color": 5,
+      "level_completed_color": 3
+    },
+    "sprites": {
+      "checked_icon": "checked_icon",
+      "locked_icon": "locked_icon",
+      "level_digits": "yellow_digits",
+      "steps_digits": "yellow_digits",
+      "pushes_digits": "blue_digits",
+      "time_digits": "fat_red_digits",
+      "rewind_icon": "rewind_icon",
+      "joystick_neutral": "joystick_neutral",
+      "joystick_move": "joystick_move",
+      "rewind_button": "rewind_button",
+      "left_hand": "left_hand",
+      "left_hand_pressing_button": "left_hand_pressing_button"
+    }
   },
   "screens": {
     "main_menu": {
