@@ -8,8 +8,14 @@
   <a>
     <img src="https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko">
   </a>
+  <a href="https://pypi.org/project/bansoko/">
+    <img src="https://img.shields.io/pypi/v/bansoko">
+  </a>
   <a href="https://lgtm.com/projects/g/kfurtak1024/bansoko">
     <img src="https://img.shields.io/lgtm/grade/python/github/kfurtak1024/bansoko">
+  </a>
+  <a href="https://github.com/kfurtak1024/bansoko/workflows/CodeQL">
+    <img src="https://github.com/kfurtak1024/bansoko/workflows/CodeQL/badge.svg">
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg">
@@ -128,7 +134,7 @@ python3 -m bansoko
 ```
 
 ## Modding
-**Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found in [resbuilder documentation](docs/resbuilder.md).
+**Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found on [Bansoko modding page](https://github.com/kfurtak1024/bansoko/wiki/Bansoko-modding).
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/kfurtak1024/bansoko/blob/master/docs/resbuilder.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE) file for details.
