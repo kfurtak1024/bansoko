@@ -1,7 +1,7 @@
 """Module exposing all Gui constants."""
 from dataclasses import dataclass
 from enum import unique, Enum
-from typing import List
+from typing import Tuple, Any
 
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
@@ -10,7 +10,7 @@ from bansoko.graphics.sprite import Sprite
 class GuiConstant(Enum):
     """Base enum class for all Gui constants."""
 
-    def __new__(cls):
+    def __new__(cls) -> Any:
         value = len(cls.__members__)
         obj = object.__new__(cls)
         obj._value_ = value
@@ -20,6 +20,11 @@ class GuiConstant(Enum):
     def resource_name(self) -> str:
         """The name of the resource from metadata file."""
         return str(self.name).casefold()
+
+    @property
+    def resource_index(self) -> int:
+        """The index of the resource in the array of constants."""
+        return int(self.value)
 
 
 @unique
@@ -77,18 +82,18 @@ class GuiSprite(GuiConstant):
 @dataclass(frozen=True)
 class GuiConsts:
     """Collection of Gui constants like positions, colors and sprites."""
-    gui_positions: List[Point]
-    gui_colors: List[int]
-    gui_sprites: List[Sprite]
+    gui_positions: Tuple[Point, ...]
+    gui_colors: Tuple[int, ...]
+    gui_sprites: Tuple[Sprite, ...]
 
     def get_position(self, gui_position_id: GuiPosition) -> Point:
         """Get Gui element position for given id."""
-        return self.gui_positions[gui_position_id.value]
+        return self.gui_positions[gui_position_id.resource_index]
 
     def get_color(self, gui_color_id: GuiColor) -> int:
         """Get Gui element color for given id."""
-        return self.gui_colors[gui_color_id.value]
+        return self.gui_colors[gui_color_id.resource_index]
 
     def get_sprite(self, gui_sprite_id: GuiSprite) -> Sprite:
         """Get Gui element sprite for given id."""
-        return self.gui_sprites[gui_sprite_id.value]
+        return self.gui_sprites[gui_sprite_id.resource_index]

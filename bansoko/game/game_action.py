@@ -113,12 +113,11 @@ class MoveRobot(MoveAction):
         super().__init__(robot, direction, TIME_TO_COMPLETE_ROBOT_MOVE, TurnRobot(robot, direction))
         self.robot = robot
         self.move_state = move_state
-        self.robot.robot_state = move_state
+        self.robot.init_state(move_state)
 
     def reset(self, backward: bool = False) -> None:
         super().reset(backward)
-        self.robot.robot_state = self.move_state
-        # TODO: What about animation when moving backward?
+        self.robot.init_state(self.move_state, reverse_animation=True)
 
     def _on_complete(self, stats: GameStats) -> None:
         super()._on_complete(stats)

@@ -119,7 +119,7 @@ class Level:
         # Before checking the input we don't know whether there will be a continuation of the
         # movement or not. That's why we cannot put robot to standing state when action finishes.
         # We have to do it here. The same applies to last_input_action.
-        self.robot.robot_state = RobotState.STANDING
+        self.robot.init_state(RobotState.STANDING)
         self.last_input_action = input_action
 
         if not input_action:

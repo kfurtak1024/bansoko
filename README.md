@@ -50,7 +50,7 @@
 ## Installation
 
 #### Windows
-Install 32-bit [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
+Install [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
 
 Install Bansoko by running:
 ```shell

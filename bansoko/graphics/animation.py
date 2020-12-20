@@ -34,14 +34,16 @@ class Animation:
         """Index of the last frame of the animation."""
         return self.num_frames - 1
 
-    def frame_at_time(self, animation_time: float) -> int:
+    def frame_at_time(self, animation_time: float, playing_backwards: bool = False) -> int:
         """Return index of the animation frame corresponding to given animation time.
 
         :param animation_time: animation time to find frame at (expressed in ms)
+        :param playing_backwards: is animation being played backwards
         :return: the index of animation frame corresponding to given animation time
         """
-        frame = round(animation_time / self.frame_length)
-        return frame % self.num_frames if self.looped else min(self.last_frame, frame)
+        frame_num = round(animation_time / self.frame_length)
+        frame = frame_num % self.num_frames if self.looped else min(self.last_frame, frame_num)
+        return frame if not playing_backwards else self.last_frame - frame
 
     def stopped_at_time(self, animation_time: float) -> bool:
         """Check if the animation will be stopped at given animation time.
@@ -66,15 +68,18 @@ class AnimationPlayer:
     animation: Optional[Animation] = None
     current_frame: int = 0
     animation_time: float = 0.0
+    backwards: bool = False
 
-    def play(self, animation: Animation) -> None:
+    def play(self, animation: Animation, backwards: bool = False) -> None:
         """Set up the animation player to play given animation.
 
         :param animation: animation to be played
+        :param backwards: shall animation be played backwards
         """
         self.animation = animation
         self.current_frame = 0
         self.animation_time = 0.0
+        self.backwards = backwards
 
     def update(self, dt_in_ms: float) -> None:
         """Update animation player with time that elapsed over a single game frame.
@@ -87,7 +92,7 @@ class AnimationPlayer:
             return
 
         self.animation_time += dt_in_ms
-        self.current_frame = self.animation.frame_at_time(self.animation_time)
+        self.current_frame = self.animation.frame_at_time(self.animation_time, self.backwards)
 
     def draw(self, position: Point, layer: Optional[Layer] = None,
              direction: Direction = Direction.UP) -> None:

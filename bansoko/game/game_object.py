@@ -116,19 +116,15 @@ class Robot(GameObject):
         self.face_direction = face_direction
         self.robot_animations = robot_animations
         self.animation_player = AnimationPlayer()
-        self.robot_state = RobotState.STANDING
+        self.init_state(RobotState.STANDING)
 
-    @property
-    def robot_state(self) -> RobotState:
-        """The current state of the robot.
+    def init_state(self, robot_state: RobotState, reverse_animation: bool = False) -> None:
+        """Initialize robot with given robot state.
 
-        Change of state results in a change of robot animation.
+        :param robot_state: state to init robot with
+        :param reverse_animation: should the animation attached to current state be revered
         """
-        return self._robot_state
-
-    @robot_state.setter
-    def robot_state(self, robot_state: RobotState) -> None:
-        self.animation_player.play(self.robot_animations[robot_state])
+        self.animation_player.play(self.robot_animations[robot_state], backwards=reverse_animation)
         self._robot_state = robot_state
 
     def update(self, dt_in_ms: float) -> None:

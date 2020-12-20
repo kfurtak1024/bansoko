@@ -147,15 +147,15 @@ def create_gui_consts(json_data: Any, sprites: Dict[str, Sprite]) -> GuiConsts:
     :return: Gui constants
     """
     return GuiConsts(
-        gui_positions=[
+        gui_positions=tuple([
             Point.from_list(json_data["positions"][pos.resource_name]) for pos in list(GuiPosition)
-        ],
-        gui_colors=[
-            json_data["colors"][color.resource_name] for color in list(GuiColor)
-        ],
-        gui_sprites=[
+        ]),
+        gui_colors=tuple([
+            int(json_data["colors"][color.resource_name]) for color in list(GuiColor)
+        ]),
+        gui_sprites=tuple([
             sprites[json_data["sprites"][sprite.resource_name]] for sprite in list(GuiSprite)
-        ])
+        ]))
 
 
 def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Screen]:
