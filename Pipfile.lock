@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ee134ea2f9de58551bbf3598c81f65871d63da94269cdaafd0ae43f456e7a132"
+            "sha256": "a755fbaeb88b382b34ff80d9178dba6612bd33dd285c4732c294298afb0c86e9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -143,11 +143,11 @@
         },
         "keyring": {
             "hashes": [
-                "sha256:12de23258a95f3b13e5b167f7a641a878e91eab8ef16fafc077720a95e6115bb",
-                "sha256:207bd66f2a9881c835dad653da04e196c678bf104f8252141d2d3c4f31051579"
+                "sha256:4c41ce4f6d1ee91d589a346699ef5a94ba3429603ac8f700cc0097644cdd6748",
+                "sha256:a144f7e1044c897c3976202af868cb0ac860f4d433d5d0f8e750fa1a2f0f0b50"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==21.5.0"
+            "version": "==21.7.0"
         },
         "lazy-object-proxy": {
             "hashes": [
@@ -210,6 +210,13 @@
             ],
             "version": "==0.4.3"
         },
+        "nuitka": {
+            "hashes": [
+                "sha256:b70fcf2819989e7d65654c90c10c936528d18ab1f16032c51d36c6519194ecfb"
+            ],
+            "index": "pypi",
+            "version": "==0.6.10.2"
+        },
         "packaging": {
             "hashes": [
                 "sha256:24e0da08660a87484d1602c30bb4902d74816b6985b93de36926f5bc95741858",
@@ -249,10 +256,10 @@
         },
         "pyinstaller-hooks-contrib": {
             "hashes": [
-                "sha256:bf4543a16c9c6e9dd2d70ea3fee78b81d3357a68f706df471d990213892259d9",
-                "sha256:dd752c88c1c7bb6920f7de248c12d4411c0463877e5e64afdc4f7e93dff9fc94"
+                "sha256:fa8280b79d8a2b267a2e43ff44f73b3e4a68fc8d205b8d34e8e06c960f7c2fcf",
+                "sha256:fc3290a2ca337d1d58c579c223201360bfe74caed6454eaf5a2550b77dbda45c"
             ],
-            "version": "==2020.10"
+            "version": "==2020.11"
         },
         "pylint": {
             "hashes": [
@@ -387,7 +394,7 @@
                 "sha256:19188f96923873c92ccb987120ec4acaa12f0461fa9ce5d3d0772bc965a39e08",
                 "sha256:d8ff90d979214d7b4f8ce956e80f4028fc6860e4431f731ea4a8c08f23f99473"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
             "version": "==1.26.2"
         },
         "webencodings": {
