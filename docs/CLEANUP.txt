@@ -1,0 +1,1 @@
+Make a new release of Bansoko, so images from this folder can be deleted. Without that images links are broken on PyPI.org
