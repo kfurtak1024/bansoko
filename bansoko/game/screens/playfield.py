@@ -103,13 +103,13 @@ class PlayfieldScreen(BaseScreenController):
 
     def _draw_level_statistics(self) -> None:
         score = self.level.level_score
-        self._draw_digits(GuiPosition.COCKPIT_LEVEL_NUM_POS, "{:>3d}".format(score.level_num),
+        self._draw_digits(GuiPosition.COCKPIT_LEVEL_NUM_POS, f"{score.level_num:>3d}",
                           GuiSprite.LEVEL_DIGITS)
         self._draw_digits(GuiPosition.COCKPIT_LEVEL_TIME_POS, score.time, GuiSprite.TIME_DIGITS,
                           colon_size=4)
-        self._draw_digits(GuiPosition.COCKPIT_LEVEL_STEPS_POS, "{:>4d}".format(score.steps),
+        self._draw_digits(GuiPosition.COCKPIT_LEVEL_STEPS_POS, f"{score.steps:>4d}",
                           GuiSprite.STEPS_DIGITS)
-        self._draw_digits(GuiPosition.COCKPIT_LEVEL_PUSHES_POS, "{:>4d}".format(score.pushes),
+        self._draw_digits(GuiPosition.COCKPIT_LEVEL_PUSHES_POS, f"{score.pushes:>4d}",
                           GuiSprite.PUSHES_DIGITS)
 
     def _get_input_action(self) -> Optional[InputAction]:

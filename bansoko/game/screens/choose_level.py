@@ -117,9 +117,9 @@ class ChooseLevelController(MenuController):
         bundle = screen_factory.get_bundle()
         screen = bundle.get_screen("choose_level")
         item_space = bundle.get_gui_consts().get_position(GuiPosition.LEVEL_ITEM_SPACE)
-        menu = Menu.with_defaults(tuple([
-            LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)
-        ]), MenuLayout(columns=5, rows=4, position=screen.menu_position,
+        menu = Menu.with_defaults(tuple(
+            LevelMenuItem(level_num, screen_factory) for level_num in range(bundle.num_levels)),
+            MenuLayout(columns=5, rows=4, position=screen.menu_position,
                        item_space=Size(item_space.x, item_space.y)))
         super().__init__(menu=menu, allow_going_back=True, screen=screen)
         self.select_and_scroll_to_item(screen_factory.get_player_profile().last_played_level)

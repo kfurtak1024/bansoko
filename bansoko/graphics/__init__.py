@@ -255,4 +255,4 @@ class Layer:
     @property
     def transparency_color(self) -> int:
         """Transparency color for the layer."""
-        return -1 if self.opaque else 0
+        return None if self.opaque else 0

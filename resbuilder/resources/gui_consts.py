@@ -29,10 +29,10 @@ def process_gui_consts(input_data: Any, sprites: Dict[str, Any]) -> Dict[str, An
         sprite_name = sprites_data[gui_sprite.resource_name]
         if sprites.get(sprite_name) is None:
             raise ResourceError(
-                f"Gui constants refer to unknown sprite '{sprite_name}'")
+                f"GUI constants refer to unknown sprite '{sprite_name}'")
         gui_sprites[gui_sprite.resource_name] = sprite_name
 
-    logging.info("Gui constants processed")
+    logging.info("GUI constants processed")
     return {
         "positions": gui_positions,
         "colors": gui_colors,

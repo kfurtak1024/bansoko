@@ -4,7 +4,7 @@ from typing import Generator
 
 import pyxel
 
-from bansoko.graphics import Rect, Direction, Point, Layer, TILE_SIZE
+from bansoko.graphics import Rect, Direction, Point, Layer, TILE_SIZE, TILEMAP_WIDTH
 
 
 @dataclass(frozen=True)
@@ -62,9 +62,11 @@ class Tilemap:
         :param position: tile position to retrieve tile index at
         :return: index of tile at given position
         """
-        tile_index: int = pyxel.tilemap(self.tilemap_id).get(
+
+        tile_x, tile_y = pyxel.tilemap(self.tilemap_id).pget(
             self.rect_uv.x + position.tile_x, self.rect_uv.y + position.tile_y)
-        return tile_index
+
+        return tile_x + tile_y * TILEMAP_WIDTH // TILE_SIZE
 
     def tiles_positions(self) -> Generator[TilePosition, None, None]:
         """Generator for iterating over all valid tile positions for this tilemap."""
@@ -80,5 +82,6 @@ class Tilemap:
             return
 
         pyxel.bltm(layer.offset.x, layer.offset.y, self.tilemap_id + layer.layer_index,
-                   self.rect_uv.x, self.rect_uv.y, self.rect_uv.w, self.rect_uv.h,
+                   self.rect_uv.x * TILE_SIZE, self.rect_uv.y * TILE_SIZE,
+                   self.rect_uv.w * TILE_SIZE, self.rect_uv.h * TILE_SIZE,
                    colkey=layer.transparency_color)

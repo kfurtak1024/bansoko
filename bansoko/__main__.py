@@ -90,8 +90,8 @@ def main() -> None:
     filenames = generate_filenames(bundle_name)
     configure_logger(filenames.log_file)
     logging.info("Initializing Pyxel window")
-    pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT, caption=GAME_TITLE, fps=GAME_FRAME_RATE,
-               quit_key=pyxel.KEY_F12)
+    pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT, title=GAME_TITLE, fps=GAME_FRAME_RATE,
+               quit_key=pyxel.KEY_F12, capture_sec=0)
     try:
         bundle = load_game_resources(filenames)
         logging.info("Bundle name: %s", bundle_name)

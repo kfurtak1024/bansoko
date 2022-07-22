@@ -77,8 +77,7 @@ class _PreprocessedLevel:
         :param fillable_tile: tile that can be replaced during filling
         """
         visited_map = [False] * (LEVEL_WIDTH * LEVEL_HEIGHT)
-        stack = list()
-        stack.append(start)
+        stack = [start]
 
         while len(stack) > 0:
             pos = stack.pop()
@@ -164,12 +163,12 @@ def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
     tile_positions = preprocessed_level.tile_positions()
     for level_pos, tilemap_pos in tile_positions:
         tile = preprocessed_level.get_tile_at(level_pos)
-        thumbnails_image.set(tilemap_pos.x, tilemap_pos.y, level_theme.thumbnail_color(tile))
+        thumbnails_image.pset(tilemap_pos.x, tilemap_pos.y, level_theme.thumbnail_color(tile))
 
         if tile is not Tile.VOID:
             for layer in range(level_theme.num_layers):
                 tile_id = level_theme.tile_id(layer, tile)
-                pyxel.tilemap(layer).set(tilemap_pos.x, tilemap_pos.y, tile_id)
+                pyxel.tilemap(layer).pset(tilemap_pos.x, tilemap_pos.y, tile_id)
 
 
 def _update_sha1(level_data: Any, sha1: Any) -> None:
