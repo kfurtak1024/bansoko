@@ -22,9 +22,17 @@
   </a>
 </p>
 
-
 **Bansoko** is a reimagined, space-themed 🚀 clone of MS-DOS Soko-Ban from 1984 created in Python using [Pyxel](https://github.com/kitao/pyxel).
 
+You can download :package: for both Windows and Linux from:
+
+<a href="https://kfurtak1024.itch.io/bansoko">
+  <img src="https://static.itch.io/images/badge-color.svg" height="42">
+</a>
+
+<h1></h1>
+
+>
 > *Welcome to Bansoko!*
 > 
 > *You are a scavenger. You collect cargos that people have left in abandoned ships in deep space.*
