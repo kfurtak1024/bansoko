@@ -20,6 +20,9 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg">
   </a>
+  <a href="https://kfurtak1024.itch.io/bansoko">
+    <img src="https://img.shields.io/badge/itch.io-download-black?logo=itchdotio&color=FA5C5C">
+  </a>
 </p>
 
 **Bansoko** is a reimagined, space-themed 🚀 clone of MS-DOS Soko-Ban from 1984 created in Python using [Pyxel](https://github.com/kitao/pyxel).
