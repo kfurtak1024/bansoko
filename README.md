@@ -93,7 +93,7 @@ bansoko
 
 ## Development setup 💻
 
-### Install prerequisites
+### 1. Install prerequisites
 
 #### Windows
 Install 32-bit [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
@@ -112,7 +112,7 @@ On Ubuntu, this can be done by running:
 sudo apt install python3 python3-pip pipenv libsdl2-2.0-0 libsdl2-image-2.0-0 
 ```
 
-### Set up the project
+### 2. Set up the project
 
 Clone the repository:
 ```shell
@@ -130,7 +130,7 @@ Install all dependencies needed for development:
 pipenv install --dev
 ```
 
-### Run the game
+### 3. Run the game
 
 Run Bansoko from virtual environment created in the previous step:
 
