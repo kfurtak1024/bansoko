@@ -47,7 +47,7 @@
   <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/images/screen_shot6.png">
 </p>
 
-## Installation 🚢
+## Installation 🎮
 
 #### Windows
 Install [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
