@@ -33,7 +33,7 @@ You can download :package: for both Windows and Linux from:
   <img src="https://static.itch.io/images/badge-color.svg" height="42">
 </a>
 
-<h1></h1>
+## Introduction 📖
 
 >
 > *Welcome to Bansoko!*
