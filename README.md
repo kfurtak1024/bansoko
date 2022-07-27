@@ -144,7 +144,7 @@ python -m bansoko
 python3 -m bansoko
 ```
 
-## Modding 📦
+## Modding 🧰
 **Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found on [Bansoko modding page](https://github.com/kfurtak1024/bansoko/wiki/Bansoko-modding).
 
 ## How to contribute 🤝
