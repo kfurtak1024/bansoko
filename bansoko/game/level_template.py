@@ -85,7 +85,7 @@ class LevelTemplate:
         tilemap = Tilemap(LEVEL_BASE_TILEMAP, tilemap_uv_rect, LEVEL_NUM_LAYERS)
         tileset = Tileset(tileset_index)
         layers = tuple(
-            [Layer(i, opaque=(i == 0), global_offset=draw_offset) for i in range(LEVEL_NUM_LAYERS)])
+            Layer(i, opaque=(i == 0), global_offset=draw_offset) for i in range(LEVEL_NUM_LAYERS))
         return cls(level_num=level_num, tilemap=tilemap, tileset=tileset, layers=layers,
                    sprite_packs=sprite_packs)
 

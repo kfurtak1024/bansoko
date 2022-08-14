@@ -52,7 +52,7 @@ class LevelScore:
             seconds = 59
             minutes = 59
 
-        return "{:d}:{:02d}:{:02d}".format(hours, minutes, seconds)
+        return f"{hours}:{minutes:02d}:{seconds:02d}"
 
     def merge_with(self, level_score: "LevelScore") -> "LevelScore":
         """Merge this level score with given score.

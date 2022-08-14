@@ -3,7 +3,7 @@ import logging
 import random
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 
 import pyxel
 
@@ -17,7 +17,7 @@ class TilemapGenerator:
 
     Every tile has relative weight used during randomization.
     """
-    tiles_weights: Dict[int, int]
+    tiles_weights: Dict[Tuple[int, int], int]
 
     def generate_tilemap(self, tilemap_id: int, tilemap_rect: Rect, seed: int) -> None:
         """Generate a tilemap using random tiles at given position in Pyxel's mega-tilemap.
@@ -32,12 +32,12 @@ class TilemapGenerator:
         random.seed(seed)
         tilemap_points = tilemap_rect.inside_points()
         for point in tilemap_points:
-            pyxel.tilemap(tilemap_id).set(point.x, point.y, self._next_tile())
+            pyxel.tilemap(tilemap_id).pset(point.x, point.y, self._next_tile())
         random.setstate(state)
 
-    def _next_tile(self) -> int:
+    def _next_tile(self) -> Tuple[int, int]:
         if not self.tiles_weights:
-            return 0
+            return 0, 0
         return random.choices(list(self.tiles_weights.keys()),
                               list(self.tiles_weights.values())).pop()
 
@@ -84,7 +84,7 @@ class FrameSlice(Enum):
 class NineSlicingFrame:
     """NineSlicingFrame is a frame that can be drawn on a tilemap using collection of 9 slicing
     tiles."""
-    slice_tiles: Dict[FrameSlice, int]
+    slice_tiles: Dict[FrameSlice, Tuple[int, int]]
 
     def draw_frame(self, tilemap_id: int, rect: Rect) -> None:
         """Draw a frame with nine slicing technique using slice tiles.
@@ -94,25 +94,25 @@ class NineSlicingFrame:
         :param rect: rectangle describing drawn frame
         """
         tilemap = pyxel.tilemap(tilemap_id)
-        tilemap.set(rect.left, rect.top, self._get_tile(FrameSlice.TOP_LEFT_TILE))
-        tilemap.set(rect.right, rect.top, self._get_tile(FrameSlice.TOP_RIGHT_TILE))
+        tilemap.pset(rect.left, rect.top, self._get_tile(FrameSlice.TOP_LEFT_TILE))
+        tilemap.pset(rect.right, rect.top, self._get_tile(FrameSlice.TOP_RIGHT_TILE))
         if rect.bottom > rect.top:
-            tilemap.set(rect.left, rect.bottom, self._get_tile(FrameSlice.BOTTOM_LEFT_TILE))
-            tilemap.set(rect.right, rect.bottom, self._get_tile(FrameSlice.BOTTOM_RIGHT_TILE))
+            tilemap.pset(rect.left, rect.bottom, self._get_tile(FrameSlice.BOTTOM_LEFT_TILE))
+            tilemap.pset(rect.right, rect.bottom, self._get_tile(FrameSlice.BOTTOM_RIGHT_TILE))
 
         for x in range(rect.left + 1, rect.right):
-            tilemap.set(x, rect.top, self._get_tile(FrameSlice.TOP_TILE))
+            tilemap.pset(x, rect.top, self._get_tile(FrameSlice.TOP_TILE))
             for y in range(rect.top + 1, rect.bottom):
-                tilemap.set(x, y, self._get_tile(FrameSlice.CENTER_TILE))
+                tilemap.pset(x, y, self._get_tile(FrameSlice.CENTER_TILE))
             if rect.bottom > rect.top:
-                tilemap.set(x, rect.bottom, self._get_tile(FrameSlice.BOTTOM_TILE))
+                tilemap.pset(x, rect.bottom, self._get_tile(FrameSlice.BOTTOM_TILE))
 
         for y in range(rect.top + 1, rect.bottom):
-            tilemap.set(rect.left, y, self._get_tile(FrameSlice.LEFT_TILE))
-            tilemap.set(rect.right, y, self._get_tile(FrameSlice.RIGHT_TILE))
+            tilemap.pset(rect.left, y, self._get_tile(FrameSlice.LEFT_TILE))
+            tilemap.pset(rect.right, y, self._get_tile(FrameSlice.RIGHT_TILE))
 
-    def _get_tile(self, frame_slice: FrameSlice) -> int:
-        return self.slice_tiles.get(frame_slice, 0)
+    def _get_tile(self, frame_slice: FrameSlice) -> Tuple[int, int]:
+        return self.slice_tiles.get(frame_slice, (0, 0))
 
 
 def generate_frame_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[
@@ -137,5 +137,5 @@ def generate_frame_tilesets(input_data: Any, tile_packer: TilePacker) -> Dict[
     return tilesets
 
 
-def _pack_tile(tile_filename: str, tile_packer: TilePacker) -> int:
-    return tile_packer.pack_tile(tile_filename) if tile_filename else 0
+def _pack_tile(tile_filename: str, tile_packer: TilePacker) -> Tuple[int, int]:
+    return tile_packer.pack_tile(tile_filename) if tile_filename else (0, 0)

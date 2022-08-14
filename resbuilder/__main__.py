@@ -139,8 +139,8 @@ def main() -> None:
 
     logging.info("Processing file '%s'...", files.input_filename)
     try:
-        with open(files.input_filename) as input_file, \
-                open(files.metadata_filename, "w") as metadata_file:
+        with open(files.input_filename, encoding="utf-8") as input_file, \
+                open(files.metadata_filename, "w", encoding="utf-8") as metadata_file:
             pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
             input_data = json.load(input_file)
             validate(input_data, RESOURCES_JSON_SCHEMA)

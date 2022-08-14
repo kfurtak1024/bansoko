@@ -1,7 +1,7 @@
 """Module exposing tiles related utilities (like Tile and TilePacker)"""
 from enum import unique, Enum
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Tuple
 
 import pyxel
 
@@ -42,19 +42,19 @@ class TilePacker:
         self.base_dir = base_dir
         self.next_free_tile = 0
 
-    def pack_tileset(self, theme_data: Dict[str, str]) -> Dict[Tile, int]:
+    def pack_tileset(self, theme_data: Dict[str, str]) -> Dict[Tile, Tuple[int, int]]:
         """Pack a whole tileset into Pyxel's image bank this TilePacker controls.
 
         :param theme_data: data from JSON file describing tileset
         :return: packed tileset
         """
-        level_theme: Dict[Tile, int] = {}
+        level_theme: Dict[Tile, Tuple[int, int]] = {}
         for tile in list(Tile):
             if theme_data.get(tile.tile_name):
                 level_theme[tile] = self.pack_tile(theme_data[tile.tile_name])
         return level_theme
 
-    def pack_tile(self, filename: str) -> int:
+    def pack_tile(self, filename: str) -> Tuple[int, int]:
         """Pack a single tile into Pyxel's image bank this TilePacker controls.
 
         :param filename: filename of tile image
@@ -63,9 +63,10 @@ class TilePacker:
         tiles_in_row = IMAGE_BANK_WIDTH // TILE_SIZE
         x = (self.next_free_tile % tiles_in_row) * TILE_SIZE
         y = (self.next_free_tile // tiles_in_row) * TILE_SIZE
-        pyxel.image(self.image_bank).load(x, y, Path(self.base_dir).joinpath(filename))
+        pyxel.image(self.image_bank).load(x, y, str(Path(self.base_dir).joinpath(filename)))
         self.next_free_tile = self.next_free_tile + 1
-        return self.next_free_tile - 1
+        next_tile_index = self.next_free_tile - 1
+        return next_tile_index % tiles_in_row, next_tile_index // tiles_in_row
 
 
 def tilemap_rect_nth(index: int) -> Rect:

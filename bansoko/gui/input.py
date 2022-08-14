@@ -33,18 +33,18 @@ class InputSystem:
     KEY_HOLD_TIME: int = 10
     KEY_PERIOD_TIME: int = 2
     BUTTONS_MAP: Dict[VirtualButton, List[int]] = {
-        VirtualButton.UP: [pyxel.KEY_UP, pyxel.KEY_KP_8, pyxel.GAMEPAD_1_UP],
-        VirtualButton.DOWN: [pyxel.KEY_DOWN, pyxel.KEY_KP_2, pyxel.GAMEPAD_1_DOWN],
-        VirtualButton.LEFT: [pyxel.KEY_LEFT, pyxel.KEY_KP_4, pyxel.GAMEPAD_1_LEFT],
-        VirtualButton.RIGHT: [pyxel.KEY_RIGHT, pyxel.KEY_KP_6, pyxel.GAMEPAD_1_RIGHT],
-        VirtualButton.SELECT: [pyxel.KEY_ENTER, pyxel.KEY_KP_ENTER, pyxel.GAMEPAD_1_A],
-        VirtualButton.BACK: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_B],
-        VirtualButton.START: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD_1_START],
-        VirtualButton.ACTION: [pyxel.KEY_Z, pyxel.KEY_BACKSPACE, pyxel.GAMEPAD_1_B],
+        VirtualButton.UP: [pyxel.KEY_UP, pyxel.KEY_KP_8, pyxel.GAMEPAD1_BUTTON_DPAD_UP],
+        VirtualButton.DOWN: [pyxel.KEY_DOWN, pyxel.KEY_KP_2, pyxel.GAMEPAD1_BUTTON_DPAD_DOWN],
+        VirtualButton.LEFT: [pyxel.KEY_LEFT, pyxel.KEY_KP_4, pyxel.GAMEPAD1_BUTTON_DPAD_LEFT],
+        VirtualButton.RIGHT: [pyxel.KEY_RIGHT, pyxel.KEY_KP_6, pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT],
+        VirtualButton.SELECT: [pyxel.KEY_RETURN, pyxel.KEY_KP_ENTER, pyxel.GAMEPAD1_BUTTON_A],
+        VirtualButton.BACK: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD1_BUTTON_B],
+        VirtualButton.START: [pyxel.KEY_ESCAPE, pyxel.GAMEPAD1_BUTTON_START],
+        VirtualButton.ACTION: [pyxel.KEY_Z, pyxel.KEY_BACKSPACE, pyxel.GAMEPAD1_BUTTON_B],
         VirtualButton.HOME: [pyxel.KEY_HOME],
         VirtualButton.END: [pyxel.KEY_END],
-        VirtualButton.PAGE_UP: [pyxel.KEY_PAGE_UP],
-        VirtualButton.PAGE_DOWN: [pyxel.KEY_PAGE_DOWN]
+        VirtualButton.PAGE_UP: [pyxel.KEY_PAGEUP],
+        VirtualButton.PAGE_DOWN: [pyxel.KEY_PAGEDOWN]
     }
     WATCHED_KEYS: Set[int] = set(sum(BUTTONS_MAP.values(), []))
 

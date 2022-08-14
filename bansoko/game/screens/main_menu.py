@@ -35,8 +35,10 @@ class MainMenuController(MenuController):
 
     def draw(self, draw_as_secondary: bool = False) -> None:
         super().draw(draw_as_secondary)
-        draw_text(Point(79, 240), "(c) 2020 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
-        draw_text(Point(11, 240), f"v{__version__}", TextStyle(color=1))
+        draw_text(
+            Point(79, 240), "(c) 2020-2022 KRZYSZTOF FURTAK", TextStyle(color=7, shadow_color=1))
+        draw_text(
+            Point(11, 240), f"v{__version__}", TextStyle(color=1))
 
     def update(self, dt_in_ms: float) -> Optional[ScreenController]:
         if self.exiting:

@@ -89,7 +89,7 @@ def load_bundle(metadata_filename: str) -> Bundle:
     :return: bundle with game resources
     """
     try:
-        with open(metadata_filename) as metadata_file:
+        with open(metadata_filename, encoding="utf-8") as metadata_file:
             metadata = load(metadata_file)
             validate(metadata, METADATA_JSON_SCHEMA)
             sprites = create_sprites(metadata["sprites"])
@@ -118,7 +118,8 @@ def create_sprites(json_data: Any) -> Dict[str, Sprite]:
             image_bank=data["image_bank"],
             uv_rect=Rect.from_list(data["uv_rect"]),
             directional=data["directional"],
-            transparency_color=data["transparency_color"],
+            transparency_color=data["transparency_color"] if data["transparency_color"] >= 0
+            else None,
             num_layers=data["num_layers"],
             num_frames=data["num_frames"])
         for name, data in json_data.items()
@@ -134,7 +135,7 @@ def create_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str,
     """
     return {
         name: SpritePack(
-            sprites=tuple([sprites[sprite_name] for sprite_name in data]))
+            sprites=tuple(sprites[sprite_name] for sprite_name in data))
         for (name, data) in json_data.items()
     }
 
@@ -147,15 +148,15 @@ def create_gui_consts(json_data: Any, sprites: Dict[str, Sprite]) -> GuiConsts:
     :return: Gui constants
     """
     return GuiConsts(
-        gui_positions=tuple([
+        gui_positions=tuple(
             Point.from_list(json_data["positions"][pos.resource_name]) for pos in list(GuiPosition)
-        ]),
-        gui_colors=tuple([
+        ),
+        gui_colors=tuple(
             int(json_data["colors"][color.resource_name]) for color in list(GuiColor)
-        ]),
-        gui_sprites=tuple([
+        ),
+        gui_sprites=tuple(
             sprites[json_data["sprites"][sprite.resource_name]] for sprite in list(GuiSprite)
-        ]))
+        ))
 
 
 def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Screen]:
@@ -216,7 +217,7 @@ def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) 
     :param sprite_packs: collection of available sprite packs
     :return: collection of level templates
     """
-    return tuple([
+    return tuple(
         LevelTemplate.from_level_num(
             level_num=level_num,
             tileset_index=data["tileset"],
@@ -224,4 +225,4 @@ def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) 
             sprite_packs=LevelSpritePacks(
                 robot_sprite_pack=sprite_packs[data["robot_sprite_pack_ref"]],
                 crate_sprite_pack=sprite_packs[data["crate_sprite_pack_ref"]]))
-        for level_num, data in enumerate(json_data)])
+        for level_num, data in enumerate(json_data))

@@ -56,10 +56,10 @@ class LevelCompletedController(MenuController):
         pushes_beaten = self.level_score.pushes < self.prev_level_score.pushes
         steps_beaten = self.level_score.steps < self.prev_level_score.steps
         first_completion = not self.prev_level_score.completed
+        time_record = new_record if time_beaten or first_completion else ""
+        pushes_record = new_record if pushes_beaten or first_completion else ""
+        steps_record = new_record if steps_beaten or first_completion else ""
 
-        draw_text(LEVEL_TIME_POS, "#0{:>7s} #8{:s}".format(
-            self.level_score.time, new_record if time_beaten or first_completion else ""))
-        draw_text(LEVEL_PUSHES_POS, "#0{:>7d} #8{:s}".format(
-            self.level_score.pushes, new_record if pushes_beaten or first_completion else ""))
-        draw_text(LEVEL_STEPS_POS, "#0{:>7d} #8{:s}".format(
-            self.level_score.steps, new_record if steps_beaten or first_completion else ""))
+        draw_text(LEVEL_TIME_POS, f"#0{self.level_score.time:>7s} #8{time_record}")
+        draw_text(LEVEL_PUSHES_POS, f"#0{self.level_score.pushes:>7d} #8{pushes_record}")
+        draw_text(LEVEL_STEPS_POS, f"#0{self.level_score.steps:>7d} #8{steps_record}")
