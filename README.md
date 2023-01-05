@@ -11,9 +11,6 @@
   <a href="https://pypi.org/project/bansoko/">
     <img src="https://img.shields.io/pypi/v/bansoko">
   </a>
-  <a href="https://lgtm.com/projects/g/kfurtak1024/bansoko">
-    <img src="https://img.shields.io/lgtm/grade/python/github/kfurtak1024/bansoko">
-  </a>
   <a href="https://github.com/kfurtak1024/bansoko/workflows/CodeQL">
     <img src="https://github.com/kfurtak1024/bansoko/workflows/CodeQL/badge.svg">
   </a>
