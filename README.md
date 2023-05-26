@@ -11,7 +11,7 @@
   <a href="https://pypi.org/project/bansoko/">
     <img src="https://img.shields.io/pypi/v/bansoko">
   </a>
-  <a href="https://github.com/kfurtak1024/bansoko/workflows/CodeQL">
+  <a href="https://github.com/kfurtak1024/bansoko/actions/workflows/codeql-analysis.yml">
     <img src="https://github.com/kfurtak1024/bansoko/workflows/CodeQL/badge.svg">
   </a>
   <a href="https://opensource.org/licenses/MIT">
