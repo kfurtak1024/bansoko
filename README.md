@@ -30,7 +30,7 @@ You can download :package: for both Windows and Linux from:
   <img src="https://static.itch.io/images/badge-color.svg" height="42">
 </a>
 
-## Introduction 📖
+## 📖 Introduction
 
 >
 > *Welcome to Bansoko!*
@@ -55,7 +55,7 @@ You can download :package: for both Windows and Linux from:
   <img src="https://github.com/kfurtak1024/bansoko/raw/master/docs/images/screen_shot6.png">
 </p>
 
-## Installation 🎮
+## 🎮 Installation
 
 #### Windows
 Install [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
@@ -88,7 +88,7 @@ Run the game:
 bansoko
 ```
 
-## Development setup 💻
+## 💻 Development setup
 
 ### 1. Install prerequisites
 
@@ -141,10 +141,10 @@ python -m bansoko
 python3 -m bansoko
 ```
 
-## Modding 🧰
+## 🧰 Modding
 **Bansoko** is heavily modifiable thanks to included resource builder. More information on how to 'mod' it can be found on [Bansoko modding page](https://github.com/kfurtak1024/bansoko/wiki/Bansoko-modding).
 
-## How to contribute 🤝
+## 🤝 How to contribute
 
 ### Submitting an issue
 
@@ -155,7 +155,7 @@ When submitting a report, please select the appropriate [template](https://githu
 
 If you have created a modification for Bansoko which you would like to publish then please contact me via <contact@krzysztoffurtak.dev>
 
-## License ⚖️
+## ⚖️ License
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE) file for details.
 
-Copyright © 2020-2022 Krzysztof Furtak
+Copyright © 2020-2023 Krzysztof Furtak
