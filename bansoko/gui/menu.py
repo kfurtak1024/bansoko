@@ -282,14 +282,14 @@ class MenuController(BaseScreenController):
 
     def _move_selection_up(self) -> None:
         selected_row = self.selected_item // self.menu.columns
-        move_up_possible = (selected_row > 0)
+        move_up_possible = selected_row > 0
         if move_up_possible:
             self.selected_item = self.selected_item - self.menu.columns
             self.top_row = min(self.top_row, selected_row - 1)
 
     def _move_selection_down(self) -> None:
         selected_row = self.selected_item // self.menu.columns
-        move_down_possible = (selected_row < (len(self.menu.items) - 1) // self.menu.columns)
+        move_down_possible = selected_row < (len(self.menu.items) - 1) // self.menu.columns
         if move_down_possible:
             self.selected_item = min(
                 self.selected_item + self.menu.columns, len(self.menu.items) - 1)
@@ -298,7 +298,7 @@ class MenuController(BaseScreenController):
 
     def _move_selection_left(self) -> None:
         selected_column = self.selected_item % self.menu.columns
-        move_left_possible = (selected_column > 0)
+        move_left_possible = selected_column > 0
         if move_left_possible:
             self.selected_item -= 1
 

@@ -109,7 +109,7 @@ class ScreenNavigator:
                     break
 
             for (i, screen) in enumerate(screens_to_be_drawn):
-                is_top_screen = (i == len(screens_to_be_drawn) - 1)
+                is_top_screen = i == len(screens_to_be_drawn) - 1
                 screen.draw(draw_as_secondary=not is_top_screen)
         self.skip_next_draw = False
 

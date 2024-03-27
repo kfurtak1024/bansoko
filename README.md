@@ -35,12 +35,12 @@ You can download :package: for both Windows and Linux from:
 >
 > *Welcome to Bansoko!*
 > 
-> *You are a scavenger. You collect cargos that people have left in abandoned ships in deep space.*
+> *You are a scavenger. You collect cargo that people have left in abandoned ships in deep space.*
 > *It's a dangerous job, that's why we're using robots.*
 > 
 > *Your goal is to use a remotely controlled robot to push all crates to cargo bays.*
 > *Remember, you can only **push** them (you cannot **pull**)*
-> *Fortunately, in case of mistake you can undo as many steps as you need.*
+> *Fortunately, in case of a mistake, you can undo as many steps as you need.*
 > 
 > *Good luck!*
 
@@ -57,7 +57,7 @@ You can download :package: for both Windows and Linux from:
 
 ## 🎮 Installation
 
-#### Windows
+### Windows
 Install [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
 
 Install Bansoko by running:
@@ -70,7 +70,7 @@ Run the game:
 bansoko
 ```
 
-#### Linux
+### Linux
 Install ```python3``` (version 3.8 or higher), ```python3-pip``` and required SDL2 libraries (```libsdl2-2.0-0``` and ```libsdl2-image-2.0-0```).
 
 On Ubuntu, this can be done by running:
@@ -92,7 +92,7 @@ bansoko
 
 ### 1. Install prerequisites
 
-#### Windows
+### Windows
 Install 32-bit [Python](python.org) (version 3.8 or higher) and make sure that python is added to PATH.
 
 Additionally, install ```pipenv``` for managing virtual environments and project dependencies: 
@@ -100,7 +100,7 @@ Additionally, install ```pipenv``` for managing virtual environments and project
 pip install pipenv
 ```
 
-#### Linux
+### Linux
 Install ```python3``` (version 3.8 or higher), ```python3-pip```, ```pipenv``` and required SDL2 libraries (```libsdl2-2.0-0``` and ```libsdl2-image-2.0-0```).
 
 On Ubuntu, this can be done by running:
@@ -131,12 +131,12 @@ pipenv install --dev
 
 Run Bansoko from virtual environment created in the previous step:
 
-#### Windows
+### Windows
 ```shell
 python -m bansoko
 ```
 
-#### Linux
+### Linux
 ```shell
 python3 -m bansoko
 ```
@@ -158,4 +158,4 @@ If you have created a modification for Bansoko which you would like to publish t
 ## ⚖️ License
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE) file for details.
 
-Copyright © 2020-2023 Krzysztof Furtak
+Copyright © 2020-2024 Krzysztof Furtak

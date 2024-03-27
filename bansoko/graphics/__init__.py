@@ -59,7 +59,7 @@ class Direction(Enum):
         if self == Direction.RIGHT:
             return Direction.LEFT
 
-        raise Exception(f"Direction {str(self)} is not supported")
+        raise AssertionError(f"Direction {str(self)} is not supported")
 
 
 @dataclass(frozen=True)
