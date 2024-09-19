@@ -3,23 +3,17 @@
 </h1>
 <p align="center">
   <a href="https://github.com/kfurtak1024/bansoko/releases/latest">
-    <img src="https://img.shields.io/github/v/release/kfurtak1024/bansoko">
-  </a>
+    <img src="https://img.shields.io/github/v/release/kfurtak1024/bansoko"/></a>
   <a>
-    <img src="https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko">
-  </a>
+    <img src="https://img.shields.io/github/pipenv/locked/python-version/kfurtak1024/bansoko"></a>
   <a href="https://pypi.org/project/bansoko/">
-    <img src="https://img.shields.io/pypi/v/bansoko">
-  </a>
+    <img src="https://img.shields.io/pypi/v/bansoko"></a>
   <a href="https://github.com/kfurtak1024/bansoko/actions/workflows/codeql-analysis.yml">
-    <img src="https://github.com/kfurtak1024/bansoko/workflows/CodeQL/badge.svg">
-  </a>
+    <img src="https://github.com/kfurtak1024/bansoko/workflows/CodeQL/badge.svg"></a>
   <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg">
-  </a>
+    <img src="https://img.shields.io/github/license/kfurtak1024/bansoko"/></a>
   <a href="https://kfurtak1024.itch.io/bansoko">
-    <img src="https://img.shields.io/badge/itch.io-download-black?logo=itchdotio&color=FA5C5C">
-  </a>
+    <img src="https://img.shields.io/badge/itch.io-download-black?logo=itchdotio&color=FA5C5C"></a>
 </p>
 
 **Bansoko** is a reimagined, space-themed 🚀 clone of MS-DOS Soko-Ban from 1984 created in Python using [Pyxel](https://github.com/kitao/pyxel).
