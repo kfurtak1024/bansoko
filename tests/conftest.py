@@ -87,16 +87,6 @@ def frozen_binary() -> Path:
     return path
 
 
-@pytest.fixture()
-def isolated_home(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    """Point Path.home() at a temporary directory so real profiles are untouched."""
-    home = tmp_path / "home"
-    home.mkdir()
-    monkeypatch.setenv("HOME", str(home))
-    monkeypatch.setattr(Path, "home", classmethod(lambda cls: home))
-    return home
-
-
 def pytest_report_header(config: pytest.Config) -> str:
     """Make the display situation visible at the top of every test run."""
     del config
