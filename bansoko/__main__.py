@@ -117,25 +117,50 @@ def is_graphics_failure(message: str) -> bool:
     return any(marker in lowered for marker in GRAPHICS_FAILURE_MARKERS)
 
 
-def report_startup_failure(message: str) -> None:
-    """Tell the player why the game will not start.
+def can_reach_player_with_text() -> bool:
+    """Can a printed message actually be read by whoever launched the game?
 
-    The standalone Windows build is a windowed application with no console
-    attached, so anything written to stderr there is invisible and the player
-    is left with Pyxel's raw Rust traceback. A message box is the only way to
-    reach them.
+    The standalone Windows build is a windowed application: it has no console,
+    and PyInstaller leaves stderr with nowhere to go, so a printed message
+    reaches nobody. That is the only situation that justifies a modal dialog.
+
+    Anywhere a console exists -- a terminal, a test run, a CI job -- text is
+    both sufficient and the only safe option. A modal dialog there blocks
+    forever waiting for a click that is never coming.
     """
-    logging.error(message)
-    print(message, file=sys.stderr)
+    if sys.platform != "win32":
+        return True
+    if sys.stderr is None:
+        return False
+    try:
+        # windll only exists on Windows, hence the getattr.
+        return getattr(ctypes, "windll").kernel32.GetConsoleWindow() != 0
+    except Exception:  # pylint: disable=broad-except
+        # If the question cannot be answered, assume text works: printing to
+        # nobody is a much smaller failure than hanging on a dialog.
+        return True
 
-    if sys.platform == "win32":
-        try:
-            # windll only exists on Windows, hence the getattr.
-            user32 = getattr(ctypes, "windll").user32
-            user32.MessageBoxW(None, message, GAME_TITLE, 0x10)  # MB_ICONERROR
-        except Exception:  # pylint: disable=broad-except
-            # A missing dialog must never replace the original failure.
-            logging.exception("Could not display the error dialog")
+
+def show_error_dialog(message: str) -> None:
+    """Show a modal error dialog. Windows only, and only without a console."""
+    try:
+        # windll only exists on Windows, hence the getattr.
+        user32 = getattr(ctypes, "windll").user32
+        user32.MessageBoxW(None, message, GAME_TITLE, 0x10)  # MB_ICONERROR
+    except Exception:  # pylint: disable=broad-except
+        # A missing dialog must never replace the original failure.
+        logging.exception("Could not display the error dialog")
+
+
+def report_startup_failure(message: str) -> None:
+    """Tell the player why the game will not start."""
+    logging.error(message)
+
+    if sys.stderr is not None:
+        print(message, file=sys.stderr)
+
+    if not can_reach_player_with_text():
+        show_error_dialog(message)
 
 
 def initialize_display() -> None:
