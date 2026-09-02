@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Fail the resource builder tests rather than skipping them if the display
+  # setup below ever breaks. See tests/conftest.py.
+  CI: "true"
+
+jobs:
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --locked
+      - name: pylint
+        run: uv run pylint bansoko resbuilder tests
+      - name: mypy
+        run: uv run mypy bansoko resbuilder tests
+
+  test:
+    name: Test (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install display and SDL dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xvfb libsdl2-2.0-0 libsdl2-image-2.0-0 libgl1 libglx-mesa0 libegl1
+
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      # Pyxel opens a real OpenGL window even when only packing resources, so
+      # the resource builder tests need a display. Windows runners have one.
+      - name: Run tests (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a uv run pytest
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        run: uv run pytest
+
+  package:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+      - name: Build sdist and wheel
+        run: uv build
+      - name: Check the wheel ships its game data
+        run: |
+          python - <<'PY'
+          import glob, sys, zipfile
+          wheel = glob.glob("dist/*.whl")[0]
+          names = zipfile.ZipFile(wheel).namelist()
+          required = {"bansoko/gamedata/main.pyxres", "bansoko/gamedata/main.meta"}
+          missing = required - set(names)
+          if missing:
+              sys.exit(f"{wheel} is missing {sorted(missing)}")
+          print(f"{wheel} contains the game data")
+          PY
+      - uses: actions/upload-artifact@v7
+        with:
+          name: distributions
+          path: dist/

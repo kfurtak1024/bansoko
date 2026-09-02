@@ -19,15 +19,20 @@ RESSRC = PROJECT_ROOT / "resources" / "main.ressrc"
 
 @pytest.fixture(scope="session")
 def display() -> str:
-    """A usable X display, required by anything that calls pyxel.init().
+    """A usable display, required by anything that calls pyxel.init().
 
     Pyxel creates a real OpenGL window even when it is only used to pack
     resources, and its bundled SDL2 has neither the dummy nor the offscreen
-    video driver compiled in. Locally this means the test is skipped when
-    there is no display; on CI it is a hard failure instead, so that a
-    broken Xvfb setup surfaces as a red build rather than a green one that
-    quietly tested nothing.
+    video driver compiled in.
+
+    Only X11 needs an explicit DISPLAY; Windows and macOS always provide a
+    window server. Where one is needed and missing, this skips locally but
+    fails on CI, so a broken Xvfb setup surfaces as a red build rather than
+    a green one that quietly tested nothing.
     """
+    if not sys.platform.startswith("linux"):
+        return ""
+
     display_name = os.environ.get("DISPLAY")
     if not display_name:
         if os.environ.get("CI"):
@@ -45,7 +50,7 @@ def built_resources(display: str, tmp_path_factory: pytest.TempPathFactory) -> P
     result = subprocess.run(
         [sys.executable, "-m", "resbuilder", str(RESSRC), "--outdir", str(out_dir), "--force"],
         cwd=PROJECT_ROOT,
-        env={**os.environ, "DISPLAY": display},
+        env={**os.environ, **({"DISPLAY": display} if display else {})},
         capture_output=True,
         text=True,
         check=False,
