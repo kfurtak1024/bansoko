@@ -13,9 +13,6 @@ on:
 permissions:
   contents: read
 
-env:
-  CI: "true"
-
 jobs:
   build-distributions:
     name: Build sdist and wheel
@@ -72,8 +69,12 @@ jobs:
         if: runner.os == 'Linux'
         env:
           BANSOKO_FROZEN_BINARY: dist/${{ matrix.binary }}
+          BANSOKO_REQUIRE_GRAPHICS: "1"
         run: xvfb-run -a uv run pytest tests/test_frozen_build.py -v
 
+      # No OpenGL driver on Windows runners, so the launch check skips and only
+      # the --version check runs. The resource-path bug it guards against comes
+      # from bansoko.spec, which is shared, so the Linux job above catches it.
       - name: Verify the binary starts (Windows)
         if: runner.os == 'Windows'
         env:

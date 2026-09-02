@@ -2,6 +2,7 @@
 # Requesting a fixture shadows the function that defines it. That is how
 # pytest fixtures work, so the check is disabled for this file only.
 # pylint: disable=redefined-outer-name
+import functools
 import os
 import shutil
 import subprocess
@@ -17,40 +18,61 @@ GAMEDATA_DIR = PROJECT_ROOT / "bansoko" / "gamedata"
 RESSRC = PROJECT_ROOT / "resources" / "main.ressrc"
 
 
-@pytest.fixture(scope="session")
-def display() -> str:
-    """A usable display, required by anything that calls pyxel.init().
+REQUIRE_GRAPHICS_ENV = "BANSOKO_REQUIRE_GRAPHICS"
 
-    Pyxel creates a real OpenGL window even when it is only used to pack
+
+@functools.cache
+def _probe_graphics() -> str:
+    """Try to open a Pyxel window in a subprocess; return "" on success.
+
+    Whether pyxel.init() works cannot be inferred from the platform. A
+    Windows CI runner has a window server but no OpenGL driver, so SDL2
+    creates the window and then dies on the first shader call. Asking the
+    real thing in a throwaway process is the only honest answer, and it is
+    cheap because the result is cached for the whole session.
+    """
+    result = subprocess.run(
+        [sys.executable, "-c", "import pyxel; pyxel.init(32, 32)"],
+        capture_output=True, text=True, check=False, timeout=120)
+    if result.returncode == 0:
+        return ""
+    return (result.stderr or result.stdout or "no output").strip().splitlines()[-1]
+
+
+@pytest.fixture(scope="session")
+def graphics() -> None:
+    """Gate for tests that need pyxel.init(), which needs working OpenGL.
+
+    Pyxel opens a real OpenGL window even when it is only used to pack
     resources, and its bundled SDL2 has neither the dummy nor the offscreen
     video driver compiled in.
 
-    Only X11 needs an explicit DISPLAY; Windows and macOS always provide a
-    window server. Where one is needed and missing, this skips locally but
-    fails on CI, so a broken Xvfb setup surfaces as a red build rather than
-    a green one that quietly tested nothing.
+    Where graphics are expected to work, set BANSOKO_REQUIRE_GRAPHICS so a
+    broken setup fails loudly instead of skipping: a green build that
+    quietly tested nothing is worse than a red one. Everywhere else --- a
+    headless workstation, or a CI runner with no GL driver --- these tests
+    skip with the reason the probe actually reported.
     """
-    if not sys.platform.startswith("linux"):
-        return ""
-
-    display_name = os.environ.get("DISPLAY")
-    if not display_name:
-        if os.environ.get("CI"):
-            pytest.fail(
-                "No DISPLAY on CI. Resource builder tests need Xvfb; they must not "
-                "be silently skipped here.")
-        pytest.skip("No DISPLAY available; skipping test that needs pyxel.init()")
-    return display_name
+    reason = _probe_graphics()
+    if not reason:
+        return
+    message = f"Pyxel cannot open a window here: {reason}"
+    if os.environ.get(REQUIRE_GRAPHICS_ENV):
+        pytest.fail(
+            f"{message}\n\n{REQUIRE_GRAPHICS_ENV} is set, so these tests are "
+            f"required to run here and must not be skipped.")
+    pytest.skip(message)
 
 
 @pytest.fixture(scope="session")
-def built_resources(display: str, tmp_path_factory: pytest.TempPathFactory) -> Path:
+def built_resources(graphics: None, tmp_path_factory: pytest.TempPathFactory) -> Path:
     """Run the resource builder from a clean directory and return its output."""
+    del graphics  # Depended on for its skip/fail behaviour only.
     out_dir = tmp_path_factory.mktemp("gamedata")
     result = subprocess.run(
         [sys.executable, "-m", "resbuilder", str(RESSRC), "--outdir", str(out_dir), "--force"],
         cwd=PROJECT_ROOT,
-        env={**os.environ, **({"DISPLAY": display} if display else {})},
+        env=os.environ.copy(),
         capture_output=True,
         text=True,
         check=False,
@@ -88,8 +110,11 @@ def frozen_binary() -> Path:
 
 
 def pytest_report_header(config: pytest.Config) -> str:
-    """Make the display situation visible at the top of every test run."""
+    """Report the real graphics situation at the top of every test run."""
     del config
-    return (f"display: {os.environ.get('DISPLAY') or 'none'} | "
-            f"ci: {bool(os.environ.get('CI'))} | "
+    reason = _probe_graphics()
+    status = "available" if not reason else f"unavailable ({reason})"
+    required = "required" if os.environ.get(REQUIRE_GRAPHICS_ENV) else "optional"
+    return (f"pyxel graphics: {status} | {required} | "
+            f"display: {os.environ.get('DISPLAY') or 'none'} | "
             f"xvfb-run: {'yes' if shutil.which('xvfb-run') else 'no'}")

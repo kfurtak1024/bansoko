@@ -6,7 +6,10 @@ where that points. That failure is invisible to every other test here, and
 it ships straight to players on itch.io, so the release workflow builds the
 binary and then points this test at it.
 
-Set BANSOKO_FROZEN_BINARY to the built executable to enable it.
+Set BANSOKO_FROZEN_BINARY to the built executable to enable these.
+
+The version check needs no graphics and so runs anywhere; the startup check
+needs working OpenGL, because the game opens a real window.
 """
 import os
 import subprocess
@@ -18,9 +21,26 @@ import pytest
 STARTUP_TIMEOUT_SECONDS = 30
 
 
+def test_frozen_binary_reports_its_version(frozen_binary: Path) -> None:
+    """--version must work without any graphics.
+
+    argparse handles it and exits before pyxel.init(), so this runs even on a
+    machine with no OpenGL driver. It proves the executable runs at all: the
+    interpreter, the bundled modules and the entry point are intact.
+    """
+    result = subprocess.run([str(frozen_binary), "--version"], capture_output=True,
+                            text=True, timeout=STARTUP_TIMEOUT_SECONDS, check=False)
+    assert result.returncode == 0, (
+        f"--version exited {result.returncode}\n"
+        f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}")
+    assert result.stdout.strip(), "--version printed nothing"
+
+
 def test_frozen_binary_starts_and_loads_resources(frozen_binary: Path,
+                                                  graphics: None,
                                                   tmp_path: Path) -> None:
     """The binary must reach "Game started." with its bundled resources."""
+    del graphics  # Depended on for its skip/fail behaviour only.
     home = tmp_path / "home"
     home.mkdir()
     env = {**os.environ, "HOME": str(home), "USERPROFILE": str(home)}

@@ -14,11 +14,6 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # Fail the resource builder tests rather than skipping them if the display
-  # setup below ever breaks. See tests/conftest.py.
-  CI: "true"
-
 jobs:
   lint:
     name: Lint and type check
@@ -65,10 +60,19 @@ jobs:
 
       # Pyxel opens a real OpenGL window even when only packing resources, so
       # the resource builder tests need a display. Windows runners have one.
+      # Xvfb plus mesa gives Linux working software OpenGL, so the resource
+      # builder tests are required here: if the display setup breaks they must
+      # fail, not skip.
       - name: Run tests (Linux)
         if: runner.os == 'Linux'
+        env:
+          BANSOKO_REQUIRE_GRAPHICS: "1"
         run: xvfb-run -a uv run pytest
 
+      # Windows runners have a window server but no OpenGL driver, so pyxel
+      # dies on the first shader call. The tests that need a window skip here
+      # and are covered on Linux; everything else still runs. The test header
+      # reports exactly what was probed.
       - name: Run tests (Windows)
         if: runner.os == 'Windows'
         run: uv run pytest
