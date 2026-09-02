@@ -22,7 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      # Pinned to an exact version: astral-sh/setup-uv stopped publishing
+      # floating major tags after v7, so @v10 does not resolve.
+      - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
       - run: uv build
@@ -54,7 +56,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             xvfb libsdl2-2.0-0 libsdl2-image-2.0-0 libgl1 libglx-mesa0 libegl1
 
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
 

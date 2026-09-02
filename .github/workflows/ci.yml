@@ -25,7 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      # Pinned to an exact version: astral-sh/setup-uv stopped publishing
+      # floating major tags after v7, so @v10 does not resolve.
+      - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
       - name: Install dependencies
@@ -53,7 +55,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             xvfb libsdl2-2.0-0 libsdl2-image-2.0-0 libgl1 libglx-mesa0 libegl1
 
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
           python-version: ${{ matrix.python-version }}
@@ -76,14 +78,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
       - name: Build sdist and wheel
         run: uv build
       - name: Check the wheel ships its game data
         run: |
-          python - <<'PY'
+          python3 - <<'PY'
           import glob, sys, zipfile
           wheel = glob.glob("dist/*.whl")[0]
           names = zipfile.ZipFile(wheel).namelist()
