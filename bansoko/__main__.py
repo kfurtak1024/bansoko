@@ -1,20 +1,11 @@
-"""Bansoko - Space-themed Sokoban clone created in Python using Pyxel.
-
-Usage:
-    bansoko [-h] [--version] [--bundle <name>]
-
-Options:
-    -h, --help       Show this screen.
-    --version        Show version.
-    --bundle <name>  Specify resources bundle name [default: main]
-"""
+"""Bansoko - Space-themed Sokoban clone created in Python using Pyxel."""
+import argparse
 import logging
 import os
 from dataclasses import dataclass
 from pathlib import Path
 
 import pyxel
-from docopt import docopt
 
 from bansoko import GAME_FRAME_RATE, __version__, GAME_FRAME_TIME_IN_MS
 from bansoko.game import GameError
@@ -83,10 +74,20 @@ def load_game_resources(filenames: FileNames) -> Bundle:
     return load_bundle(filenames.metadata_file)
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        prog="bansoko",
+        description="Bansoko - Space-themed Sokoban clone created in Python using Pyxel.")
+    parser.add_argument("--version", action="version", version=__version__)
+    parser.add_argument("--bundle", metavar="<name>", default="main",
+                        help="Specify resources bundle name (default: %(default)s)")
+    return parser.parse_args()
+
+
 def main() -> None:
     """Main entry point."""
-    arguments = docopt(__doc__, version=__version__)
-    bundle_name = arguments["--bundle"]
+    bundle_name = parse_args().bundle
     filenames = generate_filenames(bundle_name)
     configure_logger(filenames.log_file)
     logging.info("Initializing Pyxel window")
