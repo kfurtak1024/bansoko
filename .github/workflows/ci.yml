@@ -103,3 +103,26 @@ jobs:
         with:
           name: distributions
           path: dist/
+
+  # A single job that summarises the whole workflow, so branch protection can
+  # require one check instead of ten. Without this, every matrix entry is its
+  # own required check: the list needs editing whenever the matrix changes,
+  # and a check that is renamed or removed silently stops being enforced.
+  ci-passed:
+    name: CI passed
+    # always() so this still reports when something upstream fails. A skipped
+    # required check never reports a conclusion and blocks the PR forever.
+    if: always()
+    needs: [lint, test, package]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check that every job succeeded
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        run: |
+          echo "One or more CI jobs did not succeed:"
+          echo '  lint:    ${{ needs.lint.result }}'
+          echo '  test:    ${{ needs.test.result }}'
+          echo '  package: ${{ needs.package.result }}'
+          exit 1
+      - name: All good
+        run: echo "lint, test and package all succeeded."
