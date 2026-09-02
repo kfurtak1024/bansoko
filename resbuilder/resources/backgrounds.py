@@ -32,7 +32,7 @@ class TilemapGenerator:
         random.seed(seed)
         tilemap_points = tilemap_rect.inside_points()
         for point in tilemap_points:
-            pyxel.tilemap(tilemap_id).pset(point.x, point.y, self._next_tile())
+            pyxel.tilemaps[tilemap_id].pset(point.x, point.y, self._next_tile())
         random.setstate(state)
 
     def _next_tile(self) -> Tuple[int, int]:
@@ -93,7 +93,7 @@ class NineSlicingFrame:
         :param tilemap_id: Pyxel's tilemap id to draw frame on
         :param rect: rectangle describing drawn frame
         """
-        tilemap = pyxel.tilemap(tilemap_id)
+        tilemap = pyxel.tilemaps[tilemap_id]
         tilemap.pset(rect.left, rect.top, self._get_tile(FrameSlice.TOP_LEFT_TILE))
         tilemap.pset(rect.right, rect.top, self._get_tile(FrameSlice.TOP_RIGHT_TILE))
         if rect.bottom > rect.top:

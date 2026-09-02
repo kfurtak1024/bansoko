@@ -1,0 +1,11 @@
+# The generated game data is compared byte-for-byte against a fresh build of
+# resources/main.ressrc, so it must survive checkout unchanged on every
+# platform. Without this, git's autocrlf (the default on Windows) rewrites
+# main.meta to CRLF on checkout and the comparison fails against a build that
+# is actually correct.
+bansoko/gamedata/main.meta   -text
+bansoko/gamedata/main.pyxres binary
+
+# Binary assets: never let line-ending conversion near them.
+*.png  binary
+*.ico  binary

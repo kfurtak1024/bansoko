@@ -1,15 +1,5 @@
-"""Resource builder for Bansoko.
-
-Usage:
-    resbuilder [-hvf] [--version] <file> [--outdir <dir>]
-
-Options:
-    -h, --help                  Show this screen.
-    --version                   Show version.
-    -v, --verbose               Turn on verbose mode.
-    -f, --force                 Force overwrite files.
-    -o <dir>, --outdir <dir>    Specify output directory [default: ./]
-"""
+"""Resource builder for Bansoko."""
+import argparse
 import json
 import logging
 from dataclasses import dataclass
@@ -17,7 +7,6 @@ from pathlib import Path
 from typing import Dict, Any
 
 import pyxel
-from docopt import docopt
 from jsonschema import validate
 
 from bansoko import TILESET_IMAGE_BANK, __version__
@@ -128,19 +117,33 @@ def can_create_output_files(files: FileNames, force_overwrite: bool) -> bool:
     return not output_file_exists or force_overwrite
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        prog="resbuilder", description="Resource builder for Bansoko.")
+    parser.add_argument("--version", action="version", version=__version__)
+    parser.add_argument("-v", "--verbose", action="store_true", help="Turn on verbose mode.")
+    parser.add_argument("-f", "--force", action="store_true", help="Force overwrite files.")
+    parser.add_argument("-o", "--outdir", metavar="<dir>", default="./",
+                        help="Specify output directory (default: %(default)s)")
+    parser.add_argument("file", metavar="<file>", help="Resource definition file to process.")
+    return parser.parse_args()
+
+
 def main() -> None:
     """Main entry point."""
-    arguments = docopt(__doc__, version=__version__)
-    files = generate_filenames(arguments["<file>"], arguments["--outdir"])
-    configure_logger(arguments["--verbose"])
+    args = parse_args()
+    files = generate_filenames(args.file, args.outdir)
+    configure_logger(args.verbose)
 
-    if not can_create_output_files(files, arguments["--force"]):
+    if not can_create_output_files(files, args.force):
         return
 
     logging.info("Processing file '%s'...", files.input_filename)
     try:
         with open(files.input_filename, encoding="utf-8") as input_file, \
-                open(files.metadata_filename, "w", encoding="utf-8") as metadata_file:
+                open(files.metadata_filename, "w", encoding="utf-8",
+                     newline="\n") as metadata_file:
             pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
             input_data = json.load(input_file)
             validate(input_data, RESOURCES_JSON_SCHEMA)

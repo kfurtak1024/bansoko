@@ -253,6 +253,6 @@ class Layer:
         return self.global_offset.offset(Point(-self.layer_index, -self.layer_index))
 
     @property
-    def transparency_color(self) -> int:
-        """Transparency color for the layer."""
+    def transparency_color(self) -> Optional[int]:
+        """Transparency color for the layer (None means the layer is opaque)."""
         return None if self.opaque else 0

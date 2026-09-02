@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Pinned to an exact version: astral-sh/setup-uv stopped publishing
+      # floating major tags after v7, so @v10 does not resolve.
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --locked
+      - name: pylint
+        run: uv run pylint bansoko resbuilder tests
+      - name: mypy
+        run: uv run mypy bansoko resbuilder tests
+
+  test:
+    name: Test (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install display and SDL dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xvfb libsdl2-2.0-0 libsdl2-image-2.0-0 libgl1 libglx-mesa0 libegl1
+
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      # Pyxel opens a real OpenGL window even when only packing resources, so
+      # the resource builder tests need a display. Windows runners have one.
+      # Xvfb plus mesa gives Linux working software OpenGL, so the resource
+      # builder tests are required here: if the display setup breaks they must
+      # fail, not skip.
+      - name: Run tests (Linux)
+        if: runner.os == 'Linux'
+        env:
+          BANSOKO_REQUIRE_GRAPHICS: "1"
+        run: xvfb-run -a uv run pytest
+
+      # Windows runners have a window server but no OpenGL driver, so pyxel
+      # dies on the first shader call. The tests that need a window skip here
+      # and are covered on Linux; everything else still runs. The test header
+      # reports exactly what was probed.
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        run: uv run pytest
+
+  package:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+      - name: Build sdist and wheel
+        run: uv build
+      - name: Check the wheel ships its game data
+        run: |
+          python3 - <<'PY'
+          import glob, sys, zipfile
+          wheel = glob.glob("dist/*.whl")[0]
+          names = zipfile.ZipFile(wheel).namelist()
+          required = {"bansoko/gamedata/main.pyxres", "bansoko/gamedata/main.meta"}
+          missing = required - set(names)
+          if missing:
+              sys.exit(f"{wheel} is missing {sorted(missing)}")
+          print(f"{wheel} contains the game data")
+          PY
+      - uses: actions/upload-artifact@v7
+        with:
+          name: distributions
+          path: dist/
+
+  # A single job that summarises the whole workflow, so branch protection can
+  # require one check instead of ten. Without this, every matrix entry is its
+  # own required check: the list needs editing whenever the matrix changes,
+  # and a check that is renamed or removed silently stops being enforced.
+  ci-passed:
+    name: CI passed
+    # always() so this still reports when something upstream fails. A skipped
+    # required check never reports a conclusion and blocks the PR forever.
+    if: always()
+    needs: [lint, test, package]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check that every job succeeded
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        run: |
+          echo "One or more CI jobs did not succeed:"
+          echo '  lint:    ${{ needs.lint.result }}'
+          echo '  test:    ${{ needs.test.result }}'
+          echo '  package: ${{ needs.package.result }}'
+          exit 1
+      - name: All good
+        run: echo "lint, test and package all succeeded."

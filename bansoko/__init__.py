@@ -7,7 +7,7 @@
 
 Main Bansoko module exposing game globals.
 """
-__version__ = "1.2.1"
+__version__ = "2.0.0"
 
 GAME_FRAME_RATE = 30
 GAME_FRAME_TIME_IN_MS = 1_000 / GAME_FRAME_RATE

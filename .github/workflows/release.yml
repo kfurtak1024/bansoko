@@ -1,0 +1,179 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to build (defaults to the version in the package)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-distributions:
+    name: Build sdist and wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Pinned to an exact version: astral-sh/setup-uv stopped publishing
+      # floating major tags after v7, so @v10 does not resolve.
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+      - run: uv build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: distributions
+          path: dist/
+
+  build-binaries:
+    name: Build ${{ matrix.channel }} binary
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            channel: linux
+            binary: bansoko
+          - os: windows-latest
+            channel: windows
+            binary: bansoko.exe
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install display and SDL dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xvfb libsdl2-2.0-0 libsdl2-image-2.0-0 libgl1 libglx-mesa0 libegl1
+
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Build standalone binary
+        run: uv run pyinstaller bansoko.spec --noconfirm
+
+      # A frozen build can compile cleanly and still fail to find its bundled
+      # resources at startup. Never ship one without launching it first.
+      - name: Verify the binary starts (Linux)
+        if: runner.os == 'Linux'
+        env:
+          BANSOKO_FROZEN_BINARY: dist/${{ matrix.binary }}
+          BANSOKO_REQUIRE_GRAPHICS: "1"
+        run: xvfb-run -a uv run pytest tests/test_frozen_build.py -v
+
+      # No OpenGL driver on Windows runners, so the launch check skips and only
+      # the --version check runs. The resource-path bug it guards against comes
+      # from bansoko.spec, which is shared, so the Linux job above catches it.
+      - name: Verify the binary starts (Windows)
+        if: runner.os == 'Windows'
+        env:
+          BANSOKO_FROZEN_BINARY: dist/${{ matrix.binary }}
+        run: uv run pytest tests/test_frozen_build.py -v
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: bansoko-${{ matrix.channel }}
+          path: dist/${{ matrix.binary }}
+          if-no-files-found: error
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: [build-distributions, build-binaries]
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/bansoko
+    permissions:
+      # Required for trusted publishing; replaces the long-lived API token.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: distributions
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@v1.14.2
+
+  attach-to-release:
+    name: Attach binaries to the release
+    needs: build-binaries
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: bansoko-*
+          path: binaries/
+      - name: Upload to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          mv binaries/bansoko-linux/bansoko "bansoko-${TAG}-linux"
+          mv binaries/bansoko-windows/bansoko.exe "bansoko-${TAG}-windows.exe"
+          gh release upload "$TAG" \
+            "bansoko-${TAG}-linux" "bansoko-${TAG}-windows.exe" --clobber
+
+  publish-itch:
+    name: Publish to itch.io
+    needs: build-binaries
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: bansoko-*
+          path: binaries/
+
+      - name: Check for a butler credential
+        id: check
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          if [ -z "${BUTLER_API_KEY:-}" ]; then
+            echo "BUTLER_API_KEY is not set; skipping the itch.io upload." >> "$GITHUB_STEP_SUMMARY"
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install butler
+        if: steps.check.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          curl -sSL -o butler.zip \
+            https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip
+          chmod +x butler
+          ./butler -V
+
+      - name: Push builds to itch.io
+        if: steps.check.outputs.configured == 'true'
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          ITCH_TARGET: kfurtak1024/bansoko
+          VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          for channel in linux windows; do
+            dir="binaries/bansoko-${channel}"
+            if [ -d "$dir" ]; then
+              chmod +x "$dir"/* || true
+              ./butler push "$dir" "${ITCH_TARGET}:${channel}" \
+                --userversion "${VERSION#v}"
+            fi
+          done
