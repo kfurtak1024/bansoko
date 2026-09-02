@@ -1,7 +1,9 @@
 """Bansoko - Space-themed Sokoban clone created in Python using Pyxel."""
 import argparse
+import ctypes
 import logging
 import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -85,14 +87,85 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+# Fragments of the messages Pyxel's Rust layer produces when it cannot get a
+# usable OpenGL context. Matched case-insensitively against the panic text.
+GRAPHICS_FAILURE_MARKERS = (
+    "no available video device",
+    "failed to initialize sdl2",
+    "failed to create window",
+    "opengl",
+    "glcreateshader",
+    "was not loaded",
+)
+
+GRAPHICS_ERROR_MESSAGE = (
+    "Bansoko needs OpenGL, and it could not be initialised on this machine.\n\n"
+    "This usually means one of:\n"
+    "  - the graphics drivers need updating or are not installed yet,\n"
+    "  - the game is running in a virtual machine or a remote desktop\n"
+    "    session without 3D acceleration.\n"
+)
+
+
+def is_graphics_failure(message: str) -> bool:
+    """Does this failure look like a missing or broken OpenGL setup?
+
+    Pyxel surfaces these as a Rust panic whose only useful content is the
+    message, so matching on the text is the only option available.
+    """
+    lowered = message.lower()
+    return any(marker in lowered for marker in GRAPHICS_FAILURE_MARKERS)
+
+
+def report_startup_failure(message: str) -> None:
+    """Tell the player why the game will not start.
+
+    The standalone Windows build is a windowed application with no console
+    attached, so anything written to stderr there is invisible and the player
+    is left with Pyxel's raw Rust traceback. A message box is the only way to
+    reach them.
+    """
+    logging.error(message)
+    print(message, file=sys.stderr)
+
+    if sys.platform == "win32":
+        try:
+            # windll only exists on Windows, hence the getattr.
+            user32 = getattr(ctypes, "windll").user32
+            user32.MessageBoxW(None, message, GAME_TITLE, 0x10)  # MB_ICONERROR
+        except Exception:  # pylint: disable=broad-except
+            # A missing dialog must never replace the original failure.
+            logging.exception("Could not display the error dialog")
+
+
+def initialize_display() -> None:
+    """Open the game window, explaining an OpenGL failure in plain language.
+
+    Pyxel raises a PanicException from its Rust layer, which derives from
+    BaseException rather than Exception, so it slips past an ordinary
+    "except Exception". Anything that does not look like a graphics problem
+    is re-raised untouched rather than being hidden behind a friendly note.
+    """
+    try:
+        pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT, title=GAME_TITLE,
+                   fps=GAME_FRAME_RATE, quit_key=pyxel.KEY_F12, capture_sec=0)
+    except (KeyboardInterrupt, SystemExit):
+        raise
+    except BaseException as error:
+        if not is_graphics_failure(str(error)):
+            raise
+        logging.exception("Pyxel could not initialise the display")
+        report_startup_failure(f"{GRAPHICS_ERROR_MESSAGE}\nTechnical detail: {error}")
+        raise SystemExit(1) from error
+
+
 def main() -> None:
     """Main entry point."""
     bundle_name = parse_args().bundle
     filenames = generate_filenames(bundle_name)
     configure_logger(filenames.log_file)
     logging.info("Initializing Pyxel window")
-    pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT, title=GAME_TITLE, fps=GAME_FRAME_RATE,
-               quit_key=pyxel.KEY_F12, capture_sec=0)
+    initialize_display()
     try:
         bundle = load_game_resources(filenames)
         logging.info("Bundle name: %s", bundle_name)
