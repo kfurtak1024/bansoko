@@ -159,7 +159,7 @@ def _generate_background(level_num: int, seed: int, tile_generator: TilemapGener
 
 def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
                                     level_theme: LevelTheme) -> None:
-    thumbnails_image = pyxel.image(LEVEL_THUMBNAIL_IMAGE_BANK)
+    thumbnails_image = pyxel.images[LEVEL_THUMBNAIL_IMAGE_BANK]
     tile_positions = preprocessed_level.tile_positions()
     for level_pos, tilemap_pos in tile_positions:
         tile = preprocessed_level.get_tile_at(level_pos)
@@ -168,7 +168,7 @@ def _generate_tilemap_and_thumbnail(preprocessed_level: _PreprocessedLevel,
         if tile is not Tile.VOID:
             for layer in range(level_theme.num_layers):
                 tile_id = level_theme.tile_id(layer, tile)
-                pyxel.tilemap(layer).pset(tilemap_pos.x, tilemap_pos.y, tile_id)
+                pyxel.tilemaps[layer].pset(tilemap_pos.x, tilemap_pos.y, tile_id)
 
 
 def _update_sha1(level_data: Any, sha1: Any) -> None:

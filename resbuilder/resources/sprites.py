@@ -46,7 +46,7 @@ class SpriteSheetPacker:
         """
         uv_rects = self.box_packer.pack(self.rect)
         for i, rect in enumerate(uv_rects):
-            pyxel.image(self.image_bank).load(rect.x, rect.y, str(self.sprite_paths[i]))
+            pyxel.images[self.image_bank].load(rect.x, rect.y, str(self.sprite_paths[i]))
 
         return uv_rects
 

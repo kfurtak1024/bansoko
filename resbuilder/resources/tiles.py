@@ -63,7 +63,7 @@ class TilePacker:
         tiles_in_row = IMAGE_BANK_WIDTH // TILE_SIZE
         x = (self.next_free_tile % tiles_in_row) * TILE_SIZE
         y = (self.next_free_tile // tiles_in_row) * TILE_SIZE
-        pyxel.image(self.image_bank).load(x, y, str(Path(self.base_dir).joinpath(filename)))
+        pyxel.images[self.image_bank].load(x, y, str(Path(self.base_dir).joinpath(filename)))
         self.next_free_tile = self.next_free_tile + 1
         next_tile_index = self.next_free_tile - 1
         return next_tile_index % tiles_in_row, next_tile_index // tiles_in_row

@@ -63,7 +63,7 @@ class Tilemap:
         :return: index of tile at given position
         """
 
-        tile_x, tile_y = pyxel.tilemap(self.tilemap_id).pget(
+        tile_x, tile_y = pyxel.tilemaps[self.tilemap_id].pget(
             self.rect_uv.x + position.tile_x, self.rect_uv.y + position.tile_y)
 
         return tile_x + tile_y * TILEMAP_WIDTH // TILE_SIZE
