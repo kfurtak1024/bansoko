@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bansoko"
+dynamic = ["version"]
+description = "Bansoko is a reimagined, space-themed clone of MS-DOS Soko-Ban from 1984 created in Python using Pyxel"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [
+    { name = "Krzysztof Furtak", email = "contact@krzysztoffurtak.dev" },
+]
+keywords = ["game", "puzzle", "sokoban", "8-bit", "retro"]
+classifiers = [
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Games/Entertainment :: Puzzle Games",
+]
+dependencies = [
+    "pyxel>=2.9.9",
+    "jsonschema>=4.26.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kfurtak1024/bansoko"
+Download = "https://kfurtak1024.itch.io/bansoko"
+Issues = "https://github.com/kfurtak1024/bansoko/issues"
+
+[project.scripts]
+bansoko = "bansoko.__main__:main"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pylint>=4.0.8",
+    "pytest>=9.0.0",
+    "pyinstaller>=6.22.2",
+]
+
+[tool.hatch.version]
+path = "bansoko/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["bansoko"]
+
+[tool.hatch.build.targets.sdist]
+include = ["bansoko", "resbuilder", "resources", "README.md", "LICENSE"]
