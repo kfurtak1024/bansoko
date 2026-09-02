@@ -117,28 +117,24 @@ def is_graphics_failure(message: str) -> bool:
     return any(marker in lowered for marker in GRAPHICS_FAILURE_MARKERS)
 
 
-def can_reach_player_with_text() -> bool:
-    """Can a printed message actually be read by whoever launched the game?
+def should_use_error_dialog() -> bool:
+    """Is a modal dialog the only way to reach whoever launched the game?
 
-    The standalone Windows build is a windowed application: it has no console,
-    and PyInstaller leaves stderr with nowhere to go, so a printed message
-    reaches nobody. That is the only situation that justifies a modal dialog.
+    Only one situation qualifies: the frozen, windowed Windows build, which
+    has no console and leaves stderr with nowhere to go.
 
-    Anywhere a console exists -- a terminal, a test run, a CI job -- text is
-    both sufficient and the only safe option. A modal dialog there blocks
-    forever waiting for a click that is never coming.
+    The sys.frozen check is what makes this safe. An earlier version asked
+    Windows for a console window instead, which is wrong under CI: GitHub
+    Actions redirects stdio and attaches no console, so the check reported
+    "no console", a dialog opened on a headless runner, and the test run hung
+    until the job timed out. Running from source -- development, tests, CI --
+    can now never open a dialog, whatever the console situation.
     """
     if sys.platform != "win32":
-        return True
-    if sys.stderr is None:
         return False
-    try:
-        # windll only exists on Windows, hence the getattr.
-        return getattr(ctypes, "windll").kernel32.GetConsoleWindow() != 0
-    except Exception:  # pylint: disable=broad-except
-        # If the question cannot be answered, assume text works: printing to
-        # nobody is a much smaller failure than hanging on a dialog.
-        return True
+    if not getattr(sys, "frozen", False):
+        return False
+    return sys.stderr is None
 
 
 def show_error_dialog(message: str) -> None:
@@ -159,7 +155,7 @@ def report_startup_failure(message: str) -> None:
     if sys.stderr is not None:
         print(message, file=sys.stderr)
 
-    if not can_reach_player_with_text():
+    if should_use_error_dialog():
         show_error_dialog(message)
 
 

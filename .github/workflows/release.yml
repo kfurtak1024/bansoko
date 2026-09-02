@@ -17,6 +17,7 @@ jobs:
   build-distributions:
     name: Build sdist and wheel
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       # Pinned to an exact version: astral-sh/setup-uv stopped publishing
@@ -33,6 +34,7 @@ jobs:
   build-binaries:
     name: Build ${{ matrix.channel }} binary
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -142,6 +144,7 @@ jobs:
     needs: [build-distributions, build-binaries]
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment:
       name: pypi
       url: https://pypi.org/p/bansoko
@@ -160,6 +163,7 @@ jobs:
     needs: build-binaries
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:
@@ -183,6 +187,7 @@ jobs:
     needs: build-binaries
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/download-artifact@v8
         with:

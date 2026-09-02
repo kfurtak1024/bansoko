@@ -5,15 +5,32 @@ PanicException whose text means nothing to a player. That happens before any
 game screen exists, so the in-game error screen cannot be used to report it:
 these are the only thing standing between a player and a raw Rust traceback.
 """
+# Requesting a fixture shadows the function that defines it; that is how
+# pytest fixtures work, so the check is disabled for this file only.
+# pylint: disable=redefined-outer-name
 import logging
 from typing import Any, List
 
 import pytest
 
 import bansoko.__main__ as game_main
-from bansoko.__main__ import (GRAPHICS_ERROR_MESSAGE, can_reach_player_with_text,
-                              initialize_display, is_graphics_failure,
-                              report_startup_failure)
+from bansoko.__main__ import (GRAPHICS_ERROR_MESSAGE, initialize_display,
+                              is_graphics_failure, report_startup_failure,
+                              should_use_error_dialog)
+
+
+@pytest.fixture(autouse=True)
+def never_open_a_real_dialog(monkeypatch: pytest.MonkeyPatch) -> List[str]:
+    """Replace the message box for every test in this module.
+
+    A modal dialog on a machine with nobody to click it hangs until the job
+    is killed, which is how a CI run was once lost. No amount of care in the
+    logic under test is worth risking that again, so the real dialog is
+    simply unreachable from here.
+    """
+    shown: List[str] = []
+    monkeypatch.setattr(game_main, "show_error_dialog", shown.append)
+    return shown
 
 
 class FakePanic(BaseException):
@@ -104,36 +121,32 @@ def test_failure_is_reported_to_stderr_and_the_log(
     assert any("needs OpenGL" in record.message for record in caplog.records)
 
 
-def test_no_dialog_when_a_console_is_available(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_no_dialog_when_running_from_source(never_open_a_real_dialog: List[str]) -> None:
     """A modal dialog must never appear where text would do.
 
-    This is a regression test for a hung CI job: report_startup_failure used
-    to open a message box on Windows unconditionally, and on a headless
-    runner it waited forever for a click that was never coming. Under pytest
-    there is always a console, so no dialog may be attempted.
+    This is a regression test for a hung CI job. The dialog is only ever
+    right for the frozen windowed build; running from source, as tests and CI
+    do, it must never appear, because there is nobody to dismiss it.
     """
-    shown: List[str] = []
-    monkeypatch.setattr(game_main, "show_error_dialog", shown.append)
+    report_startup_failure("something went wrong")
+
+    assert not never_open_a_real_dialog, "a modal dialog was opened from source"
+    assert not should_use_error_dialog(), "dialog wrongly considered necessary"
+
+
+def test_dialog_is_used_in_a_frozen_windowed_build(
+        monkeypatch: pytest.MonkeyPatch, never_open_a_real_dialog: List[str]) -> None:
+    """The frozen windowed build has no stderr, so it gets the dialog."""
+    monkeypatch.setattr(game_main, "should_use_error_dialog", lambda: True)
 
     report_startup_failure("something went wrong")
 
-    assert not shown, "a modal dialog was opened during a console session"
+    assert never_open_a_real_dialog == ["something went wrong"]
 
 
-def test_dialog_is_used_when_text_cannot_reach_the_player(
-        monkeypatch: pytest.MonkeyPatch) -> None:
-    """With no console, the dialog is the only way to reach the player."""
-    shown: List[str] = []
-    monkeypatch.setattr(game_main, "show_error_dialog", shown.append)
-    monkeypatch.setattr(game_main, "can_reach_player_with_text", lambda: False)
-
-    report_startup_failure("something went wrong")
-
-    assert shown == ["something went wrong"]
-
-
-def test_text_always_reaches_the_player_off_windows(
-        monkeypatch: pytest.MonkeyPatch) -> None:
-    """Only Windows builds can end up without a usable console."""
-    monkeypatch.setattr(game_main.sys, "platform", "linux")
-    assert can_reach_player_with_text()
+def test_no_dialog_outside_a_frozen_build(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Only a frozen Windows build may use a dialog, whatever stderr does."""
+    monkeypatch.setattr(game_main.sys, "platform", "win32")
+    monkeypatch.setattr(game_main.sys, "stderr", None)
+    monkeypatch.delattr(game_main.sys, "frozen", raising=False)
+    assert not should_use_error_dialog()

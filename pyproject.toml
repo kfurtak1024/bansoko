@@ -87,3 +87,6 @@ disable = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --strict-markers --strict-config"
+# A hung test used to stall CI until the job timed out, with no clue where.
+# This dumps the stack of every thread instead, naming the culprit.
+faulthandler_timeout = 120
