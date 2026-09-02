@@ -11,7 +11,13 @@ from pathlib import Path
 
 import pytest
 
+import pyxel
+
 from bansoko.game.bundle import Bundle, load_bundle
+from bansoko.game.context import GameContext
+from bansoko.game.level import Level
+from bansoko.game.profile import create_or_load_profile
+from bansoko.graphics import SCREEN_HEIGHT, SCREEN_WIDTH
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 GAMEDATA_DIR = PROJECT_ROOT / "bansoko" / "gamedata"
@@ -92,6 +98,35 @@ def gamedata_dir() -> Path:
 def bundle(gamedata_dir: Path) -> Bundle:
     """The bundle built from the committed game data."""
     return load_bundle(str(gamedata_dir / "main.meta"))
+
+
+@pytest.fixture(scope="session")
+def pyxel_runtime(graphics: None, gamedata_dir: Path) -> None:
+    """Initialise Pyxel once per session and load the game's resources.
+
+    Level layouts live in the tilemaps inside main.pyxres, so anything that
+    builds a Level needs this even though the rules themselves are pure
+    Python. Pyxel can only be initialised once in a process, hence session
+    scope.
+    """
+    del graphics  # Depended on for its skip/fail behaviour only.
+    pyxel.init(SCREEN_WIDTH, SCREEN_HEIGHT)
+    pyxel.load(str(gamedata_dir / "main.pyxres"))
+
+
+@pytest.fixture()
+def game_context(pyxel_runtime: None, bundle: Bundle, tmp_path: Path) -> GameContext:
+    """A game context backed by a throwaway player profile."""
+    del pyxel_runtime  # Ordering dependency: resources must be loaded first.
+    profile = create_or_load_profile(bundle, tmp_path / "profile.data")
+    return GameContext(bundle, profile)
+
+
+@pytest.fixture()
+def level(pyxel_runtime: None, bundle: Bundle) -> Level:
+    """The tutorial level (level 0), freshly started."""
+    del pyxel_runtime  # Ordering dependency: resources must be loaded first.
+    return Level(bundle.get_level_template(0))
 
 
 @pytest.fixture()
