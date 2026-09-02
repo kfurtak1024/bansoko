@@ -46,22 +46,72 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install display and SDL dependencies
+      # Deliberately no libsdl2 here. If SDL2 is installed on the build
+      # machine, PyInstaller bundles that copy instead of the one shipped in
+      # the pyxel wheel, and the binary inherits the build machine's glibc.
+      - name: Install display dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            xvfb libsdl2-2.0-0 libsdl2-image-2.0-0 libgl1 libglx-mesa0 libegl1
+            xvfb libgl1 libglx-mesa0 libegl1 libdrm2
 
       - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
+          # Without an explicit version uv falls back to the runner's system
+          # Python. On ubuntu-latest that is Ubuntu 24.04's build, whose
+          # libpython requires GLIBC_2.38, which PyInstaller then bundles.
+          # uv's own builds need only GLIBC_2.17.
+          python-version: "3.12"
+        env:
+          UV_PYTHON_PREFERENCE: only-managed
 
       - name: Install dependencies
         run: uv sync --locked
 
-      - name: Build standalone binary
+      # Linux binaries are built inside manylinux_2_28 so they run on any
+      # glibc from 2.28 up, which is the floor pyxel's own wheels target.
+      # Building on the runner directly ties the result to its glibc: the
+      # first Linux build required GLIBC_2.38 and would not start on Ubuntu
+      # 22.04, Debian 11 or RHEL 9.
+      - name: Build standalone binary (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          mkdir -p dist
+          docker run --rm -v "$PWD":/src:ro -v "$PWD/dist":/out \
+            quay.io/pypa/manylinux_2_28_x86_64 bash -c '
+              set -e
+              cp -r /src /work && cd /work && rm -rf .venv dist build
+              export PATH=/opt/python/cp312-cp312/bin:$PATH
+              python -m pip -q install uv
+              export UV_PYTHON_INSTALL_DIR=/work/.pythons
+              export UV_PYTHON_PREFERENCE=only-managed
+              uv venv --python 3.12 /work/.venv
+              uv pip install --python /work/.venv/bin/python -q \
+                pyxel jsonschema pyinstaller
+              /work/.venv/bin/pyinstaller bansoko.spec --noconfirm \
+                --distpath /work/dist --workpath /work/build
+              cp /work/dist/bansoko /out/bansoko
+              chmod 0777 /out/bansoko
+            '
+
+      - name: Build standalone binary (Windows)
+        if: runner.os == 'Windows'
         run: uv run pyinstaller bansoko.spec --noconfirm
+
+      # The regression test for the bug above: a binary that needs a newer
+      # glibc than it should fails here with the same "GLIBC_x.yz not found"
+      # error a player would see. --version needs no graphics, so this is a
+      # pure portability check.
+      - name: Check the binary runs on the oldest supported glibc
+        if: runner.os == 'Linux'
+        run: |
+          docker run --rm -v "$PWD/dist":/d:ro rockylinux:8 bash -c '
+            dnf -y -q install libdrm libX11 libXext libXrandr libXcursor \
+              libXi mesa-libGL >/dev/null 2>&1
+            /d/bansoko --version
+          '
 
       # A frozen build can compile cleanly and still fail to find its bundled
       # resources at startup. Never ship one without launching it first.

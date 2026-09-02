@@ -7,10 +7,36 @@ separator differs between platforms, and the icon only applies on some.
 
 Build with:  pyinstaller bansoko.spec --noconfirm
 """
+import importlib.util
 import sys
 from pathlib import Path
 
 block_cipher = None
+
+
+def pyxel_runtime_libraries():
+    """Collect the shared libraries Pyxel loads by hand at runtime.
+
+    Pyxel's __init__ dlopens SDL2 through ctypes: it tries the system copy
+    first and falls back to the one shipped inside the wheel. Neither path is
+    visible to PyInstaller's static analysis, so without this the binary ends
+    up in one of two bad states. On a machine that happens to have SDL2
+    installed, the build silently absorbs the *system* library and inherits
+    its glibc requirement, which is how the first Linux build ended up
+    demanding a newer glibc than the game needs. On a machine without one, no
+    SDL2 is bundled at all and the binary dies on import.
+
+    Collecting the wheel's own copy makes the result independent of whatever
+    the build machine has installed.
+    """
+    spec = importlib.util.find_spec("pyxel")
+    if spec is None or not spec.origin:
+        raise SystemExit("pyxel must be installed to build the standalone binary")
+    libs = Path(spec.origin).parent / "libs"
+    if not libs.is_dir():
+        return []
+    # Keep the wheel's layout: Pyxel looks beside its own __file__ for these.
+    return [(str(lib), "pyxel/libs") for lib in sorted(libs.iterdir()) if lib.is_file()]
 
 # The game locates its resources relative to bansoko/__main__.py. PyInstaller
 # places the entry script at the root of the bundle rather than inside the
@@ -25,7 +51,7 @@ icon = "resources/bansoko.ico" if Path("resources/bansoko.ico").is_file() else N
 a = Analysis(
     ["bansoko/__main__.py"],
     pathex=[],
-    binaries=[],
+    binaries=pyxel_runtime_libraries(),
     datas=datas,
     hiddenimports=[],
     hookspath=[],

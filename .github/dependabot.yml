@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # Project dependencies, resolved through uv.lock. Dependabot was previously
+  # tracking the Pipfile through the pip ecosystem; that file is gone as of
+  # v2.0.0, which is why those update runs had been failing.
+  #
+  # A bump to pyxel here is worth watching: CI rebuilds the game data and
+  # compares it byte-for-byte against what is committed, so a Pyxel release
+  # that changes the generated resource format shows up as a failing check
+  # rather than as a broken game.
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+
+  # Workflow actions. These matter more than usual here: release.yml publishes
+  # to PyPI through a trusted-publishing token exchange, so its actions are
+  # part of the supply chain for what players install.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns: ["*"]
