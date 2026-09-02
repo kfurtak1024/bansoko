@@ -53,3 +53,33 @@ packages = ["bansoko"]
 
 [tool.hatch.build.targets.sdist]
 include = ["bansoko", "resbuilder", "resources", "README.md", "LICENSE"]
+
+[tool.mypy]
+python_version = "3.11"
+
+# jsonschema ships no py.typed marker. pyxel does as of 2.x, so it no
+# longer needs an override.
+[[tool.mypy.overrides]]
+module = "jsonschema"
+ignore_missing_imports = true
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "x", "y", "u", "v", "w", "h", "dx", "dy"]
+
+[tool.pylint.typecheck]
+# pyxel re-exports its API by star-importing a compiled binding, so pylint
+# cannot resolve pyxel.* statically and reports every use as no-member.
+# Suppressed here rather than via extension-pkg-allow-list so that linting
+# never has to import the extension module. mypy still checks these calls
+# for real: pyxel ships a py.typed marker.
+generated-members = ["pyxel.*"]
+
+[tool.pylint."messages control"]
+# The game and the resource builder deliberately keep separate copies of
+# the resource JSON schema; they describe the same format from opposite
+# sides and are meant to be read independently.
+disable = [
+    "duplicate-code",
+    # TODO comments are notes to the author, not build failures.
+    "fixme",
+]
