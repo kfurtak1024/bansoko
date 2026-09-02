@@ -30,6 +30,8 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+# ...except the hand-written spec describing the standalone builds.
+!bansoko.spec
 
 # Installer logs
 pip-log.txt

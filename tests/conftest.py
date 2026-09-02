@@ -68,6 +68,21 @@ def bundle(gamedata_dir: Path) -> Bundle:
 
 
 @pytest.fixture()
+def frozen_binary() -> Path:
+    """Path to a built standalone binary, from BANSOKO_FROZEN_BINARY.
+
+    Set by the release workflow after PyInstaller runs, so the frozen-build
+    smoke test costs nothing during an ordinary test run.
+    """
+    binary = os.environ.get("BANSOKO_FROZEN_BINARY")
+    if not binary:
+        pytest.skip("BANSOKO_FROZEN_BINARY is not set; no frozen build to check")
+    path = Path(binary).resolve()
+    assert path.is_file(), f"BANSOKO_FROZEN_BINARY does not exist: {path}"
+    return path
+
+
+@pytest.fixture()
 def isolated_home(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     """Point Path.home() at a temporary directory so real profiles are untouched."""
     home = tmp_path / "home"
