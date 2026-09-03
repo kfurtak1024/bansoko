@@ -89,7 +89,10 @@ exe = EXE(
     name="bansoko",
     debug=False,
     bootloader_ignore_signals=False,
-    strip=True,
+    # Linux only. Stripping saves about 12% there, but on Windows PyInstaller
+    # still runs `strip` over PE binaries rather than skipping it, and the
+    # resulting executable hangs on startup instead of failing to build.
+    strip=sys.platform == "linux",
     upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
