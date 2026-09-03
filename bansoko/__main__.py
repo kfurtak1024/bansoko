@@ -89,13 +89,18 @@ def parse_args() -> argparse.Namespace:
 
 # Fragments of the messages Pyxel's Rust layer produces when it cannot get a
 # usable OpenGL context. Matched case-insensitively against the panic text.
+#
+# Every marker has to be specific enough that no other failure can contain it:
+# a false match tells the player to update their graphics drivers when the real
+# problem is somewhere else entirely. "was not loaded" was one such marker, and
+# it was also redundant -- the panic it was there for, "called glCreateShader
+# but it was not loaded", already matches on "glcreateshader".
 GRAPHICS_FAILURE_MARKERS = (
     "no available video device",
     "failed to initialize sdl2",
     "failed to create window",
     "opengl",
     "glcreateshader",
-    "was not loaded",
 )
 
 GRAPHICS_ERROR_MESSAGE = (

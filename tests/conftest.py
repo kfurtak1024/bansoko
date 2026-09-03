@@ -39,7 +39,7 @@ def _probe_graphics() -> str:
     """
     result = subprocess.run(
         [sys.executable, "-c", "import pyxel; pyxel.init(32, 32)"],
-        capture_output=True, text=True, check=False, timeout=120)
+        capture_output=True, text=True, check=False, timeout=60)
     if result.returncode == 0:
         return ""
     return (result.stderr or result.stdout or "no output").strip().splitlines()[-1]
@@ -82,7 +82,11 @@ def built_resources(graphics: None, tmp_path_factory: pytest.TempPathFactory) ->
         capture_output=True,
         text=True,
         check=False,
-        timeout=600)
+        # Packing the whole resource set takes well under a second; this is a
+        # hang guard, not a budget. It has to stay under faulthandler_timeout
+        # so a slow run fails here with resbuilder's own output rather than as
+        # an unexplained thread dump.
+        timeout=120)
     assert result.returncode == 0, (
         f"resbuilder failed ({result.returncode}):\n{result.stdout}\n{result.stderr}")
     return out_dir
