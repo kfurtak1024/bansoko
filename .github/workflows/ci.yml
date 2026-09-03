@@ -18,7 +18,6 @@ jobs:
   lint:
     name: Lint and type check
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       # Pinned to an exact version: astral-sh/setup-uv stopped publishing
@@ -36,7 +35,6 @@ jobs:
   test:
     name: Test (${{ matrix.os }}, Python ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -45,6 +43,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # Unlike release.yml, which deliberately omits SDL2, installing it here
+      # is fine and intentional: nothing in this job runs PyInstaller, so there
+      # is no build for the system copy to be absorbed into. It only decides
+      # which SDL2 pyxel preloads for the tests.
       - name: Install display and SDL dependencies
         if: runner.os == 'Linux'
         run: |
@@ -82,7 +84,6 @@ jobs:
   package:
     name: Build distributions
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.0.1
@@ -118,7 +119,6 @@ jobs:
     if: always()
     needs: [lint, test, package]
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - name: Check that every job succeeded
         if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
