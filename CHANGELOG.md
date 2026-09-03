@@ -56,6 +56,12 @@ of the level data, and that checksum has not changed.
 
 ## [1.2.1] - 2024-03-27
 
+### Added
+
+- Security policy.
+
+## [1.2.0] - 2024-03-27
+
 ### Changed
 
 - Migrated to Pyxel 2.0.9. This replaced Pyxel's pure-Python renderer with a
@@ -81,5 +87,6 @@ First stable release, built on Pyxel 1.4.3.
 
 [2.0.0]: https://github.com/kfurtak1024/bansoko/releases/tag/v2.0.0
 [1.2.1]: https://github.com/kfurtak1024/bansoko/releases/tag/v1.2.1
+[1.2.0]: https://github.com/kfurtak1024/bansoko/releases/tag/v.1.2.0
 [1.1.0]: https://github.com/kfurtak1024/bansoko/releases/tag/v1.1.0
 [1.0.0]: https://github.com/kfurtak1024/bansoko/releases/tag/v1.0.0
