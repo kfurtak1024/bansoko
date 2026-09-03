@@ -176,16 +176,32 @@ jobs:
         with:
           pattern: bansoko-*
           path: binaries/
+      # Archives rather than bare executables: a browser will not offer to run
+      # a downloaded .tar.gz or .zip, and the tar preserves the executable bit
+      # that GitHub's artifact upload drops.
+      - name: Package the binaries
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          mkdir -p release
+
+          chmod +x binaries/bansoko-linux/bansoko
+          tar -czf "release/bansoko-${version}-linux-x86-64.tar.gz" \
+            -C binaries/bansoko-linux bansoko
+
+          (cd binaries/bansoko-windows \
+            && zip -q "$GITHUB_WORKSPACE/release/bansoko-${version}-win-x86-64.zip" \
+                 bansoko.exe)
+
+          ls -l release/
+
       - name: Upload to the release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.release.tag_name }}
-        run: |
-          set -euo pipefail
-          mv binaries/bansoko-linux/bansoko "bansoko-${TAG}-linux"
-          mv binaries/bansoko-windows/bansoko.exe "bansoko-${TAG}-windows.exe"
-          gh release upload "$TAG" \
-            "bansoko-${TAG}-linux" "bansoko-${TAG}-windows.exe" --clobber
+        run: gh release upload "$TAG" release/* --clobber
 
   publish-itch:
     name: Publish to itch.io

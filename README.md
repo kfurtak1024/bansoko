@@ -61,6 +61,13 @@ You can download :package: for both Windows and Linux from:
 > initialised, that is what it means.
 
 
+### Download
+
+The simplest way to play is to download a standalone build from the
+[latest release](https://github.com/kfurtak1024/bansoko/releases/latest) or
+from [itch.io](https://kfurtak1024.itch.io/bansoko). Nothing else is needed:
+Python and every library the game uses are bundled.
+
 ### Windows
 Install [Python](https://www.python.org) (version 3.11 or higher) and make sure that python is added to PATH.
 
@@ -75,18 +82,25 @@ bansoko
 ```
 
 ### Linux
-Install ```python3``` (version 3.11 or higher), ```python3-pip``` and required SDL2 libraries (```libsdl2-2.0-0``` and ```libsdl2-image-2.0-0```).
+Install ```python3``` (version 3.11 or higher). No SDL2 packages are required
+--- Pyxel ships its own copy.
 
-On Ubuntu, this can be done by running:
+On Ubuntu:
 
 ```shell
-sudo apt install python3 python3-pip libsdl2-2.0-0 libsdl2-image-2.0-0 
+sudo apt install python3 pipx
 ```
 
 Install Bansoko by running:
 ```shell
-pip3 install -U bansoko
+pipx install bansoko
 ```
+
+```pipx``` is used rather than ```pip``` because current Debian and Ubuntu
+releases refuse to install into the system Python
+([PEP 668](https://peps.python.org/pep-0668/)), and it keeps the game in its
+own environment while still putting ```bansoko``` on your PATH.
+
 Run the game:
 ```shell
 bansoko
@@ -167,6 +181,11 @@ uv run python -m resbuilder resources/main.ressrc --outdir bansoko/gamedata --fo
 The generated files are checked in, and the test suite fails if they do not
 match the assets they were built from.
  More information on how to 'mod' it can be found on [Bansoko modding page](https://github.com/kfurtak1024/bansoko/wiki/Bansoko-modding).
+
+## 📝 Changelog
+
+Notable changes for each release are listed in
+[CHANGELOG.md](https://github.com/kfurtak1024/bansoko/blob/master/CHANGELOG.md).
 
 ## 🤝 How to contribute
 

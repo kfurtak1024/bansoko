@@ -52,7 +52,7 @@ path = "bansoko/__init__.py"
 packages = ["bansoko"]
 
 [tool.hatch.build.targets.sdist]
-include = ["bansoko", "resbuilder", "resources", "README.md", "LICENSE"]
+include = ["bansoko", "resbuilder", "resources", "README.md", "CHANGELOG.md", "LICENSE"]
 
 [tool.mypy]
 python_version = "3.11"
