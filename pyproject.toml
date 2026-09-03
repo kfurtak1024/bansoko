@@ -88,5 +88,11 @@ disable = [
 testpaths = ["tests"]
 addopts = "-q --strict-markers --strict-config"
 # A hung test used to stall CI until the job timed out, with no clue where.
-# This dumps the stack of every thread instead, naming the culprit.
-faulthandler_timeout = 120
+# This dumps the stack of every thread instead, naming the culprit. It does not
+# end the run -- faulthandler_exit_on_timeout defaults to false -- so a hang
+# still runs out the job's own timeout; this only says where it is.
+#
+# Must stay above every wait the suite legitimately makes, or a slow-but-healthy
+# run prints a full thread dump and still passes, which reads as a crash. The
+# longest is built_resources in tests/conftest.py.
+faulthandler_timeout = 300
