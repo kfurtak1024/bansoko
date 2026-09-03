@@ -33,6 +33,11 @@ jobs:
   build-binaries:
     name: Build ${{ matrix.channel }} binary
     runs-on: ${{ matrix.os }}
+    # Job-level, not on the setup-uv step: a step's `env` lasts only for that
+    # step, so the `uv sync` and `uv run` steps below -- the ones that actually
+    # choose the interpreter PyInstaller freezes -- would never have seen it.
+    env:
+      UV_PYTHON_PREFERENCE: only-managed
     strategy:
       fail-fast: false
       matrix:
@@ -64,8 +69,6 @@ jobs:
           # libpython requires GLIBC_2.38, which PyInstaller then bundles.
           # uv's own builds need only GLIBC_2.17.
           python-version: "3.12"
-        env:
-          UV_PYTHON_PREFERENCE: only-managed
 
       - name: Install dependencies
         run: uv sync --locked
@@ -87,13 +90,18 @@ jobs:
               python -m pip -q install uv
               export UV_PYTHON_INSTALL_DIR=/work/.pythons
               export UV_PYTHON_PREFERENCE=only-managed
-              uv venv --python 3.12 /work/.venv
-              uv pip install --python /work/.venv/bin/python -q \
-                pyxel jsonschema pyinstaller
+              # uv.lock, not a hand-written package list. Installing loose
+              # requirements here would freeze whatever versions PyPI happened
+              # to be serving at release time into the binary players download,
+              # bypassing every version CI actually tested -- and would silently
+              # omit any runtime dependency later added to pyproject.toml,
+              # producing a binary that dies with ModuleNotFoundError while all
+              # checks stay green.
+              uv sync --locked --python 3.12
               /work/.venv/bin/pyinstaller bansoko.spec --noconfirm \
                 --distpath /work/dist --workpath /work/build
               cp /work/dist/bansoko /out/bansoko
-              chmod 0777 /out/bansoko
+              chmod 0755 /out/bansoko
             '
 
       - name: Build standalone binary (Windows)
@@ -108,8 +116,9 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           docker run --rm -v "$PWD/dist":/d:ro rockylinux:8 bash -c '
+            set -e
             dnf -y -q install libdrm libX11 libXext libXrandr libXcursor \
-              libXi mesa-libGL >/dev/null 2>&1
+              libXi mesa-libGL
             /d/bansoko --version
           '
 

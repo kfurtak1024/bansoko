@@ -58,6 +58,10 @@ def test_recognises_graphics_failures(message: str) -> None:
 @pytest.mark.parametrize("message", [
     "Unable to find Pyxel resource file",
     "some unrelated panic in another subsystem",
+    # A marker matching this phrase alone would misreport any such failure as
+    # a driver problem. The graphics panic that contains it is recognised by
+    # "glCreateShader" instead, which nothing else can contain.
+    "the tilemap was not loaded",
     "",
 ])
 def test_ignores_unrelated_failures(message: str) -> None:
@@ -142,6 +146,29 @@ def test_dialog_is_used_in_a_frozen_windowed_build(
     report_startup_failure("something went wrong")
 
     assert never_open_a_real_dialog == ["something went wrong"]
+
+
+def test_dialog_is_required_in_a_frozen_windowed_build(
+        monkeypatch: pytest.MonkeyPatch) -> None:
+    """The one case that must return True: the build players actually run.
+
+    Everything else here asserts a dialog is *not* used, so without this the
+    predicate could be `return False` and the whole feature could be dead in
+    the shipped build with the suite still green.
+    """
+    monkeypatch.setattr(game_main.sys, "platform", "win32")
+    monkeypatch.setattr(game_main.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(game_main.sys, "stderr", None)
+
+    assert should_use_error_dialog()
+
+
+def test_no_dialog_when_a_frozen_build_still_has_stderr(
+        monkeypatch: pytest.MonkeyPatch) -> None:
+    """A frozen build with a usable stderr prints instead of interrupting."""
+    monkeypatch.setattr(game_main.sys, "platform", "win32")
+    monkeypatch.setattr(game_main.sys, "frozen", True, raising=False)
+    assert not should_use_error_dialog()
 
 
 def test_no_dialog_outside_a_frozen_build(monkeypatch: pytest.MonkeyPatch) -> None:

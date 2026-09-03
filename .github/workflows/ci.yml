@@ -43,6 +43,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # Unlike release.yml, which deliberately omits SDL2, installing it here
+      # is fine and intentional: nothing in this job runs PyInstaller, so there
+      # is no build for the system copy to be absorbed into. It only decides
+      # which SDL2 pyxel preloads for the tests.
       - name: Install display and SDL dependencies
         if: runner.os == 'Linux'
         run: |

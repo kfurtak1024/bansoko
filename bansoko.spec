@@ -34,6 +34,19 @@ def pyxel_runtime_libraries():
         raise SystemExit("pyxel must be installed to build the standalone binary")
     libs = Path(spec.origin).parent / "libs"
     if not libs.is_dir():
+        # Only Linux relies on this: pyxel/__init__.py guards its ctypes
+        # preload with `sys.platform == "linux"`, and the Windows wheel ships
+        # no separate libraries at all -- SDL2 is linked into
+        # pyxel_binding.pyd, which PyInstaller collects as an ordinary
+        # extension module. So a missing directory is normal elsewhere and
+        # fatal here --
+        # returning [] on Linux would silently produce the exact binary this
+        # function exists to prevent, one with no SDL2 that dies on import.
+        if sys.platform == "linux":
+            raise SystemExit(
+                f"pyxel ships no '{libs}'. The SDL2 it loads at runtime cannot "
+                "be bundled, so the binary would fail to start. The wheel "
+                "layout has changed; update pyxel_runtime_libraries().")
         return []
     # Keep the wheel's layout: Pyxel looks beside its own __file__ for these.
     return [(str(lib), "pyxel/libs") for lib in sorted(libs.iterdir()) if lib.is_file()]
