@@ -7,8 +7,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.0.0] - 2026-09-03
 
-A modernization release. The game itself is unchanged --- same 62 levels, same
-rules, same art --- but everything underneath it was brought up to date.
+A modernization release. The game itself is unchanged — same 62 levels, same
+rules, same art — but everything underneath it was brought up to date.
 
 ### Changed
 

@@ -4,7 +4,7 @@
 <p align="center">
   <a href="https://github.com/kfurtak1024/bansoko/releases/latest">
     <img src="https://img.shields.io/github/v/release/kfurtak1024/bansoko"/></a>
-  <a>
+  <a href="https://github.com/kfurtak1024/bansoko/blob/master/pyproject.toml">
     <img src="https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fkfurtak1024%2Fbansoko%2Fmaster%2Fpyproject.toml"></a>
   <a href="https://pypi.org/project/bansoko/">
     <img src="https://img.shields.io/pypi/v/bansoko"></a>
@@ -20,7 +20,8 @@
 
 **Bansoko** is a reimagined, space-themed 🚀 clone of MS-DOS Soko-Ban from 1984 created in Python using [Pyxel](https://github.com/kitao/pyxel).
 
-You can download :package: for both Windows and Linux from:
+You can download :package: for both Windows and Linux from the
+[latest release](https://github.com/kfurtak1024/bansoko/releases/latest), or from:
 
 <a href="https://kfurtak1024.itch.io/bansoko">
   <img src="https://static.itch.io/images/badge-color.svg" height="42">
@@ -74,8 +75,8 @@ bansoko
 ```
 
 ### Linux
-Install ```python3``` (version 3.11 or higher). No SDL2 packages are required
---- Pyxel ships its own copy.
+Install ```python3``` (version 3.11 or higher). No SDL2 packages are
+required — Pyxel ships its own copy.
 
 On Ubuntu:
 
@@ -158,6 +159,8 @@ by the release workflow, which builds the Linux one inside a
 
 ## 🧰 Modding
 **Bansoko** is heavily modifiable thanks to included resource builder.
+More information on how to 'mod' it can be found on the
+[Bansoko modding page](https://github.com/kfurtak1024/bansoko/wiki/Bansoko-modding).
 
 After changing anything under ```resources/```, rebuild the game data:
 ```shell
@@ -165,7 +168,6 @@ uv run python -m resbuilder resources/main.ressrc --outdir bansoko/gamedata --fo
 ```
 The generated files are checked in, and the test suite fails if they do not
 match the assets they were built from.
- More information on how to 'mod' it can be found on [Bansoko modding page](https://github.com/kfurtak1024/bansoko/wiki/Bansoko-modding).
 
 ## 📝 Changelog
 
@@ -184,6 +186,6 @@ When submitting a report, please select the appropriate [template](https://githu
 If you have created a modification for Bansoko which you would like to publish then please contact me via <contact@krzysztoffurtak.dev>
 
 ## ⚖️ License
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/kfurtak1024/bansoko/blob/master/LICENSE) file for details.
 
 Copyright © 2020-2026 Krzysztof Furtak
