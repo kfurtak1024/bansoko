@@ -214,9 +214,18 @@ jobs:
   publish-itch:
     name: Publish to itch.io
     needs: build-binaries
-    if: github.event_name == 'release'
+    # Also reachable from a manual run, unlike the GitHub-release jobs, which
+    # have no release to attach to. `inputs.version` is empty on a release
+    # event, so the first clause covers that; on a manual run the push happens
+    # only if a version was actually typed in, which keeps a dispatch that is
+    # just rebuilding the binaries from publishing to the store by accident.
+    if: github.event_name == 'release' || inputs.version != ''
     runs-on: ubuntu-latest
     steps:
+      # Before the artifacts are downloaded, not after: checkout cleans the
+      # workspace and would take them with it.
+      - uses: actions/checkout@v7
+
       - uses: actions/download-artifact@v8
         with:
           pattern: bansoko-*
@@ -249,14 +258,55 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
           ITCH_TARGET: kfurtak1024/bansoko
-          VERSION: ${{ github.event.release.tag_name }}
+          VERSION: ${{ github.event.release.tag_name || inputs.version }}
         run: |
           set -euo pipefail
-          for channel in linux windows; do
-            dir="binaries/bansoko-${channel}"
-            if [ -d "$dir" ]; then
-              chmod +x "$dir"/* || true
-              ./butler push "$dir" "${ITCH_TARGET}:${channel}" \
-                --userversion "${VERSION#v}"
-            fi
-          done
+          version="${VERSION#v}"
+
+          # A tagless manual run would otherwise push a build with an empty
+          # user version, which cannot be corrected after the fact.
+          if [ -z "$version" ]; then
+            echo "::error::No version to publish; pass one to the manual run."
+            exit 1
+          fi
+
+          # Portable builds -- a directory of loose files -- rather than the
+          # archives attached to the GitHub release. This is the shape butler
+          # is built around: the itch app installs and patches it, and browser
+          # users are served a .zip that itch generates.
+          #
+          # The licence travels with the binary. MIT asks for that wherever the
+          # software is redistributed, and it doubles as what keeps the build
+          # multi-file: itch hands a build holding a single file straight to
+          # the player as that bare file, so a lone binary would download as
+          # `bansoko.exe`, unarchived and unnamed. With a second file present
+          # itch wraps it instead, under <game-slug>-<channel>.zip.
+          #
+          # Channel names are permanent. itch derives the download name from
+          # them -- <game-slug>-<channel>.zip, so bansoko-win-x86-64.zip -- and
+          # patching lasts only as long as the name stays put. They deliberately
+          # carry no version: a channel always serves its latest build, so a
+          # version in the name would advertise a choice the page does not
+          # offer. The version reaches players through --userversion, which
+          # itch shows next to the download.
+          #
+          # It is the platform substring, "linux" or "win", that tags an upload
+          # for a platform. The architecture suffix is cosmetic -- itch has no
+          # architecture tagging -- but it leaves room for a second arch later
+          # without renaming, which a channel cannot survive.
+
+          cp LICENSE binaries/bansoko-linux/
+          cp LICENSE binaries/bansoko-windows/
+
+          # Restores the executable bit, which GitHub's artifact upload drops.
+          # Without it the Linux build installs as a plain file that will not
+          # start. No equivalent is needed for the .exe.
+          chmod +x binaries/bansoko-linux/bansoko
+
+          # No "skip if the directory is missing" guard: if a platform failed
+          # to build, publishing the other one alone would leave the page
+          # advertising a release that is only half there.
+          ./butler push binaries/bansoko-linux \
+            "${ITCH_TARGET}:linux-x86-64" --userversion "$version"
+          ./butler push binaries/bansoko-windows \
+            "${ITCH_TARGET}:win-x86-64" --userversion "$version"
