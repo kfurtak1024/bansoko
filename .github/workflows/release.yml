@@ -162,7 +162,12 @@ jobs:
         with:
           name: distributions
           path: dist/
+      # A version already on PyPI is not an error here. Uploads are permanent,
+      # so if a later job fails the whole release has to be repeatable; without
+      # this, re-running it dies on the distributions it already published.
       - uses: pypa/gh-action-pypi-publish@v1.14.2
+        with:
+          skip-existing: true
 
   attach-to-release:
     name: Attach binaries to the release
@@ -201,7 +206,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.release.tag_name }}
-        run: gh release upload "$TAG" release/* --clobber
+        # --repo is required: this job downloads artifacts but never checks
+        # out the repository, so gh has no git remote to infer it from and
+        # fails with "not a git repository".
+        run: gh release upload "$TAG" release/* --clobber --repo "$GITHUB_REPOSITORY"
 
   publish-itch:
     name: Publish to itch.io
