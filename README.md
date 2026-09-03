@@ -53,6 +53,14 @@ You can download :package: for both Windows and Linux from:
 
 ## 🎮 Installation
 
+> **Bansoko needs a working OpenGL driver.** On an ordinary desktop with
+> up-to-date graphics drivers there is nothing to do. Inside a virtual machine
+> or a remote desktop session there often is no OpenGL at all, and the game
+> will not start; enabling 3D acceleration for the guest, or installing
+> drivers, is the fix. If the game reports that OpenGL could not be
+> initialised, that is what it means.
+
+
 ### Windows
 Install [Python](https://www.python.org) (version 3.11 or higher) and make sure that python is added to PATH.
 
