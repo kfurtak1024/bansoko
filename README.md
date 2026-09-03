@@ -97,21 +97,19 @@ bansoko
 
 ### 1. Install prerequisites
 
-### Windows
-Install [Python](https://www.python.org) (version 3.11 or higher) and make sure that python is added to PATH.
+[uv](https://docs.astral.sh/uv/) is the only prerequisite. It installs a
+suitable Python itself, so one does not need to be present.
 
-Additionally, install [uv](https://docs.astral.sh/uv/) for managing virtual environments and project dependencies:
+#### Windows
 ```shell
 pip install uv
 ```
 
-### Linux
-Install ```python3``` (version 3.11 or higher), ```python3-pip```, ```uv``` and required SDL2 libraries (```libsdl2-2.0-0``` and ```libsdl2-image-2.0-0```).
-
-On Ubuntu, this can be done by running:
-
+#### Linux
+On Ubuntu:
 ```shell
-sudo apt install python3 python3-pip uv libsdl2-2.0-0 libsdl2-image-2.0-0
+sudo apt install git pipx
+pipx install uv
 ```
 
 ### 2. Set up the project
@@ -143,9 +141,8 @@ uv run pylint bansoko resbuilder tests
 uv run mypy bansoko resbuilder tests
 ```
 
-Pyxel opens a real window even when it is only packing resources, so the
-resource builder tests need a display. They are skipped automatically if
-there is none; on Linux without a desktop session, run them under Xvfb:
+Tests that need a display are skipped automatically when there is none. To
+run them without a desktop session:
 ```shell
 xvfb-run -a uv run pytest
 ```
@@ -155,8 +152,9 @@ xvfb-run -a uv run pytest
 ```shell
 uv run pyinstaller bansoko.spec --noconfirm
 ```
-This produces a single executable in ```dist/```. The release workflow builds
-the Windows and Linux downloads the same way.
+This produces a single executable in ```dist/```. Release downloads are built
+by the release workflow, which builds the Linux one inside a
+```manylinux_2_28``` container so that it runs on older distributions too.
 
 ## 🧰 Modding
 **Bansoko** is heavily modifiable thanks to included resource builder.
