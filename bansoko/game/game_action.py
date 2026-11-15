@@ -15,7 +15,10 @@ class GameAction(abc.ABC):
         elapsed_time - time the action already took (in ms)
         chain_action - secondary, child action that runs along with the action
         backward - is the action running in backward mode (True when we're undo-ing action)
+        undoable - does the action go into the level's history, to be taken back by undo
     """
+
+    undoable = True
 
     def __init__(self, time_to_complete: float,
                  chain_action: Optional["GameAction"] = None) -> None:
@@ -86,6 +89,11 @@ class TurnRobot(GameAction):
         robot - robot to be turned
         direction - direction to turn the robot in
     """
+
+    # A turn completes in the frame it starts, so a direction held against a
+    # wall produces one every frame. Kept out of the history, where each would
+    # cost the player an undo that visibly does nothing.
+    undoable = False
 
     def __init__(self, robot: Robot, direction: Direction) -> None:
         super().__init__(time_to_complete=0.0)
