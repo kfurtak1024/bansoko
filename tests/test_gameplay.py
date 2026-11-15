@@ -161,3 +161,21 @@ def test_every_level_template_builds(pyxel_runtime: None, bundle: Bundle) -> Non
         assert built.level_num == level_num
         assert built.crates, f"level {level_num} has no crates"
         assert not built.is_completed, f"level {level_num} starts already solved"
+
+
+def test_holding_a_direction_against_a_wall_leaves_nothing_to_undo(level: Level) -> None:
+    """A key held against a wall must not cost the player undos that do nothing."""
+    play(level, [MOVE_RIGHT])
+    moved_to = level.robot.tile_position
+
+    # Three seconds of the key held down, the way the playfield feeds it in:
+    # one input per frame.
+    for _ in range(90):
+        level.process_input(MOVE_UP)
+        level.update(FRAME_MS)
+    assert level.robot.tile_position == moved_to
+    assert len(level.history) == 1
+
+    play(level, [InputAction.UNDO])
+    assert level.robot.tile_position != moved_to
+    assert not level.history

@@ -161,7 +161,8 @@ class Level:
             last_action = self.running_action
             self.running_action = self.running_action.update(dt_in_ms, self.statistics)
 
-            if last_action is not self.running_action and not last_action.backward:
+            finished = last_action is not self.running_action
+            if finished and last_action.undoable and not last_action.backward:
                 self.history.append(last_action)
 
     def _evaluate_crates(self) -> None:

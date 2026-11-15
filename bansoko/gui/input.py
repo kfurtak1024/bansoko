@@ -93,7 +93,9 @@ class InputSystem:
         for key in self.WATCHED_KEYS:
             if pyxel.btn(key):
                 if key not in self.pressed_keys and not pyxel.btnp(key):
-                    return
+                    # Held since before the last reset: ignored until it is
+                    # released, without holding up the keys after it.
+                    continue
                 self._press_key(key)
             else:
                 self._depress_key(key)

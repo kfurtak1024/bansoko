@@ -97,6 +97,9 @@ class PlayerProfile:
         self._last_unlocked_level = last_unlocked_level
         self.levels_scores = levels_scores
         self.last_played_level = 0
+        # Profiles written before the last level's unlock was fixed can have
+        # every other level completed and the last one still locked.
+        self._unlock_last_level_if_earned()
 
     @property
     def first_not_completed_level(self) -> int:
@@ -156,14 +159,16 @@ class PlayerProfile:
         """
         logging.info("Updating player profile file with game progress")
 
-        if not self.is_level_completed(level_score.level_num):
-            level_to_be_unlocked = self._last_unlocked_level + 1
-            if self._can_unlock_level(level_to_be_unlocked):
-                self._last_unlocked_level = level_to_be_unlocked
-
         prev_level_score = self.levels_scores[level_score.level_num]
         new_level_score = prev_level_score.merge_with(level_score)
         self.levels_scores[level_score.level_num] = new_level_score
+
+        # Decided after the score is recorded: whether the last level opens
+        # depends on this level counting as completed.
+        if not prev_level_score.completed:
+            level_to_be_unlocked = self._last_unlocked_level + 1
+            if self._can_unlock_level(level_to_be_unlocked):
+                self._last_unlocked_level = level_to_be_unlocked
 
         try:
             with open(self._profile_file_path, "r+b") as profile_file:
@@ -182,8 +187,12 @@ class PlayerProfile:
         return prev_level_score
 
     def _can_unlock_last_level(self) -> bool:
-        return next(level.level_num for level in self.levels_scores if
-                    not level.completed) == self.last_level
+        """The last level opens only when every level before it is completed."""
+        return all(level.completed for level in self.levels_scores[:-1])
+
+    def _unlock_last_level_if_earned(self) -> None:
+        if self._last_unlocked_level == self.last_level - 1 and self._can_unlock_last_level():
+            self._last_unlocked_level = self.last_level
 
     def _can_unlock_level(self, level_to_be_unlocked: int) -> bool:
         if level_to_be_unlocked > self.last_level:

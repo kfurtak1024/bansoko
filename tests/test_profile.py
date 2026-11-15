@@ -8,7 +8,8 @@ import dataclasses
 from pathlib import Path
 
 from bansoko.game.bundle import Bundle
-from bansoko.game.profile import (FILE_HEADER, INITIALLY_UNLOCKED_LEVEL, LevelScore,
+from bansoko.game.profile import (FILE_HEADER, INITIALLY_UNLOCKED_LEVEL, INT_SIZE_IN_BYTES,
+                                  LEVEL_SCORE_SIZE_IN_BYTES, LevelScore, PlayerProfile,
                                   create_or_load_profile)
 
 
@@ -88,3 +89,57 @@ def test_level_score_time_formatting() -> None:
     assert LevelScore(level_num=0, time_in_ms=3_661_000).time == "1:01:01"
     # Anything at or beyond ten hours is clamped to the display maximum.
     assert LevelScore(level_num=0, time_in_ms=10 * 60 * 60 * 1000).time == "9:59:59"
+
+
+def _complete(profile: PlayerProfile, level_num: int) -> None:
+    profile.complete_level(LevelScore(level_num=level_num, completed=True, pushes=1, steps=1,
+                                      time_in_ms=1))
+
+
+def test_the_last_level_unlocks_when_every_other_level_is_completed(bundle: Bundle,
+                                                                    tmp_path: Path) -> None:
+    """Finishing the level before last opens the last one, and not a level sooner."""
+    profile = create_or_load_profile(bundle, tmp_path / "profile.data")
+    last_level = profile.last_level
+
+    for level_num in range(last_level - 1):
+        _complete(profile, level_num)
+    assert not profile.is_level_unlocked(last_level)
+
+    _complete(profile, last_level - 1)
+    assert profile.is_level_unlocked(last_level)
+
+
+def test_the_last_level_stays_locked_while_an_earlier_one_is_open(bundle: Bundle,
+                                                                  tmp_path: Path) -> None:
+    """Skipping a level keeps the last one locked until the player goes back for it."""
+    profile = create_or_load_profile(bundle, tmp_path / "profile.data")
+    last_level = profile.last_level
+
+    for level_num in range(1, last_level):
+        _complete(profile, level_num)
+    assert not profile.is_level_unlocked(last_level)
+
+    _complete(profile, 0)
+    assert profile.is_level_unlocked(last_level)
+
+
+def test_a_profile_saved_with_the_last_level_wrongly_locked_opens_it(bundle: Bundle,
+                                                                     tmp_path: Path) -> None:
+    """Older versions never unlocked the last level; such a profile is put right on load."""
+    path = tmp_path / "profile.data"
+    profile = create_or_load_profile(bundle, path)
+    last_level = profile.last_level
+    for level_num in range(last_level):
+        _complete(profile, level_num)
+
+    # Put back what an older version would have stored: one short of the last.
+    data = bytearray(path.read_bytes())
+    section_size = INT_SIZE_IN_BYTES + bundle.num_levels * LEVEL_SCORE_SIZE_IN_BYTES
+    unlocked_offset = len(data) - section_size
+    data[unlocked_offset:unlocked_offset + INT_SIZE_IN_BYTES] = (last_level - 1).to_bytes(
+        INT_SIZE_IN_BYTES, byteorder="big")
+    path.write_bytes(data)
+
+    reloaded = create_or_load_profile(bundle, path)
+    assert reloaded.is_level_unlocked(last_level)
