@@ -5,6 +5,32 @@ All notable changes to Bansoko are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- Holding a direction against a wall no longer fills the undo history with
+  turns. Undo used to appear stuck afterwards, for as long as the key had been
+  held.
+- The last level is unlocked in the level browser once every other level is
+  completed. It used to stay locked until it had itself been completed, and
+  could only be reached through START GAME. Existing profiles are put right
+  when they are loaded.
+- A key still held from the previous screen no longer stops other keys from
+  registering, or leaves a released key stuck down.
+- A best score can no longer be wiped by merging it with an unplayed one.
+- A mod whose metadata names a sprite that does not exist is reported on the
+  error screen, naming what is missing, instead of crashing.
+- The error screen shows messages containing `#` -- a path, for instance --
+  as written.
+
+### Changed
+
+- Pyxel is capped below version 4. The game runs on Pyxel 3.
+- The resource builder exits with an error and leaves the previous output in
+  place when a build fails; it used to report success and truncate the
+  metadata file. It also refuses a level that is not enclosed by walls.
+
 ## [2.0.0] - 2026-09-03
 
 A modernization release. The game itself is unchanged — same 62 levels, same
