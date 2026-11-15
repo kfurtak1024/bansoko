@@ -101,10 +101,18 @@ def load_bundle(metadata_filename: str) -> Bundle:
             level_templates = create_level_templates(
                 metadata["levels"]["level_templates"], sprite_packs)
             return Bundle(sha1, sprites, sprite_packs, screens, gui_consts, level_templates)
+    except OSError as os_error:
+        raise GameError("Unable to read resource metadata file") from os_error
     except JSONDecodeError as decode_error:
         raise GameError("Incorrect format of resource metadata file") from decode_error
     except ValidationError as validation_error:
         raise GameError("Incorrect format of resource metadata file") from validation_error
+    except KeyError as key_error:
+        # The schema checks the shape of the file, not that the names in it
+        # refer to something: a sprite pack can still name a missing sprite.
+        raise GameError(
+            f"Resource metadata file refers to {key_error}, which it does not define"
+        ) from key_error
 
 
 def create_sprites(json_data: Any) -> Dict[str, Sprite]:

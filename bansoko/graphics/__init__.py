@@ -96,7 +96,7 @@ class Size:
 
     def enlarge(self, dx: int, dy: Optional[int] = None) -> "Size":
         """Create a new Size enlarged by (dx, dy)"""
-        return Size(self.width + dx, self.height + (dy if dy else dx))
+        return Size(self.width + dx, self.height + (dx if dy is None else dy))
 
     @property
     def max_dimension(self) -> int:
@@ -109,8 +109,8 @@ class Size:
         """
         return self.width >= size.width and self.height >= size.height
 
-    def __lt__(self, other: Tuple[int, ...]) -> bool:
-        return (self.width, self.height) < (other[0], other[1])
+    def __lt__(self, other: "Size") -> bool:
+        return (self.width, self.height) < (other.width, other.height)
 
 
 def max_size(size1: Size, size2: Size) -> Size:

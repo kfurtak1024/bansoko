@@ -118,3 +118,13 @@ def test_error_screen_draws(pyxel_runtime: None) -> None:
     pyxel.cls(0)
     controller.draw()
     assert len(sampled_colors()) > 1, "error screen drew nothing"
+
+
+def test_error_screen_draws_a_message_containing_the_colour_tag(pyxel_runtime: None) -> None:
+    """Error messages quote paths, and a path may contain any character."""
+    del pyxel_runtime  # Ordering dependency: resources must be loaded first.
+    controller = ErrorScreen("Unable to find '/home/#player/#zz/main.pyxres'")
+    controller.activate()
+    pyxel.cls(0)
+    controller.draw()
+    assert "##player" in controller.error_message

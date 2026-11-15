@@ -9,9 +9,11 @@ format underneath us.
 import json
 from pathlib import Path
 
+import pytest
 from jsonschema import validate
 
-from bansoko.game.bundle import Bundle
+from bansoko.game import GameError
+from bansoko.game.bundle import Bundle, load_bundle
 from bansoko.game.metadata_schema import METADATA_JSON_SCHEMA
 
 
@@ -63,3 +65,31 @@ def test_bundle_sha1_is_stable(built_resources: Path, bundle: Bundle) -> None:
     """The bundle SHA1 keys player profiles, so changing it invalidates saves."""
     rebuilt = json.loads((built_resources / "main.meta").read_text(encoding="utf-8"))
     assert rebuilt["levels"]["sha1"].encode() == bytes(bundle.sha1)
+
+
+def test_a_missing_metadata_file_is_a_game_error(tmp_path: Path) -> None:
+    """Whatever stops the metadata loading must reach the in-game error screen."""
+    with pytest.raises(GameError):
+        load_bundle(str(tmp_path / "missing.meta"))
+
+
+def test_a_dangling_reference_is_a_game_error(gamedata_dir: Path, tmp_path: Path) -> None:
+    """Metadata can match the schema and still name a sprite that is not there.
+
+    A mod is the likely way to get one, and its author needs the name of what
+    is missing, not a traceback.
+    """
+    metadata = json.loads((gamedata_dir / "main.meta").read_text(encoding="utf-8"))
+    pack_name = next(iter(metadata["sprite_packs"]))
+    metadata["sprite_packs"][pack_name][0] = "no_such_sprite"
+    broken = tmp_path / "broken.meta"
+    broken.write_text(json.dumps(metadata), encoding="utf-8")
+
+    with pytest.raises(GameError) as raised:
+        load_bundle(str(broken))
+    assert "no_such_sprite" in raised.value.message
+
+
+def test_a_game_error_says_what_went_wrong() -> None:
+    """The message has to survive into the log, which prints the exception itself."""
+    assert str(GameError("Something specific")) == "Something specific"

@@ -19,7 +19,7 @@ class GameStats:
         pushes - number of moves that player made
         steps - number of steps that player made
     """
-    game_time = 0.0
+    game_time: float = 0.0
     pushes: int = 0
     steps: int = 0
 

@@ -2,7 +2,7 @@
 
 import pyxel
 
-from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT
+from bansoko import LEVEL_THUMBNAIL_IMAGE_BANK, LEVEL_WIDTH, LEVEL_HEIGHT, LEVELS_PER_ROW
 from bansoko.game.screens.gui_consts import GuiPosition, GuiColor, GuiSprite
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Point, Size
@@ -74,8 +74,8 @@ class LevelMenuItem(MenuItem):
 
     def _draw_level_thumbnail(self, position: Point) -> None:
         pyxel.blt(position.x, position.y, LEVEL_THUMBNAIL_IMAGE_BANK,
-                  LEVEL_WIDTH * (self.level_num % 8),
-                  LEVEL_HEIGHT * (self.level_num // 8),
+                  LEVEL_WIDTH * (self.level_num % LEVELS_PER_ROW),
+                  LEVEL_HEIGHT * (self.level_num // LEVELS_PER_ROW),
                   LEVEL_WIDTH, LEVEL_HEIGHT, colkey=0)
 
     def _draw_level_score(self, position: Point) -> None:

@@ -3,11 +3,11 @@ from dataclasses import dataclass
 from typing import Tuple, Dict
 
 from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, \
-    LEVEL_BASE_TILEMAP
+    LEVEL_BASE_TILEMAP, LEVELS_PER_ROW
 from bansoko.game import GameError
 from bansoko.game.game_object import Crate, Robot, RobotState, CrateState
 from bansoko.game.tiles import Tileset, TileType
-from bansoko.graphics import Layer, Point, Rect, Direction, TILE_SIZE
+from bansoko.graphics import Layer, Point, Rect, Direction
 from bansoko.graphics.animation import Animation
 from bansoko.graphics.sprite import SpritePack, Sprite
 from bansoko.graphics.tilemap import Tilemap, TilePosition
@@ -79,8 +79,8 @@ class LevelTemplate:
         :param sprite_packs: sprite packs used in the level
         :return: newly created level template
         """
-        tilemap_u = LEVEL_WIDTH * (level_num % TILE_SIZE)
-        tilemap_v = LEVEL_HEIGHT * (level_num // TILE_SIZE)
+        tilemap_u = LEVEL_WIDTH * (level_num % LEVELS_PER_ROW)
+        tilemap_v = LEVEL_HEIGHT * (level_num // LEVELS_PER_ROW)
         tilemap_uv_rect = Rect.from_coords(tilemap_u, tilemap_v, LEVEL_WIDTH, LEVEL_HEIGHT)
         tilemap = Tilemap(LEVEL_BASE_TILEMAP, tilemap_uv_rect, LEVEL_NUM_LAYERS)
         tileset = Tileset(tileset_index)
