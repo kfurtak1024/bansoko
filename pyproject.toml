@@ -25,7 +25,10 @@ classifiers = [
     "Topic :: Games/Entertainment :: Puzzle Games",
 ]
 dependencies = [
-    "pyxel>=2.9.9",
+    # Capped below the next major: the game data is in Pyxel's resource format
+    # and the frozen builds bundle its native library, and a major release is
+    # free to change either. Raise the cap after trying the game against it.
+    "pyxel>=2.9.9,<4",
     "jsonschema>=4.26.0",
 ]
 
