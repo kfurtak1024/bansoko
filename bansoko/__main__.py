@@ -92,9 +92,8 @@ def parse_args() -> argparse.Namespace:
 #
 # Every marker has to be specific enough that no other failure can contain it:
 # a false match tells the player to update their graphics drivers when the real
-# problem is somewhere else entirely. "was not loaded" was one such marker, and
-# it was also redundant -- the panic it was there for, "called glCreateShader
-# but it was not loaded", already matches on "glcreateshader".
+# problem is somewhere else entirely. A general phrase such as "was not loaded"
+# does not qualify, even though the shader panic contains it.
 GRAPHICS_FAILURE_MARKERS = (
     "no available video device",
     "failed to initialize sdl2",
@@ -128,12 +127,12 @@ def should_use_error_dialog() -> bool:
     Only one situation qualifies: the frozen, windowed Windows build, which
     has no console and leaves stderr with nowhere to go.
 
-    The sys.frozen check is what makes this safe. An earlier version asked
-    Windows for a console window instead, which is wrong under CI: GitHub
-    Actions redirects stdio and attaches no console, so the check reported
-    "no console", a dialog opened on a headless runner, and the test run hung
-    until the job timed out. Running from source -- development, tests, CI --
-    can now never open a dialog, whatever the console situation.
+    The sys.frozen check is what makes this safe, and asking Windows whether
+    a console is attached must not replace it: CI redirects stdio and attaches
+    no console, so that question answers "no console" on a headless runner,
+    where a dialog hangs the run until the job times out. Running from source
+    -- development, tests, CI -- never opens a dialog, whatever the console
+    situation.
     """
     if sys.platform != "win32":
         return False

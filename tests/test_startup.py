@@ -25,9 +25,8 @@ def never_open_a_real_dialog(monkeypatch: pytest.MonkeyPatch) -> list[str]:
     """Replace the message box for every test in this module.
 
     A modal dialog on a machine with nobody to click it hangs until the job
-    is killed, which is how a CI run was once lost. No amount of care in the
-    logic under test is worth risking that again, so the real dialog is
-    simply unreachable from here.
+    is killed. No amount of care in the logic under test is worth risking
+    that, so the real dialog is simply unreachable from here.
     """
     shown: list[str] = []
     monkeypatch.setattr(game_main, "show_error_dialog", shown.append)
@@ -129,9 +128,9 @@ def test_failure_is_reported_to_stderr_and_the_log(
 def test_no_dialog_when_running_from_source(never_open_a_real_dialog: list[str]) -> None:
     """A modal dialog must never appear where text would do.
 
-    This is a regression test for a hung CI job. The dialog is only ever
-    right for the frozen windowed build; running from source, as tests and CI
-    do, it must never appear, because there is nobody to dismiss it.
+    The dialog is only ever right for the frozen windowed build; running
+    from source, as tests and CI do, it must never appear, because there is
+    nobody to dismiss it and the run would hang.
     """
     report_startup_failure("something went wrong")
 

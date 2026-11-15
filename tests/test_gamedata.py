@@ -41,8 +41,8 @@ def test_metadata_uses_lf_newlines(gamedata_dir: Path) -> None:
     """Output must not depend on the platform it was built on.
 
     json.dump writes platform-native newlines unless told otherwise, which
-    previously made the file differ between Windows and Linux builds even
-    when the content was identical.
+    makes the file differ between Windows and Linux builds even when the
+    content is identical.
     """
     assert b"\r\n" not in (gamedata_dir / "main.meta").read_bytes()
 

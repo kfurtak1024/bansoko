@@ -45,6 +45,6 @@ def test_escaped_text_is_as_wide_as_it_reads() -> None:
 
 
 def test_a_tag_without_a_colour_can_be_drawn(pyxel_runtime: None) -> None:
-    """Drawing such text used to raise; it must draw."""
+    """Text with a stray tag is drawn, not rejected."""
     del pyxel_runtime  # Depended on for the window only.
     draw_text(Point(0, 0), "50% #off, see #")
