@@ -5,7 +5,7 @@ import pyxel
 
 from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.graphics import Point, center_in_rect, Rect
-from bansoko.graphics.text import draw_text, text_size
+from bansoko.graphics.text import draw_text, escape_text, text_size
 from bansoko.gui.menu import MenuController, Menu, TextMenuItem, MenuLayout
 from bansoko.gui.navigator import ScreenNavigator
 
@@ -45,7 +45,7 @@ class ErrorScreen(MenuController):
 
     @staticmethod
     def _build_error_message(message: str) -> str:
-        wrapped_message = "\n".join(textwrap.wrap(message, 50))
+        wrapped_message = escape_text("\n".join(textwrap.wrap(message, 50)))
         return f"#E** ERROR **#7\n\n{wrapped_message}\n\nPlease check logs for more details."
 
     @staticmethod

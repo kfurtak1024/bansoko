@@ -43,7 +43,7 @@ class LevelScore:
         total_seconds = self.time_in_ms // 1000
         total_minutes = total_seconds // 60
         total_hours = total_minutes // 60
-        hours = total_hours % 60
+        hours = total_hours
         minutes = total_minutes % 60
         seconds = total_seconds % 60
 
@@ -70,6 +70,10 @@ class LevelScore:
 
         if not self.completed:
             return level_score
+        if not level_score.completed:
+            # An uncompleted score carries nothing but zeros, which would
+            # otherwise win every comparison and wipe out the record.
+            return self
 
         return LevelScore(
             level_num=self.level_num,

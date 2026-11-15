@@ -82,6 +82,12 @@ def test_merge_with_an_uncompleted_score_takes_the_new_one() -> None:
     assert never_played.merge_with(played) == played
 
 
+def test_merge_with_an_uncompleted_score_keeps_the_record() -> None:
+    """An uncompleted score is all zeros, and must not pass for a better one."""
+    record = LevelScore(level_num=3, completed=True, pushes=10, steps=50, time_in_ms=9000)
+    assert record.merge_with(LevelScore(level_num=3)) == record
+
+
 def test_level_score_time_formatting() -> None:
     """Completion time renders as H:MM:SS and clamps at ten hours."""
     assert LevelScore(level_num=0, time_in_ms=0).time == "0:00:00"

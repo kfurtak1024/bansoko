@@ -33,8 +33,8 @@ class GameContext(ScreenFactory):
 
     def get_playfield_screen(self, level_num: int,
                              skip_how_to_play: bool = False) -> ScreenController:
-        skip_how_to_play = (level_num == 0) and not skip_how_to_play
-        return PlayfieldScreen(self, level_num, show_how_to_play=skip_how_to_play)
+        show_how_to_play = (level_num == 0) and not skip_how_to_play
+        return PlayfieldScreen(self, level_num, show_how_to_play=show_how_to_play)
 
     def get_choose_level_screen(self) -> ScreenController:
         return ChooseLevelController(self)
