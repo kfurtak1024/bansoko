@@ -88,6 +88,11 @@ class _PreprocessedLevel:
             not_visited_yet = not visited_map[self._pos_to_offset(pos)]
 
             if passable_tile and not_visited_yet:
+                if self._is_on_edge(pos):
+                    # The fill got out, so the robot could too: straight into
+                    # the level stored beside this one in the tilemap.
+                    raise ResourceError(
+                        f"Level {self.level_num} is not enclosed by walls")
                 if self.get_tile_at(pos) == fillable_tile:
                     self.set_tile_at(pos, fill_tile)
                 stack.append(pos.move(Direction.LEFT))
@@ -105,11 +110,12 @@ class _PreprocessedLevel:
         return pos.y * LEVEL_WIDTH + pos.x
 
     @staticmethod
-    def _is_valid_offset(offset: int) -> bool:
-        return 0 <= offset < (LEVEL_WIDTH * LEVEL_HEIGHT)
+    def _is_valid_pos(pos: Point) -> bool:
+        return 0 <= pos.x < LEVEL_WIDTH and 0 <= pos.y < LEVEL_HEIGHT
 
-    def _is_valid_pos(self, pos: Point) -> bool:
-        return self._is_valid_offset(self._pos_to_offset(pos))
+    @staticmethod
+    def _is_on_edge(pos: Point) -> bool:
+        return pos.x in (0, LEVEL_WIDTH - 1) or pos.y in (0, LEVEL_HEIGHT - 1)
 
 
 def _preprocess_level(level_num: int, level_data: Any) -> _PreprocessedLevel:
@@ -125,7 +131,7 @@ def _validate_level(level_data: List[List[Tile]]) -> None:
     if level_size.width > LEVEL_WIDTH:
         raise ResourceError(f"Level exceeds maximum level width ({LEVEL_WIDTH})")
     if level_size.height > LEVEL_HEIGHT:
-        raise ResourceError(f"Level exceeds maximum level height ({LEVEL_WIDTH})")
+        raise ResourceError(f"Level exceeds maximum level height ({LEVEL_HEIGHT})")
 
     tile_counter = Counter(list(chain.from_iterable(level_data)))
     if tile_counter.get(Tile.START, 0) == 0:
