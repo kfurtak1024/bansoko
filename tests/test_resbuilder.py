@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, List
 
 import pytest
+import pyxel
 
 import resbuilder.__main__ as builder
 from resbuilder import ResourceError
@@ -59,8 +60,8 @@ def test_a_failed_build_exits_non_zero_and_writes_nothing(
     monkeypatch.setattr(sys, "argv", ["resbuilder", str(source), "--outdir", str(tmp_path),
                                       "--force"])
     monkeypatch.setattr(builder, "validate", lambda *_args: None)
-    monkeypatch.setattr(builder.pyxel, "init", lambda **_kwargs: None)
-    monkeypatch.setattr(builder.pyxel, "save", saved.append)
+    monkeypatch.setattr(pyxel, "init", lambda **_kwargs: None)
+    monkeypatch.setattr(pyxel, "save", saved.append)
     monkeypatch.setattr(builder, "create_metadata", fail)
 
     with pytest.raises(SystemExit) as exited:

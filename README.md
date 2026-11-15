@@ -142,6 +142,12 @@ uv run pylint bansoko resbuilder tests
 uv run mypy bansoko resbuilder tests
 ```
 
+To see how much of the game the tests reach, and fail below the threshold CI
+enforces:
+```shell
+uv run pytest --cov
+```
+
 Tests that need a display are skipped automatically when there is none. To
 run them without a desktop session:
 ```shell

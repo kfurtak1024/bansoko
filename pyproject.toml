@@ -46,6 +46,7 @@ dev = [
     "pylint>=4.0.8",
     "pytest>=9.0.0",
     "pyinstaller>=6.22.2",
+    "pytest-cov>=7.1.0",
 ]
 
 [tool.hatch.version]
@@ -59,6 +60,7 @@ include = ["bansoko", "resbuilder", "resources", "README.md", "CHANGELOG.md", "L
 
 [tool.mypy]
 python_version = "3.11"
+strict = true
 
 # jsonschema ships no py.typed marker. pyxel does as of 2.x, so it no
 # longer needs an override.
@@ -99,3 +101,18 @@ addopts = "-q --strict-markers --strict-config"
 # run prints a full thread dump and still passes, which reads as a crash. The
 # longest is built_resources in tests/conftest.py.
 faulthandler_timeout = 300
+
+# Coverage is measured for the game only. The resource builder runs in a
+# subprocess during the tests, and what it produces is compared byte for byte
+# with the committed game data, which is a stricter check than line counts.
+[tool.coverage.run]
+source = ["bansoko"]
+branch = true
+
+# Enforced where the whole suite runs: `pytest --cov` on Linux in CI. A run
+# without a display skips the tests that need a window and falls short of it.
+# The number only moves up.
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+skip_covered = true
