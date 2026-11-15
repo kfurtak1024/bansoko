@@ -2,6 +2,7 @@
 import argparse
 import json
 import logging
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Any
@@ -141,19 +142,22 @@ def main() -> None:
 
     logging.info("Processing file '%s'...", files.input_filename)
     try:
-        with open(files.input_filename, encoding="utf-8") as input_file, \
-                open(files.metadata_filename, "w", encoding="utf-8",
-                     newline="\n") as metadata_file:
-            pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
+        with open(files.input_filename, encoding="utf-8") as input_file:
             input_data = json.load(input_file)
-            validate(input_data, RESOURCES_JSON_SCHEMA)
-            metadata = create_metadata(files.base_name, files.input_dir, input_data)
-            logging.info("\nWriting resource file '%s'...", files.resource_filename)
-            pyxel.save(files.resource_filename)
-            logging.info("Writing metadata file '%s'...", files.metadata_filename)
-            json.dump(metadata, metadata_file, indent=2)
+        validate(input_data, RESOURCES_JSON_SCHEMA)
+        pyxel.init(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
+        metadata = create_metadata(files.base_name, files.input_dir, input_data)
     except ResourceError as error:
         logging.exception(error)
+        # Nothing has been written yet, so the output of the last good build
+        # is still in place, and whatever ran the build is told it failed.
+        sys.exit(1)
+
+    logging.info("\nWriting resource file '%s'...", files.resource_filename)
+    pyxel.save(files.resource_filename)
+    logging.info("Writing metadata file '%s'...", files.metadata_filename)
+    with open(files.metadata_filename, "w", encoding="utf-8", newline="\n") as metadata_file:
+        json.dump(metadata, metadata_file, indent=2)
 
 
 if __name__ == "__main__":
