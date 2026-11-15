@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from functools import reduce
 from itertools import islice
-from typing import Callable, Optional, Iterable, Tuple
+from collections.abc import Callable, Iterable
 
 from bansoko.graphics import Size, Point, max_size, center_in_rect
 from bansoko.graphics.text import draw_text, text_size, TextStyle
@@ -15,7 +15,7 @@ from bansoko.gui.screen import Screen
 class MenuItem(ABC):
     """An abstract, base class for all menu items controlled by MenuScreen."""
 
-    def __init__(self, controller_to_switch_to: Callable[[], Optional[ScreenController]]):
+    def __init__(self, controller_to_switch_to: Callable[[], ScreenController | None]):
         self.controller_to_switch_to = controller_to_switch_to
 
     @property
@@ -42,7 +42,7 @@ class MenuItem(ABC):
         :param selected: should the item be drawn as selected
         """
 
-    def perform_action(self) -> Optional[ScreenController]:
+    def perform_action(self) -> ScreenController | None:
         """Perform action tied up to the menu item.
 
         Navigation between game screens is controlled by return value.
@@ -65,7 +65,7 @@ class TextMenuItem(MenuItem):
     """
 
     def __init__(self, text: str,
-                 controller_to_switch_to: Callable[[], Optional[ScreenController]]):
+                 controller_to_switch_to: Callable[[], ScreenController | None]):
         super().__init__(controller_to_switch_to)
         self.text = text
 
@@ -104,8 +104,8 @@ class MenuLayout:
     """
 
     columns: int = 1
-    rows: Optional[int] = None
-    position: Optional[Point] = None
+    rows: int | None = None
+    position: Point | None = None
     item_space: Size = Size(0, 0)
 
 
@@ -122,7 +122,7 @@ class Menu:
         position - screen-space position of the menu
     """
 
-    items: Tuple[MenuItem, ...]
+    items: tuple[MenuItem, ...]
     item_size: Size
     item_space: Size
     columns: int
@@ -130,7 +130,7 @@ class Menu:
     position: Point
 
     @classmethod
-    def with_defaults(cls, items: Tuple[MenuItem, ...],
+    def with_defaults(cls, items: tuple[MenuItem, ...],
                       layout: MenuLayout = MenuLayout()) -> "Menu":
         """Construct menu based on defaults.
 
@@ -186,7 +186,7 @@ class MenuController(BaseScreenController):
     """
 
     def __init__(self, menu: Menu, allow_going_back: bool = False,
-                 screen: Optional[Screen] = None, semi_transparent: bool = False) -> None:
+                 screen: Screen | None = None, semi_transparent: bool = False) -> None:
         super().__init__(semi_transparent=semi_transparent, screen=screen)
         self.menu = menu
         self.allow_going_back = allow_going_back
@@ -237,7 +237,7 @@ class MenuController(BaseScreenController):
         """Scroll menu to specified item."""
         self.top_row = min(item // self.menu.columns, self.menu.total_rows - self.menu.rows)
 
-    def update(self, dt_in_ms: float) -> Optional[ScreenController]:
+    def update(self, dt_in_ms: float) -> ScreenController | None:
         super().update(dt_in_ms)
 
         if self.input.is_button_pressed(VirtualButton.BACK) and self.allow_going_back:

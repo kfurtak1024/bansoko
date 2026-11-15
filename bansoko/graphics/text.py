@@ -1,6 +1,5 @@
 """Module exposing text drawing related routines."""
 from dataclasses import dataclass
-from typing import Optional
 
 import pyxel
 
@@ -14,7 +13,7 @@ COLOR_DIGITS = "0123456789abcdefABCDEF"
 class TextStyle:
     """TextStyle defines basic properties used when text is drawn."""
     color: int = 7
-    shadow_color: Optional[int] = None
+    shadow_color: int | None = None
     vertical_space: int = 0
 
 

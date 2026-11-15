@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from enum import unique, Enum
 from functools import total_ordering
-from typing import List, Optional, Tuple, Generator
+from collections.abc import Generator
 
 TILEMAP_WIDTH = 256
 TILEMAP_HEIGHT = 256
@@ -27,7 +27,7 @@ class Direction(Enum):
     LEFT = 2, (-1, 0)
     RIGHT = 3, (1, 0)
 
-    def __init__(self, direction_index: int, delta: Tuple[int, int]) -> None:
+    def __init__(self, direction_index: int, delta: tuple[int, int]) -> None:
         self.direction_index = direction_index
         self.dx = delta[0]
         self.dy = delta[1]
@@ -69,12 +69,12 @@ class Point:
     y: int
 
     @classmethod
-    def from_list(cls, coords: List[int]) -> "Point":
+    def from_list(cls, coords: list[int]) -> "Point":
         """Create a Point from the list of coordinates."""
         return cls(x=coords[0], y=coords[1])
 
     @property
-    def as_list(self) -> List[int]:
+    def as_list(self) -> list[int]:
         """Point represented as a list containing [x, y]."""
         return [self.x, self.y]
 
@@ -94,7 +94,7 @@ class Size:
     width: int = 0
     height: int = 0
 
-    def enlarge(self, dx: int, dy: Optional[int] = None) -> "Size":
+    def enlarge(self, dx: int, dy: int | None = None) -> "Size":
         """Create a new Size enlarged by (dx, dy)"""
         return Size(self.width + dx, self.height + (dx if dy is None else dy))
 
@@ -142,7 +142,7 @@ class Rect:
         return cls(position=Point(x, y), size=Size(w, h))
 
     @classmethod
-    def from_list(cls, coords: List[int]) -> "Rect":
+    def from_list(cls, coords: list[int]) -> "Rect":
         """Create a new Rect from the list containing coordinates and size."""
         return cls(position=Point(coords[0], coords[1]), size=Size(coords[2], coords[3]))
 
@@ -152,7 +152,7 @@ class Rect:
         return cls(position=Point(0, 0), size=size)
 
     @property
-    def as_list(self) -> List[int]:
+    def as_list(self) -> list[int]:
         """Rect represented as a list containing [x, y, w, h]."""
         return [self.position.x, self.position.y, self.size.width, self.size.height]
 
@@ -253,6 +253,6 @@ class Layer:
         return self.global_offset.offset(Point(-self.layer_index, -self.layer_index))
 
     @property
-    def transparency_color(self) -> Optional[int]:
+    def transparency_color(self) -> int | None:
         """Transparency color for the layer (None means the layer is opaque)."""
         return None if self.opaque else 0

@@ -1,6 +1,5 @@
 """Module exposing Sprite type."""
 from dataclasses import dataclass
-from typing import Tuple, Optional
 
 import pyxel
 
@@ -25,11 +24,11 @@ class Sprite:
     image_bank: int
     uv_rect: Rect
     directional: bool = False
-    transparency_color: Optional[int] = None
+    transparency_color: int | None = None
     num_layers: int = 1
     num_frames: int = 1
 
-    def draw(self, position: Point, layer: Optional[Layer] = None,
+    def draw(self, position: Point, layer: Layer | None = None,
              direction: Direction = Direction.UP, frame: int = 0) -> None:
         """Draw the sprite at given position using specified layer, direction and frame.
 
@@ -83,4 +82,4 @@ class Sprite:
 @dataclass(frozen=True)
 class SpritePack:
     """Sprite Pack is a collection of sprites, grouped together for organizational purposes."""
-    sprites: Tuple[Sprite, ...]
+    sprites: tuple[Sprite, ...]

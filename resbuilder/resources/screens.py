@@ -1,6 +1,6 @@
 """Module for processing screens from resource input file."""
 import logging
-from typing import Dict, Any, List
+from typing import Any
 
 from bansoko.graphics import Rect
 from resbuilder import ResourceError
@@ -10,9 +10,9 @@ from resbuilder.resources.tiles import tilemap_rect_nth
 BACKGROUND_TILEMAP_ID: int = 7
 
 
-def process_screens(input_data: Any, sprites: Dict[str, Any],
-                    tilemap_generators: Dict[str, TilemapGenerator],
-                    frame_tilesets: Dict[str, NineSlicingFrame]) -> Dict[str, Any]:
+def process_screens(input_data: Any, sprites: dict[str, Any],
+                    tilemap_generators: dict[str, TilemapGenerator],
+                    frame_tilesets: dict[str, NineSlicingFrame]) -> dict[str, Any]:
     """Process screens from input resource file.
 
     :param input_data: input data from JSON file (root -> screens)
@@ -24,11 +24,11 @@ def process_screens(input_data: Any, sprites: Dict[str, Any],
     screens = {}
     tilemap_num = 0
     for screen_name, screen_data in input_data.items():
-        screen: Dict[str, Any] = {}
+        screen: dict[str, Any] = {}
 
         background_data = screen_data.get("background")
         if background_data:
-            screen_background: Dict[str, Any] = {}
+            screen_background: dict[str, Any] = {}
             background_color = background_data.get("background_color")
             if background_color:
                 screen_background["background_color"] = int(background_color, 16)
@@ -66,7 +66,7 @@ def process_screens(input_data: Any, sprites: Dict[str, Any],
 
 
 def _generate_tilemap(tilemap_num: int, generator_data: Any,
-                      tilemap_generators: Dict[str, TilemapGenerator]) -> None:
+                      tilemap_generators: dict[str, TilemapGenerator]) -> None:
     tilemap_rect = tilemap_rect_nth(tilemap_num)
     seed = generator_data.get("seed", tilemap_num)
     generator = tilemap_generators[generator_data["generator_ref"]]
@@ -74,7 +74,7 @@ def _generate_tilemap(tilemap_num: int, generator_data: Any,
 
 
 def _process_frames(tilemap_num: int, frame_tileset_data: Any,
-                    frame_tilesets: Dict[str, NineSlicingFrame]) -> None:
+                    frame_tilesets: dict[str, NineSlicingFrame]) -> None:
     tilemap_rect = tilemap_rect_nth(tilemap_num)
     for frame_data in frame_tileset_data:
         frame_tileset = frame_tilesets[frame_data["tileset_ref"]]
@@ -82,7 +82,7 @@ def _process_frames(tilemap_num: int, frame_tileset_data: Any,
         frame_tileset.draw_frame(BACKGROUND_TILEMAP_ID, frame_rect)
 
 
-def _process_elements(elements_data: Any, screen_name: str, sprites: Dict[str, Any]) -> List[Any]:
+def _process_elements(elements_data: Any, screen_name: str, sprites: dict[str, Any]) -> list[Any]:
     elements = []
     for element_data in elements_data:
         element = {"position": element_data["position"]}
@@ -99,7 +99,7 @@ def _process_elements(elements_data: Any, screen_name: str, sprites: Dict[str, A
     return elements
 
 
-def _process_menu(screen_menu_data: Any) -> Dict[str, Any]:
+def _process_menu(screen_menu_data: Any) -> dict[str, Any]:
     screen_menu = {}
     if screen_menu_data.get("position"):
         screen_menu["position"] = screen_menu_data["position"]

@@ -3,7 +3,7 @@ import logging
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import BinaryIO, List
+from typing import BinaryIO
 
 from bansoko.game import GameError
 from bansoko.game.bundle import Bundle, SHA1_SIZE_IN_BYTES
@@ -95,7 +95,7 @@ class PlayerProfile:
     """
 
     def __init__(self, profile_file_path: Path, file_offset: int, last_unlocked_level: int,
-                 levels_scores: List[LevelScore]):
+                 levels_scores: list[LevelScore]):
         self._profile_file_path = profile_file_path
         self._file_offset = file_offset
         self._last_unlocked_level = last_unlocked_level

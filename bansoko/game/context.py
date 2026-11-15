@@ -1,5 +1,5 @@
 """Module defining game context shared between all game screens."""
-from typing import Callable
+from collections.abc import Callable
 
 from bansoko.game.bundle import Bundle
 from bansoko.game.profile import PlayerProfile, LevelScore

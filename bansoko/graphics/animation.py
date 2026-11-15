@@ -1,6 +1,5 @@
 """Module exposing animation related classes."""
 from dataclasses import dataclass
-from typing import Optional
 
 from bansoko.graphics import Point, Direction, Layer
 from bansoko.graphics.sprite import Sprite
@@ -65,7 +64,7 @@ class AnimationPlayer:
         current_frame - the current frame of the animation (according to animation_time)
         animation_time - elapsed animation time (updated in each call to update())
     """
-    animation: Optional[Animation] = None
+    animation: Animation | None = None
     current_frame: int = 0
     animation_time: float = 0.0
     backwards: bool = False
@@ -94,7 +93,7 @@ class AnimationPlayer:
         self.animation_time += dt_in_ms
         self.current_frame = self.animation.frame_at_time(self.animation_time, self.backwards)
 
-    def draw(self, position: Point, layer: Optional[Layer] = None,
+    def draw(self, position: Point, layer: Layer | None = None,
              direction: Direction = Direction.UP) -> None:
         """Draw current animation frame at given position using specified layer and direction.
 

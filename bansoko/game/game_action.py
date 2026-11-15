@@ -1,6 +1,5 @@
 """Module defining actions that can be executed during game."""
 import abc
-from typing import Optional
 
 from bansoko import GAME_FRAME_TIME_IN_MS
 from bansoko.game.game_object import GameStats, GameObject, Robot, RobotState, Crate
@@ -21,13 +20,13 @@ class GameAction(abc.ABC):
     undoable = True
 
     def __init__(self, time_to_complete: float,
-                 chain_action: Optional["GameAction"] = None) -> None:
+                 chain_action: "GameAction | None" = None) -> None:
         self.time_to_complete = time_to_complete
         self.chain_action = chain_action
         self.elapsed_time = 0.0
         self.backward = False
 
-    def update(self, dt_in_ms: float, stats: GameStats) -> Optional["GameAction"]:
+    def update(self, dt_in_ms: float, stats: GameStats) -> "GameAction | None":
         """Update action with given delta time.
 
         Called once per frame.
@@ -62,12 +61,12 @@ class MoveAction(GameAction):
     """MoveAction is an abstract class responsible for handling game object movement in tilemap."""
 
     def __init__(self, game_object: GameObject, direction: Direction,
-                 time_to_complete: float, chain_action: Optional[GameAction] = None) -> None:
+                 time_to_complete: float, chain_action: GameAction | None = None) -> None:
         super().__init__(time_to_complete, chain_action)
         self.game_object = game_object
         self.direction = direction
 
-    def update(self, dt_in_ms: float, stats: GameStats) -> Optional[GameAction]:
+    def update(self, dt_in_ms: float, stats: GameStats) -> GameAction | None:
         running_action = super().update(dt_in_ms, stats)
         if running_action:
             move_direction = self.direction.opposite if self.backward else self.direction
@@ -100,7 +99,7 @@ class TurnRobot(GameAction):
         self.robot = robot
         self.direction = direction
 
-    def update(self, dt_in_ms: float, stats: GameStats) -> Optional[GameAction]:
+    def update(self, dt_in_ms: float, stats: GameStats) -> GameAction | None:
         running_action = super().update(dt_in_ms, stats)
         self.robot.face_direction = self.direction
         return running_action

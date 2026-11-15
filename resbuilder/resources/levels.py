@@ -2,8 +2,9 @@
 import hashlib
 import logging
 from collections import Counter
+from collections.abc import Generator
 from itertools import chain
-from typing import List, Dict, Any, Generator, Tuple
+from typing import Any
 
 import pyxel
 
@@ -16,7 +17,7 @@ from resbuilder.resources.tiles import Tile, SYMBOL_TO_TILE, tilemap_rect_nth
 
 
 class _PreprocessedLevel:
-    def __init__(self, level_num: int, raw_data: List[List[Tile]]) -> None:
+    def __init__(self, level_num: int, raw_data: list[list[Tile]]) -> None:
         self.level_num = level_num
         self.tilemap_data = [Tile.VOID] * (LEVEL_WIDTH * LEVEL_HEIGHT)
         self.size = Size(len(raw_data[0]), len(raw_data))
@@ -41,7 +42,7 @@ class _PreprocessedLevel:
             (self.size.width % 2) * TILE_SIZE // 2,
             (self.size.height % 2) * TILE_SIZE // 2)
 
-    def tile_positions(self) -> Generator[Tuple[Point, Point], None, None]:
+    def tile_positions(self) -> Generator[tuple[Point, Point], None, None]:
         """Generator for iterating over all valid tile positions inside both level and Pyxel's
         mega-tilemap (from top-left to bottom-right)."""
         tilemap_rect = tilemap_rect_nth(self.level_num)
@@ -126,7 +127,7 @@ def _preprocess_level(level_num: int, level_data: Any) -> _PreprocessedLevel:
     return preprocessed_level
 
 
-def _validate_level(level_data: List[List[Tile]]) -> None:
+def _validate_level(level_data: list[list[Tile]]) -> None:
     level_size = Size(len(level_data[0]), len(level_data))
     if level_size.width > LEVEL_WIDTH:
         raise ResourceError(f"Level exceeds maximum level width ({LEVEL_WIDTH})")
@@ -182,8 +183,8 @@ def _update_sha1(level_data: Any, sha1: Any) -> None:
         sha1.update(row_data.encode())
 
 
-def process_levels(input_data: Any, level_themes: List[LevelTheme],
-                   tilemap_generators: Dict[str, TilemapGenerator], bundle_name: str) -> Any:
+def process_levels(input_data: Any, level_themes: list[LevelTheme],
+                   tilemap_generators: dict[str, TilemapGenerator], bundle_name: str) -> Any:
     """Process and produce level metadata from input resource file.
 
     Levels are first pre-processed from human-readable format (format of input resource file) and

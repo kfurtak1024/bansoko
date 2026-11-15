@@ -1,12 +1,12 @@
 """Module for processing GUI constants."""
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from bansoko.game.screens.gui_consts import GuiPosition, GuiSprite, GuiColor
 from resbuilder import ResourceError
 
 
-def process_gui_consts(input_data: Any, sprites: Dict[str, Any]) -> Dict[str, Any]:
+def process_gui_consts(input_data: Any, sprites: dict[str, Any]) -> dict[str, Any]:
     """Process Gui constants from input resource file.
 
     :param input_data: input data from JSON file (root -> gui_consts)

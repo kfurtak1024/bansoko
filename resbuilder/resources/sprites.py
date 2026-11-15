@@ -1,7 +1,7 @@
 """Module for processing and packing sprites."""
 import logging
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any
 
 import pyxel
 
@@ -24,7 +24,7 @@ class SpriteSheetPacker:
 
     def __init__(self, image_bank: int, rect: Rect) -> None:
         self.box_packer = BoxPacker()
-        self.sprite_paths: List[Path] = []
+        self.sprite_paths: list[Path] = []
         self.image_bank = image_bank
         self.rect = rect
 
@@ -38,7 +38,7 @@ class SpriteSheetPacker:
         sprite_size = self.read_png_image_size(sprite_path)
         return self.box_packer.add_box(sprite_size)
 
-    def pack(self) -> List[Rect]:
+    def pack(self) -> list[Rect]:
         """Pack all sprites that were added to sprite sheet packer.
 
         :return: collection of texture coordinates for all packed sprites (coords for given sprite
@@ -71,7 +71,7 @@ class SpriteSheetPacker:
             return Size(width, height)
 
 
-def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any]:
+def process_sprites(input_data: dict[str, Any], base_dir: Path) -> dict[str, Any]:
     """Process and pack sprites from input resource file into sprite sheet.
 
     :param input_data: input data from JSON file (root -> sprites)
@@ -82,7 +82,7 @@ def process_sprites(input_data: Dict[str, Any], base_dir: Path) -> Dict[str, Any
         SpriteSheetPacker(0, Rect.from_coords(0, 128, IMAGE_BANK_WIDTH, IMAGE_BANK_HEIGHT - 128)),
         SpriteSheetPacker(1, Rect.from_coords(0, 0, IMAGE_BANK_WIDTH, IMAGE_BANK_HEIGHT))]
     sprites = {}
-    sprites_ids: List[Dict[str, int]] = [{}, {}]
+    sprites_ids: list[dict[str, int]] = [{}, {}]
 
     for sprite_name, sprite_data in input_data.items():
         image_bank = sprite_data["image_bank"]

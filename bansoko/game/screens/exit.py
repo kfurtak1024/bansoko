@@ -1,5 +1,5 @@
 """Module defining screen controller which is displayed before exiting the game."""
-from typing import Callable
+from collections.abc import Callable
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.graphics import Size

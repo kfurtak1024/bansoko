@@ -1,6 +1,6 @@
 """Module providing an abstraction over screen controllers creation."""
 from abc import ABC, abstractmethod
-from typing import Callable
+from collections.abc import Callable
 
 from bansoko.game.bundle import Bundle
 from bansoko.game.profile import PlayerProfile, LevelScore

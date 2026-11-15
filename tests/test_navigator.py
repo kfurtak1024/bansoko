@@ -5,7 +5,6 @@ window disappears. That is indistinguishable from a crash to anyone watching,
 so the path is worth pinning down: it is how a game that "just closes" behaves
 when nothing has actually gone wrong.
 """
-from typing import List, Optional
 
 from bansoko.gui.navigator import ScreenController, ScreenNavigator
 
@@ -15,7 +14,7 @@ FRAME_MS = 1000 / 30
 class FakeScreen(ScreenController):
     """A screen that returns whatever it is told to."""
 
-    def __init__(self, returns: Optional[ScreenController] = None,
+    def __init__(self, returns: ScreenController | None = None,
                  pop_self: bool = False) -> None:
         super().__init__()
         self.returns = returns
@@ -25,7 +24,7 @@ class FakeScreen(ScreenController):
     def activate(self) -> None:
         self.activated += 1
 
-    def update(self, dt_in_ms: float) -> Optional[ScreenController]:
+    def update(self, dt_in_ms: float) -> ScreenController | None:
         del dt_in_ms
         if self.pop_self:
             return None
@@ -44,7 +43,7 @@ def test_start_screen_is_activated() -> None:
 
 def test_staying_on_a_screen_does_not_exit() -> None:
     """A screen returning itself keeps the game running."""
-    exits: List[bool] = []
+    exits: list[bool] = []
     navigator = ScreenNavigator(FakeScreen(), lambda: exits.append(True), FRAME_MS)
 
     for _ in range(5):
@@ -59,7 +58,7 @@ def test_popping_the_last_screen_exits_the_game() -> None:
     This is the quiet path: no error, no log of its own before this was
     added, just a window that closes.
     """
-    exits: List[bool] = []
+    exits: list[bool] = []
     navigator = ScreenNavigator(FakeScreen(pop_self=True),
                                 lambda: exits.append(True), FRAME_MS)
 
@@ -86,7 +85,7 @@ class AnotherFakeScreen(ScreenController):
     def activate(self) -> None:
         self.activated += 1
 
-    def update(self, dt_in_ms: float) -> Optional[ScreenController]:
+    def update(self, dt_in_ms: float) -> ScreenController | None:
         del dt_in_ms
         return self
 
@@ -96,7 +95,7 @@ class AnotherFakeScreen(ScreenController):
 
 def test_switching_screens_activates_the_new_one() -> None:
     """Navigating to another screen activates it and keeps the game running."""
-    exits: List[bool] = []
+    exits: list[bool] = []
     destination = AnotherFakeScreen()
     navigator = ScreenNavigator(FakeScreen(returns=destination),
                                 lambda: exits.append(True), FRAME_MS)

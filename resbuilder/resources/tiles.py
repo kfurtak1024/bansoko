@@ -1,7 +1,6 @@
 """Module exposing tiles related utilities (like Tile and TilePacker)"""
 from enum import unique, Enum
 from pathlib import Path
-from typing import Dict, Tuple
 
 import pyxel
 
@@ -42,19 +41,19 @@ class TilePacker:
         self.base_dir = base_dir
         self.next_free_tile = 0
 
-    def pack_tileset(self, theme_data: Dict[str, str]) -> Dict[Tile, Tuple[int, int]]:
+    def pack_tileset(self, theme_data: dict[str, str]) -> dict[Tile, tuple[int, int]]:
         """Pack a whole tileset into Pyxel's image bank this TilePacker controls.
 
         :param theme_data: data from JSON file describing tileset
         :return: packed tileset
         """
-        level_theme: Dict[Tile, Tuple[int, int]] = {}
+        level_theme: dict[Tile, tuple[int, int]] = {}
         for tile in list(Tile):
             if theme_data.get(tile.tile_name):
                 level_theme[tile] = self.pack_tile(theme_data[tile.tile_name])
         return level_theme
 
-    def pack_tile(self, filename: str) -> Tuple[int, int]:
+    def pack_tile(self, filename: str) -> tuple[int, int]:
         """Pack a single tile into Pyxel's image bank this TilePacker controls.
 
         :param filename: filename of tile image

@@ -1,5 +1,5 @@
 """Module defining main menu screen controller."""
-from typing import Optional, Callable
+from collections.abc import Callable
 
 from bansoko import __version__
 from bansoko.game.screens.screen_factory import ScreenFactory
@@ -40,7 +40,7 @@ class MainMenuController(MenuController):
         draw_text(
             Point(11, 240), f"v{__version__}", TextStyle(color=1))
 
-    def update(self, dt_in_ms: float) -> Optional[ScreenController]:
+    def update(self, dt_in_ms: float) -> ScreenController | None:
         if self.exiting:
             return None
         controller_to_go_to = super().update(dt_in_ms)

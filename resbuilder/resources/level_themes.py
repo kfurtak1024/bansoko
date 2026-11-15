@@ -1,6 +1,6 @@
 """Module exposing level theme generator."""
 from dataclasses import dataclass
-from typing import Dict, List, Any, Tuple
+from typing import Any
 
 from bansoko import LEVEL_NUM_LAYERS
 from bansoko.graphics import Point
@@ -22,10 +22,10 @@ class LevelTheme:
         robot_sprite_pack - sprite pack containing all robot related sprites
         crate_sprite_pack - sprite pack containing all crate related sprites
     """
-    tiles_ids: List[Dict[Tile, Tuple[int, int]]]
+    tiles_ids: list[dict[Tile, tuple[int, int]]]
     tilemap_offset: Point
     background_generator: str
-    thumbnail_colors: Dict[Tile, int]
+    thumbnail_colors: dict[Tile, int]
     robot_sprite_pack: str
     crate_sprite_pack: str
 
@@ -34,7 +34,7 @@ class LevelTheme:
         """Number of layers this level theme contains."""
         return len(self.tiles_ids)
 
-    def tile_id(self, layer: int, tile: Tile) -> Tuple[int, int]:
+    def tile_id(self, layer: int, tile: Tile) -> tuple[int, int]:
         """Pyxel's mega-tilemap id for given tile type.
 
         :param layer: layer to determine tileset to get tile id from
@@ -53,7 +53,7 @@ class LevelTheme:
 
 
 def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer: TilePacker,
-                          sprite_packs: Dict[str, Any]) -> List[LevelTheme]:
+                          sprite_packs: dict[str, Any]) -> list[LevelTheme]:
     """Generate level themes from input resource file.
 
     :param input_data: input data from JSON file (root -> level_themes)
@@ -62,8 +62,8 @@ def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer:
     :param sprite_packs: collection of available sprite packs
     :return: collection of generated level themes
     """
-    themes: List[LevelTheme] = []
-    main_layers: List[Dict[Tile, Tuple[int, int]]] = []
+    themes: list[LevelTheme] = []
+    main_layers: list[dict[Tile, tuple[int, int]]] = []
 
     for level_theme_data in input_data:
         main_layers.append(tile_packer.pack_tileset(level_theme_data["tiles"]["layers"][0]))
@@ -102,8 +102,8 @@ def generate_level_themes(input_data: Any, tilemap_generators: Any, tile_packer:
     return themes
 
 
-def _extract_thumbnail_colors(data: Any) -> Dict[Tile, int]:
-    thumbnail_colors: Dict[Tile, int] = {}
+def _extract_thumbnail_colors(data: Any) -> dict[Tile, int]:
+    thumbnail_colors: dict[Tile, int] = {}
 
     for tile in list(Tile):
         thumbnail_colors[tile] = int(data[tile.tile_name], 16)

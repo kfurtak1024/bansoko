@@ -1,7 +1,7 @@
 """Module containing level related classes."""
 from enum import Enum
 from itertools import chain
-from typing import Optional, List, Iterable
+from collections.abc import Iterable
 
 from bansoko.game.game_action import GameAction, PushCrate, MoveRobot, TurnRobot
 from bansoko.game.game_object import GameObject, Crate, RobotState, CrateState, GameStats
@@ -49,9 +49,9 @@ class Level:
         self.template = template
         self.robot = template.create_robot()
         self.crates = template.create_crates()
-        self.running_action: Optional[GameAction] = None
-        self.last_input_action: Optional[InputAction] = None
-        self.history: List[GameAction] = []
+        self.running_action: GameAction | None = None
+        self.last_input_action: InputAction | None = None
+        self.history: list[GameAction] = []
 
     @property
     def level_score(self) -> LevelScore:
@@ -77,7 +77,7 @@ class Level:
         """Collection of all game objects."""
         return chain([self.robot], self.crates)
 
-    def crate_at_pos(self, position: TilePosition) -> Optional[Crate]:
+    def crate_at_pos(self, position: TilePosition) -> Crate | None:
         """Test if there is a crate at given position.
 
         :param position: position to test the presence of crate at
@@ -104,7 +104,7 @@ class Level:
         tile = self.template.tile_at(position)
         return tile.is_cargo_bay or tile.is_crate_initially_placed
 
-    def process_input(self, input_action: Optional[InputAction]) -> None:
+    def process_input(self, input_action: InputAction | None) -> None:
         """Transform given input action to game action and queue it (so it can be run later,
         during update call)."""
 
