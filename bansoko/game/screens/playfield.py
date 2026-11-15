@@ -1,5 +1,4 @@
 """Module defining the main game screen."""
-from typing import Optional
 
 import pyxel
 
@@ -34,7 +33,7 @@ class PlayfieldScreen(BaseScreenController):
         self.gui_consts = screen_factory.get_bundle().get_gui_consts()
         self.printing_animation = Animation(bundle.get_sprite("printing_receipt"),
                                             PRINTING_RECEIPT_ANIMATION_FRAME_TIME)
-        self.level_completed_animation_player: Optional[AnimationPlayer] = None
+        self.level_completed_animation_player: AnimationPlayer | None = None
         self.how_to_play_shown = not show_how_to_play
         profile.last_played_level = level_num
 
@@ -112,7 +111,7 @@ class PlayfieldScreen(BaseScreenController):
         self._draw_digits(GuiPosition.COCKPIT_LEVEL_PUSHES_POS, f"{score.pushes:>4d}",
                           GuiSprite.PUSHES_DIGITS)
 
-    def _get_input_action(self) -> Optional[InputAction]:
+    def _get_input_action(self) -> InputAction | None:
         if self.input.is_button_down(VirtualButton.UP):
             return InputAction.MOVE_UP
         if self.input.is_button_down(VirtualButton.DOWN):
@@ -148,7 +147,7 @@ class PlayfieldScreen(BaseScreenController):
                                           direction=direction)
 
     def _draw_digits(self, gui_position: GuiPosition, text: str, gui_sprite: GuiSprite,
-                     colon_size: Optional[int] = None) -> None:
+                     colon_size: int | None = None) -> None:
         position = self._get_position(gui_position)
         sprite = self._get_sprite(gui_sprite)
         char_pos = position

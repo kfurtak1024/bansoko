@@ -2,7 +2,6 @@
 import abc
 from dataclasses import dataclass
 from enum import IntEnum, unique
-from typing import Dict
 
 from bansoko.graphics import Point, Direction, Layer
 from bansoko.graphics.animation import AnimationPlayer, Animation
@@ -111,7 +110,7 @@ class Robot(GameObject):
     _robot_state: RobotState
 
     def __init__(self, tile_position: TilePosition, face_direction: Direction,
-                 robot_animations: Dict[RobotState, Animation]):
+                 robot_animations: dict[RobotState, Animation]):
         super().__init__(tile_position)
         self.face_direction = face_direction
         self.robot_animations = robot_animations
@@ -155,7 +154,7 @@ class Crate(GameObject):
     """
 
     def __init__(self, tile_position: TilePosition, is_placed: bool,
-                 crate_sprites: Dict[CrateState, Sprite]) -> None:
+                 crate_sprites: dict[CrateState, Sprite]) -> None:
         super().__init__(tile_position)
         self.crate_sprites = crate_sprites
         self.state = CrateState.PLACED if is_placed else CrateState.MISPLACED

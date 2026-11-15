@@ -1,7 +1,7 @@
 """Module exposing all Gui constants."""
 from dataclasses import dataclass
 from enum import unique, Enum
-from typing import Tuple, Any
+from typing import Any
 
 from bansoko.graphics import Point
 from bansoko.graphics.sprite import Sprite
@@ -82,9 +82,9 @@ class GuiSprite(GuiConstant):
 @dataclass(frozen=True)
 class GuiConsts:
     """Collection of Gui constants like positions, colors and sprites."""
-    gui_positions: Tuple[Point, ...]
-    gui_colors: Tuple[int, ...]
-    gui_sprites: Tuple[Sprite, ...]
+    gui_positions: tuple[Point, ...]
+    gui_colors: tuple[int, ...]
+    gui_sprites: tuple[Sprite, ...]
 
     def get_position(self, gui_position_id: GuiPosition) -> Point:
         """Get Gui element position for given id."""

@@ -7,7 +7,6 @@ game still work" that no amount of import checking can give.
 Level layouts come from the tilemaps in main.pyxres, so Pyxel has to be
 initialised; the rules themselves touch no Pyxel API at all.
 """
-from typing import List
 
 from bansoko.game.bundle import Bundle
 from bansoko.game.level import InputAction, Level
@@ -45,7 +44,7 @@ def settle(level: Level) -> None:
     raise AssertionError("action never finished")
 
 
-def play(level: Level, moves: List[InputAction]) -> None:
+def play(level: Level, moves: list[InputAction]) -> None:
     """Apply a sequence of inputs, letting each one complete."""
     for move in moves:
         level.process_input(move)

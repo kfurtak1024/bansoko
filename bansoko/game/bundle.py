@@ -1,7 +1,7 @@
 """Module exposing a Bundle, which is a repository of sprites, screens and level templates."""
 from dataclasses import dataclass
 from json import JSONDecodeError, load
-from typing import Dict, Tuple, Any
+from typing import Any
 
 from jsonschema import validate, ValidationError
 
@@ -23,11 +23,11 @@ class Bundle:
     and level templates)."""
 
     sha1: bytearray
-    sprites: Dict[str, Sprite]
-    sprite_packs: Dict[str, SpritePack]
-    screens: Dict[str, Screen]
+    sprites: dict[str, Sprite]
+    sprite_packs: dict[str, SpritePack]
+    screens: dict[str, Screen]
     gui_consts: GuiConsts
-    level_templates: Tuple[LevelTemplate, ...]
+    level_templates: tuple[LevelTemplate, ...]
 
     def get_sprite(self, sprite_name: str) -> Sprite:
         """ Return sprite with given sprite name.
@@ -115,7 +115,7 @@ def load_bundle(metadata_filename: str) -> Bundle:
         ) from key_error
 
 
-def create_sprites(json_data: Any) -> Dict[str, Sprite]:
+def create_sprites(json_data: Any) -> dict[str, Sprite]:
     """Create sprites from metadata.
 
     :param json_data: input JSON containing sprites metadata
@@ -134,7 +134,7 @@ def create_sprites(json_data: Any) -> Dict[str, Sprite]:
     }
 
 
-def create_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, SpritePack]:
+def create_sprite_packs(json_data: Any, sprites: dict[str, Sprite]) -> dict[str, SpritePack]:
     """Create sprite packs from metadata.
 
     :param json_data: input JSON containing sprite packs metadata
@@ -148,7 +148,7 @@ def create_sprite_packs(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str,
     }
 
 
-def create_gui_consts(json_data: Any, sprites: Dict[str, Sprite]) -> GuiConsts:
+def create_gui_consts(json_data: Any, sprites: dict[str, Sprite]) -> GuiConsts:
     """Create Gui constants from metadata.
 
     :param json_data: input JSON containing Gui constants
@@ -167,7 +167,7 @@ def create_gui_consts(json_data: Any, sprites: Dict[str, Sprite]) -> GuiConsts:
         ))
 
 
-def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Screen]:
+def create_screens(json_data: Any, sprites: dict[str, Sprite]) -> dict[str, Screen]:
     """Create screens from metadata.
 
     :param json_data: input JSON containing screens metadata
@@ -180,7 +180,7 @@ def create_screens(json_data: Any, sprites: Dict[str, Sprite]) -> Dict[str, Scre
     }
 
 
-def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
+def _screen_from_json(json_data: Any, sprites: dict[str, Sprite]) -> Screen:
     background_data = json_data.get("background")
     background_color = None
     background_tilemap = None
@@ -217,8 +217,8 @@ def _screen_from_json(json_data: Any, sprites: Dict[str, Sprite]) -> Screen:
         menu_scrollbar_rect=menu_scrollbar_rect)
 
 
-def create_level_templates(json_data: Any, sprite_packs: Dict[str, SpritePack]) \
-        -> Tuple[LevelTemplate, ...]:
+def create_level_templates(json_data: Any, sprite_packs: dict[str, SpritePack]) \
+        -> tuple[LevelTemplate, ...]:
     """Create level templates from metadata.
 
     :param json_data: input JSON containing level template metadata

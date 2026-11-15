@@ -1,7 +1,6 @@
 """Module exposing utility for packing "boxes" into given size."""
 from collections import deque
 from dataclasses import dataclass
-from typing import Optional, List
 
 from bansoko.graphics import Rect, Size
 from resbuilder import ResourceError
@@ -9,10 +8,10 @@ from resbuilder import ResourceError
 
 class _Node:
     def __init__(self, rect: Rect) -> None:
-        self.box_id: Optional[int] = None
+        self.box_id: int | None = None
         self.rect: Rect = rect
-        self.right_child: Optional[_Node] = None
-        self.bottom_child: Optional[_Node] = None
+        self.right_child: _Node | None = None
+        self.bottom_child: _Node | None = None
 
     def split(self, right: int, bottom: int) -> None:
         """Split node by creating bottom and right child.
@@ -32,7 +31,7 @@ class _Node:
         self.rect = Rect(self.rect.position, Size(right, bottom))
 
     @staticmethod
-    def find_node_for_box(root_node: "_Node", box_size: Size) -> Optional["_Node"]:
+    def find_node_for_box(root_node: "_Node", box_size: Size) -> "_Node | None":
         """Look for a node that will fit box with given size.
 
         :param root_node: root node to start searching from
@@ -74,7 +73,7 @@ class _Box:
 class BoxPacker:
     """Packer for packing boxes into a bigger box with given size."""
     def __init__(self) -> None:
-        self.boxes: List[_Box] = []
+        self.boxes: list[_Box] = []
 
     def add_box(self, box_size: Size) -> int:
         """Add box to collection of boxes that will be packed during pack() call.
@@ -86,7 +85,7 @@ class BoxPacker:
         self.boxes.append(box)
         return box.box_id
 
-    def pack(self, rect: Rect) -> List[Rect]:
+    def pack(self, rect: Rect) -> list[Rect]:
         """Pack all boxes that were added to box packer.
 
         :param rect: destination rect to pack boxes in
@@ -96,7 +95,7 @@ class BoxPacker:
         if not self.boxes:
             return []
 
-        uv_rects: List[Rect] = [Rect.from_coords(0, 0, 0, 0)] * len(self.boxes)
+        uv_rects: list[Rect] = [Rect.from_coords(0, 0, 0, 0)] * len(self.boxes)
         sorted_boxes = sorted(self.boxes, key=lambda b: b.size.max_dimension, reverse=True)
         root_node = _Node(rect)
 

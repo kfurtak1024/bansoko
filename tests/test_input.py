@@ -6,7 +6,6 @@ without a window and say exactly which keys are down in each frame.
 # Requesting a fixture shadows the function that defines it. That is how
 # pytest fixtures work, so the check is disabled for this file only.
 # pylint: disable=redefined-outer-name
-from typing import Set
 
 import pytest
 
@@ -19,8 +18,8 @@ class FakeKeyboard:
     """The keys that are down, and the ones that went down this frame."""
 
     def __init__(self) -> None:
-        self.down: Set[int] = set()
-        self.just_pressed: Set[int] = set()
+        self.down: set[int] = set()
+        self.just_pressed: set[int] = set()
 
     def press(self, key: int) -> None:
         """Push a key down, as seen in the next frame."""

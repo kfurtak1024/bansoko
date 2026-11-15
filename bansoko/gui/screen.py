@@ -1,6 +1,5 @@
 """Module exposing GUI elements like screen, image and text."""
 from dataclasses import dataclass
-from typing import Optional, Tuple
 
 import pyxel
 
@@ -17,8 +16,8 @@ class ScreenElement:
     It's described by sprite *OR* text and by position to be drawn at.
     """
     position: Point
-    sprite: Optional[Sprite] = None
-    text: Optional[str] = None
+    sprite: Sprite | None = None
+    text: str | None = None
 
     def draw(self) -> None:
         """Draw screen element at its defined position."""
@@ -31,11 +30,11 @@ class ScreenElement:
 @dataclass(frozen=True)
 class Screen:
     """Screen is a composition of elements that can be drawn on a game screen."""
-    background_color: Optional[int] = None
-    background_tilemap: Optional[Tilemap] = None
-    elements: Tuple[ScreenElement, ...] = ()
-    menu_position: Optional[Point] = None
-    menu_scrollbar_rect: Optional[Rect] = None
+    background_color: int | None = None
+    background_tilemap: Tilemap | None = None
+    elements: tuple[ScreenElement, ...] = ()
+    menu_position: Point | None = None
+    menu_scrollbar_rect: Rect | None = None
 
     def draw(self) -> None:
         """Draw screen with all its elements.

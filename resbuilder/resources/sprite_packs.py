@@ -1,11 +1,11 @@
 """Module for processing sprite packs."""
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from resbuilder import ResourceError
 
 
-def process_sprite_packs(input_data: Any, sprites: Dict[str, Any]) -> Dict[str, Any]:
+def process_sprite_packs(input_data: Any, sprites: dict[str, Any]) -> dict[str, Any]:
     """Process sprite packs from input resource file.
 
     :param input_data: input data from JSON file (root -> sprite_packs)

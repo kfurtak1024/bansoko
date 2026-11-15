@@ -10,7 +10,7 @@ Pyxel. That covers the drawing API the game leans on (blt, bltm, text, rect,
 rectb, line, cls) across the whole UI, which is exactly the surface a Pyxel
 upgrade can break without changing a single type signature.
 """
-from typing import Callable, List, Set, Tuple
+from collections.abc import Callable
 
 import pytest
 import pyxel
@@ -27,9 +27,9 @@ FRAME_MS = 1000 / 30
 # tell "something was drawn" from "the screen stayed blank".
 SAMPLE_STEP = 4
 
-ScreenBuilder = Tuple[str, Callable[[GameContext], ScreenController]]
+ScreenBuilder = tuple[str, Callable[[GameContext], ScreenController]]
 
-SCREENS: List[ScreenBuilder] = [
+SCREENS: list[ScreenBuilder] = [
     ("main_menu", lambda ctx: ctx.get_main_menu()),
     ("choose_level", lambda ctx: ctx.get_choose_level_screen()),
     ("playfield", lambda ctx: ctx.get_playfield_screen(0)),
@@ -47,7 +47,7 @@ SCREENS: List[ScreenBuilder] = [
 SCREEN_IDS = [name for name, _ in SCREENS]
 
 
-def sampled_colors() -> Set[int]:
+def sampled_colors() -> set[int]:
     """Colours currently on screen, sampled on a grid."""
     return {
         pyxel.screen.pget(x, y)
@@ -56,7 +56,7 @@ def sampled_colors() -> Set[int]:
     }
 
 
-def render(controller: ScreenController, as_secondary: bool = False) -> Set[int]:
+def render(controller: ScreenController, as_secondary: bool = False) -> set[int]:
     """Draw a screen onto a cleared framebuffer and report what landed."""
     pyxel.cls(0)
     controller.draw(draw_as_secondary=as_secondary)

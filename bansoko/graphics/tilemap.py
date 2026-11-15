@@ -1,6 +1,6 @@
 """Module for handling tilemaps."""
 from dataclasses import dataclass
-from typing import Generator
+from collections.abc import Generator
 
 import pyxel
 

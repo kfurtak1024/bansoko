@@ -1,5 +1,4 @@
 """Module defining screen controller which is displayed when game is paused."""
-from typing import Tuple
 
 from bansoko.game.screens.screen_factory import ScreenFactory
 from bansoko.gui.menu import MenuController, TextMenuItem, Menu, MenuLayout, MenuItem
@@ -24,9 +23,9 @@ class GamePausedController(MenuController):
         how_to_play = TextMenuItem("HOW TO PLAY", screen_factory.get_how_to_play_screen)
         main_menu = TextMenuItem("BACK TO MAIN MENU", screen_factory.get_main_menu)
 
-        before_last_level_menu: Tuple[MenuItem, ...] = \
+        before_last_level_menu: tuple[MenuItem, ...] = \
             (resume_game, restart_level, skip_level, how_to_play, main_menu)
-        last_level_menu: Tuple[MenuItem, ...] = \
+        last_level_menu: tuple[MenuItem, ...] = \
             (resume_game, restart_level, how_to_play, main_menu)
 
         menu = Menu.with_defaults(

@@ -1,6 +1,6 @@
 """Module for game screens management."""
 import abc
-from typing import Optional, Callable, List
+from collections.abc import Callable
 
 from bansoko.gui.input import InputSystem
 from bansoko.gui.screen import Screen
@@ -13,7 +13,7 @@ class ScreenController(abc.ABC):
     values returned in update method.
     """
 
-    def __init__(self, semi_transparent: Optional[bool] = False) -> None:
+    def __init__(self, semi_transparent: bool | None = False) -> None:
         self.semi_transparent = semi_transparent
 
     @abc.abstractmethod
@@ -21,7 +21,7 @@ class ScreenController(abc.ABC):
         """Called each time screen controller is put on top of screen stack by ScreenNavigator."""
 
     @abc.abstractmethod
-    def update(self, dt_in_ms: float) -> Optional["ScreenController"]:
+    def update(self, dt_in_ms: float) -> "ScreenController | None":
         """Update screen controller state. Control screen transitions by returning value.
 
         Called once per frame (only if screen is on top of screen stack)
@@ -49,8 +49,8 @@ class BaseScreenController(ScreenController):
     values returned in update method.
     """
 
-    def __init__(self, semi_transparent: Optional[bool] = False,
-                 screen: Optional[Screen] = None) -> None:
+    def __init__(self, semi_transparent: bool | None = False,
+                 screen: Screen | None = None) -> None:
         super().__init__(semi_transparent)
         self.screen = screen
         self.input = InputSystem()
@@ -58,7 +58,7 @@ class BaseScreenController(ScreenController):
     def activate(self) -> None:
         self.input.reset()
 
-    def update(self, dt_in_ms: float) -> Optional["ScreenController"]:
+    def update(self, dt_in_ms: float) -> "ScreenController | None":
         self.input.update()
         return self
 
@@ -102,7 +102,7 @@ class ScreenNavigator:
     def draw(self) -> None:
         """Draw screen controller from top of controllers stack."""
         if not self.skip_next_draw:
-            screens_to_be_drawn: List[ScreenController] = []
+            screens_to_be_drawn: list[ScreenController] = []
             for screen in reversed(self.controllers_stack):
                 screens_to_be_drawn.insert(0, screen)
                 if not screen.semi_transparent:
@@ -113,7 +113,7 @@ class ScreenNavigator:
                 screen.draw(draw_as_secondary=not is_top_screen)
         self.skip_next_draw = False
 
-    def _switch_to_screen(self, new_screen: Optional[ScreenController]) -> None:
+    def _switch_to_screen(self, new_screen: ScreenController | None) -> None:
         if new_screen is None:
             self.controllers_stack.pop()
         else:

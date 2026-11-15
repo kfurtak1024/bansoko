@@ -5,7 +5,7 @@ import logging
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 import pyxel
 from jsonschema import validate
@@ -61,7 +61,7 @@ def generate_filenames(input_filename: str, out_dir: str) -> FileNames:
                      str(metadata_file_path))
 
 
-def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> Dict[str, Any]:
+def create_metadata(base_name: str, input_dir: Path, input_data: Any) -> dict[str, Any]:
     """Crate resources metadata file along with Pyxel's resource file.
 
     :param base_name: the base name of the bundle metadata is created for

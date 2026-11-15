@@ -6,7 +6,7 @@ output alone.
 """
 import sys
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 import pytest
 import pyxel
@@ -52,7 +52,7 @@ def test_a_failed_build_exits_non_zero_and_writes_nothing(
     metadata.write_text("the last good build", encoding="utf-8")
     resource = tmp_path / "main.pyxres"
     resource.write_text("the last good build", encoding="utf-8")
-    saved: List[str] = []
+    saved: list[str] = []
 
     def fail(*_args: Any) -> None:
         raise ResourceError("Level 3 is not enclosed by walls")

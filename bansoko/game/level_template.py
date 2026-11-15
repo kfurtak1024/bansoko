@@ -1,6 +1,5 @@
 """Module exposing level template."""
 from dataclasses import dataclass
-from typing import Tuple, Dict
 
 from bansoko import GAME_FRAME_TIME_IN_MS, LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_NUM_LAYERS, \
     LEVEL_BASE_TILEMAP, LEVELS_PER_ROW
@@ -26,7 +25,7 @@ class LevelSpritePacks:
     crate_sprite_pack: SpritePack
 
     @property
-    def robot_animations(self) -> Dict[RobotState, Animation]:
+    def robot_animations(self) -> dict[RobotState, Animation]:
         """The pack of animations for all robot states."""
         return {
             RobotState.STANDING: Animation(
@@ -43,7 +42,7 @@ class LevelSpritePacks:
         }
 
     @property
-    def crate_sprites(self) -> Dict[CrateState, Sprite]:
+    def crate_sprites(self) -> dict[CrateState, Sprite]:
         """The pack of sprites for all crate states."""
         return {
             CrateState.MISPLACED: self.crate_sprite_pack.sprites[0],
@@ -65,7 +64,7 @@ class LevelTemplate:
     level_num: int
     tilemap: Tilemap
     tileset: Tileset
-    layers: Tuple[Layer, ...]
+    layers: tuple[Layer, ...]
     sprite_packs: LevelSpritePacks
 
     @classmethod
@@ -97,7 +96,7 @@ class LevelTemplate:
         """
         return self.tileset.tile_of(self.tilemap.tile_index_at(position))
 
-    def create_crates(self) -> Tuple[Crate, ...]:
+    def create_crates(self) -> tuple[Crate, ...]:
         """Create a collection of crates based on information from tilemap about their initial
         positions.
 

@@ -1,5 +1,4 @@
 """Module defining game screen which is displayed when level is completed."""
-from typing import Tuple
 
 from bansoko.game.profile import LevelScore
 from bansoko.game.screens.screen_factory import ScreenFactory
@@ -34,8 +33,8 @@ class LevelCompletedController(MenuController):
         main_menu = TextMenuItem(
             "BACK TO MAIN MENU", screen_factory.get_main_menu)
 
-        more_levels_to_play_menu: Tuple[MenuItem, ...] = (next_level, restart_level, main_menu)
-        last_level_finished_menu: Tuple[MenuItem, ...] = (finish_game, restart_level)
+        more_levels_to_play_menu: tuple[MenuItem, ...] = (next_level, restart_level, main_menu)
+        last_level_finished_menu: tuple[MenuItem, ...] = (finish_game, restart_level)
         screen = screen_factory.get_bundle().get_screen("level_completed")
         menu = Menu.with_defaults(
             last_level_finished_menu if last_level_completed else more_levels_to_play_menu,

@@ -10,7 +10,7 @@ these are the only thing standing between a player and a raw Rust traceback.
 # pylint: disable=redefined-outer-name
 import logging
 import sys
-from typing import Any, List
+from typing import Any
 
 import pytest
 
@@ -21,7 +21,7 @@ from bansoko.__main__ import (GRAPHICS_ERROR_MESSAGE, initialize_display,
 
 
 @pytest.fixture(autouse=True)
-def never_open_a_real_dialog(monkeypatch: pytest.MonkeyPatch) -> List[str]:
+def never_open_a_real_dialog(monkeypatch: pytest.MonkeyPatch) -> list[str]:
     """Replace the message box for every test in this module.
 
     A modal dialog on a machine with nobody to click it hangs until the job
@@ -29,7 +29,7 @@ def never_open_a_real_dialog(monkeypatch: pytest.MonkeyPatch) -> List[str]:
     logic under test is worth risking that again, so the real dialog is
     simply unreachable from here.
     """
-    shown: List[str] = []
+    shown: list[str] = []
     monkeypatch.setattr(game_main, "show_error_dialog", shown.append)
     return shown
 
@@ -126,7 +126,7 @@ def test_failure_is_reported_to_stderr_and_the_log(
     assert any("needs OpenGL" in record.message for record in caplog.records)
 
 
-def test_no_dialog_when_running_from_source(never_open_a_real_dialog: List[str]) -> None:
+def test_no_dialog_when_running_from_source(never_open_a_real_dialog: list[str]) -> None:
     """A modal dialog must never appear where text would do.
 
     This is a regression test for a hung CI job. The dialog is only ever
@@ -140,7 +140,7 @@ def test_no_dialog_when_running_from_source(never_open_a_real_dialog: List[str])
 
 
 def test_dialog_is_used_in_a_frozen_windowed_build(
-        monkeypatch: pytest.MonkeyPatch, never_open_a_real_dialog: List[str]) -> None:
+        monkeypatch: pytest.MonkeyPatch, never_open_a_real_dialog: list[str]) -> None:
     """The frozen windowed build has no stderr, so it gets the dialog."""
     monkeypatch.setattr(game_main, "should_use_error_dialog", lambda: True)
 

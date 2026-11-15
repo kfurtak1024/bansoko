@@ -1,6 +1,5 @@
 """Module exposing basic system for input handling."""
 from enum import unique, IntFlag
-from typing import Dict, List, Set
 
 import pyxel
 
@@ -32,7 +31,7 @@ class InputSystem:
 
     KEY_HOLD_TIME: int = 10
     KEY_PERIOD_TIME: int = 2
-    BUTTONS_MAP: Dict[VirtualButton, List[int]] = {
+    BUTTONS_MAP: dict[VirtualButton, list[int]] = {
         VirtualButton.UP: [pyxel.KEY_UP, pyxel.KEY_KP_8, pyxel.GAMEPAD1_BUTTON_DPAD_UP],
         VirtualButton.DOWN: [pyxel.KEY_DOWN, pyxel.KEY_KP_2, pyxel.GAMEPAD1_BUTTON_DPAD_DOWN],
         VirtualButton.LEFT: [pyxel.KEY_LEFT, pyxel.KEY_KP_4, pyxel.GAMEPAD1_BUTTON_DPAD_LEFT],
@@ -46,9 +45,9 @@ class InputSystem:
         VirtualButton.PAGE_UP: [pyxel.KEY_PAGEUP],
         VirtualButton.PAGE_DOWN: [pyxel.KEY_PAGEDOWN]
     }
-    WATCHED_KEYS: Set[int] = set(sum(BUTTONS_MAP.values(), []))
+    WATCHED_KEYS: set[int] = set(sum(BUTTONS_MAP.values(), []))
 
-    pressed_keys: Dict[int, int]
+    pressed_keys: dict[int, int]
 
     def __init__(self) -> None:
         self.pressed_keys = {}
