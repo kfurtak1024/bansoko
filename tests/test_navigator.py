@@ -55,8 +55,8 @@ def test_staying_on_a_screen_does_not_exit() -> None:
 def test_popping_the_last_screen_exits_the_game() -> None:
     """Once the last screen pops itself, the exit callback runs.
 
-    This is the quiet path: no error, no log of its own before this was
-    added, just a window that closes.
+    This is the quiet path: no error and nothing logged, just a window that
+    closes.
     """
     exits: list[bool] = []
     navigator = ScreenNavigator(FakeScreen(pop_self=True),

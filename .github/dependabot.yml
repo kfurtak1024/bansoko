@@ -1,8 +1,6 @@
 version: 2
 updates:
-  # Project dependencies, resolved through uv.lock. Dependabot was previously
-  # tracking the Pipfile through the pip ecosystem; that file is gone as of
-  # v2.0.0, which is why those update runs had been failing.
+  # Project dependencies, resolved through uv.lock.
   #
   # A bump to pyxel here is worth watching: CI rebuilds the game data and
   # compares it byte-for-byte against what is committed, so a Pyxel release

@@ -62,8 +62,7 @@ include = ["bansoko", "resbuilder", "resources", "README.md", "CHANGELOG.md", "L
 python_version = "3.11"
 strict = true
 
-# jsonschema ships no py.typed marker. pyxel does as of 2.x, so it no
-# longer needs an override.
+# jsonschema ships no py.typed marker. pyxel ships one and needs no override.
 [[tool.mypy.overrides]]
 module = "jsonschema"
 ignore_missing_imports = true
@@ -92,8 +91,8 @@ disable = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --strict-markers --strict-config"
-# A hung test used to stall CI until the job timed out, with no clue where.
-# This dumps the stack of every thread instead, naming the culprit. It does not
+# When a test hangs, this dumps the stack of every thread, naming the culprit;
+# without it the job just times out with no clue where. It does not
 # end the run -- faulthandler_exit_on_timeout defaults to false -- so a hang
 # still runs out the job's own timeout; this only says where it is.
 #
