@@ -14,7 +14,7 @@ needs working OpenGL, because the game opens a real window.
 import os
 import subprocess
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import pytest
 
@@ -23,7 +23,7 @@ STARTUP_TIMEOUT_SECONDS = 30
 
 
 
-def run_binary(binary: Path, work_dir: Path, env: dict,
+def run_binary(binary: Path, work_dir: Path, env: Dict[str, str],
                timeout: float) -> Tuple[Optional[int], str]:
     """Run the binary, capturing output through files rather than pipes.
 

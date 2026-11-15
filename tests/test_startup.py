@@ -9,6 +9,7 @@ these are the only thing standing between a player and a raw Rust traceback.
 # pytest fixtures work, so the check is disabled for this file only.
 # pylint: disable=redefined-outer-name
 import logging
+import sys
 from typing import Any, List
 
 import pytest
@@ -156,9 +157,9 @@ def test_dialog_is_required_in_a_frozen_windowed_build(
     predicate could be `return False` and the whole feature could be dead in
     the shipped build with the suite still green.
     """
-    monkeypatch.setattr(game_main.sys, "platform", "win32")
-    monkeypatch.setattr(game_main.sys, "frozen", True, raising=False)
-    monkeypatch.setattr(game_main.sys, "stderr", None)
+    monkeypatch.setattr(sys, "platform", "win32")
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "stderr", None)
 
     assert should_use_error_dialog()
 
@@ -166,14 +167,14 @@ def test_dialog_is_required_in_a_frozen_windowed_build(
 def test_no_dialog_when_a_frozen_build_still_has_stderr(
         monkeypatch: pytest.MonkeyPatch) -> None:
     """A frozen build with a usable stderr prints instead of interrupting."""
-    monkeypatch.setattr(game_main.sys, "platform", "win32")
-    monkeypatch.setattr(game_main.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "platform", "win32")
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
     assert not should_use_error_dialog()
 
 
 def test_no_dialog_outside_a_frozen_build(monkeypatch: pytest.MonkeyPatch) -> None:
     """Only a frozen Windows build may use a dialog, whatever stderr does."""
-    monkeypatch.setattr(game_main.sys, "platform", "win32")
-    monkeypatch.setattr(game_main.sys, "stderr", None)
-    monkeypatch.delattr(game_main.sys, "frozen", raising=False)
+    monkeypatch.setattr(sys, "platform", "win32")
+    monkeypatch.setattr(sys, "stderr", None)
+    monkeypatch.delattr(sys, "frozen", raising=False)
     assert not should_use_error_dialog()

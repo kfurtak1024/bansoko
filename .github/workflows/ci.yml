@@ -71,7 +71,7 @@ jobs:
         if: runner.os == 'Linux'
         env:
           BANSOKO_REQUIRE_GRAPHICS: "1"
-        run: xvfb-run -a uv run pytest
+        run: xvfb-run -a uv run pytest --cov
 
       # Windows runners have a window server but no OpenGL driver, so pyxel
       # dies on the first shader call. The tests that need a window skip here
